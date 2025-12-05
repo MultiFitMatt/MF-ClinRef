@@ -1,0 +1,543 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PT-141 (Bremelanotide) | Clinical Reference</title>
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Rajdhani:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Scripts -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            black: '#050505',
+                            charcoal: '#0f0f11',
+                            surface: '#18181b',
+                            border: '#27272a',
+                            green: '#10b981',
+                            blue: '#3b82f6',
+                            text: '#e4e4e7',
+                            muted: '#a1a1aa'
+                        }
+                    },
+                    fontFamily: {
+                        mono: ['Rajdhani', 'sans-serif'],
+                        sans: ['Inter', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        body {
+            background-color: #050505;
+            color: #e4e4e7;
+        }
+        
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #0f0f11; }
+        ::-webkit-scrollbar-thumb { background: #27272a; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #10b981; }
+
+        .glass-panel {
+            background: rgba(15, 15, 17, 0.6);
+            backdrop-filter: blur(12px);
+            border: 1px solid #27272a;
+        }
+
+        .chart-wrapper {
+            position: relative;
+            width: 100%;
+            height: 300px;
+            max-height: 400px;
+        }
+
+        .hidden-content {
+            display: none;
+        }
+
+        .fade-in {
+            animation: fadeIn 0.5s ease-in-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .bg-grid-pattern {
+            background-image: linear-gradient(to right, #27272a 1px, transparent 1px),
+                              linear-gradient(to bottom, #27272a 1px, transparent 1px);
+            background-size: 40px 40px;
+            mask-image: linear-gradient(to bottom, transparent, black, transparent);
+            -webkit-mask-image: linear-gradient(to bottom, transparent 10%, black 40%, black 70%, transparent 90%);
+        }
+
+        .active-tab {
+            background-color: rgba(59, 130, 246, 0.1);
+            border-color: #3b82f6;
+            color: #3b82f6;
+        }
+    </style>
+</head>
+<body class="font-sans antialiased min-h-screen flex flex-col">
+
+    <!-- ========================================
+         STANDARDIZED HEADER
+         ======================================== -->
+    <header class="w-full border-b border-brand-border bg-brand-charcoal sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+            <div class="flex items-center space-x-2">
+                <a href="index.html" class="text-brand-muted hover:text-brand-blue transition-colors">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+                    </svg>
+                </a>
+                
+                <div class="w-10 h-10 bg-brand-surface border border-brand-blue rounded flex items-center justify-center shadow-[0_0_10px_rgba(59,130,246,0.3)]">
+                    <span class="font-mono font-bold text-brand-green text-base">M</span>
+                </div>
+                
+                <div class="flex flex-col">
+                    <span class="font-mono font-bold text-xl tracking-wider text-white">PT-141</span>
+                    <span class="text-[10px] text-brand-blue uppercase tracking-[0.2em] leading-none">Clinical Reference</span>
+                </div>
+            </div>
+            
+            <div class="flex items-center">
+                <span class="px-2 py-1 rounded bg-brand-surface border border-brand-border text-xs font-mono text-brand-green">Rx REFERENCE ONLY</span>
+            </div>
+        </div>
+    </header>
+
+    <main class="flex-grow p-4 sm:p-6 lg:p-8 max-w-7xl mx-auto w-full space-y-8 relative">
+        
+        <!-- Background Grid Effect -->
+        <div class="absolute inset-0 bg-grid-pattern opacity-20 pointer-events-none z-0"></div>
+
+        <!-- INDICATIONS & USAGE -->
+        <section class="relative z-10">
+            <div class="mb-4">
+                <h2 class="text-2xl font-mono font-bold text-brand-blue border-l-4 border-brand-blue pl-3">INDICATIONS & USAGE</h2>
+                <p class="mt-2 text-brand-muted max-w-3xl">
+                    Bremelanotide (PT-141) is a melanocortin receptor agonist (MC1R & MC4R) acting centrally to modulate neural pathways involved in sexual response. Unlike PDE5 inhibitors, it acts on the nervous system rather than the vascular system.
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <!-- Label Use Card -->
+                <div class="glass-panel p-6 rounded-lg shadow-lg hover:border-brand-blue transition-all group">
+                    <div class="flex justify-between items-start mb-4">
+                        <h3 class="text-lg font-bold text-white group-hover:text-brand-blue">FDA LABEL INDICATIONS</h3>
+                        <span class="px-2 py-1 bg-blue-900/30 text-blue-400 text-xs font-mono rounded">VYLEESI®</span>
+                    </div>
+                    <ul class="space-y-3 text-sm text-brand-muted">
+                        <li class="flex items-start">
+                            <span class="text-brand-blue mr-2">▸</span>
+                            <span><strong>Target:</strong> Premenopausal women.</span>
+                        </li>
+                        <li class="flex items-start">
+                            <span class="text-brand-blue mr-2">▸</span>
+                            <span><strong>Condition:</strong> Acquired, generalized Hypoactive Sexual Desire Disorder (HSDD).</span>
+                        </li>
+                        <li class="flex items-start">
+                            <span class="text-brand-blue mr-2">▸</span>
+                            <span><strong>Mechanism:</strong> Non-selective agonist activating MC4R in the hypothalamus.</span>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Off-Label Use Card -->
+                <div class="glass-panel p-6 rounded-lg shadow-lg hover:border-brand-green transition-all group">
+                    <div class="flex justify-between items-start mb-4">
+                        <h3 class="text-lg font-bold text-white group-hover:text-brand-green">OFF-LABEL / FUNCTIONAL USE</h3>
+                        <span class="px-2 py-1 bg-green-900/30 text-green-400 text-xs font-mono rounded">CLINICAL PRACTICE</span>
+                    </div>
+                    <ul class="space-y-3 text-sm text-brand-muted">
+                        <li class="flex items-start">
+                            <span class="text-brand-green mr-2">▸</span>
+                            <span><strong>Target:</strong> Men & Women (Post-menopausal).</span>
+                        </li>
+                        <li class="flex items-start">
+                            <span class="text-brand-green mr-2">▸</span>
+                            <span><strong>Condition:</strong> Erectile Dysfunction (non-responsive to PDE5i), Anorgasmia, SSRI-induced sexual dysfunction.</span>
+                        </li>
+                        <li class="flex items-start">
+                            <span class="text-brand-green mr-2">▸</span>
+                            <span><strong>Synergy:</strong> Often combined with PDE5 inhibitors (Tadalafil/Sildenafil) for synergistic central/peripheral effect.</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- DOSING PROTOCOLS -->
+        <section class="relative z-10">
+            <div class="mb-4 flex flex-col sm:flex-row sm:items-center sm:justify-between">
+                <div>
+                    <h2 class="text-2xl font-mono font-bold text-brand-green border-l-4 border-brand-green pl-3">DOSING PROTOCOLS</h2>
+                    <p class="mt-2 text-brand-muted">Select administration route to view specific protocols.</p>
+                </div>
+                
+                <!-- Toggle Controls -->
+                <div class="mt-4 sm:mt-0 flex bg-brand-surface p-1 rounded-lg border border-brand-border">
+                    <button id="btn-inject" onclick="switchMode('injection')" class="flex-1 sm:flex-none px-6 py-2 rounded font-mono text-sm font-bold transition-all active-tab">INJECTION (SC)</button>
+                    <button id="btn-oral" onclick="switchMode('oral')" class="flex-1 sm:flex-none px-6 py-2 rounded font-mono text-sm font-bold text-brand-muted hover:text-white transition-all">ORAL / TROCHE</button>
+                </div>
+            </div>
+
+            <!-- Dynamic Dosing Content Grid -->
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                
+                <!-- Main Protocol Panel -->
+                <div class="lg:col-span-2 glass-panel rounded-lg p-6 shadow-xl">
+                    <div class="flex items-center justify-between mb-6 pb-4 border-b border-brand-border">
+                        <h3 id="protocol-title" class="text-xl font-bold text-white">SUBCUTANEOUS INJECTION</h3>
+                        <span id="protocol-badge" class="px-3 py-1 bg-brand-blue text-white font-bold font-mono rounded text-sm">GOLD STANDARD</span>
+                    </div>
+
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-8">
+                        <div>
+                            <h4 class="font-mono text-brand-muted text-sm uppercase tracking-wider mb-2">Standard Dosage</h4>
+                            <div class="text-3xl font-bold text-white mb-1" id="dosage-val">1.75 mg</div>
+                            <p class="text-sm text-brand-muted" id="dosage-desc">Administered subcutaneously into abdomen or thigh.</p>
+                            
+                            <h4 class="font-mono text-brand-muted text-sm uppercase tracking-wider mb-2 mt-6">Titration Strategy</h4>
+                            <p class="text-sm text-gray-300 leading-relaxed" id="titration-desc">
+                                Start with <strong>0.5mg - 1.0mg</strong> test dose to assess nausea tolerance. Titrate up to 1.75mg if needed. Doses >2mg increase side effect risk without significant efficacy gain.
+                            </p>
+                        </div>
+                        
+                        <div class="bg-brand-surface rounded p-4 border border-brand-border">
+                            <h4 class="font-mono text-brand-green text-sm uppercase tracking-wider mb-4">Timing & Onset</h4>
+                            <ul class="space-y-4">
+                                <li class="flex justify-between items-center">
+                                    <span class="text-sm text-gray-400">Onset of Action</span>
+                                    <span class="font-mono font-bold text-white" id="onset-val">45 mins</span>
+                                </li>
+                                <li class="flex justify-between items-center">
+                                    <span class="text-sm text-gray-400">Peak Effect</span>
+                                    <span class="font-mono font-bold text-white" id="peak-val">3 - 4 hours</span>
+                                </li>
+                                <li class="flex justify-between items-center">
+                                    <span class="text-sm text-gray-400">Duration</span>
+                                    <span class="font-mono font-bold text-white" id="duration-val">Up to 24 hrs</span>
+                                </li>
+                            </ul>
+                            
+                            <div class="mt-4 pt-4 border-t border-brand-border">
+                                <div class="flex items-center space-x-2 text-yellow-600">
+                                    <span class="text-lg">⚠</span>
+                                    <span class="text-xs font-bold uppercase">Clinical Note</span>
+                                </div>
+                                <p class="text-xs text-gray-400 mt-1" id="warning-text">
+                                    Nausea is the primary dose-limiting side effect (approx 40% of patients). Pre-treatment with BPC-157 or Antihistamines may mitigate this.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- PK Chart Panel -->
+                <div class="glass-panel rounded-lg p-6 shadow-xl flex flex-col">
+                    <h3 class="text-sm font-mono text-brand-muted uppercase tracking-wider mb-4">Pharmacokinetics Profile</h3>
+                    <div class="flex-grow flex items-center justify-center chart-wrapper">
+                         <div class="w-full h-full relative">
+                            <canvas id="pkChart"></canvas>
+                         </div>
+                    </div>
+                    <div class="mt-4 text-xs text-center text-brand-muted font-mono">
+                        Estimated plasma concentration over time
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- CYCLING & SAFETY LIMITS -->
+        <section class="relative z-10">
+            <h2 class="text-2xl font-mono font-bold text-white border-l-4 border-white pl-3 mb-6">CYCLING & SAFETY LIMITS</h2>
+            
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                <!-- Cycling Rules -->
+                <div class="lg:col-span-1 glass-panel rounded-lg p-6">
+                    <h3 class="text-lg font-bold text-brand-blue mb-4">The "24/72/8" Rule</h3>
+                    <div class="space-y-6">
+                        <div class="flex items-start space-x-3">
+                            <div class="w-8 h-8 rounded bg-brand-surface border border-brand-border flex items-center justify-center font-mono font-bold text-white">1</div>
+                            <div>
+                                <h4 class="font-bold text-white text-sm">Wait 24 Hours</h4>
+                                <p class="text-xs text-gray-400">Minimum time between doses to avoid accumulation and sustained hypertension.</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start space-x-3">
+                            <div class="w-8 h-8 rounded bg-brand-surface border border-brand-border flex items-center justify-center font-mono font-bold text-white">2</div>
+                            <div>
+                                <h4 class="font-bold text-white text-sm">Ideally 72 Hours</h4>
+                                <p class="text-xs text-gray-400">Optimal washout period to prevent MC4 receptor downregulation (tolerance buildup).</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start space-x-3">
+                            <div class="w-8 h-8 rounded bg-brand-surface border border-brand-border flex items-center justify-center font-mono font-bold text-white">3</div>
+                            <div>
+                                <h4 class="font-bold text-white text-sm">Max 8 / Month</h4>
+                                <p class="text-xs text-gray-400">Do not exceed 8 doses per month to ensure long-term efficacy and safety.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Interactive Cycle Visualizer -->
+                <div class="lg:col-span-2 glass-panel rounded-lg p-6">
+                    <div class="flex justify-between items-center mb-4">
+                        <h3 class="text-sm font-mono text-brand-muted uppercase">Monthly Usage Visualizer</h3>
+                        <div class="text-xs text-right text-gray-500">Based on standard safety profile</div>
+                    </div>
+
+                    <!-- Usage Bar -->
+                    <div class="mb-6">
+                        <div class="flex justify-between text-xs font-mono text-gray-400 mb-2">
+                            <span>0 Doses</span>
+                            <span>Safe Range</span>
+                            <span class="text-red-500">Warning Zone (>8)</span>
+                        </div>
+                        <div class="h-4 bg-brand-surface rounded-full overflow-hidden flex border border-brand-border">
+                            <div class="w-2/3 bg-gradient-to-r from-brand-green to-brand-blue h-full relative group cursor-help">
+                                <div class="absolute inset-0 bg-white opacity-0 group-hover:opacity-10 transition-opacity"></div>
+                            </div>
+                            <div class="w-1/3 bg-red-900/20 h-full border-l border-brand-black relative group cursor-help">
+                                <div class="absolute inset-0 bg-red-600 opacity-0 group-hover:opacity-20 transition-opacity"></div>
+                            </div>
+                        </div>
+                        <div class="flex justify-between mt-1">
+                            <div class="w-2/3 text-center border-r border-brand-border pr-2">
+                                <span class="text-xs text-brand-green font-bold">Standard Therapeutic Window</span>
+                            </div>
+                            <div class="w-1/3 text-center pl-2">
+                                <span class="text-xs text-red-500 font-bold">Risk of Hyperpigmentation & CNS Load</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Side Effects Grid -->
+                    <div class="grid grid-cols-2 sm:grid-cols-4 gap-4 mt-8">
+                        <div class="text-center p-3 bg-brand-surface rounded border border-brand-border">
+                            <div class="text-brand-blue font-bold text-lg mb-1">~40%</div>
+                            <div class="text-xs text-gray-400">Nausea Incidence</div>
+                        </div>
+                        <div class="text-center p-3 bg-brand-surface rounded border border-brand-border">
+                            <div class="text-brand-blue font-bold text-lg mb-1">~20%</div>
+                            <div class="text-xs text-gray-400">Facial Flushing</div>
+                        </div>
+                        <div class="text-center p-3 bg-brand-surface rounded border border-brand-border">
+                            <div class="text-white font-bold text-lg mb-1">Transient</div>
+                            <div class="text-xs text-gray-400">BP Increase (Systolic)</div>
+                        </div>
+                        <div class="text-center p-3 bg-brand-surface rounded border border-brand-border">
+                            <div class="text-white font-bold text-lg mb-1">Rare</div>
+                            <div class="text-xs text-gray-400">Hyperpigmentation</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- ========================================
+         STANDARDIZED FOOTER
+         ======================================== -->
+    <footer class="mt-12 pt-8 border-t border-brand-border/30">
+        <div class="max-w-7xl mx-auto px-4">
+            <div class="bg-brand-charcoal/50 border border-brand-border rounded-lg p-6 mb-6">
+                <div class="flex items-start gap-3">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-brand-muted flex-shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                    </svg>
+                    <div>
+                        <p class="text-xs text-brand-text leading-relaxed">
+                            <span class="text-white font-bold">LEGAL DISCLAIMER:</span> This platform is a <span class="text-white font-semibold">clinical reference tool</span> designed to summarize available research literature and pharmacological data for educational purposes. It is <span class="text-red-400 font-bold">NOT</span> a dosing guide, prescriptive engine, or substitute for professional medical training. PT-141 (Bremelanotide) may have contraindications (e.g., uncontrolled hypertension/CVD).
+                        </p>
+                        <p class="text-[10px] text-brand-muted mt-3 tracking-wide uppercase">
+                            Secure Clinical Environment | HIPAA Compliant | Authorized Personnel Only
+                        </p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="flex flex-col md:flex-row justify-between items-center text-[10px] text-brand-muted font-mono uppercase pb-8">
+                <div>Multifactor Solutions &copy; 2024</div>
+                <div class="mt-2 md:mt-0 flex items-center">
+                    <span class="w-2 h-2 rounded-full bg-brand-blue mr-2"></span>
+                    For Clinical Educational Use Only.
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        const protocols = {
+            injection: {
+                title: "SUBCUTANEOUS INJECTION",
+                badge: "GOLD STANDARD",
+                badgeColor: "bg-brand-blue",
+                dose: "1.75 mg",
+                desc: "Administered subcutaneously into abdomen or thigh via insulin syringe.",
+                titration: "Start with <strong>0.5mg - 1.0mg</strong> test dose to assess nausea tolerance. Titrate up to 1.75mg if needed. Doses >2mg increase side effect risk without significant efficacy gain.",
+                onset: "45 mins",
+                peak: "3 - 4 hours",
+                duration: "Up to 24 hrs",
+                warning: "Nausea is the primary dose-limiting side effect (approx 40% of patients). Pre-treatment with BPC-157 or Antihistamines may mitigate this."
+            },
+            oral: {
+                title: "ORAL / TROCHE / RDT",
+                badge: "VARIABLE ABSORPTION",
+                badgeColor: "bg-brand-green",
+                dose: "2mg - 20mg",
+                desc: "Sublingual or Buccal administration. Highly variable bioavailability.",
+                titration: "Due to poor bioavailability/First Pass effect, doses are significantly higher than injection. Start 2-4mg (Troche). Some compounded RDTs go up to 20mg. <strong>Effectiveness is inconsistent</strong> compared to injection.",
+                onset: "60 - 120 mins",
+                peak: "2 - 3 hours",
+                duration: "6 - 12 hrs",
+                warning: "Lower incidence of nausea compared to injection, but significantly less potent. Must be held in mouth for absorption; swallowing renders it largely inactive."
+            }
+        };
+
+        let pkChartInstance = null;
+
+        function initChart() {
+            const ctx = document.getElementById('pkChart').getContext('2d');
+            
+            const gradientInject = ctx.createLinearGradient(0, 0, 0, 400);
+            gradientInject.addColorStop(0, 'rgba(59, 130, 246, 0.5)');
+            gradientInject.addColorStop(1, 'rgba(59, 130, 246, 0.0)');
+
+            const gradientOral = ctx.createLinearGradient(0, 0, 0, 400);
+            gradientOral.addColorStop(0, 'rgba(16, 185, 129, 0.5)');
+            gradientOral.addColorStop(1, 'rgba(16, 185, 129, 0.0)');
+
+            pkChartInstance = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: ['0h', '0.5h', '1h', '2h', '4h', '8h', '12h', '24h'],
+                    datasets: [
+                        {
+                            label: 'Injection (Plasma Conc.)',
+                            data: [0, 60, 95, 80, 50, 20, 10, 5],
+                            borderColor: '#3b82f6',
+                            backgroundColor: gradientInject,
+                            borderWidth: 2,
+                            tension: 0.4,
+                            fill: true,
+                            pointRadius: 3,
+                            pointBackgroundColor: '#050505',
+                            pointBorderColor: '#3b82f6'
+                        },
+                        {
+                            label: 'Oral/Troche (Est.)',
+                            data: [0, 10, 25, 35, 25, 10, 5, 0],
+                            borderColor: '#10b981',
+                            backgroundColor: gradientOral,
+                            borderWidth: 2,
+                            borderDash: [5, 5],
+                            tension: 0.4,
+                            fill: true,
+                            pointRadius: 0,
+                            hidden: true
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            labels: { color: '#a1a1aa', font: { family: 'Rajdhani' } }
+                        },
+                        tooltip: {
+                            mode: 'index',
+                            intersect: false,
+                            backgroundColor: 'rgba(24, 24, 27, 0.95)',
+                            titleColor: '#fff',
+                            bodyColor: '#e4e4e7',
+                            borderColor: '#27272a',
+                            borderWidth: 1
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            grid: { color: '#27272a', tickLength: 0 },
+                            ticks: { display: false }
+                        },
+                        x: {
+                            grid: { display: false },
+                            ticks: { color: '#737373', font: { family: 'Inter', size: 10 } }
+                        }
+                    },
+                    interaction: {
+                        mode: 'nearest',
+                        axis: 'x',
+                        intersect: false
+                    }
+                }
+            });
+        }
+
+        function switchMode(mode) {
+            const data = protocols[mode];
+            
+            document.getElementById('protocol-title').innerText = data.title;
+            const badge = document.getElementById('protocol-badge');
+            badge.innerText = data.badge;
+            badge.className = `px-3 py-1 ${data.badgeColor} text-white font-bold font-mono rounded text-sm`;
+            
+            document.getElementById('dosage-val').innerText = data.dose;
+            document.getElementById('dosage-desc').innerText = data.desc;
+            document.getElementById('titration-desc').innerHTML = data.titration;
+            document.getElementById('onset-val').innerText = data.onset;
+            document.getElementById('peak-val').innerText = data.peak;
+            document.getElementById('duration-val').innerText = data.duration;
+            document.getElementById('warning-text').innerText = data.warning;
+
+            const btnInject = document.getElementById('btn-inject');
+            const btnOral = document.getElementById('btn-oral');
+
+            if (mode === 'injection') {
+                btnInject.classList.add('active-tab', 'text-brand-blue');
+                btnInject.classList.remove('text-brand-muted');
+                btnOral.classList.remove('active-tab', 'text-white');
+                btnOral.classList.add('text-brand-muted');
+                
+                pkChartInstance.data.datasets[0].hidden = false;
+                pkChartInstance.data.datasets[1].hidden = true;
+            } else {
+                btnOral.classList.add('active-tab', 'text-white');
+                btnOral.classList.remove('text-brand-muted');
+                btnInject.classList.remove('active-tab', 'text-brand-blue');
+                btnInject.classList.add('text-brand-muted');
+
+                pkChartInstance.data.datasets[0].hidden = true;
+                pkChartInstance.data.datasets[1].hidden = false;
+            }
+            
+            pkChartInstance.update();
+        }
+
+        window.addEventListener('DOMContentLoaded', () => {
+            initChart();
+        });
+    </script>
+</body>
+</html>

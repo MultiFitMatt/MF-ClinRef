@@ -1,0 +1,806 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Testosterone | Clinical Reference</title>
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Rajdhani:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Scripts -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            black: '#050505',
+                            charcoal: '#0f0f11',
+                            surface: '#18181b',
+                            border: '#27272a',
+                            green: '#10b981',
+                            blue: '#3b82f6',
+                            cyan: '#06b6d4',
+                            rose: '#f43f5e',
+                            text: '#e4e4e7',
+                            muted: '#a1a1aa'
+                        }
+                    },
+                    fontFamily: {
+                        mono: ['Rajdhani', 'sans-serif'],
+                        sans: ['Inter', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        body {
+            background-color: #050505;
+            color: #e4e4e7;
+        }
+        
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #0f0f11; }
+        ::-webkit-scrollbar-thumb { background: #27272a; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #10b981; }
+
+        .glass-panel {
+            background: rgba(15, 15, 17, 0.6);
+            backdrop-filter: blur(12px);
+            border: 1px solid #27272a;
+        }
+        
+        .tech-border {
+            border: 1px solid #27272a;
+            position: relative;
+            background: rgba(10, 10, 10, 0.4);
+        }
+        .tech-border::after {
+            content: '';
+            position: absolute;
+            top: -1px; left: -1px;
+            width: 8px; height: 8px;
+            border-top: 2px solid #06b6d4;
+            border-left: 2px solid #06b6d4;
+            opacity: 0.5;
+        }
+
+        .chart-wrapper {
+            position: relative;
+            width: 100%;
+            height: 450px; 
+            background: radial-gradient(circle at top right, #111 0%, #050505 100%);
+        }
+
+        .fade-in { animation: fadeIn 0.5s ease-in-out; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
+
+        /* Improved Slider Styling */
+        input[type=range] {
+            -webkit-appearance: none; 
+            background: transparent; 
+            padding: 10px 0;
+        }
+        input[type=range]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            height: 24px;
+            width: 24px; 
+            border-radius: 50%;
+            background: #fff;
+            margin-top: -10px;
+            border: 2px solid #000;
+            box-shadow: 0 0 10px rgba(255,255,255,0.8);
+            cursor: pointer;
+            transition: transform 0.1s, background-color 0.2s;
+        }
+        input[type=range]::-webkit-slider-thumb:hover { 
+            transform: scale(1.1); 
+            background: #e5e5e5;
+        }
+        input[type=range]::-webkit-slider-runnable-track {
+            width: 100%; height: 4px;
+            background: #333; border-radius: 2px;
+            cursor: pointer;
+        }
+        
+        .toggle-btn {
+            transition: all 0.2s;
+            opacity: 0.5;
+            filter: grayscale(100%);
+            border-color: #333;
+        }
+        .toggle-btn.active {
+            opacity: 1;
+            filter: grayscale(0%);
+            border-color: currentColor;
+            background: rgba(255,255,255,0.05);
+        }
+    </style>
+</head>
+<body class="font-sans antialiased min-h-screen flex flex-col">
+
+    <!-- ========================================
+         STANDARDIZED HEADER
+         ======================================== -->
+    <header class="w-full border-b border-brand-border bg-brand-charcoal sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+            <div class="flex items-center space-x-2">
+                <a href="index.html" class="text-brand-muted hover:text-brand-blue transition-colors">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+                    </svg>
+                </a>
+                
+                <div class="w-10 h-10 bg-brand-surface border border-brand-cyan rounded flex items-center justify-center shadow-[0_0_10px_rgba(6,182,212,0.3)]">
+                    <span class="font-mono font-bold text-brand-green text-base">M</span>
+                </div>
+                
+                <div class="flex flex-col">
+                    <span class="font-mono font-bold text-xl tracking-wider text-white">TESTOSTERONE</span>
+                    <span class="text-[10px] text-brand-cyan uppercase tracking-[0.2em] leading-none">Clinical Reference</span>
+                </div>
+            </div>
+            
+            <div class="hidden md:flex items-center space-x-4 text-xs font-mono uppercase tracking-wider">
+                <span class="text-white cursor-pointer hover:text-brand-cyan transition-colors">Kinetics Model</span>
+                <span class="text-brand-muted cursor-pointer hover:text-brand-cyan transition-colors" onclick="scrollToId('calculators')">Protocols</span>
+                <span class="text-brand-muted cursor-pointer hover:text-brand-cyan transition-colors" onclick="scrollToId('safety')">Safety</span>
+            </div>
+        </div>
+    </header>
+
+    <main class="flex-grow max-w-7xl mx-auto px-4 lg:px-8 py-8 w-full space-y-12">
+
+        <!-- HEADER SECTION -->
+        <header class="grid grid-cols-1 lg:grid-cols-2 gap-8 items-end">
+            <div>
+                <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-brand-cyan/10 border border-brand-cyan/30 text-brand-cyan text-[10px] uppercase tracking-widest font-bold mb-4">
+                    <span class="w-1.5 h-1.5 rounded-full bg-brand-cyan animate-pulse"></span>
+                    Clinician Guide v2.7
+                </div>
+                <h1 class="text-5xl font-bold font-mono text-white leading-tight mb-4">
+                    THERAPEUTIC <br/>
+                    <span class="text-transparent bg-clip-text bg-gradient-to-r from-brand-cyan to-brand-green">ANDROGEN OPTIMIZATION</span>
+                </h1>
+                <p class="text-brand-muted max-w-xl leading-relaxed">
+                    Advanced prescribing framework for Testosterone Cypionate, Enanthate, Propionate, and oral Jatenzo. Protocols optimized for stable serum concentrations and minimized adverse events.
+                </p>
+            </div>
+            
+            <!-- Quick Stats Grid -->
+            <div class="grid grid-cols-3 gap-4 w-full">
+                <div class="tech-border bg-brand-surface p-4">
+                    <span class="block text-brand-muted text-[10px] uppercase tracking-wider mb-1">Cypionate T½</span>
+                    <span class="block text-2xl font-mono font-bold text-white">8 <span class="text-sm text-gray-600">DAYS</span></span>
+                </div>
+                <div class="tech-border bg-brand-surface p-4">
+                    <span class="block text-brand-muted text-[10px] uppercase tracking-wider mb-1">Propionate T½</span>
+                    <span class="block text-2xl font-mono font-bold text-white">2 <span class="text-sm text-gray-600">DAYS</span></span>
+                </div>
+                <div class="tech-border bg-brand-surface p-4">
+                    <span class="block text-brand-muted text-[10px] uppercase tracking-wider mb-1">Jatenzo Tmax</span>
+                    <span class="block text-2xl font-mono font-bold text-white">4 <span class="text-sm text-gray-600">HOURS</span></span>
+                </div>
+            </div>
+        </header>
+
+        <!-- KINETICS DASHBOARD -->
+        <section class="space-y-4">
+            <div class="flex flex-col md:flex-row justify-between items-end border-b border-brand-border pb-2">
+                <div>
+                    <h2 class="text-xl font-bold font-mono text-white flex items-center gap-2">
+                        <span class="w-1 h-6 bg-brand-cyan"></span>
+                        PHARMACOKINETICS SIMULATOR
+                    </h2>
+                </div>
+                <div class="text-[10px] text-brand-muted uppercase tracking-widest font-mono">
+                    Interactive Steady State Model
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-4 gap-6">
+                <!-- CHART AREA -->
+                <div class="lg:col-span-3 tech-border bg-brand-black p-1 relative rounded-lg overflow-hidden">
+                    
+                    <!-- Interactive Visibility Toggles -->
+                    <div class="absolute top-4 left-4 z-10 flex gap-2">
+                        <button onclick="toggleSeries(0)" id="toggle-cyp" class="toggle-btn active flex items-center gap-2 bg-black/80 px-3 py-1.5 rounded border text-brand-cyan hover:text-cyan-400">
+                            <span class="w-2 h-2 rounded-full bg-brand-cyan"></span>
+                            <span class="text-[10px] font-mono uppercase tracking-wider">Cyp/Enanth</span>
+                        </button>
+                        
+                        <button onclick="toggleSeries(1)" id="toggle-prop" class="toggle-btn active flex items-center gap-2 bg-black/80 px-3 py-1.5 rounded border text-brand-green hover:text-green-400">
+                            <span class="w-2 h-2 rounded-full bg-brand-green"></span>
+                            <span class="text-[10px] font-mono uppercase tracking-wider">Propionate</span>
+                        </button>
+                        
+                        <button onclick="toggleSeries(2)" id="toggle-oral" class="toggle-btn active flex items-center gap-2 bg-black/80 px-3 py-1.5 rounded border text-brand-rose hover:text-rose-400">
+                            <span class="w-2 h-2 rounded-full bg-brand-rose"></span>
+                            <span class="text-[10px] font-mono uppercase tracking-wider">Jatenzo</span>
+                        </button>
+                    </div>
+
+                    <div class="chart-wrapper">
+                        <canvas id="pkChart"></canvas>
+                    </div>
+                </div>
+
+                <!-- CONTROLS & STATS -->
+                <div class="lg:col-span-1 flex flex-col gap-4">
+                    
+                    <!-- Simulator Controls -->
+                    <div class="glass-panel p-4 rounded tech-border">
+                        <h4 class="text-white font-mono font-bold uppercase text-sm border-b border-brand-border pb-2 mb-4 flex justify-between items-center">
+                            <span>Protocol Adjuster</span>
+                            <span class="text-[10px] text-brand-cyan animate-pulse">● LIVE</span>
+                        </h4>
+                        
+                        <!-- Dose Control -->
+                        <div class="mb-6">
+                            <div class="flex justify-between text-xs mb-2">
+                                <span class="text-brand-muted uppercase font-mono tracking-wider">Dose Per Injection</span>
+                                <span class="text-brand-cyan font-bold font-mono" id="sim-dose-val">100 mg</span>
+                            </div>
+                            <input type="range" id="sim-dose" min="20" max="400" step="10" value="100" class="w-full accent-brand-cyan">
+                        </div>
+
+                        <!-- Weight Control -->
+                        <div class="mb-6">
+                            <div class="flex justify-between text-xs mb-2">
+                                <span class="text-brand-muted uppercase font-mono tracking-wider">Patient Weight</span>
+                                <span class="text-brand-green font-bold font-mono" id="sim-weight-val">180 lbs</span>
+                            </div>
+                            <input type="range" id="sim-weight" min="140" max="400" step="5" value="180" class="w-full accent-brand-green">
+                        </div>
+
+                        <!-- Frequency Control -->
+                        <div class="mb-2">
+                            <div class="flex justify-between text-xs mb-2">
+                                <span class="text-brand-muted uppercase font-mono tracking-wider">Injection Frequency</span>
+                                <span class="text-brand-cyan font-bold font-mono" id="sim-freq-val">Every 3.5 Days</span>
+                            </div>
+                            <input type="range" id="sim-freq" min="1" max="14" step="0.5" value="3.5" class="w-full accent-brand-cyan">
+                            <div class="flex justify-between text-[10px] text-gray-600 mt-2 font-mono uppercase">
+                                <span>Daily</span>
+                                <span>Weekly</span>
+                                <span>Bi-Weekly</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Dynamic Readout -->
+                    <div class="glass-panel p-4 rounded flex-grow">
+                        <h4 class="text-brand-muted text-[10px] uppercase tracking-widest mb-3">Projected Levels (Cyp)</h4>
+                        <div class="space-y-3">
+                            <div class="flex justify-between items-end border-b border-brand-border pb-2">
+                                <span class="text-xs text-brand-muted">Peak Saturation</span>
+                                <span class="text-brand-cyan font-mono font-bold text-lg" id="stat-peak">--</span>
+                            </div>
+                            <div class="flex justify-between items-end border-b border-brand-border pb-2">
+                                <span class="text-xs text-brand-muted">Trough Level</span>
+                                <span class="text-cyan-600 font-mono font-bold text-lg" id="stat-trough">--</span>
+                            </div>
+                            <div class="flex justify-between items-end">
+                                <span class="text-xs text-brand-muted">Swing Variance</span>
+                                <span class="text-brand-text font-mono font-bold text-lg" id="stat-variance">--</span>
+                            </div>
+                        </div>
+                        <p class="text-[10px] text-brand-muted mt-3 leading-tight">
+                            *Serum values (ng/dL) adjusted for approximate volume of distribution by body weight.
+                        </p>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <!-- PROTOCOL BUILDER -->
+        <section id="calculators" class="space-y-6">
+            <div class="border-b border-brand-border pb-4">
+                <h2 class="text-xl font-bold font-mono text-white flex items-center gap-2">
+                    <span class="w-1 h-6 bg-brand-green"></span>
+                    DOSING CALCULATOR
+                </h2>
+                <p class="text-sm text-brand-muted mt-1 font-mono uppercase tracking-wide">Select delivery method to compute volume</p>
+            </div>
+
+            <!-- TAB NAV -->
+            <div class="flex border-b border-brand-border">
+                <button onclick="setTab('inject')" id="tab-inject" class="px-6 py-3 text-sm font-mono font-bold uppercase tracking-wider text-white border-b-2 border-brand-green bg-brand-green/10 transition-all">Injectable</button>
+                <button onclick="setTab('oral')" id="tab-oral" class="px-6 py-3 text-sm font-mono font-bold uppercase tracking-wider text-brand-muted hover:text-white border-b-2 border-transparent hover:border-gray-700 transition-all">Jatenzo (Oral)</button>
+                <button onclick="setTab('pellet')" id="tab-pellet" class="px-6 py-3 text-sm font-mono font-bold uppercase tracking-wider text-brand-muted hover:text-white border-b-2 border-transparent hover:border-gray-700 transition-all">Pellet Implant</button>
+            </div>
+
+            <!-- INJECTABLE PANEL -->
+            <div id="panel-inject" class="grid grid-cols-1 lg:grid-cols-2 gap-8 fade-in">
+                <!-- Calculator -->
+                <div class="tech-border glass-panel p-6 rounded space-y-8">
+                    <div>
+                        <div class="flex justify-between items-end mb-4">
+                            <label class="text-[10px] uppercase tracking-widest text-brand-muted">Total Weekly Dose</label>
+                            <span class="text-3xl font-mono font-bold text-brand-green" id="disp-dose">140 <span class="text-sm text-brand-muted">mg</span></span>
+                        </div>
+                        <input type="range" id="input-dose" min="50" max="300" step="10" value="140" class="w-full bg-brand-surface h-1 appearance-none rounded cursor-pointer accent-brand-green">
+                        <div class="flex justify-between mt-2 text-[10px] text-gray-600 font-mono">
+                            <span>50mg</span>
+                            <span>300mg</span>
+                        </div>
+                    </div>
+
+                    <!-- Settings -->
+                    <div class="grid grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-[10px] uppercase tracking-widest text-brand-muted mb-2">Concentration</label>
+                            <select id="input-conc" class="w-full bg-black border border-brand-border text-white text-sm p-3 rounded focus:border-brand-green outline-none font-mono">
+                                <option value="200">200 mg/mL (Std)</option>
+                                <option value="100">100 mg/mL</option>
+                                <option value="250">250 mg/mL</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-[10px] uppercase tracking-widest text-brand-muted mb-2">Frequency</label>
+                            <select id="input-freq" class="w-full bg-black border border-brand-border text-white text-sm p-3 rounded focus:border-brand-green outline-none font-mono">
+                                <option value="1">Once Weekly</option>
+                                <option value="2" selected>Every 3.5 Days</option>
+                                <option value="3.5">Every Other Day</option>
+                                <option value="7">Daily</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- Result Card -->
+                    <div class="bg-black border border-brand-green/30 p-4 rounded flex items-center justify-between shadow-[0_0_15px_rgba(16,185,129,0.1)]">
+                        <div>
+                            <span class="block text-brand-green text-[10px] uppercase tracking-wider">Inject Per Dose</span>
+                            <span class="text-white text-sm text-brand-muted">Using insulin syringe</span>
+                        </div>
+                        <div class="text-right">
+                            <span class="block text-3xl font-mono font-bold text-white" id="res-vol">0.35</span>
+                            <span class="text-[10px] text-brand-green uppercase tracking-widest">mL / injection</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Info -->
+                <div class="space-y-6">
+                    <div class="border-l-2 border-brand-green pl-4 py-1">
+                        <h4 class="text-white font-mono font-bold uppercase text-lg">Injection Site Strategy</h4>
+                        <p class="text-sm text-brand-muted mt-2 leading-relaxed">
+                            Move away from deep IM (1.5" needles). Modern protocol favors <strong>Shallow IM or SubQ</strong> using 27g-29g 0.5" insulin pins.
+                        </p>
+                        <ul class="mt-2 space-y-1 text-xs text-brand-muted font-mono uppercase tracking-wide">
+                            <li class="flex items-center gap-2"><span class="w-1 h-1 bg-brand-green"></span> Ventrogluteal (Preferred)</li>
+                            <li class="flex items-center gap-2"><span class="w-1 h-1 bg-brand-green"></span> Deltoid</li>
+                            <li class="flex items-center gap-2"><span class="w-1 h-1 bg-brand-green"></span> Abdominal Fat (SubQ)</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ORAL PANEL -->
+            <div id="panel-oral" class="hidden grid-cols-1 lg:grid-cols-2 gap-8 fade-in">
+                <div class="tech-border glass-panel p-6 rounded border-brand-rose/30">
+                    <h3 class="text-2xl font-mono font-bold text-white mb-6">JATENZO <span class="text-brand-rose text-sm align-middle ml-2">T-Undecanoate</span></h3>
+                    
+                    <div class="space-y-3">
+                         <div class="flex justify-between items-center bg-black/40 p-3 rounded border border-brand-rose/20">
+                             <span class="text-xs text-rose-300 uppercase tracking-wider">Start Dose</span>
+                             <span class="font-mono font-bold text-white text-xl">237 mg <span class="text-sm text-brand-muted">BID</span></span>
+                         </div>
+                         <div class="flex justify-between items-center bg-black/40 p-3 rounded border border-brand-rose/20">
+                             <span class="text-xs text-rose-300 uppercase tracking-wider">Max Dose</span>
+                             <span class="font-mono font-bold text-white text-xl">396 mg <span class="text-sm text-brand-muted">BID</span></span>
+                         </div>
+                    </div>
+
+                    <div class="mt-6 p-4 bg-brand-rose/10 border border-brand-rose/20 rounded">
+                        <p class="text-rose-200 text-xs font-bold uppercase mb-1">Dietary Requirement Warning</p>
+                        <p class="text-rose-300/70 text-xs">
+                            Absorption is lymphatic. Must be taken with food containing >30g fat. Taking on an empty stomach results in negligible absorption.
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+             <!-- PELLET PANEL -->
+             <div id="panel-pellet" class="hidden grid-cols-1 lg:grid-cols-2 gap-8 fade-in">
+                <div class="tech-border glass-panel p-6 rounded">
+                    <h3 class="text-2xl font-mono font-bold text-white mb-6">PELLET IMPLANTATION</h3>
+                    <p class="text-sm text-brand-muted mb-4">
+                        Calculated based on weight and activity level. Procedures typically performed every 3-6 months depending on pellet size.
+                    </p>
+                    
+                    <div class="space-y-4">
+                        <div class="p-4 bg-black border border-brand-border rounded grid grid-cols-2 items-center gap-4">
+                            <div>
+                                <span class="block text-lg font-bold font-mono text-white">200 mg <span class="text-sm text-brand-muted font-normal">Pellets</span></span>
+                                <span class="text-[10px] text-brand-muted uppercase">Standard Male</span>
+                            </div>
+                            <div class="text-right">
+                                <span class="block text-brand-green font-bold font-mono">4-6 Months</span>
+                                <span class="text-[10px] text-gray-600 uppercase">Duration</span>
+                            </div>
+                        </div>
+
+                        <div class="p-4 bg-black border border-brand-border rounded grid grid-cols-2 items-center gap-4">
+                            <div>
+                                <span class="block text-lg font-bold font-mono text-white">100 mg <span class="text-sm text-brand-muted font-normal">Pellets</span></span>
+                                <span class="text-[10px] text-brand-muted uppercase">Smaller/Split Dose</span>
+                            </div>
+                            <div class="text-right">
+                                <span class="block text-brand-green font-bold font-mono">3 Months</span>
+                                <span class="text-[10px] text-gray-600 uppercase">Duration</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mt-4 p-4 bg-brand-charcoal border border-brand-border rounded text-center">
+                        <span class="block text-2xl font-bold font-mono text-white">100%</span>
+                        <span class="text-[10px] text-brand-muted uppercase">Compliance Rate</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SAFETY SECTION -->
+        <section id="safety" class="pb-12">
+            <div class="border-b border-brand-border pb-4 mb-6">
+                <h2 class="text-xl font-bold font-mono text-white flex items-center gap-2">
+                    <span class="w-1 h-6 bg-brand-rose"></span>
+                    SAFETY & MONITORING
+                </h2>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <div class="glass-panel p-5 rounded hover:border-gray-600 transition-colors">
+                    <div class="flex justify-between items-start mb-2">
+                        <h4 class="text-white font-mono font-bold text-lg">HEMATOCRIT</h4>
+                        <span class="text-[10px] bg-red-900/30 text-red-400 px-2 py-0.5 rounded border border-red-900/50">CRITICAL</span>
+                    </div>
+                    <p class="text-xs text-brand-muted leading-5">
+                        Androgens stimulate erythropoiesis. 
+                        <br/><strong>Action:</strong> If Hct > 54%, therapeutic phlebotomy is indicated or dose reduction.
+                    </p>
+                </div>
+
+                <div class="glass-panel p-5 rounded hover:border-gray-600 transition-colors">
+                    <div class="flex justify-between items-start mb-2">
+                        <h4 class="text-white font-mono font-bold text-lg">LIPIDS (HDL)</h4>
+                        <span class="text-[10px] bg-yellow-900/30 text-yellow-400 px-2 py-0.5 rounded border border-yellow-900/50">WATCH</span>
+                    </div>
+                    <p class="text-xs text-brand-muted leading-5">
+                        Supra-physiologic doses crush HDL.
+                        <br/><strong>Action:</strong> Supplement High Dose Omega-3 (4g/day).
+                    </p>
+                </div>
+
+                <div class="glass-panel p-5 rounded hover:border-gray-600 transition-colors">
+                    <div class="flex justify-between items-start mb-2">
+                        <h4 class="text-white font-mono font-bold text-lg">PSA</h4>
+                        <span class="text-[10px] bg-blue-900/30 text-blue-400 px-2 py-0.5 rounded border border-blue-900/50">SCREEN</span>
+                    </div>
+                    <p class="text-xs text-brand-muted leading-5">
+                        Testosterone does not cause CaP, but can accelerate existing issues.
+                        <br/><strong>Action:</strong> Baseline required >40yo.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- ========================================
+         STANDARDIZED FOOTER
+         ======================================== -->
+    <footer class="mt-12 pt-8 border-t border-brand-border/30">
+        <div class="max-w-7xl mx-auto px-4">
+            <div class="bg-brand-charcoal/50 border border-brand-border rounded-lg p-6 mb-6">
+                <div class="flex items-start gap-3">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-brand-muted flex-shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                    </svg>
+                    <div>
+                        <p class="text-xs text-brand-text leading-relaxed">
+                            <span class="text-white font-bold">LEGAL DISCLAIMER:</span> This platform is a <span class="text-white font-semibold">clinical reference tool</span> designed to summarize available research literature and pharmacological data for educational purposes. It is <span class="text-red-400 font-bold">NOT</span> a dosing guide, prescriptive engine, or substitute for professional medical training.
+                        </p>
+                        <p class="text-[10px] text-brand-muted mt-3 tracking-wide uppercase">
+                            Secure Clinical Environment | HIPAA Compliant | Authorized Personnel Only
+                        </p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="flex flex-col md:flex-row justify-between items-center text-[10px] text-brand-muted font-mono uppercase pb-8">
+                <div>Multifactor Solutions &copy; 2024</div>
+                <div class="mt-2 md:mt-0 flex items-center">
+                    <span class="w-2 h-2 rounded-full bg-brand-blue mr-2"></span>
+                    For Clinical Educational Use Only.
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Mathematical Constants (Half-lives in days)
+        const HL_CYP = 8;
+        const HL_PROP = 2; 
+        const HL_ORAL = 0.25; 
+
+        const ctx = document.getElementById('pkChart').getContext('2d');
+        let pkChart;
+
+        // Steady State Superposition with Bateman Function
+        function getSerumLevel(timeDays, dose, halfLife, interval, weight) {
+            const k = Math.log(2) / halfLife;
+            const ka = 1.2; 
+            
+            const refWeight = 180;
+            const weightFactor = refWeight / weight;
+
+            let totalLevel = 0;
+            
+            for (let tDose = -40; tDose <= timeDays; tDose += interval) {
+                const t = timeDays - tDose;
+                if (t >= 0) {
+                    let contribution = (dose * weightFactor) * 11 * (Math.exp(-k * t) - Math.exp(-ka * t));
+                    totalLevel += contribution;
+                }
+            }
+            return totalLevel;
+        }
+
+        const simState = {
+            dose: 100,
+            freq: 3.5,
+            weight: 180
+        };
+
+        function generateData() {
+            const dataCyp = [];
+            const dataProp = [];
+            const dataOral = [];
+            
+            const steps = 150;
+            const duration = 14;
+            
+            let minCyp = 10000, maxCyp = 0;
+
+            for (let i = 0; i <= steps; i++) {
+                const day = (i / steps) * duration;
+                
+                const valCyp = getSerumLevel(day, simState.dose, HL_CYP, simState.freq, simState.weight);
+                dataCyp.push({ x: day, y: valCyp });
+                
+                if (valCyp < minCyp) minCyp = valCyp;
+                if (valCyp > maxCyp) maxCyp = valCyp;
+
+                dataProp.push({ x: day, y: getSerumLevel(day, 50, HL_PROP, 2, 180) });
+
+                const oralVal = 400 + (Math.abs(Math.sin((day * Math.PI) / 0.25)) * 500); 
+                dataOral.push({ x: day, y: oralVal });
+            }
+
+            return { 
+                cyp: dataCyp, 
+                prop: dataProp, 
+                oral: dataOral,
+                stats: { min: minCyp, max: maxCyp }
+            };
+        }
+
+        function initChart() {
+            const gradientCyp = ctx.createLinearGradient(0, 0, 0, 400);
+            gradientCyp.addColorStop(0, 'rgba(6, 182, 212, 0.4)');
+            gradientCyp.addColorStop(1, 'rgba(6, 182, 212, 0.0)');
+
+            const gradientProp = ctx.createLinearGradient(0, 0, 0, 400);
+            gradientProp.addColorStop(0, 'rgba(16, 185, 129, 0.15)');
+            gradientProp.addColorStop(1, 'rgba(16, 185, 129, 0.0)');
+
+            const initData = generateData();
+
+            pkChart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    datasets: [
+                        {
+                            label: 'Cypionate',
+                            data: initData.cyp,
+                            borderColor: '#06b6d4',
+                            backgroundColor: gradientCyp,
+                            borderWidth: 3,
+                            tension: 0.4,
+                            fill: true,
+                            pointRadius: 0,
+                            z: 10,
+                            hidden: false
+                        },
+                        {
+                            label: 'Propionate',
+                            data: initData.prop,
+                            borderColor: '#10b981',
+                            backgroundColor: gradientProp,
+                            borderWidth: 1,
+                            borderDash: [5, 5],
+                            tension: 0.3,
+                            fill: true,
+                            pointRadius: 0,
+                            z: 5,
+                            hidden: false
+                        },
+                        {
+                            label: 'Jatenzo (Oral)',
+                            data: initData.oral,
+                            borderColor: '#f43f5e',
+                            borderWidth: 2,
+                            tension: 0.1,
+                            pointRadius: 0,
+                            fill: false,
+                            z: 8,
+                            hidden: false
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    animation: { duration: 0 }, 
+                    interaction: { mode: 'index', intersect: false },
+                    plugins: {
+                        legend: { display: false },
+                        tooltip: {
+                            backgroundColor: 'rgba(0,0,0,0.9)',
+                            titleColor: '#fff',
+                            bodyFont: { family: 'Rajdhani' },
+                            borderColor: '#333',
+                            borderWidth: 1,
+                            padding: 10,
+                            callbacks: {
+                                label: function(context) {
+                                    return context.dataset.label + ': ' + Math.round(context.raw.y) + ' ng/dL';
+                                }
+                            }
+                        }
+                    },
+                    scales: {
+                        x: {
+                            type: 'linear',
+                            grid: { color: '#1a1a1a' },
+                            ticks: { color: '#525252', callback: function(val) { return 'Day ' + val; } },
+                            max: 14
+                        },
+                        y: {
+                            grid: { color: '#1a1a1a' },
+                            suggestedMin: 0,
+                            suggestedMax: 1500, 
+                            ticks: { display: true, color: '#333', stepSize: 500 } 
+                        }
+                    }
+                }
+            });
+            updateStats(initData.stats);
+        }
+
+        function toggleSeries(index) {
+            const meta = pkChart.getDatasetMeta(index);
+            meta.hidden = meta.hidden === null ? !pkChart.data.datasets[index].hidden : null;
+            
+            const btns = ['toggle-cyp', 'toggle-prop', 'toggle-oral'];
+            const btn = document.getElementById(btns[index]);
+            
+            if (meta.hidden) {
+                btn.classList.remove('active');
+            } else {
+                btn.classList.add('active');
+            }
+            
+            pkChart.update();
+        }
+
+        function updateSimulation() {
+            simState.dose = parseFloat(document.getElementById('sim-dose').value);
+            simState.weight = parseFloat(document.getElementById('sim-weight').value);
+            simState.freq = parseFloat(document.getElementById('sim-freq').value);
+
+            document.getElementById('sim-dose-val').innerText = simState.dose + " mg";
+            document.getElementById('sim-weight-val').innerText = simState.weight + " lbs";
+            
+            let freqText = "";
+            if(simState.freq === 1) freqText = "Daily";
+            else if(simState.freq === 2) freqText = "Every Other Day"; 
+            else if(simState.freq === 3.5) freqText = "Every 3.5 Days";
+            else if(simState.freq === 7) freqText = "Weekly";
+            else if(simState.freq === 14) freqText = "Every 2 Weeks";
+            else freqText = "Every " + simState.freq + " Days";
+            
+            document.getElementById('sim-freq-val').innerText = freqText;
+
+            const newData = generateData();
+            pkChart.data.datasets[0].data = newData.cyp;
+            pkChart.update();
+
+            updateStats(newData.stats);
+        }
+
+        function updateStats(stats) {
+            document.getElementById('stat-peak').innerText = Math.round(stats.max);
+            document.getElementById('stat-trough').innerText = Math.round(stats.min);
+            
+            const variance = ((stats.max - stats.min) / stats.max) * 100;
+            const varianceEl = document.getElementById('stat-variance');
+            
+            if(isNaN(variance)) {
+                varianceEl.innerText = "--";
+            } else {
+                varianceEl.innerText = Math.round(variance) + "%";
+                
+                if(variance < 20) varianceEl.className = "text-brand-green font-mono font-bold text-lg";
+                else if(variance < 40) varianceEl.className = "text-yellow-400 font-mono font-bold text-lg";
+                else varianceEl.className = "text-brand-rose font-mono font-bold text-lg";
+            }
+        }
+
+        // Calculator Logic
+        const els = {
+            dose: document.getElementById('input-dose'),
+            dispDose: document.getElementById('disp-dose'),
+            conc: document.getElementById('input-conc'),
+            freq: document.getElementById('input-freq'),
+            resVol: document.getElementById('res-vol')
+        };
+
+        function calculate() {
+            const dose = parseFloat(els.dose.value);
+            const conc = parseFloat(els.conc.value);
+            const freq = parseFloat(els.freq.value);
+
+            els.dispDose.innerHTML = `${dose} <span class="text-sm text-brand-muted">mg</span>`;
+            const totalVol = dose / conc;
+            const volPerInj = totalVol / freq;
+            els.resVol.textContent = volPerInj.toFixed(2);
+        }
+
+        els.dose.addEventListener('input', calculate);
+        els.conc.addEventListener('change', calculate);
+        els.freq.addEventListener('change', calculate);
+
+        document.getElementById('sim-dose').addEventListener('input', updateSimulation);
+        document.getElementById('sim-weight').addEventListener('input', updateSimulation);
+        document.getElementById('sim-freq').addEventListener('input', updateSimulation);
+
+        function setTab(tab) {
+            ['inject', 'oral', 'pellet'].forEach(t => {
+                document.getElementById(`panel-${t}`).classList.add('hidden');
+                document.getElementById(`tab-${t}`).classList.remove('border-brand-green', 'text-white', 'bg-brand-green/10', 'border-brand-rose', 'bg-brand-rose/10');
+                document.getElementById(`tab-${t}`).classList.add('border-transparent', 'text-brand-muted');
+            });
+
+            document.getElementById(`panel-${tab}`).classList.remove('hidden');
+            const activeBtn = document.getElementById(`tab-${tab}`);
+            activeBtn.classList.remove('border-transparent', 'text-brand-muted');
+            
+            let color = 'green';
+            if(tab === 'oral') color = 'rose';
+            
+            activeBtn.classList.add(`border-brand-${color}`, 'text-white', `bg-brand-${color}/10`);
+        }
+
+        function scrollToId(id) {
+            document.getElementById(id).scrollIntoView({ behavior: 'smooth' });
+        }
+
+        window.addEventListener('load', () => {
+            initChart();
+            calculate();
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,620 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Anastrozole | Clinical Reference</title>
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Rajdhani:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Scripts -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            black: '#050505',
+                            charcoal: '#0f0f11',
+                            surface: '#18181b',
+                            border: '#27272a',
+                            green: '#10b981',
+                            blue: '#3b82f6',
+                            text: '#e4e4e7',
+                            muted: '#a1a1aa'
+                        }
+                    },
+                    fontFamily: {
+                        mono: ['Rajdhani', 'sans-serif'],
+                        sans: ['Inter', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        body {
+            background-color: #050505;
+            color: #e4e4e7;
+        }
+        
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #0f0f11; }
+        ::-webkit-scrollbar-thumb { background: #27272a; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #10b981; }
+
+        .glass-panel {
+            background: rgba(15, 15, 17, 0.6);
+            backdrop-filter: blur(12px);
+            border: 1px solid #27272a;
+        }
+
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 800px;
+            height: 300px;
+            max-height: 400px;
+            margin: 0 auto;
+        }
+        
+        @media (min-width: 768px) {
+            .chart-container {
+                height: 350px;
+            }
+        }
+
+        .hidden-content {
+            display: none;
+        }
+
+        .fade-in {
+            animation: fadeIn 0.5s ease-in-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .tech-grid {
+            background-image: linear-gradient(#27272a 1px, transparent 1px),
+            linear-gradient(90deg, #27272a 1px, transparent 1px);
+            background-size: 40px 40px;
+            background-position: center;
+        }
+    </style>
+</head>
+<body class="font-sans antialiased min-h-screen flex flex-col">
+
+    <!-- ========================================
+         STANDARDIZED HEADER
+         ======================================== -->
+    <header class="w-full border-b border-brand-border bg-brand-charcoal sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+            <div class="flex items-center space-x-2">
+                <a href="index.html" class="text-brand-muted hover:text-brand-blue transition-colors">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+                    </svg>
+                </a>
+                
+                <div class="w-10 h-10 bg-brand-surface border border-brand-blue rounded flex items-center justify-center shadow-[0_0_10px_rgba(59,130,246,0.3)]">
+                    <span class="font-mono font-bold text-brand-green text-base">M</span>
+                </div>
+                
+                <div class="flex flex-col">
+                    <span class="font-mono font-bold text-xl tracking-wider text-white">ANASTROZOLE</span>
+                    <span class="text-[10px] text-brand-blue uppercase tracking-[0.2em] leading-none">Clinical Reference</span>
+                </div>
+            </div>
+            
+            <div class="hidden md:flex items-center space-x-6 text-xs font-mono uppercase tracking-wider">
+                <button onclick="scrollToSection('overview')" class="text-brand-muted hover:text-brand-blue transition-colors">Overview</button>
+                <button onclick="scrollToSection('dosing')" class="text-brand-muted hover:text-brand-blue transition-colors">Protocols</button>
+                <button onclick="scrollToSection('pharmacology')" class="text-brand-muted hover:text-brand-blue transition-colors">Pharmacology</button>
+                <button onclick="scrollToSection('safety')" class="text-brand-muted hover:text-brand-green transition-colors">Safety</button>
+            </div>
+        </div>
+    </header>
+
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-12">
+
+        <!-- HERO / OVERVIEW -->
+        <section id="overview" class="relative overflow-hidden rounded-xl border border-brand-border glass-panel p-8">
+            <div class="absolute top-0 right-0 p-4 opacity-10">
+                <span class="text-9xl font-mono font-bold text-white">C17</span>
+            </div>
+            <div class="relative z-10 max-w-3xl">
+                <div class="inline-flex items-center px-3 py-1 rounded-full border border-brand-blue/30 bg-brand-blue/10 text-brand-blue text-xs font-mono mb-6">
+                    CLINICAL REFERENCE: OFF-LABEL USE
+                </div>
+                <h1 class="text-4xl md:text-5xl font-mono font-bold text-white mb-6 uppercase tracking-tight">
+                    Anastrozole <span class="text-brand-muted font-light">Reference Guide</span>
+                </h1>
+                <p class="text-lg text-brand-muted leading-relaxed mb-8">
+                    Anastrozole (Arimidex) is a potent non-steroidal aromatase inhibitor (AI). In the context of male Hormone Replacement Therapy (TRT), it is utilized off-label to manage elevated estradiol (E2) levels resulting from the aromatization of exogenous testosterone. 
+                    <br><br>
+                    <strong class="text-brand-text">Clinical Goal:</strong> Maintain E2 within a physiological range ("sweet spot") to prevent side effects without suppressing estrogen to levels that negatively impact bone density, libido, and joint health.
+                </p>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <div class="p-4 rounded bg-brand-charcoal border border-brand-border">
+                        <div class="text-brand-green font-mono text-sm mb-1">DRUG CLASS</div>
+                        <div class="font-semibold text-white">Non-steroidal Aromatase Inhibitor</div>
+                    </div>
+                    <div class="p-4 rounded bg-brand-charcoal border border-brand-border">
+                        <div class="text-brand-blue font-mono text-sm mb-1">PRIMARY ACTION</div>
+                        <div class="font-semibold text-white">Inhibits CYP19A1 Enzyme</div>
+                    </div>
+                    <div class="p-4 rounded bg-brand-charcoal border border-brand-border">
+                        <div class="text-red-400 font-mono text-sm mb-1">KEY RISK</div>
+                        <div class="font-semibold text-white">Estrogen Crash (&lt;10 pg/mL)</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- INTERACTIVE DOSING PROTOCOLS -->
+        <section id="dosing">
+            <div class="mb-6">
+                <h2 class="text-2xl font-mono font-bold text-white mb-2 flex items-center">
+                    <span class="w-2 h-8 bg-brand-blue mr-3 rounded-sm"></span>
+                    Dosing Protocols & Titration
+                </h2>
+                <p class="text-brand-muted">Select an administration method to view recommended starting protocols. Dosing is highly individual.</p>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+                <!-- Control Panel -->
+                <div class="lg:col-span-4 space-y-4">
+                    <div class="glass-panel rounded-lg p-6">
+                        <h3 class="font-mono text-brand-blue text-lg mb-4 uppercase">Configuration</h3>
+                        
+                        <div class="space-y-6">
+                            <div>
+                                <label class="block text-sm font-medium text-brand-muted mb-2">Administration Method</label>
+                                <div class="grid grid-cols-2 gap-2">
+                                    <button id="btn-oral" class="px-4 py-2 bg-brand-blue text-white font-mono rounded text-sm hover:bg-blue-600 transition-all border border-transparent shadow-[0_0_15px_rgba(59,130,246,0.3)]" onclick="setProtocol('oral')">ORAL (Tab)</button>
+                                    <button id="btn-inj" class="px-4 py-2 bg-brand-black text-brand-muted border border-brand-border hover:border-brand-muted font-mono rounded text-sm transition-all" onclick="setProtocol('inj')">INJECTABLE</button>
+                                </div>
+                            </div>
+
+                            <div>
+                                <label class="block text-sm font-medium text-brand-muted mb-2">Patient Status</label>
+                                <select id="patient-status" class="w-full bg-black border border-brand-border rounded px-3 py-2 text-white focus:outline-none focus:border-brand-blue font-mono text-sm" onchange="updateDisclaimer()">
+                                    <option value="naive">AI Naive (First Time)</option>
+                                    <option value="high">Known High Aromatizer</option>
+                                    <option value="sensitive">Sensitive / Low SHBG</option>
+                                </select>
+                            </div>
+                            
+                            <div class="pt-4 border-t border-brand-border">
+                                <div class="flex items-start">
+                                    <span class="text-brand-green text-xl mr-2">&#9888;</span>
+                                    <p id="dynamic-warning" class="text-xs text-brand-muted leading-tight">
+                                        Start LOW. It is easier to titrate up than to recover from crashed estrogen.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Protocol Display Card -->
+                <div class="lg:col-span-8">
+                    <div class="glass-panel rounded-lg p-1 h-full relative overflow-hidden">
+                        <div class="absolute inset-0 tech-grid opacity-10 pointer-events-none"></div>
+                        
+                        <div class="relative z-10 p-6 h-full flex flex-col justify-between">
+                            <!-- ORAL CONTENT -->
+                            <div id="protocol-oral" class="fade-in">
+                                <div class="flex justify-between items-start mb-6">
+                                    <div>
+                                        <h3 class="text-2xl font-bold text-white mb-1">Standard Oral Protocol</h3>
+                                        <span class="text-brand-blue font-mono text-sm">Tablet / Capsule Form</span>
+                                    </div>
+                                    <div class="text-right">
+                                        <div class="text-3xl font-mono font-bold text-white">0.25 - 0.5<span class="text-sm text-brand-muted">mg</span></div>
+                                        <div class="text-xs text-brand-muted uppercase">Per Dose Frequency</div>
+                                    </div>
+                                </div>
+
+                                <div class="space-y-4 mb-8">
+                                    <div class="bg-brand-black/50 p-4 rounded border-l-2 border-brand-blue">
+                                        <h4 class="font-mono text-white text-sm uppercase mb-1">Administration Timing</h4>
+                                        <p class="text-brand-muted text-sm">Take 12-24 hours post-testosterone injection to align peak AI levels with peak aromatization windows.</p>
+                                    </div>
+                                    
+                                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                        <div class="bg-brand-black/50 p-4 rounded border border-brand-border">
+                                            <h4 class="font-mono text-brand-green text-sm uppercase mb-1">Standard Start</h4>
+                                            <p class="text-white text-sm">0.25mg taken twice weekly (e.g., day after injections).</p>
+                                        </div>
+                                        <div class="bg-brand-black/50 p-4 rounded border border-brand-border">
+                                            <h4 class="font-mono text-brand-green text-sm uppercase mb-1">Conservative Start</h4>
+                                            <p class="text-white text-sm">0.125mg taken "as needed" based on confirmed high E2 symptoms.</p>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="border-t border-brand-border pt-4">
+                                    <h4 class="font-mono text-white text-sm uppercase mb-3">Pharmacokinetics (Oral)</h4>
+                                    <div class="flex space-x-8 text-sm">
+                                        <div>
+                                            <span class="block text-brand-muted text-xs">Half Life</span>
+                                            <span class="text-white font-mono">~40-50 Hours</span>
+                                        </div>
+                                        <div>
+                                            <span class="block text-brand-muted text-xs">Peak Plasma</span>
+                                            <span class="text-white font-mono">2 Hours</span>
+                                        </div>
+                                        <div>
+                                            <span class="block text-brand-muted text-xs">Steady State</span>
+                                            <span class="text-white font-mono">7 Days</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- INJECTABLE CONTENT -->
+                            <div id="protocol-inj" class="hidden-content fade-in">
+                                <div class="flex justify-between items-start mb-6">
+                                    <div>
+                                        <h3 class="text-2xl font-bold text-white mb-1">Compounded Injectable</h3>
+                                        <span class="text-brand-green font-mono text-sm">Co-formulated with Testosterone</span>
+                                    </div>
+                                    <div class="text-right">
+                                        <div class="text-3xl font-mono font-bold text-white">Ratio Based</div>
+                                        <div class="text-xs text-brand-muted uppercase">mg Anastrozole : mg Testosterone</div>
+                                    </div>
+                                </div>
+
+                                <div class="space-y-4 mb-8">
+                                    <div class="bg-brand-black/50 p-4 rounded border-l-2 border-brand-green">
+                                        <h4 class="font-mono text-white text-sm uppercase mb-1">Mechanism</h4>
+                                        <p class="text-brand-muted text-sm">Commonly compounded directly into the testosterone ester oil. This ensures compliance but removes the ability to titrate the AI independently from the Test dose.</p>
+                                    </div>
+                                    
+                                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                        <div class="bg-brand-black/50 p-4 rounded border border-brand-border">
+                                            <h4 class="font-mono text-brand-blue text-sm uppercase mb-1">Common Ratio A</h4>
+                                            <p class="text-white text-sm font-bold">1 mg : 200 mg</p>
+                                            <p class="text-brand-muted text-xs mt-1">1mg Anastrozole per 200mg Test (High Risk of Crash)</p>
+                                        </div>
+                                        <div class="bg-brand-black/50 p-4 rounded border border-brand-border">
+                                            <h4 class="font-mono text-brand-blue text-sm uppercase mb-1">Common Ratio B</h4>
+                                            <p class="text-white text-sm font-bold">0.1 mg : 200 mg</p>
+                                            <p class="text-brand-muted text-xs mt-1">"Micro-dosing" - Much safer starting point.</p>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="border-t border-brand-border pt-4">
+                                    <div class="flex items-center text-red-400">
+                                        <span class="text-xl mr-2 font-bold">!</span>
+                                        <p class="text-sm font-medium">Warning: If E2 crashes on compounded T+AI, the patient must switch to plain Testosterone immediately to allow recovery.</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- PHARMACOLOGY VISUALIZATION -->
+        <section id="pharmacology" class="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
+            <div class="order-2 lg:order-1">
+                <div class="glass-panel rounded-lg p-6">
+                    <h3 class="font-mono text-white text-lg mb-4">Dose vs. Estrogen Suppression</h3>
+                    <div class="chart-container">
+                        <canvas id="pkChart"></canvas>
+                    </div>
+                    <div class="mt-4 text-xs text-brand-muted text-center font-mono">
+                        *Theoretical reduction based on 1mg daily load (Clinical Data). TRT dosing uses micro-doses to avoid the >80% suppression zone.
+                    </div>
+                </div>
+            </div>
+            
+            <div class="order-1 lg:order-2 space-y-6">
+                <h2 class="text-2xl font-mono font-bold text-white flex items-center">
+                    <span class="w-2 h-8 bg-brand-green mr-3 rounded-sm"></span>
+                    Pharmacology & Mechanism
+                </h2>
+                <p class="text-brand-muted leading-relaxed">
+                    Anastrozole is a selective, non-steroidal inhibitor of the aromatase enzyme (CYP19A1). In men, aromatase is primarily found in adipose tissue.
+                </p>
+                
+                <ul class="space-y-4">
+                    <li class="flex items-start">
+                        <span class="flex-shrink-0 h-6 w-6 rounded bg-brand-border flex items-center justify-center text-brand-blue font-mono text-xs mr-3">01</span>
+                        <div>
+                            <strong class="text-white block">Potency</strong>
+                            <span class="text-sm text-brand-muted">1mg daily can suppress estradiol by ~80%. This is typically too potent for TRT, necessitating fractional dosing (0.125mg - 0.5mg).</span>
+                        </div>
+                    </li>
+                    <li class="flex items-start">
+                        <span class="flex-shrink-0 h-6 w-6 rounded bg-brand-border flex items-center justify-center text-brand-blue font-mono text-xs mr-3">02</span>
+                        <div>
+                            <strong class="text-white block">Rebound Effect</strong>
+                            <span class="text-sm text-brand-muted">Unlike suicidal inhibitors (Exemestane), Anastrozole binds reversibly. Upon cessation, a "rebound" in estrogen can occur as the enzyme becomes active again. Tapering is often recommended.</span>
+                        </div>
+                    </li>
+                    <li class="flex items-start">
+                        <span class="flex-shrink-0 h-6 w-6 rounded bg-brand-border flex items-center justify-center text-brand-blue font-mono text-xs mr-3">03</span>
+                        <div>
+                            <strong class="text-white block">Lipid Impact</strong>
+                            <span class="text-sm text-brand-muted">AI use often negatively impacts lipid profiles (Lower HDL). This is a primary reason to minimize dose frequency.</span>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- MONITORING MATRIX -->
+        <section id="safety">
+            <div class="mb-8">
+                <h2 class="text-2xl font-mono font-bold text-white mb-2 flex items-center">
+                    <span class="w-2 h-8 bg-white mr-3 rounded-sm"></span>
+                    Clinical Monitoring Matrix
+                </h2>
+                <p class="text-brand-muted">Distinguishing between High E2 and Crashed E2 is critical, as symptoms often overlap.</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <!-- High E2 Card -->
+                <div class="glass-panel rounded-lg p-6 group hover:border-brand-blue transition-colors">
+                    <div class="flex items-center justify-between mb-4">
+                        <h3 class="text-xl font-bold text-white">High Estradiol</h3>
+                        <span class="px-2 py-1 bg-brand-blue/20 text-brand-blue text-xs font-mono rounded">OVER-AROMATIZATION</span>
+                    </div>
+                    <ul class="space-y-2 text-sm text-brand-muted">
+                        <li class="flex items-center"><span class="w-1.5 h-1.5 bg-brand-blue rounded-full mr-2"></span>Water Retention / Bloating</li>
+                        <li class="flex items-center"><span class="w-1.5 h-1.5 bg-brand-blue rounded-full mr-2"></span>High Blood Pressure</li>
+                        <li class="flex items-center"><span class="w-1.5 h-1.5 bg-brand-blue rounded-full mr-2"></span>Emotional Lability (Crying/Anger)</li>
+                        <li class="flex items-center"><span class="w-1.5 h-1.5 bg-brand-blue rounded-full mr-2"></span>Sensitive Nipples / Gyno</li>
+                        <li class="flex items-center"><span class="w-1.5 h-1.5 bg-brand-blue rounded-full mr-2"></span>Oily Skin / Acne</li>
+                    </ul>
+                    <div class="mt-6 pt-4 border-t border-brand-border">
+                        <p class="text-xs font-mono text-white mb-1">ACTION:</p>
+                        <p class="text-sm text-brand-muted">Confirm with bloodwork (E2 Sensitive LC/MS). Introduce AI at lowest effective dose (0.125mg-0.25mg).</p>
+                    </div>
+                </div>
+
+                <!-- Low E2 Card -->
+                <div class="glass-panel rounded-lg p-6 group hover:border-red-400 transition-colors">
+                    <div class="flex items-center justify-between mb-4">
+                        <h3 class="text-xl font-bold text-white">Crashed Estradiol</h3>
+                        <span class="px-2 py-1 bg-red-900/20 text-red-400 text-xs font-mono rounded">AI OVER-USE</span>
+                    </div>
+                    <ul class="space-y-2 text-sm text-brand-muted">
+                        <li class="flex items-center"><span class="w-1.5 h-1.5 bg-red-400 rounded-full mr-2"></span>Joint Pain / Clicking (Dryness)</li>
+                        <li class="flex items-center"><span class="w-1.5 h-1.5 bg-red-400 rounded-full mr-2"></span>Loss of Libido / ED</li>
+                        <li class="flex items-center"><span class="w-1.5 h-1.5 bg-red-400 rounded-full mr-2"></span>Fatigue / Lethargy</li>
+                        <li class="flex items-center"><span class="w-1.5 h-1.5 bg-red-400 rounded-full mr-2"></span>Anhedonia (Flat Mood)</li>
+                        <li class="flex items-center"><span class="w-1.5 h-1.5 bg-red-400 rounded-full mr-2"></span>Dehydration symptoms</li>
+                    </ul>
+                    <div class="mt-6 pt-4 border-t border-brand-border">
+                        <p class="text-xs font-mono text-white mb-1">ACTION:</p>
+                        <p class="text-sm text-brand-muted">STOP AI immediately. Increase Testosterone dose or administer HCG/DHEA to drive aromatization. Recovery takes weeks.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Monitoring Timeline -->
+            <div class="mt-8 glass-panel rounded-lg p-6">
+                <h3 class="font-mono text-white text-sm uppercase mb-4">Standard Bloodwork Timeline</h3>
+                <div class="relative">
+                    <div class="absolute top-1/2 left-0 w-full h-0.5 bg-brand-border -translate-y-1/2 hidden md:block"></div>
+                    <div class="grid grid-cols-1 md:grid-cols-4 gap-4 relative z-10">
+                        <div class="bg-brand-black border border-brand-border p-3 rounded text-center">
+                            <div class="w-8 h-8 mx-auto bg-brand-blue text-black font-bold rounded-full flex items-center justify-center mb-2">0</div>
+                            <div class="text-xs font-mono text-brand-muted">Baseline</div>
+                            <div class="text-sm text-white font-semibold">Pre-TRT</div>
+                        </div>
+                        <div class="bg-brand-black border border-brand-border p-3 rounded text-center">
+                            <div class="w-8 h-8 mx-auto bg-brand-surface border border-brand-blue text-brand-blue font-bold rounded-full flex items-center justify-center mb-2">6</div>
+                            <div class="text-xs font-mono text-brand-muted">Week 6</div>
+                            <div class="text-sm text-white font-semibold">First Check</div>
+                        </div>
+                        <div class="bg-brand-black border border-brand-border p-3 rounded text-center">
+                            <div class="w-8 h-8 mx-auto bg-brand-surface border border-brand-blue text-brand-blue font-bold rounded-full flex items-center justify-center mb-2">12</div>
+                            <div class="text-xs font-mono text-brand-muted">Week 12</div>
+                            <div class="text-sm text-white font-semibold">Titration</div>
+                        </div>
+                        <div class="bg-brand-black border border-brand-border p-3 rounded text-center">
+                            <div class="w-8 h-8 mx-auto bg-brand-surface border border-brand-green text-brand-green font-bold rounded-full flex items-center justify-center mb-2">26</div>
+                            <div class="text-xs font-mono text-brand-muted">6 Months</div>
+                            <div class="text-sm text-white font-semibold">Stability</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- ========================================
+         STANDARDIZED FOOTER
+         ======================================== -->
+    <footer class="mt-12 pt-8 border-t border-brand-border/30">
+        <div class="max-w-7xl mx-auto px-4">
+            <div class="bg-brand-charcoal/50 border border-brand-border rounded-lg p-6 mb-6">
+                <div class="flex items-start gap-3">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-brand-muted flex-shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                    </svg>
+                    <div>
+                        <p class="text-xs text-brand-text leading-relaxed">
+                            <span class="text-white font-bold">LEGAL DISCLAIMER:</span> This platform is a <span class="text-white font-semibold">clinical reference tool</span> designed to summarize available research literature and pharmacological data for educational purposes. It is <span class="text-red-400 font-bold">NOT</span> a dosing guide, prescriptive engine, or substitute for professional medical training. Anastrozole is an FDA-approved medication for breast cancer; its use in male hormone optimization is off-label.
+                        </p>
+                        <p class="text-[10px] text-brand-muted mt-3 tracking-wide uppercase">
+                            Secure Clinical Environment | HIPAA Compliant | Authorized Personnel Only
+                        </p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="flex flex-col md:flex-row justify-between items-center text-[10px] text-brand-muted font-mono uppercase pb-8">
+                <div>Multifactor Solutions &copy; 2024</div>
+                <div class="mt-2 md:mt-0 flex items-center">
+                    <span class="w-2 h-2 rounded-full bg-brand-blue mr-2"></span>
+                    For Clinical Educational Use Only.
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        let currentProtocol = 'oral';
+
+        function setProtocol(type) {
+            currentProtocol = type;
+            
+            const btnOral = document.getElementById('btn-oral');
+            const btnInj = document.getElementById('btn-inj');
+            
+            const contentOral = document.getElementById('protocol-oral');
+            const contentInj = document.getElementById('protocol-inj');
+
+            if (type === 'oral') {
+                btnOral.classList.add('bg-brand-blue', 'text-white', 'shadow-[0_0_15px_rgba(59,130,246,0.3)]', 'border-transparent');
+                btnOral.classList.remove('bg-brand-black', 'text-brand-muted', 'border-brand-border');
+                
+                btnInj.classList.remove('bg-brand-blue', 'text-white', 'shadow-[0_0_15px_rgba(59,130,246,0.3)]', 'border-transparent');
+                btnInj.classList.add('bg-brand-black', 'text-brand-muted', 'border-brand-border');
+
+                contentOral.classList.remove('hidden-content');
+                contentInj.classList.add('hidden-content');
+            } else {
+                btnInj.classList.add('bg-brand-blue', 'text-white', 'shadow-[0_0_15px_rgba(59,130,246,0.3)]', 'border-transparent');
+                btnInj.classList.remove('bg-brand-black', 'text-brand-muted', 'border-brand-border');
+
+                btnOral.classList.remove('bg-brand-blue', 'text-white', 'shadow-[0_0_15px_rgba(59,130,246,0.3)]', 'border-transparent');
+                btnOral.classList.add('bg-brand-black', 'text-brand-muted', 'border-brand-border');
+
+                contentInj.classList.remove('hidden-content');
+                contentOral.classList.add('hidden-content');
+            }
+        }
+
+        function updateDisclaimer() {
+            const status = document.getElementById('patient-status').value;
+            const warningText = document.getElementById('dynamic-warning');
+
+            if (status === 'naive') {
+                warningText.innerHTML = "Start LOW (0.125mg). Naive patients often over-respond to AIs, leading to rapid crashes.";
+                warningText.className = "text-xs text-brand-muted leading-tight";
+            } else if (status === 'high') {
+                warningText.innerHTML = "High aromatizers may require more frequent dosing, but verify with E2 Sensitive bloodwork first.";
+                warningText.className = "text-xs text-brand-blue leading-tight";
+            } else if (status === 'sensitive') {
+                warningText.innerHTML = "CRITICAL: Sensitive patients (Low SHBG) may crash on even micro-doses. Consider Zinc/DIM first.";
+                warningText.className = "text-xs text-red-400 leading-tight font-bold";
+            }
+        }
+
+        function scrollToSection(id) {
+            const el = document.getElementById(id);
+            if (el) {
+                el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const ctx = document.getElementById('pkChart').getContext('2d');
+            
+            let gradient = ctx.createLinearGradient(0, 0, 0, 400);
+            gradient.addColorStop(0, 'rgba(59, 130, 246, 0.5)');
+            gradient.addColorStop(1, 'rgba(59, 130, 246, 0.0)');
+
+            const pkChart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: ['0mg', '0.25mg', '0.5mg', '1.0mg', '2.0mg'],
+                    datasets: [{
+                        label: 'E2 Suppression (%)',
+                        data: [0, 40, 60, 80, 95],
+                        borderColor: '#3b82f6',
+                        backgroundColor: gradient,
+                        borderWidth: 2,
+                        pointBackgroundColor: '#10b981',
+                        pointBorderColor: '#fff',
+                        fill: true,
+                        tension: 0.4
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            display: true,
+                            labels: {
+                                color: '#a1a1aa',
+                                font: { family: 'Rajdhani' }
+                            }
+                        },
+                        tooltip: {
+                            backgroundColor: '#18181b',
+                            titleColor: '#fff',
+                            bodyColor: '#a1a1aa',
+                            borderColor: '#27272a',
+                            borderWidth: 1,
+                            callbacks: {
+                                label: function(context) {
+                                    return `Suppression: ~${context.raw}%`;
+                                }
+                            }
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            max: 100,
+                            grid: {
+                                color: '#27272a'
+                            },
+                            ticks: {
+                                color: '#a1a1aa',
+                                callback: function(value) {
+                                    return value + '%';
+                                }
+                            },
+                            title: {
+                                display: true,
+                                text: '% Reduction in Plasma E2',
+                                color: '#6b7280',
+                                font: { size: 10, family: 'Rajdhani' }
+                            }
+                        },
+                        x: {
+                            grid: {
+                                color: '#27272a'
+                            },
+                            ticks: {
+                                color: '#a1a1aa',
+                                font: { family: 'Rajdhani' }
+                            },
+                            title: {
+                                display: true,
+                                text: 'Daily Dose Load',
+                                color: '#6b7280',
+                                font: { size: 10, family: 'Rajdhani' }
+                            }
+                        }
+                    }
+                }
+            });
+        });
+    </script>
+</body>
+</html>
