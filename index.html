@@ -45,11 +45,10 @@
         body {
             background-color: #000000;
             color: #e4e4e7;
-            /* More black, less blue gradient */
+            /* Pure black - no green tint! */
             background-image: 
-                radial-gradient(ellipse at 30% 20%, rgba(16, 185, 129, 0.08) 0%, transparent 50%),
-                radial-gradient(ellipse at 70% 80%, rgba(59, 130, 246, 0.06) 0%, transparent 50%),
-                linear-gradient(180deg, #000000 0%, #0a0a0a 100%);
+                radial-gradient(ellipse at 70% 80%, rgba(59, 130, 246, 0.03) 0%, transparent 50%),
+                linear-gradient(180deg, #000000 0%, #000000 100%);
         }
         
         /* Glassmorphism Cards - Darker base */
@@ -69,14 +68,14 @@
             transform: translateY(-4px);
         }
 
-        /* Subtle animated glows - MORE BLACK dominant */
+        /* Subtle animated glows - MINIMAL */
         .glow-green {
             position: absolute;
             width: 600px;
             height: 600px;
-            background: radial-gradient(circle, rgba(16, 185, 129, 0.08) 0%, transparent 70%);
+            background: radial-gradient(circle, rgba(16, 185, 129, 0.02) 0%, transparent 70%);
             pointer-events: none;
-            filter: blur(80px);
+            filter: blur(100px);
             animation: float-slow 25s ease-in-out infinite;
         }
         
@@ -84,9 +83,9 @@
             position: absolute;
             width: 500px;
             height: 500px;
-            background: radial-gradient(circle, rgba(59, 130, 246, 0.05) 0%, transparent 70%);
+            background: radial-gradient(circle, rgba(59, 130, 246, 0.02) 0%, transparent 70%);
             pointer-events: none;
-            filter: blur(80px);
+            filter: blur(100px);
             animation: float-slow 20s ease-in-out infinite reverse;
         }
 
@@ -164,7 +163,7 @@
             color: #00ffa3;
         }
 
-        /* Custom Scrollbar - Green accent */
+        /* Custom Scrollbar - Charcoal/Dark Blue */
         ::-webkit-scrollbar {
             width: 10px;
         }
@@ -172,11 +171,11 @@
             background: #000000;
         }
         ::-webkit-scrollbar-thumb {
-            background: linear-gradient(180deg, #10b981 0%, #059669 100%);
+            background: #1a1a2e;
             border-radius: 5px;
         }
         ::-webkit-scrollbar-thumb:hover {
-            background: linear-gradient(180deg, #00ffa3 0%, #10b981 100%);
+            background: #252540;
         }
 
         /* Hero text animation */
