@@ -1,0 +1,502 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tadalafil | Clinical Reference Guide</title>
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Rajdhani:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            black: '#050505',
+                            charcoal: '#0f0f11',
+                            surface: '#18181b',
+                            border: '#27272a',
+                            green: '#10b981',
+                            neonGreen: '#00ffa3',
+                            blue: '#3b82f6',
+                            neonBlue: '#00d4ff',
+                            deepBlue: '#1e3a8a',
+                            text: '#e4e4e7',
+                            muted: '#a1a1aa'
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        mono: ['Rajdhani', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <style>
+        body {
+            background-color: #050505;
+            color: #e4e4e7;
+            background-image: radial-gradient(circle at 50% 0%, #18181b 0%, #050505 45%);
+        }
+        
+        .glass-panel {
+            background: rgba(15, 15, 17, 0.7);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(59, 130, 246, 0.2); 
+        }
+
+        /* Neon Blue Utilities */
+        .neon-text-blue {
+            text-shadow: 0 0 10px rgba(59, 130, 246, 0.5);
+        }
+        
+        .section-marker {
+            width: 4px;
+            height: 24px;
+            background: #3b82f6;
+            box-shadow: 0 0 8px #3b82f6;
+            margin-right: 12px;
+        }
+
+        .section-marker.green {
+            background: #10b981;
+            box-shadow: 0 0 8px #10b981;
+        }
+
+        /* Tab States */
+        .tab-active {
+            background: rgba(59, 130, 246, 0.15);
+            border: 1px solid #3b82f6;
+            color: #00d4ff;
+            box-shadow: 0 0 10px rgba(59, 130, 246, 0.1);
+        }
+        
+        .tab-inactive {
+            background: rgba(24, 24, 27, 0.5);
+            border: 1px solid #27272a;
+            color: #a1a1aa;
+        }
+        .tab-inactive:hover {
+            border-color: #3b82f6;
+            color: #e4e4e7;
+        }
+
+        /* Custom Selection */
+        ::selection {
+            background: rgba(59, 130, 246, 0.3);
+            color: #00d4ff;
+        }
+
+        /* Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(5px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .animate-fade-in {
+            animation: fadeIn 0.3s ease-out forwards;
+        }
+    </style>
+</head>
+<body class="min-h-screen p-4 md:p-8 font-sans">
+
+    <div class="max-w-7xl mx-auto space-y-6">
+        
+        <!-- ========================================
+             STANDARDIZED HEADER
+             ======================================== -->
+        <header class="flex items-center gap-4 border-b border-brand-border/50 pb-4 mb-8">
+            <!-- Back Button -->
+            <a href="index.html" class="text-brand-muted hover:text-brand-blue transition-colors">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+                </svg>
+            </a>
+            
+            <!-- Logo -->
+            <div class="w-12 h-12 bg-brand-surface border border-brand-blue flex items-center justify-center rounded shadow-[0_0_10px_rgba(59,130,246,0.3)]">
+                <span class="font-mono font-bold text-brand-neonGreen text-lg">M</span>
+            </div>
+            
+            <!-- Module Title -->
+            <div>
+                <h1 class="font-mono text-2xl md:text-3xl font-bold tracking-wider text-white uppercase">
+                    Tadalafil <span class="text-brand-muted text-lg font-medium">/ Cialis</span>
+                </h1>
+                <p class="text-brand-muted text-xs tracking-[0.15em] font-mono uppercase">Clinical Reference</p>
+            </div>
+            
+            <!-- Class Badge (right side on desktop) -->
+            <div class="hidden md:block ml-auto text-right">
+                <div class="text-xs text-brand-muted font-mono uppercase">Class</div>
+                <div class="text-brand-neonBlue font-mono neon-text-blue">PDE5 Inhibitor</div>
+            </div>
+        </header>
+
+        <!-- Top Section: Profile & Pharmacology -->
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+            
+            <!-- Left: Functional Profile -->
+            <div class="col-span-1 lg:col-span-2 glass-panel rounded-xl p-6 relative overflow-hidden">
+                <div class="flex items-center mb-4">
+                    <div class="section-marker"></div>
+                    <h2 class="font-mono text-xl text-brand-neonBlue uppercase font-semibold">Functional Profile</h2>
+                </div>
+                <p class="text-sm text-brand-muted leading-relaxed mb-4">
+                    Tadalafil is a selective phosphodiesterase type 5 (PDE5) inhibitor. Unlike Sildenafil (Viagra), Tadalafil boasts a unique pharmacokinetic profile characterized by a <span class="text-brand-neonBlue font-medium">17.5-hour half-life</span>. This "Weekend Pill" property allows for steady-state plasma concentrations with daily low-dose administration, offering 24/7 therapeutic coverage.
+                </p>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-6">
+                    <div class="bg-brand-charcoal border border-brand-blue/30 p-3 rounded hover:border-brand-blue/60 transition-colors">
+                        <div class="text-xs text-brand-blue font-mono uppercase mb-1">Target Indications</div>
+                        <div class="text-sm text-white">ED, BPH (Lower Urinary Tract Symptoms), Pulmonary Arterial Hypertension.</div>
+                    </div>
+                    <div class="bg-brand-charcoal border border-brand-green/30 p-3 rounded hover:border-brand-green/60 transition-colors">
+                        <div class="text-xs text-brand-green font-mono uppercase mb-1">Functional Uses</div>
+                        <div class="text-sm text-white">Endothelial Health, Nitric Oxide Optimization, "Gym Pumps", Estrogen Modulation.</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right: Key Kinetics -->
+            <div class="glass-panel rounded-xl p-6 flex flex-col justify-between">
+                <div class="flex items-center mb-4">
+                    <div class="section-marker green"></div>
+                    <h2 class="font-mono text-xl text-brand-green uppercase font-semibold">Kinetics</h2>
+                </div>
+                <div class="space-y-4">
+                    <div class="flex justify-between items-end border-b border-brand-border pb-2">
+                        <span class="text-brand-muted text-sm font-mono">HALF-LIFE</span>
+                        <span class="text-2xl font-mono text-white font-bold">17.5 <span class="text-sm text-brand-blue">hrs</span></span>
+                    </div>
+                    <div class="flex justify-between items-end border-b border-brand-border pb-2">
+                        <span class="text-brand-muted text-sm font-mono">T-MAX (Peak)</span>
+                        <span class="text-2xl font-mono text-white font-bold">2.0 <span class="text-sm text-brand-blue">hrs</span></span>
+                    </div>
+                    <div class="flex justify-between items-end border-b border-brand-border pb-2">
+                        <span class="text-brand-muted text-sm font-mono">STEADY STATE</span>
+                        <span class="text-2xl font-mono text-white font-bold">Day 5</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Middle Section: Dosing Protocols & Chart -->
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+            
+            <!-- Dosing Protocols (Interactive) -->
+            <div class="lg:col-span-7 glass-panel rounded-xl p-6">
+                <div class="flex items-center justify-between mb-6">
+                    <div class="flex items-center">
+                        <div class="section-marker"></div>
+                        <h2 class="font-mono text-xl text-brand-neonBlue uppercase font-semibold">Dosing Protocols</h2>
+                    </div>
+                    <div class="flex space-x-2">
+                        <button onclick="switchTab('daily')" id="btn-daily" class="px-4 py-1 text-xs font-mono font-bold uppercase rounded transition-all tab-active">Daily</button>
+                        <button onclick="switchTab('demand')" id="btn-demand" class="px-4 py-1 text-xs font-mono font-bold uppercase rounded transition-all tab-inactive">On-Demand</button>
+                    </div>
+                </div>
+
+                <!-- Dynamic Content Area -->
+                <div id="protocol-content" class="min-h-[220px]">
+                    <!-- Daily Content (Default) -->
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 animate-fade-in">
+                        <div class="bg-brand-charcoal border border-brand-blue/50 p-5 rounded-lg shadow-[0_0_15px_rgba(59,130,246,0.05)]">
+                            <div class="text-xs text-brand-muted font-mono uppercase">Standard Daily Dose</div>
+                            <div class="text-4xl font-mono text-white font-bold my-2">2.5 - 5 <span class="text-lg text-brand-blue">mg</span></div>
+                            <div class="text-xs text-brand-green mt-2 flex items-center">
+                                <span class="w-2 h-2 rounded-full bg-brand-green mr-2 animate-pulse"></span>
+                                Accumulates to 1.6x concentration
+                            </div>
+                        </div>
+                        <div class="space-y-4">
+                            <div>
+                                <div class="text-xs text-brand-blue font-bold font-mono uppercase mb-1">Timing</div>
+                                <p class="text-sm text-brand-muted">Take at the same time every day. Effect is continuous regardless of timing relative to sexual activity.</p>
+                            </div>
+                            <div>
+                                <div class="text-xs text-brand-blue font-bold font-mono uppercase mb-1">Clinical Goal</div>
+                                <p class="text-sm text-brand-muted">Spontaneity, BPH symptom relief, endothelial function improvement.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mt-4 pt-4 border-t border-brand-border text-xs text-brand-muted">
+                        <span class="text-brand-green font-bold bg-brand-green/10 px-2 py-0.5 rounded border border-brand-green/20 mr-2">PEARL</span> 
+                        Lower side effect profile (headache/flushing) compared to on-demand high doses due to lower peak plasma concentrations.
+                    </div>
+                </div>
+            </div>
+
+            <!-- Chart Section -->
+            <div class="lg:col-span-5 glass-panel rounded-xl p-6 relative">
+                <div class="flex items-center justify-between mb-2">
+                    <h3 class="font-mono text-sm text-brand-blue uppercase font-bold">Pharmacokinetics (20mg)</h3>
+                    <span class="text-[10px] text-brand-blue border border-brand-blue px-2 py-0.5 rounded">Single Dose</span>
+                </div>
+                <div class="h-[200px] w-full">
+                    <canvas id="pkChart"></canvas>
+                </div>
+                <div class="absolute bottom-4 right-6 text-[10px] text-gray-500 font-mono">
+                    <span class="text-brand-blue">●</span> Tadalafil vs <span class="text-gray-500">●</span> Sildenafil
+                </div>
+            </div>
+        </div>
+
+        <!-- Bottom Section: Quirks, Safety, Washout -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+            
+            <!-- Washout / Cycling -->
+            <div class="col-span-1 md:col-span-2 lg:col-span-1 bg-brand-surface border border-brand-blue/30 rounded-xl p-5 shadow-[0_4px_20px_rgba(0,0,0,0.3)]">
+                <h3 class="font-mono text-brand-blue font-bold uppercase mb-3 text-sm flex items-center border-b border-brand-border pb-2">
+                    <span class="mr-2 text-lg">↺</span> Cycling & Washout
+                </h3>
+                <div class="space-y-4 pt-1">
+                    <div class="flex items-start">
+                        <div class="w-6 h-6 rounded bg-brand-charcoal border border-brand-blue text-brand-blue flex items-center justify-center text-xs font-mono font-bold mr-3 shrink-0">1</div>
+                        <div>
+                            <div class="text-xs font-bold text-white uppercase">The 5-Day Rule</div>
+                            <p class="text-[11px] text-brand-muted leading-tight mt-1">Due to the 17.5h half-life, it takes ~4-5 days for Tadalafil to fully clear the system (<5%).</p>
+                        </div>
+                    </div>
+                    <div class="flex items-start">
+                        <div class="w-6 h-6 rounded bg-brand-charcoal border border-brand-blue text-brand-blue flex items-center justify-center text-xs font-mono font-bold mr-3 shrink-0">2</div>
+                        <div>
+                            <div class="text-xs font-bold text-white uppercase">When to Cycle Off?</div>
+                            <p class="text-[11px] text-brand-muted leading-tight mt-1">If "Back Pump" or myalgia becomes persistent. Take a 5-7 day break to reset.</p>
+                        </div>
+                    </div>
+                    <div class="bg-red-950/20 p-2 rounded border border-red-900/40 mt-2">
+                        <p class="text-[10px] text-red-400"><strong>CRITICAL:</strong> Wait 48+ hours after last dose before nitrate administration.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Quirks Matrix -->
+            <div class="col-span-1 md:col-span-2 lg:col-span-3 grid grid-cols-1 md:grid-cols-3 gap-4">
+                
+                <!-- Quirk 1 -->
+                <div class="group border border-brand-border hover:border-brand-blue bg-brand-charcoal p-4 rounded-xl transition-all duration-300 relative overflow-hidden">
+                    <div class="flex justify-between items-start mb-2 relative z-10">
+                        <h4 class="font-mono text-white font-bold text-sm uppercase group-hover:text-brand-neonBlue transition-colors">The "Back Pump"</h4>
+                        <span class="text-[10px] px-1 bg-yellow-900/20 text-yellow-500 border border-yellow-900/50 rounded">Common</span>
+                    </div>
+                    <p class="text-[11px] text-brand-muted mb-3 relative z-10">Lower back myalgia due to PDE11 inhibition in skeletal muscle. Often mimics kidney pain.</p>
+                    <div class="text-[10px] text-brand-green font-mono border-t border-brand-border pt-2 group-hover:border-brand-blue/30 relative z-10">
+                        <span class="text-brand-blue font-bold">RX:</span> Taurine (2-3g), Hydration.
+                    </div>
+                </div>
+
+                <!-- Quirk 2 -->
+                <div class="group border border-brand-border hover:border-brand-blue bg-brand-charcoal p-4 rounded-xl transition-all duration-300 relative overflow-hidden">
+                    <div class="flex justify-between items-start mb-2 relative z-10">
+                        <h4 class="font-mono text-white font-bold text-sm uppercase group-hover:text-brand-neonBlue transition-colors">Reflux / GERD</h4>
+                        <span class="text-[10px] px-1 bg-blue-900/20 text-blue-500 border border-blue-900/50 rounded">Mech</span>
+                    </div>
+                    <p class="text-[11px] text-brand-muted mb-3 relative z-10">PDE5 inhibition relaxes the Lower Esophageal Sphincter (LES), allowing acid reflux.</p>
+                    <div class="text-[10px] text-brand-green font-mono border-t border-brand-border pt-2 group-hover:border-brand-blue/30 relative z-10">
+                        <span class="text-brand-blue font-bold">RX:</span> Take with food, stay upright.
+                    </div>
+                </div>
+
+                <!-- Quirk 3 -->
+                <div class="group border border-brand-border hover:border-brand-blue bg-brand-charcoal p-4 rounded-xl transition-all duration-300 relative overflow-hidden">
+                    <div class="flex justify-between items-start mb-2 relative z-10">
+                        <h4 class="font-mono text-white font-bold text-sm uppercase group-hover:text-brand-neonBlue transition-colors">Blue Vision</h4>
+                        <span class="text-[10px] px-1 bg-purple-900/20 text-purple-500 border border-purple-900/50 rounded">Rare</span>
+                    </div>
+                    <p class="text-[11px] text-brand-muted mb-3 relative z-10">Less common than Sildenafil. Caused by cross-reaction with PDE6 in the retina.</p>
+                    <div class="text-[10px] text-brand-green font-mono border-t border-brand-border pt-2 group-hover:border-brand-blue/30 relative z-10">
+                        <span class="text-brand-blue font-bold">RX:</span> Stop and reduce dose.
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- ========================================
+             STANDARDIZED FOOTER
+             ======================================== -->
+        <footer class="mt-12 pt-8 border-t border-brand-border/30">
+            <!-- Legal Disclaimer -->
+            <div class="bg-brand-charcoal/50 border border-brand-border rounded-lg p-6 mb-6">
+                <div class="flex items-start gap-3">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-brand-muted flex-shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                    </svg>
+                    <div>
+                        <p class="text-xs text-brand-text leading-relaxed">
+                            <span class="text-white font-bold">LEGAL DISCLAIMER:</span> This platform is a <span class="text-white font-semibold">clinical reference tool</span> designed to summarize available research literature and pharmacological data for educational purposes. It is <span class="text-red-400 font-bold">NOT</span> a dosing guide, prescriptive engine, or substitute for professional medical training. All protocols, calculations, and visualizations are theoretical and based on off-label observations. Licensed healthcare providers must exercise independent clinical judgment and verify all information against primary literature and local regulations.
+                        </p>
+                        <p class="text-[10px] text-brand-muted mt-3 tracking-wide uppercase">
+                            Secure Clinical Environment | HIPAA Compliant | Authorized Personnel Only
+                        </p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Copyright -->
+            <div class="flex flex-col md:flex-row justify-between items-center text-[10px] text-brand-muted font-mono uppercase">
+                <div>Multifactor Solutions &copy; 2024</div>
+                <div class="mt-2 md:mt-0 flex items-center">
+                    <span class="w-2 h-2 rounded-full bg-brand-blue mr-2"></span>
+                    For Clinical Educational Use Only.
+                </div>
+            </div>
+        </footer>
+
+    </div>
+
+    <!-- Scripts -->
+    <script>
+        // Data Objects
+        const protocols = {
+            daily: {
+                dose: "2.5 - 5 <span class='text-lg text-brand-blue'>mg</span>",
+                title: "Standard Daily Dose",
+                note: "<span class='w-2 h-2 rounded-full bg-brand-green mr-2 animate-pulse'></span> Accumulates to 1.6x concentration",
+                timing: "Take at the same time every day. Effect is continuous regardless of timing relative to sexual activity.",
+                goal: "Spontaneity, BPH symptom relief, endothelial function improvement.",
+                pearl: "Lower side effect profile (headache/flushing) compared to on-demand high doses due to lower peak plasma concentrations."
+            },
+            demand: {
+                dose: "10 - 20 <span class='text-lg text-brand-blue'>mg</span>",
+                title: "On-Demand (PRN)",
+                note: "<span class='w-2 h-2 rounded-full bg-brand-blue mr-2'></span> Duration: Up to 36 Hours",
+                timing: "Take at least 30-60 minutes prior to sexual activity. Peak effect reached at 2 hours.",
+                goal: "Maximum erectile rigidity for specific events. Not optimized for BPH.",
+                pearl: "Higher incidence of headache and back pain due to rapid peak concentration. Effective for up to 36 hours ('Weekend Pill')."
+            }
+        };
+
+        // Tab Switcher Logic
+        function switchTab(tab) {
+            const content = protocols[tab];
+            const container = document.getElementById('protocol-content');
+            
+            // Update Buttons
+            document.getElementById('btn-daily').className = tab === 'daily' ? 
+                "px-4 py-1 text-xs font-mono font-bold uppercase rounded transition-all tab-active" : 
+                "px-4 py-1 text-xs font-mono font-bold uppercase rounded transition-all tab-inactive";
+                
+            document.getElementById('btn-demand').className = tab === 'demand' ? 
+                "px-4 py-1 text-xs font-mono font-bold uppercase rounded transition-all tab-active" : 
+                "px-4 py-1 text-xs font-mono font-bold uppercase rounded transition-all tab-inactive";
+
+            // Update Content with simple Fade
+            container.style.opacity = '0';
+            
+            setTimeout(() => {
+                container.innerHTML = `
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div class="bg-brand-charcoal border border-brand-blue/50 p-5 rounded-lg shadow-[0_0_15px_rgba(59,130,246,0.05)]">
+                            <div class="text-xs text-brand-muted font-mono uppercase">${content.title}</div>
+                            <div class="text-4xl font-mono text-white font-bold my-2">${content.dose}</div>
+                            <div class="text-xs text-brand-green mt-2 flex items-center">
+                                ${content.note}
+                            </div>
+                        </div>
+                        <div class="space-y-4">
+                            <div>
+                                <div class="text-xs text-brand-blue font-bold font-mono uppercase mb-1">Timing</div>
+                                <p class="text-sm text-brand-muted">${content.timing}</p>
+                            </div>
+                            <div>
+                                <div class="text-xs text-brand-blue font-bold font-mono uppercase mb-1">Clinical Goal</div>
+                                <p class="text-sm text-brand-muted">${content.goal}</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mt-4 pt-4 border-t border-brand-border text-xs text-brand-muted">
+                        <span class="text-brand-green font-bold bg-brand-green/10 px-2 py-0.5 rounded border border-brand-green/20 mr-2">PEARL</span> 
+                        ${content.pearl}
+                    </div>
+                `;
+                container.style.opacity = '1';
+            }, 200);
+        }
+
+        // Chart Initialization
+        document.addEventListener('DOMContentLoaded', function() {
+            const ctx = document.getElementById('pkChart').getContext('2d');
+            
+            const hours = [0, 1, 2, 4, 8, 12, 17.5, 24, 36, 48];
+            const tadalafilData = [0, 45, 100, 85, 70, 60, 50, 40, 25, 15];
+            const sildenafilData = [0, 80, 60, 20, 5, 0, 0, 0, 0, 0];
+
+            new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: hours,
+                    datasets: [
+                        {
+                            label: 'Tadalafil (20mg)',
+                            data: tadalafilData,
+                            borderColor: '#3b82f6',
+                            backgroundColor: 'rgba(59, 130, 246, 0.1)',
+                            borderWidth: 2,
+                            tension: 0.4,
+                            fill: true,
+                            pointRadius: 0,
+                            pointHoverRadius: 4,
+                            pointHoverBackgroundColor: '#00d4ff',
+                            pointHoverBorderColor: '#fff'
+                        },
+                        {
+                            label: 'Sildenafil (100mg)',
+                            data: sildenafilData,
+                            borderColor: '#52525b',
+                            borderWidth: 2,
+                            borderDash: [5, 5],
+                            tension: 0.4,
+                            fill: false,
+                            pointRadius: 0
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { display: false },
+                        tooltip: {
+                            mode: 'index',
+                            intersect: false,
+                            backgroundColor: '#18181b',
+                            titleFont: { family: 'Rajdhani', color: '#3b82f6' },
+                            bodyFont: { family: 'Inter' },
+                            borderColor: '#3b82f6',
+                            borderWidth: 1,
+                            padding: 10
+                        }
+                    },
+                    scales: {
+                        x: {
+                            grid: { display: false, drawBorder: false },
+                            ticks: { color: '#71717a', font: { family: 'Rajdhani', size: 10 }, callback: function(val) { return this.getLabelForValue(val) + 'h'; } }
+                        },
+                        y: {
+                            display: false,
+                            grid: { display: false }
+                        }
+                    },
+                    interaction: {
+                        mode: 'nearest',
+                        axis: 'x',
+                        intersect: false
+                    }
+                }
+            });
+        });
+    </script>
+</body>
+</html>

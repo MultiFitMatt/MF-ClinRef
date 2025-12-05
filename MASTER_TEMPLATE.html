@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>[MODULE NAME] | Clinical Reference Guide</title>
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Rajdhani:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            black: '#050505',
+                            charcoal: '#0f0f11',
+                            surface: '#18181b',
+                            border: '#27272a',
+                            green: '#10b981',
+                            neonGreen: '#00ffa3',
+                            blue: '#3b82f6',
+                            neonBlue: '#00d4ff',
+                            deepBlue: '#1e3a8a',
+                            text: '#e4e4e7',
+                            muted: '#a1a1aa'
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        mono: ['Rajdhani', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <!-- Chart.js (if needed) -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <style>
+        body {
+            background-color: #050505;
+            color: #e4e4e7;
+            background-image: radial-gradient(circle at 50% 0%, #18181b 0%, #050505 45%);
+        }
+        
+        .glass-panel {
+            background: rgba(15, 15, 17, 0.7);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(59, 130, 246, 0.2);
+        }
+    </style>
+</head>
+<body class="min-h-screen p-4 md:p-8 font-sans">
+
+    <div class="max-w-7xl mx-auto space-y-6">
+        
+        <!-- ========================================
+             STANDARDIZED HEADER
+             ======================================== -->
+        <header class="flex items-center gap-4 border-b border-brand-border/50 pb-4 mb-8">
+            <!-- Back Button -->
+            <a href="index.html" class="text-brand-muted hover:text-brand-blue transition-colors">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+                </svg>
+            </a>
+            
+            <!-- Logo -->
+            <div class="w-12 h-12 bg-brand-surface border border-brand-blue flex items-center justify-center rounded shadow-[0_0_10px_rgba(59,130,246,0.3)]">
+                <span class="font-mono font-bold text-brand-neonGreen text-lg">M</span>
+            </div>
+            
+            <!-- Module Title -->
+            <div>
+                <h1 class="font-mono text-2xl md:text-3xl font-bold tracking-wider text-white uppercase">
+                    [MODULE NAME]
+                </h1>
+                <p class="text-brand-muted text-xs tracking-[0.15em] font-mono uppercase">Clinical Reference</p>
+            </div>
+        </header>
+
+        <!-- ========================================
+             MAIN CONTENT AREA
+             (Your module-specific content goes here)
+             ======================================== -->
+        <div class="space-y-6">
+            <!-- Example content placeholder -->
+            <div class="glass-panel rounded-xl p-8 text-center">
+                <p class="text-brand-muted text-sm">[ YOUR MODULE CONTENT GOES HERE ]</p>
+            </div>
+        </div>
+
+        <!-- ========================================
+             STANDARDIZED FOOTER
+             ======================================== -->
+        <footer class="mt-12 pt-8 border-t border-brand-border/30">
+            <!-- Legal Disclaimer -->
+            <div class="bg-brand-charcoal/50 border border-brand-border rounded-lg p-6 mb-6">
+                <div class="flex items-start gap-3">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-brand-muted flex-shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                    </svg>
+                    <div>
+                        <p class="text-xs text-brand-text leading-relaxed">
+                            <span class="text-white font-bold">LEGAL DISCLAIMER:</span> This platform is a <span class="text-white font-semibold">clinical reference tool</span> designed to summarize available research literature and pharmacological data for educational purposes. It is <span class="text-red-400 font-bold">NOT</span> a dosing guide, prescriptive engine, or substitute for professional medical training. All protocols, calculations, and visualizations are theoretical and based on off-label observations. Licensed healthcare providers must exercise independent clinical judgment and verify all information against primary literature and local regulations.
+                        </p>
+                        <p class="text-[10px] text-brand-muted mt-3 tracking-wide uppercase">
+                            Secure Clinical Environment | HIPAA Compliant | Authorized Personnel Only
+                        </p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Copyright -->
+            <div class="flex flex-col md:flex-row justify-between items-center text-[10px] text-brand-muted font-mono uppercase">
+                <div>Multifactor Solutions &copy; 2024</div>
+                <div class="mt-2 md:mt-0 flex items-center">
+                    <span class="w-2 h-2 rounded-full bg-brand-blue mr-2"></span>
+                    For Clinical Educational Use Only.
+                </div>
+            </div>
+        </footer>
+
+    </div>
+
+</body>
+</html>

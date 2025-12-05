@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tesamorelin | Clinical Reference</title>
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Rajdhani:wght@500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            black: '#050505',
+                            charcoal: '#0f0f11',
+                            surface: '#18181b',
+                            border: '#27272a',
+                            green: '#10b981',
+                            neonGreen: '#00ffa3',
+                            blue: '#3b82f6',
+                            neonBlue: '#00d4ff',
+                            cyan: '#06b6d4',
+                            text: '#e4e4e7',
+                            muted: '#a1a1aa'
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        mono: ['Rajdhani', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <style>
+        body {
+            background-color: #050505;
+            color: #e4e4e7;
+            background-image: radial-gradient(circle at 50% 0%, #18181b 0%, #050505 45%);
+        }
+        
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #0f0f11; }
+        ::-webkit-scrollbar-thumb { background: #27272a; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #3b82f6; }
+
+        .chart-wrapper { position: relative; height: 200px; width: 100%; }
+    </style>
+</head>
+<body class="min-h-screen antialiased font-sans">
+
+    <!-- ========================================
+         STANDARDIZED HEADER
+         ======================================== -->
+    <header class="border-b border-brand-border bg-brand-charcoal sticky top-0 z-50">
+        <div class="max-w-[1600px] mx-auto px-6">
+            <div class="flex items-center justify-between h-16">
+                <div class="flex items-center gap-3">
+                    <a href="index.html" class="text-brand-muted hover:text-brand-blue transition-colors">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+                        </svg>
+                    </a>
+                    
+                    <div class="w-10 h-10 bg-brand-surface border border-brand-blue flex items-center justify-center rounded shadow-[0_0_10px_rgba(59,130,246,0.3)]">
+                        <span class="font-mono font-bold text-brand-neonGreen text-base">M</span>
+                    </div>
+                    
+                    <div class="flex flex-col">
+                        <span class="font-mono text-xl font-bold tracking-wide text-white uppercase">Tesamorelin</span>
+                        <span class="text-[10px] text-brand-cyan uppercase tracking-[0.2em]">Clinical Reference</span>
+                    </div>
+                </div>
+                <div class="hidden md:block">
+                    <span class="text-xs text-brand-muted uppercase tracking-widest">GHRH Analog</span>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main class="max-w-[1600px] mx-auto p-6 md:p-8">
+
+        <!-- Functional Profile -->
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 mb-6">
+            <div class="lg:col-span-8 bg-brand-charcoal border border-brand-border rounded-lg p-6">
+                <div class="flex items-center gap-2 mb-4">
+                    <span class="w-1 h-4 bg-brand-cyan inline-block"></span>
+                    <h2 class="font-mono text-lg font-bold text-brand-cyan uppercase">Functional Profile</h2>
+                </div>
+                <p class="text-brand-muted text-sm leading-relaxed mb-6">
+                    Tesamorelin is a stabilized synthetic peptide analogue of Growth Hormone-Releasing Hormone (GHRH). Unlike rhGH (which creates a constant, non-pulsatile elevation), Tesamorelin stimulates the pituitary to release endogenous growth hormone in a <span class="text-white">pulsatile manner</span>. This preserves the negative feedback loop and minimizes side effects like water retention and insulin resistance.
+                </p>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div class="border border-brand-border bg-brand-black p-4 rounded">
+                        <div class="text-[10px] text-brand-cyan uppercase font-bold mb-1">Primary Indications</div>
+                        <div class="text-white text-sm font-medium">Visceral Adiposity (VAT), HIV-Lipodystrophy</div>
+                    </div>
+                    <div class="border border-brand-border bg-brand-black p-4 rounded">
+                        <div class="text-[10px] text-brand-cyan uppercase font-bold mb-1">Functional Uses</div>
+                        <div class="text-white text-sm font-medium">Body Composition, Cognitive Health, Anti-Aging</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="lg:col-span-4 bg-brand-charcoal border border-brand-border rounded-lg p-6 flex flex-col justify-between">
+                <div class="flex items-center gap-2 mb-4">
+                    <span class="w-1 h-4 bg-brand-cyan inline-block"></span>
+                    <h2 class="font-mono text-lg font-bold text-brand-cyan uppercase">Kinetics</h2>
+                </div>
+                <div class="space-y-6">
+                    <div class="flex justify-between items-end border-b border-brand-border pb-2">
+                        <span class="text-xs text-brand-muted uppercase font-bold">Half-Life</span>
+                        <span class="font-mono text-2xl text-white">30 <span class="text-sm text-brand-cyan">Mins</span></span>
+                    </div>
+                    <div class="flex justify-between items-end border-b border-brand-border pb-2">
+                        <span class="text-xs text-brand-muted uppercase font-bold">Peak (T-Max)</span>
+                        <span class="font-mono text-2xl text-white">1.5 <span class="text-sm text-brand-cyan">Hours</span></span>
+                    </div>
+                    <div class="flex justify-between items-end border-b border-brand-border pb-2">
+                        <span class="text-xs text-brand-muted uppercase font-bold">Bioavailability</span>
+                        <span class="font-mono text-2xl text-white">&lt;4% <span class="text-sm text-brand-muted">(SubQ)</span></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Dosing & Chart Row -->
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 mb-6">
+            <div class="lg:col-span-5 bg-brand-charcoal border border-brand-border rounded-lg p-6">
+                <div class="flex justify-between items-start mb-6">
+                    <div class="flex items-center gap-2">
+                        <span class="w-1 h-4 bg-brand-blue inline-block"></span>
+                        <h2 class="font-mono text-lg font-bold text-brand-blue uppercase">Dosing Protocols</h2>
+                    </div>
+                    
+                    <div class="w-48">
+                        <select id="goalSelect" onchange="updateProtocol()" class="w-full bg-brand-black border border-brand-border text-white p-2 rounded text-sm focus:border-brand-cyan focus:outline-none">
+                            <option value="standard">Standard: VAT Loss</option>
+                            <option value="aggressive">Aggressive: Body Comp</option>
+                            <option value="maintenance">Maintenance</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="bg-brand-black border border-brand-border rounded p-6 mb-4">
+                    <div class="text-[10px] text-brand-muted uppercase tracking-widest mb-1">Recommended Daily Dose</div>
+                    <div class="flex items-baseline gap-2 mb-4">
+                        <span id="doseValue" class="font-mono text-5xl text-white">2.0</span>
+                        <span class="font-mono text-xl text-brand-blue">mg</span>
+                    </div>
+                    
+                    <div class="space-y-3">
+                        <div class="flex items-center gap-3">
+                            <div class="w-1.5 h-1.5 rounded-full bg-brand-blue"></div>
+                            <span id="freqValue" class="text-sm text-gray-300">Daily administration (Before Bed)</span>
+                        </div>
+                        <div class="flex items-center gap-3">
+                            <div class="w-1.5 h-1.5 rounded-full bg-brand-blue"></div>
+                            <span id="cycleValue" class="text-sm text-gray-300">Cycle: 5 Days On / 2 Days Off</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="space-y-4">
+                    <div>
+                        <div class="text-[10px] text-brand-blue uppercase font-bold mb-1">Timing & Instructions</div>
+                        <p id="instructionText" class="text-sm text-brand-muted leading-snug">
+                            Administer subcutaneously into the abdomen. Must be taken in a fasted state (at least 90 minutes post-prandial) to avoid insulin blunting GHRH signal.
+                        </p>
+                    </div>
+                    <div>
+                        <div class="text-[10px] text-brand-blue uppercase font-bold mb-1">Clinical Goal</div>
+                        <p id="goalText" class="text-sm text-brand-muted leading-snug">
+                            Significant reduction in visceral adipose tissue (15-20%) over 26 weeks.
+                        </p>
+                    </div>
+                    <div class="mt-4 px-3 py-2 bg-brand-blue/10 border border-brand-blue/20 rounded">
+                        <span class="text-[10px] font-bold text-brand-blue uppercase">PEARL</span>
+                        <span class="text-xs text-gray-300 ml-2">Rotate injection sites daily to prevent lipodystrophy nodules.</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="lg:col-span-7 bg-brand-charcoal border border-brand-border rounded-lg p-6 flex flex-col">
+                <div class="flex justify-between items-center mb-4">
+                    <div class="flex items-center gap-2">
+                        <span class="w-1 h-4 bg-brand-blue inline-block"></span>
+                        <h2 class="font-mono text-lg font-bold text-white uppercase">Clinical Trajectory (26 Weeks)</h2>
+                    </div>
+                    <div class="flex gap-4 text-xs">
+                        <div class="flex items-center gap-2">
+                            <div class="w-2 h-2 rounded-full bg-brand-blue"></div>
+                            <span class="uppercase text-brand-muted">IGF-1 Levels</span>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <div class="w-2 h-2 rounded-full bg-red-500"></div>
+                            <span class="uppercase text-brand-muted">Visceral Fat</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="chart-wrapper flex-grow bg-brand-black rounded border border-brand-border p-2">
+                    <canvas id="trajectoryChart"></canvas>
+                </div>
+                
+                <div class="grid grid-cols-3 gap-4 mt-4 text-center">
+                    <div>
+                        <div class="text-[10px] text-brand-muted uppercase">Onset</div>
+                        <div class="font-mono font-bold text-white">Week 2-4</div>
+                    </div>
+                    <div>
+                        <div class="text-[10px] text-brand-muted uppercase">Peak IGF-1</div>
+                        <div class="font-mono font-bold text-white">Week 12</div>
+                    </div>
+                    <div>
+                        <div class="text-[10px] text-brand-muted uppercase">Max VAT Loss</div>
+                        <div class="font-mono font-bold text-white">Week 26</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Safety Grid -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
+            <div class="bg-brand-charcoal border border-brand-border border-l-orange-500/50 rounded-lg p-6">
+                <div class="flex justify-between items-center mb-4">
+                    <div class="text-xs font-bold text-orange-500 uppercase">Adverse Events</div>
+                    <span class="text-[10px] bg-orange-500/10 text-orange-500 px-2 py-0.5 rounded border border-orange-500/20">Common</span>
+                </div>
+                <p class="text-xs text-brand-muted mb-4">Generally well tolerated. Most side effects are transient and dose-dependent.</p>
+                <ul class="space-y-2">
+                    <li class="flex justify-between text-sm text-gray-300 border-b border-brand-border pb-1">
+                        <span>Arthralgia (Joint Pain)</span>
+                        <span class="text-orange-500 font-mono">13%</span>
+                    </li>
+                    <li class="flex justify-between text-sm text-gray-300 border-b border-brand-border pb-1">
+                        <span>Injection Site Reaction</span>
+                        <span class="text-orange-500 font-mono">Common</span>
+                    </li>
+                    <li class="flex justify-between text-sm text-gray-300">
+                        <span>Myalgia</span>
+                        <span class="text-orange-500 font-mono">5%</span>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="bg-brand-charcoal border border-brand-border border-l-red-500/50 rounded-lg p-6">
+                <div class="flex justify-between items-center mb-4">
+                    <div class="text-xs font-bold text-red-500 uppercase">Contraindications</div>
+                    <span class="text-[10px] bg-red-500/10 text-red-500 px-2 py-0.5 rounded border border-red-500/20">Critical</span>
+                </div>
+                <p class="text-xs text-brand-muted mb-4">Do not prescribe if any of the following are present in patient history.</p>
+                <div class="flex flex-wrap gap-2">
+                    <span class="px-2 py-1 bg-brand-surface rounded text-[10px] text-gray-300 border border-brand-border">Active Malignancy</span>
+                    <span class="px-2 py-1 bg-brand-surface rounded text-[10px] text-gray-300 border border-brand-border">Pituitary Tumor</span>
+                    <span class="px-2 py-1 bg-brand-surface rounded text-[10px] text-gray-300 border border-brand-border">Pregnancy</span>
+                    <span class="px-2 py-1 bg-brand-surface rounded text-[10px] text-gray-300 border border-brand-border">Hypersensitivity</span>
+                </div>
+            </div>
+
+            <div class="bg-brand-charcoal border border-brand-border border-l-brand-blue/50 rounded-lg p-6">
+                <div class="flex justify-between items-center mb-4">
+                    <div class="text-xs font-bold text-brand-blue uppercase">Monitoring</div>
+                    <span class="text-[10px] bg-brand-blue/10 text-brand-blue px-2 py-0.5 rounded border border-brand-blue/20">Labs</span>
+                </div>
+                <p class="text-xs text-brand-muted mb-4">IGF-1 levels should be monitored to ensure efficacy and safety.</p>
+                <ul class="space-y-2">
+                    <li class="text-sm text-gray-300 flex items-start gap-2">
+                        <span class="text-brand-blue">▸</span> Baseline IGF-1 & HbA1c
+                    </li>
+                    <li class="text-sm text-gray-300 flex items-start gap-2">
+                        <span class="text-brand-blue">▸</span> Follow up at Week 4 (IGF-1)
+                    </li>
+                    <li class="text-sm text-gray-300 flex items-start gap-2">
+                        <span class="text-brand-blue">▸</span> Follow up at Week 12 (IGF-1 + HbA1c)
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- ========================================
+             STANDARDIZED FOOTER
+             ======================================== -->
+        <footer class="mt-12 pt-8 border-t border-brand-border/30">
+            <div class="bg-brand-charcoal/50 border border-brand-border rounded-lg p-6 mb-6">
+                <div class="flex items-start gap-3">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-brand-muted flex-shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                    </svg>
+                    <div>
+                        <p class="text-xs text-brand-text leading-relaxed">
+                            <span class="text-white font-bold">LEGAL DISCLAIMER:</span> This platform is a <span class="text-white font-semibold">clinical reference tool</span> designed to summarize available research literature and pharmacological data for educational purposes. It is <span class="text-red-400 font-bold">NOT</span> a dosing guide, prescriptive engine, or substitute for professional medical training.
+                        </p>
+                        <p class="text-[10px] text-brand-muted mt-3 tracking-wide uppercase">
+                            Secure Clinical Environment | HIPAA Compliant | Authorized Personnel Only
+                        </p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="flex flex-col md:flex-row justify-between items-center text-[10px] text-brand-muted font-mono uppercase">
+                <div>Multifactor Solutions &copy; 2024</div>
+                <div class="mt-2 md:mt-0 flex items-center">
+                    <span class="w-2 h-2 rounded-full bg-brand-blue mr-2"></span>
+                    For Clinical Educational Use Only.
+                </div>
+            </div>
+        </footer>
+
+    </main>
+
+    <script>
+        const protocolData = {
+            'standard': {
+                dose: "2.0",
+                freq: "Daily (Before Bed)",
+                cycle: "5 Days On / 2 Days Off",
+                instruction: "Administer subcutaneously into the abdomen. Must be taken in a fasted state (at least 90 minutes post-prandial) to avoid insulin blunting GHRH signal.",
+                goal: "Significant reduction in visceral adipose tissue (15-20%) over 26 weeks. IGF-1 Elevation within physiological range.",
+                igfCurve: [100, 150, 200, 220, 225, 220, 215],
+                vatCurve: [100, 95, 90, 85, 82, 80, 80]
+            },
+            'aggressive': {
+                dose: "2.0",
+                freq: "Daily (Continuous)",
+                cycle: "No Breaks for 8 Weeks",
+                instruction: "Administer nightly without washout period for first 8 weeks to maximize receptor saturation, then transition to 5/2 schedule.",
+                goal: "Rapid body composition changes. Monitor HbA1c closely due to continuous GH elevation potential.",
+                igfCurve: [100, 180, 240, 260, 265, 260, 250],
+                vatCurve: [100, 92, 85, 78, 75, 72, 72]
+            },
+            'maintenance': {
+                dose: "1.0",
+                freq: "Daily (Before Bed)",
+                cycle: "5 Days On / 2 Days Off",
+                instruction: "Reduced maintenance dose to preserve body composition gains. Strict fasting window still applies.",
+                goal: "Preservation of lean muscle mass and low VAT percentage post-therapeutic cycle.",
+                igfCurve: [100, 120, 130, 135, 135, 130, 130],
+                vatCurve: [100, 98, 97, 96, 96, 95, 95]
+            }
+        };
+
+        let chartInstance;
+
+        function updateProtocol() {
+            const selected = document.getElementById('goalSelect').value;
+            const data = protocolData[selected];
+
+            document.getElementById('doseValue').innerText = data.dose;
+            document.getElementById('freqValue').innerText = data.freq;
+            document.getElementById('cycleValue').innerText = data.cycle;
+            document.getElementById('instructionText').innerText = data.instruction;
+            document.getElementById('goalText').innerText = data.goal;
+
+            updateChart(data);
+        }
+
+        function initChart() {
+            const ctx = document.getElementById('trajectoryChart').getContext('2d');
+            
+            const gradBlue = ctx.createLinearGradient(0,0,0,200);
+            gradBlue.addColorStop(0, 'rgba(59, 130, 246, 0.2)');
+            gradBlue.addColorStop(1, 'rgba(59, 130, 246, 0)');
+
+            chartInstance = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: ['W0', 'W4', 'W8', 'W12', 'W16', 'W20', 'W24'],
+                    datasets: [
+                        {
+                            label: 'IGF-1 Levels',
+                            data: protocolData.standard.igfCurve,
+                            borderColor: '#3b82f6',
+                            backgroundColor: gradBlue,
+                            borderWidth: 2,
+                            tension: 0.4,
+                            fill: true,
+                            pointRadius: 0
+                        },
+                        {
+                            label: 'Visceral Fat %',
+                            data: protocolData.standard.vatCurve,
+                            borderColor: '#ef4444',
+                            borderWidth: 2,
+                            borderDash: [5, 5],
+                            tension: 0.4,
+                            pointRadius: 0,
+                            yAxisID: 'y1'
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    interaction: { mode: 'index', intersect: false },
+                    plugins: { legend: { display: false } },
+                    scales: {
+                        x: { 
+                            grid: { color: '#27272a' },
+                            ticks: { color: '#a1a1aa', font: { family: 'Rajdhani', size: 10 } }
+                        },
+                        y: { display: false },
+                        y1: { display: false, min: 50, max: 110 }
+                    }
+                }
+            });
+        }
+
+        function updateChart(data) {
+            chartInstance.data.datasets[0].data = data.igfCurve;
+            chartInstance.data.datasets[1].data = data.vatCurve;
+            chartInstance.update();
+        }
+
+        window.onload = function() {
+            initChart();
+        };
+    </script>
+</body>
+</html>

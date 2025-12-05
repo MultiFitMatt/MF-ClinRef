@@ -1,0 +1,655 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CJC-1295 + Ipamorelin | Clinical Reference Guide</title>
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Rajdhani:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            black: '#050505',
+                            charcoal: '#0f0f11',
+                            surface: '#18181b',
+                            border: '#27272a',
+                            green: '#10b981',
+                            neonGreen: '#00ffa3',
+                            blue: '#3b82f6',
+                            neonBlue: '#00d4ff',
+                            text: '#e4e4e7',
+                            muted: '#a1a1aa'
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        mono: ['Rajdhani', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <style>
+        body {
+            background-color: #050505;
+            color: #e4e4e7;
+            background-image: radial-gradient(circle at 50% 0%, #18181b 0%, #050505 45%);
+        }
+        
+        .tech-font {
+            font-family: 'Rajdhani', sans-serif;
+            text-transform: uppercase;
+        }
+        
+        .chart-container {
+            position: relative;
+            width: 100%;
+            height: 250px;
+        }
+        
+        .config-btn.active {
+            background-color: #27272a;
+            border-color: #10b981;
+            color: white;
+        }
+        
+        .freq-box {
+            transition: all 0.2s;
+        }
+        
+        .freq-box.active {
+            background-color: #10b981;
+            color: black;
+            border-color: #10b981;
+            font-weight: 700;
+        }
+        
+        /* Custom Input Styling */
+        input[type="number"]::-webkit-inner-spin-button,
+        input[type="number"]::-webkit-outer-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+        
+        select {
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%236b7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M6 8l4 4 4-4'/%3e%3c/svg%3e");
+            background-position: right 0.5rem center;
+            background-repeat: no-repeat;
+            background-size: 1.5em 1.5em;
+        }
+
+        /* Custom Scrollbar */
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 8px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: #0f0f11;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #27272a;
+            border-radius: 4px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+            background: #3b82f6;
+        }
+    </style>
+</head>
+<body class="antialiased h-screen flex flex-col overflow-hidden">
+
+    <!-- ========================================
+         STANDARDIZED HEADER
+         ======================================== -->
+    <header class="h-16 border-b border-brand-border bg-brand-black flex items-center justify-between px-6 shrink-0 z-20">
+        <div class="flex items-center gap-4">
+            <!-- Back Button -->
+            <a href="index.html" class="text-brand-muted hover:text-brand-blue transition-colors">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+                </svg>
+            </a>
+            
+            <!-- Logo -->
+            <div class="w-10 h-10 bg-brand-surface border border-brand-blue flex items-center justify-center rounded shadow-[0_0_10px_rgba(59,130,246,0.3)]">
+                <span class="font-mono font-bold text-brand-neonGreen text-base">M</span>
+            </div>
+            
+            <!-- Module Title -->
+            <div>
+                <h1 class="font-mono text-xl md:text-2xl font-bold tracking-wider text-white uppercase">
+                    CJC-1295 + Ipamorelin
+                </h1>
+                <p class="text-brand-muted text-[10px] tracking-[0.15em] font-mono uppercase">Clinical Reference</p>
+            </div>
+        </div>
+        
+        <!-- Right Side: Navigation & Warning Badge -->
+        <div class="flex items-center gap-6">
+            <nav class="hidden md:flex space-x-6">
+                <a href="#protocol" class="tech-font text-sm font-semibold text-white border-b-2 border-brand-blue py-5">Protocol Builder</a>
+                <a href="#pk" class="tech-font text-sm font-semibold text-brand-muted hover:text-white transition-colors">Pharmacokinetics</a>
+                <a href="#safety" class="tech-font text-sm font-semibold text-brand-muted hover:text-white transition-colors">Safety Profile</a>
+            </nav>
+            <div class="px-3 py-1 bg-red-900/20 border border-red-900/50 rounded text-red-500 text-[10px] font-bold tracking-wider uppercase flex items-center gap-2">
+                <span class="w-1.5 h-1.5 rounded-full bg-red-500 animate-pulse"></span>
+                Research Use Only
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Workspace -->
+    <main class="flex-1 flex overflow-hidden">
+        
+        <!-- Left Sidebar: CONFIGURATION -->
+        <aside class="w-full md:w-[320px] bg-brand-charcoal border-r border-brand-border flex flex-col shrink-0 overflow-y-auto custom-scrollbar">
+            <div class="p-5 border-b border-brand-border">
+                <div class="flex items-center gap-2 mb-4">
+                    <svg class="w-4 h-4 text-brand-blue" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
+                    <h2 class="tech-font font-bold text-white tracking-widest text-sm">CONFIGURATION</h2>
+                </div>
+
+                <!-- Indication Selector -->
+                <div class="mb-6 space-y-2">
+                    <label class="tech-font text-xs text-brand-muted font-bold tracking-wider">Indication</label>
+                    <div class="relative">
+                        <select id="indication-select" onchange="updateProtocol()" class="w-full bg-brand-surface border border-brand-border text-white text-sm rounded p-3 focus:border-brand-blue focus:outline-none tech-font">
+                            <option value="wellness">Wellness / Anti-Aging</option>
+                            <option value="bodycomp">Body Composition</option>
+                            <option value="recovery">Injury Recovery</option>
+                            <option value="cognitive">Cognitive / Sleep</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- Intensity Toggle -->
+                <div class="mb-6 space-y-2">
+                    <label class="tech-font text-xs text-brand-muted font-bold tracking-wider">Protocol Intensity</label>
+                    <div class="grid grid-cols-2 bg-brand-surface rounded border border-brand-border p-1">
+                        <button class="config-btn active py-2 rounded text-[10px] font-bold tech-font tracking-wider transition-all" onclick="setIntensity('standard', this)">STANDARD</button>
+                        <button class="config-btn py-2 rounded text-[10px] font-bold tech-font tracking-wider text-brand-muted transition-all" onclick="setIntensity('aggressive', this)">AGGRESSIVE</button>
+                    </div>
+                </div>
+
+                <!-- Route Selector -->
+                <div class="mb-6 space-y-2">
+                    <label class="tech-font text-xs text-brand-muted font-bold tracking-wider">Primary Route</label>
+                    <div class="space-y-2">
+                        <div class="route-option cursor-pointer border border-brand-blue bg-blue-900/10 p-3 rounded flex flex-col relative transition-all" onclick="setRoute('injection', this)">
+                            <div class="flex justify-between items-center mb-1">
+                                <span class="tech-font text-sm font-bold text-brand-blue">INJECTION (SubQ)</span>
+                                <div class="w-2 h-2 rounded-full bg-brand-blue"></div>
+                            </div>
+                            <p class="text-[10px] text-brand-muted leading-tight">High bioavailability. Pulsatile mimicking. Gold standard.</p>
+                        </div>
+                        <div class="route-option cursor-pointer border border-brand-border bg-brand-surface p-3 rounded flex flex-col relative transition-all opacity-60 hover:opacity-100" onclick="setRoute('oral', this)">
+                            <div class="flex justify-between items-center mb-1">
+                                <span class="tech-font text-sm font-bold text-brand-muted">ORAL (Troche)</span>
+                                <div class="w-2 h-2 rounded-full bg-transparent border border-gray-600"></div>
+                            </div>
+                            <p class="text-[10px] text-brand-muted leading-tight">Lower bioavailability. Requires higher dosing. Convenience focused.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Reconstitution Calculator (Mini) -->
+            <div class="p-5 flex-1">
+                <div class="flex items-center gap-2 mb-4">
+                    <svg class="w-4 h-4 text-brand-muted" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z"></path></svg>
+                    <h2 class="tech-font font-bold text-brand-muted tracking-widest text-xs">RECONSTITUTION CALC</h2>
+                </div>
+                
+                <div class="bg-brand-charcoal border border-brand-border rounded p-4 space-y-4">
+                    <div class="grid grid-cols-2 gap-3">
+                        <div>
+                            <label class="block text-[10px] text-brand-muted uppercase font-bold mb-1">Vial (mg)</label>
+                            <input type="number" id="calc-vial" value="5" class="w-full bg-brand-surface border border-brand-border rounded p-2 text-white text-xs font-mono focus:border-brand-green outline-none" oninput="calculateUnits()">
+                        </div>
+                        <div>
+                            <label class="block text-[10px] text-brand-muted uppercase font-bold mb-1">BAC Water (ml)</label>
+                            <input type="number" id="calc-water" value="2" class="w-full bg-brand-surface border border-brand-border rounded p-2 text-white text-xs font-mono focus:border-brand-green outline-none" oninput="calculateUnits()">
+                        </div>
+                    </div>
+                    <div>
+                        <label class="block text-[10px] text-brand-muted uppercase font-bold mb-1">Dose (mcg)</label>
+                        <input type="number" id="calc-dose" value="100" class="w-full bg-brand-surface border border-brand-border rounded p-2 text-white text-xs font-mono focus:border-brand-green outline-none" oninput="calculateUnits()">
+                    </div>
+                    
+                    <div class="pt-2 border-t border-brand-border flex justify-between items-center">
+                        <span class="text-[10px] text-brand-muted">DRAW TO:</span>
+                        <div class="text-right">
+                            <span id="calc-result" class="text-xl font-bold text-white tech-font">4</span>
+                            <span class="text-[10px] text-brand-green font-bold">UNITS</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Right Content: DASHBOARD -->
+        <section class="flex-1 bg-brand-black overflow-y-auto p-6 custom-scrollbar">
+            
+            <div class="max-w-5xl mx-auto space-y-6">
+                
+                <!-- ROW 1: Protocol Output -->
+                <div class="bg-brand-charcoal border border-brand-border rounded-lg overflow-hidden shadow-2xl">
+                    <div class="border-b border-brand-border p-4 bg-brand-charcoal flex justify-between items-center">
+                        <div class="flex items-center gap-2">
+                            <div class="w-2 h-2 bg-brand-blue rounded-full"></div>
+                            <span class="tech-font text-xs font-bold text-brand-blue tracking-widest">PROTOCOL GENERATED</span>
+                        </div>
+                        <div class="text-right">
+                            <span class="block tech-font text-[10px] text-brand-muted tracking-wider">TOTAL DAILY LOAD</span>
+                            <span id="total-load" class="tech-font text-xl font-bold text-brand-green">200 mcg</span>
+                        </div>
+                    </div>
+
+                    <div class="p-8">
+                        <h2 id="protocol-title" class="text-3xl md:text-4xl font-bold text-white tech-font mb-8">Wellness / Anti-Aging</h2>
+
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
+                            <!-- Dose Box 1 -->
+                            <div class="border-l-2 border-brand-blue pl-6 relative">
+                                <span class="absolute -left-[9px] top-0 w-4 h-4 rounded-full bg-brand-charcoal border-2 border-brand-blue"></span>
+                                <h4 class="tech-font text-xs text-brand-muted uppercase tracking-wider mb-2">Primary Dose (Pre-Bed)</h4>
+                                <div class="text-5xl font-bold text-white tech-font mb-2 tracking-tight">
+                                    <span id="dose-pm">100</span> <span class="text-xl text-brand-muted">mcg</span>
+                                </div>
+                                <p class="text-xs text-brand-muted">Fasted state required (3 hrs post meal). Administer immediately before sleep to synergize with natural SWS pulse.</p>
+                            </div>
+
+                            <!-- Dose Box 2 (Conditional) -->
+                            <div id="dose-box-am" class="border-l-2 border-brand-border pl-6 opacity-30">
+                                <h4 class="tech-font text-xs text-brand-muted uppercase tracking-wider mb-2">Morning Dose (Optional)</h4>
+                                <div class="text-5xl font-bold text-gray-600 tech-font mb-2 tracking-tight">
+                                    <span id="dose-am">---</span>
+                                </div>
+                                <p class="text-xs text-gray-600">Secondary pulse initiation. Only required for aggressive recovery or body composition protocols.</p>
+                            </div>
+                        </div>
+
+                        <!-- Clinical Instructions -->
+                        <div class="bg-brand-charcoal rounded border border-brand-border p-5">
+                            <h4 class="tech-font text-xs font-bold text-white mb-2 uppercase tracking-wider">CLINICAL INSTRUCTIONS</h4>
+                            <p id="clinical-text" class="text-sm text-brand-muted leading-relaxed font-light">
+                                Reconstitute 2mg/2mg blend with 2ml Bacteriostatic Water. Administer subcutaneously into abdominal fat pad. Monitor for flushing or head pressure immediately post-injection (vasodilation effect).
+                            </p>
+                        </div>
+                    </div>
+                    
+                    <!-- Frequency Toggle Bar -->
+                    <div class="bg-brand-charcoal border-t border-brand-border p-6">
+                        <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
+                            <div>
+                                <h5 class="tech-font text-xs font-bold text-white tracking-widest uppercase mb-1">Dosing Schedule (5/2 Split)</h5>
+                                <p class="text-[10px] text-brand-muted">Prevents pituitary desensitization (tachyphylaxis).</p>
+                            </div>
+                            <div class="flex gap-1">
+                                <div class="freq-box active w-10 h-10 border border-brand-border rounded flex items-center justify-center text-[10px] font-mono">M</div>
+                                <div class="freq-box active w-10 h-10 border border-brand-border rounded flex items-center justify-center text-[10px] font-mono">T</div>
+                                <div class="freq-box active w-10 h-10 border border-brand-border rounded flex items-center justify-center text-[10px] font-mono">W</div>
+                                <div class="freq-box active w-10 h-10 border border-brand-border rounded flex items-center justify-center text-[10px] font-mono">T</div>
+                                <div class="freq-box active w-10 h-10 border border-brand-border rounded flex items-center justify-center text-[10px] font-mono">F</div>
+                                <div class="freq-box w-10 h-10 border border-brand-border bg-brand-surface text-gray-600 rounded flex items-center justify-center text-[10px] font-mono">S</div>
+                                <div class="freq-box w-10 h-10 border border-brand-border bg-brand-surface text-gray-600 rounded flex items-center justify-center text-[10px] font-mono">S</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ROW 2: Data Visualization -->
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                    
+                    <!-- Chart 1: Pulse Saturation -->
+                    <div class="bg-brand-charcoal border border-brand-border rounded-lg p-5">
+                        <div class="flex justify-between items-center mb-6">
+                            <h3 class="tech-font text-sm font-bold text-white tracking-widest uppercase">Physiological Pulse Model</h3>
+                            <div class="text-[10px] text-brand-muted border border-brand-border px-2 py-1 rounded">SERUM GH (ng/ml)</div>
+                        </div>
+                        <div class="chart-container">
+                            <canvas id="pulseChart"></canvas>
+                        </div>
+                        <div class="flex justify-between mt-4 text-[10px] text-brand-muted font-mono uppercase">
+                            <span>Injection</span>
+                            <span>+30m</span>
+                            <span>+60m</span>
+                            <span>+120m</span>
+                            <span>+180m</span>
+                        </div>
+                    </div>
+
+                    <!-- Chart 2: Efficacy Radar -->
+                    <div class="bg-brand-charcoal border border-brand-border rounded-lg p-5">
+                        <div class="flex justify-between items-center mb-6">
+                            <h3 class="tech-font text-sm font-bold text-white tracking-widest uppercase">Efficacy Target Profile</h3>
+                            <div class="flex gap-2">
+                                <span class="text-[10px] text-brand-blue font-bold">SELECTED</span>
+                                <span class="text-[10px] text-gray-600">BASELINE</span>
+                            </div>
+                        </div>
+                        <div class="chart-container">
+                            <canvas id="radarChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ROW 3: Timeline -->
+                <div class="bg-brand-charcoal border border-brand-border rounded-lg p-6">
+                    <h3 class="tech-font text-sm font-bold text-white tracking-widest uppercase mb-6">Cycle Duration Plan</h3>
+                    <div class="relative pt-4 pb-2">
+                        <!-- Progress Bar Background -->
+                        <div class="h-2 bg-brand-charcoal rounded-full w-full absolute top-1/2 -translate-y-1/2"></div>
+                        <!-- Active Progress -->
+                        <div class="h-2 bg-gradient-to-r from-brand-blue to-brand-green rounded-full w-3/4 absolute top-1/2 -translate-y-1/2 opacity-50"></div>
+                        
+                        <div class="relative flex justify-between">
+                            <div class="text-center">
+                                <div class="w-4 h-4 bg-brand-blue rounded-full border-4 border-brand-charcoal mx-auto mb-2 relative z-10"></div>
+                                <span class="block tech-font text-[10px] font-bold text-white">START</span>
+                                <span class="block text-[9px] text-brand-muted">Week 0</span>
+                            </div>
+                            <div class="text-center">
+                                <div class="w-3 h-3 bg-brand-charcoal border border-brand-blue rounded-full mx-auto mb-2 relative z-10 top-0.5"></div>
+                                <span class="block tech-font text-[10px] font-bold text-brand-muted">LOADING</span>
+                                <span class="block text-[9px] text-gray-600">Week 4</span>
+                            </div>
+                            <div class="text-center">
+                                <div class="w-3 h-3 bg-brand-charcoal border border-brand-green rounded-full mx-auto mb-2 relative z-10 top-0.5"></div>
+                                <span class="block tech-font text-[10px] font-bold text-brand-green">OPTIMAL</span>
+                                <span class="block text-[9px] text-gray-600">Week 8</span>
+                            </div>
+                            <div class="text-center">
+                                <div class="w-3 h-3 bg-brand-charcoal border border-brand-green rounded-full mx-auto mb-2 relative z-10 top-0.5"></div>
+                                <span class="block tech-font text-[10px] font-bold text-brand-muted">PEAK</span>
+                                <span class="block text-[9px] text-gray-600">Week 12</span>
+                            </div>
+                            <div class="text-center">
+                                <div class="w-4 h-4 bg-red-500 rounded-full border-4 border-brand-charcoal mx-auto mb-2 relative z-10"></div>
+                                <span class="block tech-font text-[10px] font-bold text-white">WASHOUT</span>
+                                <span class="block text-[9px] text-brand-muted">Week 16</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+    </main>
+
+    <!-- ========================================
+         STANDARDIZED FOOTER
+         ======================================== -->
+    <footer class="border-t border-brand-border/30 bg-brand-black p-6">
+        <!-- Legal Disclaimer -->
+        <div class="max-w-7xl mx-auto">
+            <div class="bg-brand-charcoal/50 border border-brand-border rounded-lg p-6 mb-4">
+                <div class="flex items-start gap-3">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-brand-muted flex-shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                    </svg>
+                    <div>
+                        <p class="text-xs text-brand-text leading-relaxed">
+                            <span class="text-white font-bold">LEGAL DISCLAIMER:</span> This platform is a <span class="text-white font-semibold">clinical reference tool</span> designed to summarize available research literature and pharmacological data for educational purposes. It is <span class="text-red-400 font-bold">NOT</span> a dosing guide, prescriptive engine, or substitute for professional medical training. All protocols, calculations, and visualizations are theoretical and based on off-label observations. Licensed healthcare providers must exercise independent clinical judgment and verify all information against primary literature and local regulations.
+                        </p>
+                        <p class="text-[10px] text-brand-muted mt-3 tracking-wide uppercase">
+                            Secure Clinical Environment | HIPAA Compliant | Authorized Personnel Only
+                        </p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Copyright -->
+            <div class="flex flex-col md:flex-row justify-between items-center text-[10px] text-brand-muted font-mono uppercase">
+                <div>Multifactor Solutions &copy; 2024</div>
+                <div class="mt-2 md:mt-0 flex items-center">
+                    <span class="w-2 h-2 rounded-full bg-brand-blue mr-2"></span>
+                    For Clinical Educational Use Only.
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // --- State Management ---
+        const state = {
+            indication: 'wellness',
+            intensity: 'standard',
+            route: 'injection'
+        };
+
+        // --- Data: Protocol Logic ---
+        const protocolLogic = {
+            injection: {
+                standard: {
+                    dosePM: 100,
+                    doseAM: 0,
+                    note: "Reconstitute 2mg/2mg blend with 2ml Bacteriostatic Water. Administer subcutaneously into abdominal fat pad. Monitor for flushing.",
+                    load: "200 mcg"
+                },
+                aggressive: {
+                    dosePM: 100,
+                    doseAM: 100,
+                    note: "Split dosing protocol. Requires morning administration fasted (at least 45 mins before food) and evening administration pre-bed.",
+                    load: "400 mcg"
+                }
+            },
+            oral: {
+                standard: {
+                    dosePM: 1000,
+                    doseAM: 0,
+                    note: "Place troche between gum and cheek. Do not swallow saliva for 10-15 mins. Fasting window of 2 hours minimum required.",
+                    load: "1000 mcg"
+                },
+                aggressive: {
+                    dosePM: 1000,
+                    doseAM: 1000,
+                    note: "High dose oral therapy. Effectiveness is lower than injection despite higher mg load due to bioavailability.",
+                    load: "2000 mcg"
+                }
+            }
+        };
+
+        const indicationTitles = {
+            wellness: "Wellness / Anti-Aging",
+            bodycomp: "Body Composition",
+            recovery: "Acute Injury Recovery",
+            cognitive: "Cognitive & Sleep"
+        };
+
+        const radarData = {
+            wellness: [80, 90, 50, 40, 30],
+            bodycomp: [90, 60, 95, 85, 20],
+            recovery: [70, 70, 60, 90, 40],
+            cognitive: [60, 95, 30, 30, 80]
+        };
+
+        // --- Chart Instances ---
+        let pulseChart, radarChart;
+
+        // --- Functions ---
+
+        function initCharts() {
+            // 1. Pulse Chart
+            const ctxPulse = document.getElementById('pulseChart').getContext('2d');
+            const gradientPulse = ctxPulse.createLinearGradient(0, 0, 0, 250);
+            gradientPulse.addColorStop(0, 'rgba(59, 130, 246, 0.5)');
+            gradientPulse.addColorStop(1, 'rgba(59, 130, 246, 0.0)');
+
+            pulseChart = new Chart(ctxPulse, {
+                type: 'line',
+                data: {
+                    labels: ['0', '30', '60', '90', '120', '150', '180'],
+                    datasets: [{
+                        label: 'GH Pulse Amplitude',
+                        data: [5, 45, 85, 60, 25, 10, 5],
+                        borderColor: '#3B82F6',
+                        backgroundColor: gradientPulse,
+                        borderWidth: 2,
+                        pointRadius: 0,
+                        fill: true,
+                        tension: 0.4
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: { legend: { display: false } },
+                    scales: {
+                        x: { display: false },
+                        y: { display: false, min: 0 }
+                    },
+                    layout: { padding: 0 }
+                }
+            });
+
+            // 2. Radar Chart
+            const ctxRadar = document.getElementById('radarChart').getContext('2d');
+            radarChart = new Chart(ctxRadar, {
+                type: 'radar',
+                data: {
+                    labels: ['Lipolysis', 'Sleep Quality', 'Muscle', 'Tissue Repair', 'Neuro'],
+                    datasets: [{
+                        label: 'Target',
+                        data: radarData.wellness,
+                        borderColor: '#10b981',
+                        backgroundColor: 'rgba(16, 185, 129, 0.2)',
+                        borderWidth: 2,
+                        pointBackgroundColor: '#10b981',
+                        pointRadius: 3
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        r: {
+                            angleLines: { color: '#27272a' },
+                            grid: { color: '#18181b' },
+                            pointLabels: { color: '#a1a1aa', font: { family: 'Rajdhani', size: 10 } },
+                            ticks: { display: false }
+                        }
+                    },
+                    plugins: { legend: { display: false } }
+                }
+            });
+        }
+
+        function updateProtocol() {
+            state.indication = document.getElementById('indication-select').value;
+            const data = protocolLogic[state.route][state.intensity];
+
+            document.getElementById('protocol-title').innerText = indicationTitles[state.indication];
+            document.getElementById('dose-pm').innerText = data.dosePM;
+            document.getElementById('clinical-text').innerText = data.note;
+            document.getElementById('total-load').innerText = data.load;
+
+            const amBox = document.getElementById('dose-box-am');
+            const amVal = document.getElementById('dose-am');
+            
+            if (data.doseAM > 0) {
+                amBox.classList.remove('opacity-30', 'border-brand-border');
+                amBox.classList.add('border-brand-green');
+                amVal.innerText = data.doseAM + " mcg";
+                amVal.parentElement.classList.remove('text-gray-600');
+                amVal.parentElement.classList.add('text-white');
+            } else {
+                amBox.classList.add('opacity-30', 'border-brand-border');
+                amBox.classList.remove('border-brand-green');
+                amVal.innerText = "---";
+                amVal.parentElement.classList.add('text-gray-600');
+                amVal.parentElement.classList.remove('text-white');
+            }
+
+            radarChart.data.datasets[0].data = radarData[state.indication];
+            radarChart.update();
+
+            if (state.route === 'oral') {
+                pulseChart.data.datasets[0].data = [5, 25, 40, 35, 20, 10, 5];
+                pulseChart.data.datasets[0].borderColor = '#71717a';
+                pulseChart.data.datasets[0].backgroundColor = 'rgba(113, 113, 122, 0.2)';
+            } else {
+                pulseChart.data.datasets[0].data = [5, 45, 85, 60, 25, 10, 5];
+                pulseChart.data.datasets[0].borderColor = '#3B82F6';
+                const gradientPulse = pulseChart.ctx.createLinearGradient(0, 0, 0, 250);
+                gradientPulse.addColorStop(0, 'rgba(59, 130, 246, 0.5)');
+                gradientPulse.addColorStop(1, 'rgba(59, 130, 246, 0.0)');
+                pulseChart.data.datasets[0].backgroundColor = gradientPulse;
+            }
+            pulseChart.update();
+
+            calculateUnits();
+        }
+
+        function setIntensity(lvl, btn) {
+            state.intensity = lvl;
+            
+            document.querySelectorAll('.config-btn').forEach(b => {
+                b.classList.remove('active', 'text-white', 'border-brand-green');
+                b.classList.add('text-brand-muted');
+            });
+            btn.classList.add('active', 'text-white');
+            btn.classList.remove('text-brand-muted');
+            
+            updateProtocol();
+        }
+
+        function setRoute(rt, el) {
+            state.route = rt;
+            
+            document.querySelectorAll('.route-option').forEach(opt => {
+                opt.classList.remove('border-brand-blue', 'bg-blue-900/10', 'opacity-100');
+                opt.classList.add('border-brand-border', 'bg-brand-surface', 'opacity-60');
+                opt.querySelector('span').classList.remove('text-brand-blue');
+                opt.querySelector('span').classList.add('text-brand-muted');
+                opt.querySelector('.rounded-full').classList.remove('bg-brand-blue');
+                opt.querySelector('.rounded-full').classList.add('bg-transparent', 'border', 'border-gray-600');
+            });
+
+            el.classList.remove('border-brand-border', 'bg-brand-surface', 'opacity-60');
+            el.classList.add('border-brand-blue', 'bg-blue-900/10', 'opacity-100');
+            el.querySelector('span').classList.remove('text-brand-muted');
+            el.querySelector('span').classList.add('text-brand-blue');
+            el.querySelector('.rounded-full').classList.remove('bg-transparent', 'border', 'border-gray-600');
+            el.querySelector('.rounded-full').classList.add('bg-brand-blue');
+
+            updateProtocol();
+        }
+
+        function calculateUnits() {
+            const vialMg = parseFloat(document.getElementById('calc-vial').value);
+            const waterMl = parseFloat(document.getElementById('calc-water').value);
+            const doseMcg = parseFloat(document.getElementById('calc-dose').value);
+
+            if (!vialMg || !waterMl || !doseMcg) return;
+
+            const doseMg = doseMcg / 1000;
+            const concentration = vialMg / waterMl;
+            const volumeMl = doseMg / concentration;
+            const units = Math.round(volumeMl * 100);
+
+            document.getElementById('calc-result').innerText = units;
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            initCharts();
+            updateProtocol();
+        });
+    </script>
+</body>
+</html>

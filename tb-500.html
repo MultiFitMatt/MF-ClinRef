@@ -1,0 +1,469 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TB-500 | Clinical Reference</title>
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&family=Rajdhani:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            black: '#050505',
+                            charcoal: '#0f0f11',
+                            surface: '#18181b',
+                            border: '#27272a',
+                            green: '#10b981',
+                            neonGreen: '#00ffa3',
+                            blue: '#3b82f6',
+                            neonBlue: '#00d4ff',
+                            cyan: '#06b6d4',
+                            text: '#e4e4e7',
+                            muted: '#a1a1aa'
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        mono: ['Rajdhani', 'monospace'],
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    
+    <style>
+        body {
+            background-color: #050505;
+            color: #e4e4e7;
+            background-image: radial-gradient(circle at 50% 0%, #18181b 0%, #050505 45%);
+        }
+        
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #0f0f11; }
+        ::-webkit-scrollbar-thumb { background: #27272a; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #3b82f6; }
+        
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 100%;
+            height: 300px;
+            margin: 0 auto;
+        }
+        .glass-panel {
+            background: rgba(15, 15, 17, 0.7);
+            border: 1px solid #27272a;
+            backdrop-filter: blur(4px);
+        }
+        .active-tab {
+            background-color: #06b6d4;
+            color: #000;
+            border-color: #06b6d4;
+        }
+        .inactive-tab {
+            background-color: transparent;
+            color: #a1a1aa;
+            border-color: #27272a;
+        }
+        .inactive-tab:hover {
+            border-color: #06b6d4;
+            color: #e4e4e7;
+        }
+    </style>
+</head>
+<body class="antialiased min-h-screen flex flex-col font-sans selection:bg-brand-blue selection:text-black">
+
+    <!-- ========================================
+         STANDARDIZED HEADER
+         ======================================== -->
+    <header class="border-b border-brand-border bg-brand-charcoal sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 py-4">
+            <div class="flex items-center justify-between">
+                <div class="flex items-center gap-3">
+                    <a href="index.html" class="text-brand-muted hover:text-brand-blue transition-colors">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+                        </svg>
+                    </a>
+                    
+                    <div class="w-10 h-10 bg-brand-surface border border-brand-blue flex items-center justify-center rounded shadow-[0_0_10px_rgba(59,130,246,0.3)]">
+                        <span class="font-mono font-bold text-brand-neonGreen text-base">M</span>
+                    </div>
+                    
+                    <div class="flex flex-col">
+                        <h1 class="font-mono text-2xl md:text-3xl font-bold text-white uppercase">
+                            TB<span class="text-brand-blue">-500</span> <span class="text-gray-500 text-base md:text-lg font-normal">| Thymosin Beta-4</span>
+                        </h1>
+                        <p class="text-[10px] text-brand-green uppercase tracking-[0.2em]">Clinical Reference</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main class="flex-grow w-full max-w-7xl mx-auto px-4 py-8 grid grid-cols-1 lg:grid-cols-12 gap-6">
+
+        <!-- Left Column: Protocol Controls & Details -->
+        <div class="lg:col-span-7 flex flex-col gap-6">
+            
+            <!-- Context Block -->
+            <div class="glass-panel p-6 rounded-lg border-l-4 border-brand-blue">
+                <h2 class="font-mono text-xl text-white mb-2">Clinical Context</h2>
+                <p class="text-brand-muted text-sm leading-relaxed">
+                    TB-500 is a synthetic version of the naturally occurring peptide Thymosin Beta-4. It is primarily utilized in functional medicine for its potential to upregulate actin via actin sequestration, promoting cell migration and tissue repair. Key applications include soft tissue injuries (tendons, ligaments, muscle) and inflammation management.
+                </p>
+            </div>
+
+            <!-- Protocol Selector -->
+            <div class="glass-panel p-1 rounded-lg flex flex-wrap gap-2" id="protocol-controls">
+                <button onclick="setProtocol('acute')" id="btn-acute" class="active-tab flex-1 py-3 px-4 rounded font-mono font-bold text-sm tracking-wide transition-all uppercase">
+                    Acute Injury (Inj)
+                </button>
+                <button onclick="setProtocol('maintenance')" id="btn-maintenance" class="inactive-tab flex-1 py-3 px-4 rounded font-mono font-bold text-sm tracking-wide transition-all uppercase">
+                    Maintenance (Inj)
+                </button>
+                <button onclick="setProtocol('oral')" id="btn-oral" class="inactive-tab flex-1 py-3 px-4 rounded font-mono font-bold text-sm tracking-wide transition-all uppercase">
+                    Oral Protocol
+                </button>
+            </div>
+
+            <!-- Dynamic Protocol Display -->
+            <div class="glass-panel p-6 rounded-lg relative overflow-hidden">
+                <div class="absolute top-0 right-0 p-4 opacity-10">
+                    <span class="font-mono text-9xl font-bold text-white">Rx</span>
+                </div>
+                
+                <div id="protocol-content">
+                    <!-- Content injected via JS -->
+                </div>
+            </div>
+
+            <!-- Key Metrics Grid -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div class="glass-panel p-5 rounded-lg">
+                    <h3 class="font-mono text-brand-blue text-sm uppercase mb-3">Mechanism of Action</h3>
+                    <ul class="space-y-3">
+                        <li class="flex items-start gap-3">
+                            <span class="w-1.5 h-1.5 rounded-full bg-brand-green mt-1.5"></span>
+                            <span class="text-sm text-gray-300"><strong class="text-white">G-Actin Sequestration:</strong> Prevents polymerization, maintaining a pool of actin monomers for rapid cell structure remodeling.</span>
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <span class="w-1.5 h-1.5 rounded-full bg-brand-green mt-1.5"></span>
+                            <span class="text-sm text-gray-300"><strong class="text-white">Cell Migration:</strong> Promotes endothelial and keratinocyte migration to wound sites.</span>
+                        </li>
+                    </ul>
+                </div>
+                <div class="glass-panel p-5 rounded-lg">
+                    <h3 class="font-mono text-red-400 text-sm uppercase mb-3">Warnings & Contraindications</h3>
+                    <ul class="space-y-3">
+                        <li class="flex items-start gap-3">
+                            <span class="w-1.5 h-1.5 rounded-full bg-red-500 mt-1.5"></span>
+                            <span class="text-sm text-gray-300"><strong class="text-white">Active Malignancy:</strong> Theoretical risk due to angiogenic properties. Avoid in patients with active cancer or history of melanoma.</span>
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <span class="w-1.5 h-1.5 rounded-full bg-yellow-500 mt-1.5"></span>
+                            <span class="text-sm text-gray-300"><strong class="text-white">Combination Therapy:</strong> Often paired with BPC-157. Monitor for immune response (rare).</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- Right Column: Visualizations -->
+        <div class="lg:col-span-5 flex flex-col gap-6">
+            
+            <!-- Chart 1: Cycle Visualizer -->
+            <div class="glass-panel p-6 rounded-lg">
+                <div class="flex justify-between items-end mb-4">
+                    <h3 class="font-mono text-lg text-white font-bold">Cycle Timeline Visualizer</h3>
+                    <span class="text-xs text-brand-green font-mono px-2 py-1 bg-brand-green/10 rounded">ESTIMATED EXPOSURE</span>
+                </div>
+                <div class="chart-container">
+                    <canvas id="cycleChart"></canvas>
+                </div>
+                <p class="text-xs text-brand-muted mt-3 text-center font-mono">
+                    *Visual representation of systemic exposure based on dosing frequency.
+                </p>
+            </div>
+
+            <!-- Chart 2: Therapeutic Profile -->
+            <div class="glass-panel p-6 rounded-lg">
+                <div class="flex justify-between items-end mb-4">
+                    <h3 class="font-mono text-lg text-white font-bold">Therapeutic Profile</h3>
+                </div>
+                <div class="chart-container" style="height: 250px;">
+                    <canvas id="radarChart"></canvas>
+                </div>
+            </div>
+
+            <!-- Admin Notes -->
+            <div class="glass-panel p-5 rounded-lg border border-brand-border bg-brand-surface">
+                <h3 class="font-mono text-brand-muted text-xs uppercase tracking-wider mb-2">Administration Notes</h3>
+                <div class="flex flex-col gap-2 text-sm text-gray-300">
+                    <div class="flex justify-between border-b border-brand-border pb-2">
+                        <span>Reconstitution</span>
+                        <span class="font-mono text-brand-blue">Bacteriostatic Water</span>
+                    </div>
+                    <div class="flex justify-between border-b border-brand-border pb-2">
+                        <span>Storage (Lyophilized)</span>
+                        <span class="font-mono text-brand-blue">-20°C (Freezer)</span>
+                    </div>
+                    <div class="flex justify-between pb-1">
+                        <span>Storage (Reconstituted)</span>
+                        <span class="font-mono text-brand-blue">2-8°C (Fridge)</span>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+    </main>
+
+    <!-- ========================================
+         STANDARDIZED FOOTER
+         ======================================== -->
+    <footer class="mt-12 pt-8 border-t border-brand-border/30">
+        <div class="max-w-7xl mx-auto px-4">
+            <div class="bg-brand-charcoal/50 border border-brand-border rounded-lg p-6 mb-6">
+                <div class="flex items-start gap-3">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-brand-muted flex-shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                    </svg>
+                    <div>
+                        <p class="text-xs text-brand-text leading-relaxed">
+                            <span class="text-white font-bold">LEGAL DISCLAIMER:</span> This platform is a <span class="text-white font-semibold">clinical reference tool</span> designed to summarize available research literature and pharmacological data for educational purposes. It is <span class="text-red-400 font-bold">NOT</span> a dosing guide, prescriptive engine, or substitute for professional medical training.
+                        </p>
+                        <p class="text-[10px] text-brand-muted mt-3 tracking-wide uppercase">
+                            Secure Clinical Environment | HIPAA Compliant | Authorized Personnel Only
+                        </p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="flex flex-col md:flex-row justify-between items-center text-[10px] text-brand-muted font-mono uppercase pb-8">
+                <div>Multifactor Solutions &copy; 2024</div>
+                <div class="mt-2 md:mt-0 flex items-center">
+                    <span class="w-2 h-2 rounded-full bg-brand-blue mr-2"></span>
+                    For Clinical Educational Use Only.
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        const state = {
+            currentProtocol: 'acute'
+        };
+
+        const protocols = {
+            acute: {
+                title: "Acute Injury Protocol",
+                sub: "Subcutaneous Injection",
+                phases: [
+                    { name: "Loading Phase", detail: "2.0mg - 2.5mg, 2x per week", duration: "Weeks 1-4" },
+                    { name: "Taper Phase", detail: "2.0mg, 1x per week", duration: "Weeks 5-6" }
+                ],
+                notes: "Ideal for fresh muscle tears, tendonitis flare-ups, or post-surgical recovery. Inject subcutaneously near injury site (systemic, but local preference common).",
+                chartData: [5, 5, 5, 5, 2, 2, 0, 0],
+                chartLabels: ['Wk 1', 'Wk 2', 'Wk 3', 'Wk 4', 'Wk 5', 'Wk 6', 'Wk 7', 'Wk 8']
+            },
+            maintenance: {
+                title: "Chronic / Maintenance",
+                sub: "Subcutaneous Injection",
+                phases: [
+                    { name: "Standard Phase", detail: "2.0mg, 1x per week", duration: "Ongoing" },
+                    { name: "Alternative", detail: "2.5mg every 14 days", duration: "Assessment every 3mo" }
+                ],
+                notes: "Used for chronic inflammation, flexibility maintenance, or long-term cardiac recovery support. Periodic cycling (3 months on, 1 month off) recommended.",
+                chartData: [2, 2, 2, 2, 2, 2, 2, 2],
+                chartLabels: ['Wk 1', 'Wk 2', 'Wk 3', 'Wk 4', 'Wk 5', 'Wk 6', 'Wk 7', 'Wk 8']
+            },
+            oral: {
+                title: "Oral Protocol",
+                sub: "Capsule / Troche (Bio-identical)",
+                phases: [
+                    { name: "Daily Dosing", detail: "500mcg - 3mg Daily", duration: "Variable" },
+                    { name: "Note", detail: "Requires specific formulation (e.g., SNAC, Liposomal)", duration: "-" }
+                ],
+                notes: "Oral bioavailability of TB-4 is generally low without specialized carriers. Dosing is highly dependent on formulation technology. Often used for gut health or when injection is not feasible.",
+                chartData: [3.5, 3.5, 3.5, 3.5, 3.5, 3.5, 3.5, 3.5],
+                chartLabels: ['Wk 1', 'Wk 2', 'Wk 3', 'Wk 4', 'Wk 5', 'Wk 6', 'Wk 7', 'Wk 8']
+            }
+        };
+
+        let cycleChart = null;
+        let radarChart = null;
+
+        function initCharts() {
+            const ctxCycle = document.getElementById('cycleChart').getContext('2d');
+            
+            const gradient = ctxCycle.createLinearGradient(0, 0, 0, 300);
+            gradient.addColorStop(0, 'rgba(6, 182, 212, 0.5)');
+            gradient.addColorStop(1, 'rgba(6, 182, 212, 0.0)');
+
+            cycleChart = new Chart(ctxCycle, {
+                type: 'line',
+                data: {
+                    labels: protocols.acute.chartLabels,
+                    datasets: [{
+                        label: 'Weekly Dosage (mg)',
+                        data: protocols.acute.chartData,
+                        borderColor: '#06b6d4',
+                        backgroundColor: gradient,
+                        borderWidth: 2,
+                        fill: true,
+                        tension: 0.4,
+                        pointBackgroundColor: '#050505',
+                        pointBorderColor: '#10b981',
+                        pointBorderWidth: 2,
+                        pointRadius: 4
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            grid: { color: '#27272a' },
+                            ticks: { color: '#a1a1aa', font: { family: 'Rajdhani' } }
+                        },
+                        x: {
+                            grid: { display: false },
+                            ticks: { color: '#a1a1aa', font: { family: 'Rajdhani' } }
+                        }
+                    },
+                    plugins: {
+                        legend: { display: false },
+                        tooltip: {
+                            backgroundColor: 'rgba(0,0,0,0.9)',
+                            titleFont: { family: 'Rajdhani' },
+                            bodyFont: { family: 'Inter' },
+                            borderColor: '#27272a',
+                            borderWidth: 1,
+                            callbacks: {
+                                label: function(context) {
+                                    return context.parsed.y + ' mg / week';
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+
+            const ctxRadar = document.getElementById('radarChart').getContext('2d');
+            radarChart = new Chart(ctxRadar, {
+                type: 'radar',
+                data: {
+                    labels: ['Angiogenesis', 'Anti-Inflammation', 'Actin Sequestration', 'Tissue Remodeling', 'Neuroprotection'],
+                    datasets: [{
+                        label: 'TB-500 Profile',
+                        data: [90, 75, 95, 85, 60],
+                        backgroundColor: 'rgba(16, 185, 129, 0.2)',
+                        borderColor: '#10b981',
+                        pointBackgroundColor: '#10b981',
+                        borderWidth: 2
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        r: {
+                            angleLines: { color: '#27272a' },
+                            grid: { color: '#27272a' },
+                            pointLabels: {
+                                color: '#e4e4e7',
+                                font: { family: 'Rajdhani', size: 11, weight: 'bold' }
+                            },
+                            ticks: { display: false, backdropColor: 'transparent' }
+                        }
+                    },
+                    plugins: {
+                        legend: { display: false }
+                    }
+                }
+            });
+        }
+
+        function renderProtocol(key) {
+            const data = protocols[key];
+            const container = document.getElementById('protocol-content');
+            
+            const phasesHtml = data.phases.map((phase, index) => `
+                <div class="flex flex-col md:flex-row md:items-center justify-between border-b border-brand-border pb-3 mb-3 last:border-0 last:mb-0 last:pb-0">
+                    <div class="flex items-center gap-3">
+                        <div class="flex items-center justify-center w-8 h-8 rounded bg-brand-surface text-brand-blue font-mono font-bold text-sm">
+                            ${index + 1}
+                        </div>
+                        <div>
+                            <div class="text-white font-bold font-mono text-lg">${phase.name}</div>
+                            <div class="text-brand-green text-sm font-mono tracking-wide">${phase.duration}</div>
+                        </div>
+                    </div>
+                    <div class="mt-2 md:mt-0 text-right">
+                        <div class="text-gray-200 font-medium text-lg">${phase.detail}</div>
+                    </div>
+                </div>
+            `).join('');
+
+            container.innerHTML = `
+                <div class="mb-6">
+                    <h2 class="text-3xl font-mono font-bold text-white mb-1">${data.title}</h2>
+                    <div class="inline-block px-3 py-1 bg-brand-surface rounded text-xs font-mono text-brand-muted uppercase tracking-widest border border-brand-border">
+                        Route: ${data.sub}
+                    </div>
+                </div>
+                
+                <div class="bg-black/30 rounded-lg p-5 mb-6 border border-brand-border">
+                    ${phasesHtml}
+                </div>
+
+                <div class="flex items-start gap-2 text-brand-muted text-sm italic">
+                    <span class="text-brand-blue text-lg leading-none">&raquo;</span>
+                    <p>${data.notes}</p>
+                </div>
+            `;
+        }
+
+        function setProtocol(key) {
+            state.currentProtocol = key;
+
+            ['acute', 'maintenance', 'oral'].forEach(k => {
+                const btn = document.getElementById(`btn-${k}`);
+                if (k === key) {
+                    btn.className = "active-tab flex-1 py-3 px-4 rounded font-mono font-bold text-sm tracking-wide transition-all uppercase shadow-[0_0_15px_rgba(6,182,212,0.3)]";
+                } else {
+                    btn.className = "inactive-tab flex-1 py-3 px-4 rounded font-mono font-bold text-sm tracking-wide transition-all uppercase hover:bg-white/5";
+                }
+            });
+
+            renderProtocol(key);
+
+            if (cycleChart) {
+                cycleChart.data.datasets[0].data = protocols[key].chartData;
+                cycleChart.update();
+            }
+        }
+
+        window.addEventListener('DOMContentLoaded', () => {
+            initCharts();
+            setProtocol('acute');
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Multifactor Solutions | Clinical Reference Portal</title>
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Rajdhani:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            black: '#050505',
+                            charcoal: '#0f0f11',
+                            surface: '#18181b',
+                            border: '#27272a',
+                            green: '#10b981',
+                            neonGreen: '#00ffa3',
+                            blue: '#3b82f6',
+                            neonBlue: '#00d4ff',
+                            cyan: '#06b6d4',
+                            text: '#e4e4e7',
+                            muted: '#a1a1aa'
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        mono: ['Rajdhani', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        body {
+            background-color: #050505;
+            color: #e4e4e7;
+            /* Subtle radial gradient backdrop */
+            background-image: radial-gradient(circle at 50% 0%, #18181b 0%, #050505 45%);
+        }
+        
+        /* Glassmorphism Cards */
+        .glass-card {
+            background: rgba(15, 15, 17, 0.6);
+            backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            transition: all 0.3s ease;
+        }
+        
+        .glass-card:hover {
+            background: rgba(24, 24, 27, 0.7);
+            border-color: rgba(59, 130, 246, 0.3);
+            box-shadow: 0 0 30px rgba(59, 130, 246, 0.15);
+            transform: translateY(-2px);
+        }
+
+        /* Gradient Glows */
+        .glow-blue {
+            position: absolute;
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, rgba(59, 130, 246, 0.15) 0%, transparent 70%);
+            pointer-events: none;
+            filter: blur(60px);
+        }
+        
+        .glow-green {
+            position: absolute;
+            width: 500px;
+            height: 500px;
+            background: radial-gradient(circle, rgba(16, 185, 129, 0.12) 0%, transparent 70%);
+            pointer-events: none;
+            filter: blur(60px);
+        }
+
+        /* Icon Boxes */
+        .icon-box {
+            width: 48px;
+            height: 48px;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+        
+        .glass-card:hover .icon-box {
+            background: rgba(59, 130, 246, 0.1);
+            border-color: rgba(59, 130, 246, 0.3);
+        }
+
+        /* Category Headers */
+        .category-header {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 16px;
+            padding-bottom: 8px;
+            border-bottom: 1px solid rgba(39, 39, 42, 0.5);
+        }
+
+        /* Popular Badge */
+        .badge-popular {
+            position: absolute;
+            top: 12px;
+            right: 12px;
+            background: rgba(16, 185, 129, 0.15);
+            border: 1px solid rgba(16, 185, 129, 0.3);
+            color: #10b981;
+            font-size: 10px;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        /* Smooth Scrolling */
+        html {
+            scroll-behavior: smooth;
+        }
+
+        /* Selection */
+        ::selection {
+            background: rgba(59, 130, 246, 0.3);
+            color: #00d4ff;
+        }
+    </style>
+</head>
+<body class="min-h-screen p-6 md:p-12 font-sans relative overflow-x-hidden">
+
+    <!-- Animated Background Glows -->
+    <div class="glow-blue" style="top: -200px; right: -100px;"></div>
+    <div class="glow-green" style="bottom: -150px; left: -100px;"></div>
+
+    <div class="max-w-7xl mx-auto space-y-12 relative z-10">
+        
+        <!-- Hero Header -->
+        <header class="text-center space-y-4 pt-8 pb-12">
+            <h1 class="font-mono text-5xl md:text-7xl font-bold tracking-wider">
+                <span class="text-white">MULTIFACTOR</span> 
+                <span class="text-brand-blue">SOLUTIONS</span>
+            </h1>
+            <p class="text-brand-muted text-sm md:text-base max-w-2xl mx-auto leading-relaxed">
+                Advanced clinical reference portal for peptide therapy, hormone optimization,<br class="hidden md:block">
+                and metabolic protocols.
+            </p>
+        </header>
+
+        <!-- Category: Growth Hormone Axis (GHRPs) -->
+        <section>
+            <div class="category-header">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-brand-green" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
+                </svg>
+                <h2 class="font-mono text-xl text-brand-green uppercase font-semibold tracking-wide">Growth Hormone Axis (GHRs)</h2>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                
+                <!-- CJC-1295 -->
+                <a href="cjc-1295.html" class="glass-card rounded-xl p-6 block relative group">
+                    <div class="icon-box mb-4">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-brand-green" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
+                        </svg>
+                    </div>
+                    <h3 class="font-mono text-xl font-bold text-white mb-2">CJC-1295</h3>
+                    <p class="text-sm text-brand-muted leading-relaxed">Mod GRF 1-29 GHRH analog. Sleep architecture and pulsatile GH release.</p>
+                    <div class="mt-4 text-xs text-brand-blue font-mono opacity-0 group-hover:opacity-100 transition-opacity">
+                        VIEW PROTOCOL →
+                    </div>
+                </a>
+
+                <!-- Ipamorelin -->
+                <a href="ipamorelin.html" class="glass-card rounded-xl p-6 block relative group">
+                    <div class="icon-box mb-4">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-brand-green" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
+                        </svg>
+                    </div>
+                    <h3 class="font-mono text-xl font-bold text-white mb-2">Ipamorelin</h3>
+                    <p class="text-sm text-brand-muted leading-relaxed">Selective GH Secretagogue. Minimal cortisol impact.</p>
+                    <div class="mt-4 text-xs text-brand-blue font-mono opacity-0 group-hover:opacity-100 transition-opacity">
+                        VIEW PROTOCOL →
+                    </div>
+                </a>
+
+                <!-- Tesamorelin -->
+                <a href="tesamorelin.html" class="glass-card rounded-xl p-6 block relative group">
+                    <div class="icon-box mb-4">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-brand-green" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
+                        </svg>
+                    </div>
+                    <h3 class="font-mono text-xl font-bold text-white mb-2">Tesamorelin</h3>
+                    <p class="text-sm text-brand-muted leading-relaxed">GHRH analog optimized for visceral adiposity reduction.</p>
+                    <div class="mt-4 text-xs text-brand-blue font-mono opacity-0 group-hover:opacity-100 transition-opacity">
+                        VIEW PROTOCOL →
+                    </div>
+                </a>
+
+                <!-- Sermorelin -->
+                <a href="sermorelin.html" class="glass-card rounded-xl p-6 block relative group">
+                    <div class="icon-box mb-4">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-brand-cyan" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
+                        </svg>
+                    </div>
+                    <h3 class="font-mono text-xl font-bold text-white mb-2">Sermorelin</h3>
+                    <p class="text-sm text-brand-muted leading-relaxed">GHRH 1-29 analogue. Pituitary stimulation for natural GH production and sleep support.</p>
+                    <div class="mt-4 text-xs text-brand-blue font-mono opacity-0 group-hover:opacity-100 transition-opacity">
+                        VIEW PROTOCOL →
+                    </div>
+                </a>
+
+                <!-- Combo Stack (Wider Card) -->
+                <a href="combo-stack.html" class="glass-card rounded-xl p-6 block relative group md:col-span-2 lg:col-span-1">
+                    <span class="badge-popular">POPULAR</span>
+                    <div class="icon-box mb-4">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-brand-blue" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1" />
+                        </svg>
+                    </div>
+                    <h3 class="font-mono text-xl font-bold text-white mb-2">Combo Stack</h3>
+                    <p class="text-sm text-brand-muted leading-relaxed">Synergistic CJC-1295 + Ipamorelin. The "Gold Standard" for pulse amplification.</p>
+                    <div class="mt-4 text-xs text-brand-blue font-mono opacity-0 group-hover:opacity-100 transition-opacity">
+                        VIEW PROTOCOL →
+                    </div>
+                </a>
+
+            </div>
+        </section>
+
+        <!-- Category: Hormone Optimization (HRT) -->
+        <section>
+            <div class="category-header">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-brand-blue" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+                </svg>
+                <h2 class="font-mono text-xl text-brand-blue uppercase font-semibold tracking-wide">Hormone Optimization (HRT)</h2>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                
+                <!-- Testosterone -->
+                <a href="testosterone.html" class="glass-card rounded-xl p-6 block relative group">
+                    <div class="icon-box mb-4">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-brand-blue" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+                        </svg>
+                    </div>
+                    <h3 class="font-mono text-xl font-bold text-white mb-2">Testosterone</h3>
+                    <p class="text-sm text-brand-muted leading-relaxed">Injectable, oral, and pellet protocols. Pharmacokinetic simulator.</p>
+                    <div class="mt-4 text-xs text-brand-blue font-mono opacity-0 group-hover:opacity-100 transition-opacity">
+                        VIEW PROTOCOL →
+                    </div>
+                </a>
+
+                <!-- hCG -->
+                <a href="hcg.html" class="glass-card rounded-xl p-6 block relative group">
+                    <div class="icon-box mb-4">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-brand-cyan" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
+                        </svg>
+                    </div>
+                    <h3 class="font-mono text-xl font-bold text-white mb-2">hCG</h3>
+                    <p class="text-sm text-brand-muted leading-relaxed">Gonadotropin analog for fertility preservation and testicular maintenance.</p>
+                    <div class="mt-4 text-xs text-brand-blue font-mono opacity-0 group-hover:opacity-100 transition-opacity">
+                        VIEW PROTOCOL →
+                    </div>
+                </a>
+
+                <!-- Enclomiphene -->
+                <a href="enclomiphene.html" class="glass-card rounded-xl p-6 block relative group">
+                    <div class="icon-box mb-4">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-brand-green" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z" />
+                        </svg>
+                    </div>
+                    <h3 class="font-mono text-xl font-bold text-white mb-2">Enclomiphene</h3>
+                    <p class="text-sm text-brand-muted leading-relaxed">SERM therapy for secondary hypogonadism. Fertility-sparing TRT alternative.</p>
+                    <div class="mt-4 text-xs text-brand-blue font-mono opacity-0 group-hover:opacity-100 transition-opacity">
+                        VIEW PROTOCOL →
+                    </div>
+                </a>
+
+                <!-- Anastrozole -->
+                <a href="anastrozole.html" class="glass-card rounded-xl p-6 block relative group">
+                    <div class="icon-box mb-4">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-brand-cyan" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                        </svg>
+                    </div>
+                    <h3 class="font-mono text-xl font-bold text-white mb-2">Anastrozole</h3>
+                    <p class="text-sm text-brand-muted leading-relaxed">Aromatase inhibitor reference. High E2 management protocols.</p>
+                    <div class="mt-4 text-xs text-brand-blue font-mono opacity-0 group-hover:opacity-100 transition-opacity">
+                        VIEW PROTOCOL →
+                    </div>
+                </a>
+
+            </div>
+        </section>
+
+        <!-- Category: Musculoskeletal & Recovery -->
+        <section>
+            <div class="category-header">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-brand-green" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 10h4.764a2 2 0 011.789 2.894l-3.5 7A2 2 0 0115.263 21h-4.017c-.163 0-.326-.02-.485-.06L7 20m7-10V5a2 2 0 00-2-2h-.095c-.5 0-.905.405-.905.905 0 .714-.211 1.412-.608 2.006L7 11v9m7-10h-2M7 20H5a2 2 0 01-2-2v-6a2 2 0 012-2h2.5" />
+                </svg>
+                <h2 class="font-mono text-xl text-brand-green uppercase font-semibold tracking-wide">Musculoskeletal & Recovery</h2>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                
+                <!-- BPC-157 -->
+                <a href="bpc-157.html" class="glass-card rounded-xl p-6 block relative group">
+                    <div class="icon-box mb-4">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-brand-green" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
+                        </svg>
+                    </div>
+                    <h3 class="font-mono text-xl font-bold text-white mb-2">BPC-157</h3>
+                    <p class="text-sm text-brand-muted leading-relaxed">Systemic and localized tissue recovery. Angiogenesis promotion and tendon repair.</p>
+                    <div class="mt-4 text-xs text-brand-blue font-mono opacity-0 group-hover:opacity-100 transition-opacity">
+                        VIEW PROTOCOL →
+                    </div>
+                </a>
+
+                <!-- TB-500 -->
+                <a href="tb-500.html" class="glass-card rounded-xl p-6 block relative group">
+                    <div class="icon-box mb-4">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-brand-blue" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
+                        </svg>
+                    </div>
+                    <h3 class="font-mono text-xl font-bold text-white mb-2">TB-500</h3>
+                    <p class="text-sm text-brand-muted leading-relaxed">Thymosin Beta-4 actin sequestration. Acute injury loading phases.</p>
+                    <div class="mt-4 text-xs text-brand-blue font-mono opacity-0 group-hover:opacity-100 transition-opacity">
+                        VIEW PROTOCOL →
+                    </div>
+                </a>
+
+            </div>
+        </section>
+
+        <!-- Category: Metabolic & Mitochondrial -->
+        <section>
+            <div class="category-header">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-brand-cyan" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
+                </svg>
+                <h2 class="font-mono text-xl text-brand-cyan uppercase font-semibold tracking-wide">Metabolic & Mitochondrial</h2>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                
+                <!-- SS-31 -->
+                <a href="ss-31.html" class="glass-card rounded-xl p-6 block relative group">
+                    <div class="icon-box mb-4">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-brand-cyan" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
+                        </svg>
+                    </div>
+                    <h3 class="font-mono text-xl font-bold text-white mb-2">SS-31</h3>
+                    <p class="text-sm text-brand-muted leading-relaxed">Elamipretide mitochondrial therapy. IMM cardiolipin stabilization and ATP restoration.</p>
+                    <div class="mt-4 text-xs text-brand-blue font-mono opacity-0 group-hover:opacity-100 transition-opacity">
+                        VIEW PROTOCOL →
+                    </div>
+                </a>
+
+                <!-- NAD+ -->
+                <a href="nad.html" class="glass-card rounded-xl p-6 block relative group">
+                    <div class="icon-box mb-4">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-brand-blue" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 3v2m6-2v2M9 19v2m6-2v2M5 9H3m2 6H3m18-6h-2m2 6h-2M7 19h10a2 2 0 002-2V7a2 2 0 00-2-2H7a2 2 0 00-2 2v10a2 2 0 002 2zM9 9h6v6H9V9z" />
+                        </svg>
+                    </div>
+                    <h3 class="font-mono text-xl font-bold text-white mb-2">NAD+</h3>
+                    <p class="text-sm text-brand-muted leading-relaxed">Mitochondrial ETC support and sirtuin activation. Titration protocols.</p>
+                    <div class="mt-4 text-xs text-brand-blue font-mono opacity-0 group-hover:opacity-100 transition-opacity">
+                        VIEW PROTOCOL →
+                    </div>
+                </a>
+
+            </div>
+        </section>
+
+        <!-- Category: Sexual Health -->
+        <section>
+            <div class="category-header">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-brand-blue" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
+                </svg>
+                <h2 class="font-mono text-xl text-brand-blue uppercase font-semibold tracking-wide">Sexual Health</h2>
+            </div>
+            
+            <div class="grid grid-cols-1 gap-6">
+                
+                <!-- PT-141 (Bremelanotide) -->
+                <a href="pt-141.html" class="glass-card rounded-xl p-6 block relative group">
+                    <div class="icon-box mb-4">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-brand-blue" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
+                        </svg>
+                    </div>
+                    <h3 class="font-mono text-xl font-bold text-white mb-2">PT-141 (Bremelanotide)</h3>
+                    <p class="text-sm text-brand-muted leading-relaxed">Central nervous system melanocortin modulation for HSDD and ED. Unique mechanism separate from PDE5 inhibitors.</p>
+                    <div class="mt-4 text-xs text-brand-blue font-mono opacity-0 group-hover:opacity-100 transition-opacity">
+                        VIEW PROTOCOL →
+                    </div>
+                </a>
+
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer class="mt-16 pt-8 border-t border-brand-border/30">
+            <!-- Legal Disclaimer -->
+            <div class="bg-brand-charcoal/50 border border-brand-border rounded-lg p-6 mb-6">
+                <div class="flex items-start gap-3">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-brand-muted flex-shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                    </svg>
+                    <div>
+                        <p class="text-xs text-brand-text leading-relaxed">
+                            <span class="text-white font-bold">LEGAL DISCLAIMER:</span> This platform is a <span class="text-white font-semibold">clinical reference tool</span> designed to summarize available research literature and pharmacological data for educational purposes. It is <span class="text-red-400 font-bold">NOT</span> a dosing guide, prescriptive engine, or substitute for professional medical training. All protocols, calculations, and visualizations are theoretical and based on off-label observations. Licensed healthcare providers must exercise independent clinical judgment and verify all information against primary literature and local regulations.
+                        </p>
+                        <p class="text-[10px] text-brand-muted mt-3 tracking-wide uppercase">
+                            Secure Clinical Environment | HIPAA Compliant | Authorized Personnel Only
+                        </p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Copyright -->
+            <div class="flex flex-col md:flex-row justify-between items-center text-[10px] text-brand-muted font-mono uppercase">
+                <div>Multifactor Solutions &copy; 2024</div>
+                <div class="mt-2 md:mt-0 flex items-center">
+                    <span class="w-2 h-2 rounded-full bg-brand-blue mr-2"></span>
+                    For Clinical Educational Use Only.
+                </div>
+            </div>
+        </footer>
+
+    </div>
+
+</body>
+</html>

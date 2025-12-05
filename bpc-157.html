@@ -1,0 +1,589 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BPC-157 | Clinical Reference</title>
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Rajdhani:wght@600;700&display=swap" rel="stylesheet">
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        display: ['Rajdhani', 'sans-serif'],
+                    },
+                    colors: {
+                        brand: {
+                            black: '#050505',
+                            charcoal: '#0f0f11',
+                            surface: '#18181b',
+                            border: '#27272a',
+                            green: '#10b981',
+                            blue: '#3b82f6',
+                            text: '#e4e4e7',
+                            muted: '#a1a1aa'
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <style>
+        body {
+            background-color: #050505;
+            color: #a1a1aa;
+        }
+
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #0f0f11; }
+        ::-webkit-scrollbar-thumb { background: #27272a; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #3b82f6; }
+
+        .card {
+            background-color: #0f0f11;
+            border: 1px solid #27272a;
+            border-radius: 16px;
+            overflow: hidden;
+            transition: border-color 0.2s;
+        }
+        .card:hover { border-color: #3b82f6; }
+
+        .input-stealth {
+            background: #18181b;
+            border: 1px solid #27272a;
+            color: white;
+            font-family: 'Inter', sans-serif;
+            font-size: 0.85rem;
+            border-radius: 8px;
+            transition: all 0.2s;
+            appearance: none;
+        }
+        .input-stealth:focus {
+            border-color: #3b82f6;
+            outline: none;
+            background: #18181b;
+        }
+
+        .btn-stealth {
+            border: 1px solid #27272a;
+            color: #a1a1aa;
+            background: #0f0f11;
+            font-family: 'Inter', sans-serif;
+            font-weight: 600;
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            transition: all 0.2s;
+            border-radius: 8px;
+        }
+        .btn-stealth.active {
+            background: #18181b;
+            border-color: #3b82f6;
+            color: white;
+            box-shadow: 0 0 15px rgba(59, 130, 246, 0.1);
+        }
+
+        .chart-container { position: relative; width: 100%; height: 160px; }
+        
+        select.input-stealth {
+            background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%23a1a1aa' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M6 8l4 4 4-4'/%3e%3c/svg%3e");
+            background-position: right 0.5rem center;
+            background-repeat: no-repeat;
+            background-size: 1.5em 1.5em;
+            padding-right: 2.5rem;
+        }
+    </style>
+</head>
+<body class="font-sans min-h-screen flex flex-col p-4 md:p-6 lg:p-8 max-w-[1600px] mx-auto selection:bg-brand-blue selection:text-white">
+
+    <!-- ========================================
+         STANDARDIZED HEADER
+         ======================================== -->
+    <header class="flex justify-between items-center mb-8 px-2 border-b border-brand-border pb-6">
+        <div class="flex items-center gap-4">
+            <a href="index.html" class="text-brand-muted hover:text-brand-blue transition-colors">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+                </svg>
+            </a>
+            
+            <div class="h-10 w-10 bg-brand-surface border border-brand-blue rounded-xl flex items-center justify-center shadow-[0_0_10px_rgba(59,130,246,0.3)]">
+                <span class="text-brand-green font-bold font-display text-lg">M</span>
+            </div>
+            
+            <div>
+                <h1 class="text-2xl font-display font-bold text-white tracking-wide uppercase">
+                    BPC-157 <span class="text-neutral-600 font-sans text-sm normal-case font-medium ml-2">Clinical Reference</span>
+                </h1>
+            </div>
+        </div>
+        
+        <div class="flex gap-3">
+             <div class="text-xs font-medium text-neutral-500 bg-brand-surface border border-brand-border px-3 py-1.5 rounded-lg">
+                <span class="text-neutral-600 mr-2 uppercase tracking-wider">Half-Life</span> 4 Hours
+             </div>
+             <div class="text-xs font-medium text-neutral-500 bg-brand-surface border border-brand-border px-3 py-1.5 rounded-lg">
+                <span class="text-neutral-600 mr-2 uppercase tracking-wider">Class</span> Peptide
+             </div>
+        </div>
+    </header>
+
+    <!-- Main Grid Layout -->
+    <main class="flex-grow grid grid-cols-1 lg:grid-cols-12 gap-6 w-full">
+
+        <!-- LEFT COLUMN: Config (3 cols) -->
+        <div class="lg:col-span-3 space-y-6">
+            
+            <!-- Patient / Config -->
+            <section class="card p-5">
+                <h2 class="text-white font-display font-bold uppercase text-sm tracking-widest mb-5 border-b border-brand-border pb-2">
+                    Configuration
+                </h2>
+                
+                <div class="space-y-5">
+                    <div>
+                        <label class="block text-xs font-semibold text-neutral-500 uppercase tracking-wide mb-2">Indication</label>
+                        <select id="indication-select" onchange="updateProtocol()" class="w-full input-stealth p-3">
+                            <option value="msk_acute">MSK • Acute Injury</option>
+                            <option value="msk_chronic">MSK • Chronic Tendonitis</option>
+                            <option value="gut_ibs">GI • IBS & Leaky Gut</option>
+                            <option value="gut_gerd">GI • GERD & Ulcers</option>
+                            <option value="neuro">Neuro • Protection</option>
+                        </select>
+                    </div>
+
+                    <div>
+                        <label class="block text-xs font-semibold text-neutral-500 uppercase tracking-wide mb-2">Intensity</label>
+                        <div class="grid grid-cols-2 gap-2">
+                            <button onclick="setSeverity('standard')" id="sev-standard" class="btn-stealth active py-2.5">Standard</button>
+                            <button onclick="setSeverity('aggressive')" id="sev-aggressive" class="btn-stealth py-2.5">Aggressive</button>
+                        </div>
+                    </div>
+
+                    <div class="bg-black p-4 rounded-xl border border-brand-border mt-2">
+                        <span class="block text-xs font-semibold text-neutral-500 uppercase mb-1">Recommended Route</span>
+                        <div id="route-display" class="text-brand-blue font-display font-bold text-xl">INJECTION (SUBQ)</div>
+                        <div id="route-note" class="text-xs text-neutral-500 mt-1 leading-snug">Local administration preferred near injury.</div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Quick Mechanism Reference -->
+            <section class="card p-5">
+                <h2 class="text-neutral-400 font-display font-bold uppercase text-sm tracking-widest mb-4">Mechanism</h2>
+                <ul class="space-y-4">
+                    <li class="flex gap-3">
+                        <div class="w-1 h-1 rounded-full bg-brand-blue mt-2 flex-shrink-0"></div>
+                        <p class="text-xs text-neutral-400 leading-relaxed"><strong class="text-neutral-200">Angiogenesis:</strong> Upregulates VEGF to form new blood vessels.</p>
+                    </li>
+                    <li class="flex gap-3">
+                        <div class="w-1 h-1 rounded-full bg-brand-blue mt-2 flex-shrink-0"></div>
+                        <p class="text-xs text-neutral-400 leading-relaxed"><strong class="text-neutral-200">Nitric Oxide:</strong> Modulates NO system for endothelial protection.</p>
+                    </li>
+                    <li class="flex gap-3">
+                        <div class="w-1 h-1 rounded-full bg-brand-blue mt-2 flex-shrink-0"></div>
+                        <p class="text-xs text-neutral-400 leading-relaxed"><strong class="text-neutral-200">FAK-Paxillin:</strong> Enhances cell migration for tendon repair.</p>
+                    </li>
+                </ul>
+            </section>
+        </div>
+
+        <!-- CENTER COLUMN: Output (6 cols) -->
+        <div class="lg:col-span-6 space-y-6">
+            
+            <!-- Active Protocol Card -->
+            <section class="card p-6 md:p-8 relative group">
+                <div class="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-brand-blue to-transparent opacity-50"></div>
+                
+                <div class="relative z-10">
+                    <div class="flex justify-between items-start mb-8">
+                        <div>
+                            <div class="flex items-center gap-2 mb-2">
+                                <span class="w-1.5 h-1.5 rounded-full bg-brand-blue"></span>
+                                <span class="text-brand-blue text-[10px] font-bold tracking-widest uppercase">Active Protocol</span>
+                            </div>
+                            <h2 id="protocol-title" class="text-3xl font-display font-bold text-white tracking-tight uppercase">Acute Injury</h2>
+                        </div>
+                        <div class="text-right">
+                            <div class="text-xs font-semibold text-neutral-500 uppercase mb-1">Total Daily Load</div>
+                            <div id="daily-load" class="text-3xl font-display text-white font-bold">500 mcg</div>
+                        </div>
+                    </div>
+
+                    <!-- Dosing Panel -->
+                    <div class="grid grid-cols-2 gap-4 mb-8">
+                        <!-- AM Dose -->
+                        <div class="bg-brand-surface rounded-xl p-5 border border-brand-border group-hover:border-neutral-700 transition-colors">
+                            <div class="flex justify-between mb-2">
+                                <span class="text-xs font-bold text-neutral-400 uppercase">Morning Dose</span>
+                                <span class="text-[10px] font-bold text-brand-blue bg-brand-blue/10 px-2 py-0.5 rounded border border-brand-blue/20">FASTED</span>
+                            </div>
+                            <div id="dose-am" class="text-2xl font-display font-bold text-white">250 mcg</div>
+                            <div class="text-xs text-neutral-500 mt-1">Empty stomach (30m pre-food)</div>
+                        </div>
+                        <!-- PM Dose -->
+                        <div class="bg-brand-surface rounded-xl p-5 border border-brand-border group-hover:border-neutral-700 transition-colors">
+                            <div class="flex justify-between mb-2">
+                                <span class="text-xs font-bold text-neutral-400 uppercase">Evening Dose</span>
+                                <span class="text-[10px] font-bold text-neutral-500 bg-black px-2 py-0.5 rounded border border-brand-border">PM</span>
+                            </div>
+                            <div id="dose-pm" class="text-2xl font-display font-bold text-white">250 mcg</div>
+                            <div class="text-xs text-neutral-500 mt-1">At least 2 hours post-dinner</div>
+                        </div>
+                    </div>
+
+                    <!-- Instructions Block -->
+                    <div class="flex gap-4 items-start bg-black p-4 rounded-xl border border-brand-border">
+                        <div class="mt-0.5 text-brand-blue">
+                             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                        </div>
+                        <div>
+                            <strong class="text-white text-xs uppercase block mb-1">Clinical Instructions</strong>
+                            <span id="protocol-instructions" class="text-sm text-neutral-400 leading-relaxed">Reconstitute 5mg vial with 2ml BAC water. Inject subcutaneously near the site of injury if possible, otherwise abdominal fat pad is acceptable for systemic effect.</span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Timeline / Cycling Strip -->
+            <section class="card p-5">
+                <div class="flex justify-between items-center mb-4">
+                    <h2 class="text-white font-display font-bold uppercase text-sm tracking-widest flex items-center gap-2">
+                        Cycle Timeline
+                    </h2>
+                    <div class="flex gap-2">
+                         <input type="date" id="start-date" class="input-stealth py-1 px-2.5 text-xs cursor-pointer" onchange="calculateDates()">
+                         <select id="duration-select" class="input-stealth py-1 px-2.5 text-xs cursor-pointer" onchange="calculateDates()">
+                            <option value="4">4 Weeks</option>
+                            <option value="6">6 Weeks</option>
+                            <option value="8">8 Weeks</option>
+                            <option value="12">12 Weeks</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- Timeline Bar -->
+                <div class="h-8 w-full bg-black flex rounded-lg overflow-hidden mb-3 relative border border-brand-border">
+                     <div class="h-full bg-neutral-800 flex items-center justify-center relative border-r border-brand-border" style="width: 65%">
+                         <div class="absolute inset-0 bg-brand-blue opacity-10"></div>
+                         <span class="text-[10px] font-bold text-white tracking-wider z-10">ON CYCLE</span>
+                     </div>
+                     <div class="h-full bg-brand-surface flex items-center justify-center relative border-r border-brand-border" style="width: 20%">
+                         <div class="absolute inset-0 w-full h-full opacity-10" style="background-image: repeating-linear-gradient(45deg, #fff, #fff 5px, transparent 5px, transparent 10px);"></div>
+                         <span class="text-[10px] font-bold text-neutral-500 tracking-wider z-10">WASHOUT</span>
+                     </div>
+                     <div class="h-full bg-black flex items-center justify-center" style="width: 15%">
+                        <span class="text-[10px] font-bold text-neutral-600">RESUME</span>
+                     </div>
+                </div>
+
+                <div class="flex justify-between text-xs font-medium">
+                    <div class="text-left">
+                        <span class="block text-[10px] text-neutral-500 uppercase mb-0.5">Start</span>
+                        <span id="display-start" class="text-white">Today</span>
+                    </div>
+                    <div class="text-center">
+                        <span class="block text-[10px] text-neutral-500 uppercase mb-0.5">Cycle End</span>
+                        <span id="display-end" class="text-white">--</span>
+                    </div>
+                    <div class="text-right">
+                        <span class="block text-[10px] text-neutral-500 uppercase mb-0.5">Resume Date</span>
+                        <span id="display-resume" class="text-brand-blue font-bold">--</span>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <!-- RIGHT COLUMN: Data & Safety (3 cols) -->
+        <div class="lg:col-span-3 space-y-6">
+
+            <!-- Chart Card -->
+            <section class="card p-5">
+                <h2 class="text-neutral-300 font-display font-bold uppercase text-sm tracking-widest mb-4">Efficacy Profile</h2>
+                <div class="chart-container">
+                    <canvas id="radarChart"></canvas>
+                </div>
+                <div class="text-[10px] text-center text-neutral-500 font-medium uppercase mt-2">Relative Tissue Affinity</div>
+            </section>
+
+            <!-- Kinetics Chart -->
+            <section class="card p-5">
+                 <h2 class="text-neutral-300 font-display font-bold uppercase text-sm tracking-widest mb-2">Saturation</h2>
+                <div class="chart-container h-24">
+                     <canvas id="saturationChart"></canvas>
+                </div>
+                <div class="flex justify-between mt-2 text-[10px] font-display font-medium text-neutral-500">
+                    <span>DAY 1</span>
+                    <span>DAY 3</span>
+                    <span>DAY 7</span>
+                </div>
+            </section>
+
+            <!-- Safety / Contraindications -->
+            <section class="card p-5 border-l-2 border-l-red-900">
+                <h2 class="text-white font-display font-bold uppercase text-sm tracking-widest mb-3">Safety Profile</h2>
+                
+                <div class="space-y-4">
+                    <div class="bg-red-900/10 border border-red-900/30 p-3 rounded-lg">
+                        <span class="text-[10px] font-bold text-red-500 uppercase block mb-1">Contraindication</span>
+                        <p class="text-xs text-neutral-400 leading-snug">Active Malignancy. VEGF promotion may accelerate tumor growth.</p>
+                    </div>
+                    
+                    <div>
+                        <span class="text-[10px] font-bold text-neutral-500 uppercase block mb-2">Interactions</span>
+                        <div class="grid grid-cols-1 gap-2">
+                            <div class="flex justify-between items-center bg-black p-2.5 rounded-lg border border-brand-border">
+                                <span class="text-xs text-neutral-300">NSAIDs</span>
+                                <span class="text-[10px] font-bold text-neutral-400 bg-brand-surface px-2 py-0.5 rounded border border-brand-border">Protective</span>
+                            </div>
+                            <div class="flex justify-between items-center bg-black p-2.5 rounded-lg border border-brand-border">
+                                <span class="text-xs text-neutral-300">Stimulants</span>
+                                <span class="text-[10px] font-bold text-neutral-500 bg-brand-surface px-2 py-0.5 rounded border border-brand-border">Inhibitory</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+    </main>
+
+    <!-- ========================================
+         STANDARDIZED FOOTER
+         ======================================== -->
+    <footer class="mt-12 pt-8 border-t border-brand-border/30">
+        <div class="max-w-7xl mx-auto px-4">
+            <div class="bg-brand-charcoal/50 border border-brand-border rounded-lg p-6 mb-6">
+                <div class="flex items-start gap-3">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-brand-muted flex-shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                    </svg>
+                    <div>
+                        <p class="text-xs text-brand-text leading-relaxed">
+                            <span class="text-white font-bold">LEGAL DISCLAIMER:</span> This platform is a <span class="text-white font-semibold">clinical reference tool</span> designed to summarize available research literature and pharmacological data for educational purposes. It is <span class="text-red-400 font-bold">NOT</span> a dosing guide, prescriptive engine, or substitute for professional medical training.
+                        </p>
+                        <p class="text-[10px] text-brand-muted mt-3 tracking-wide uppercase">
+                            Secure Clinical Environment | HIPAA Compliant | Authorized Personnel Only
+                        </p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="flex flex-col md:flex-row justify-between items-center text-[10px] text-brand-muted font-mono uppercase pb-8">
+                <div>Multifactor Solutions &copy; 2024</div>
+                <div class="mt-2 md:mt-0 flex items-center">
+                    <span class="w-2 h-2 rounded-full bg-brand-blue mr-2"></span>
+                    For Clinical Educational Use Only.
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Logic -->
+    <script>
+        const colors = { 
+            blue: '#3b82f6', 
+            blueAlpha: 'rgba(59, 130, 246, 0.2)',
+            green: '#10b981', 
+            greenAlpha: 'rgba(16, 185, 129, 0.2)'
+        };
+        
+        const protocols = {
+            msk_acute: {
+                title: "Acute Injury",
+                route: "INJECTION (SUBQ)",
+                routeNote: "Local to injury if possible.",
+                color: colors.blue,
+                standard: { am: "250 mcg", pm: "250 mcg", total: "500 mcg" },
+                aggressive: { am: "500 mcg", pm: "500 mcg", total: "1000 mcg" },
+                desc: "Inject subcutaneously near the site of injury. Consistent timing (every 12h) optimizes serum levels."
+            },
+            msk_chronic: {
+                title: "Chronic Tendonitis",
+                route: "INJECTION (SUBQ)",
+                routeNote: "Local or Systemic.",
+                color: colors.blue,
+                standard: { am: "250 mcg", pm: "250 mcg", total: "500 mcg" },
+                aggressive: { am: "350 mcg", pm: "350 mcg", total: "700 mcg" },
+                desc: "Daily loading required for collagen synthesis. Combine with eccentric loading physical therapy."
+            },
+            gut_ibs: {
+                title: "IBS / Leaky Gut",
+                route: "ORAL (ARG-SALT)",
+                routeNote: "Stable gastric salt required.",
+                color: colors.green,
+                standard: { am: "500 mcg", pm: "N/A", total: "500 mcg" },
+                aggressive: { am: "500 mcg", pm: "500 mcg", total: "1000 mcg" },
+                desc: "Oral stable salt (Arg-BPC). Take on empty stomach (min 30 mins before food)."
+            },
+            gut_gerd: {
+                title: "GERD / Ulcers",
+                route: "ORAL (LIQUID)",
+                routeNote: "Coat the esophagus.",
+                color: colors.green,
+                standard: { am: "250 mcg", pm: "250 mcg", total: "500 mcg" },
+                aggressive: { am: "500 mcg", pm: "500 mcg", total: "1000 mcg" },
+                desc: "Hold liquid under tongue for 60s then swallow to coat esophageal lining."
+            },
+            neuro: {
+                title: "Neuro Protection",
+                route: "INTRANASAL / SUBQ",
+                routeNote: "Systemic administration.",
+                color: colors.blue,
+                standard: { am: "250 mcg", pm: "N/A", total: "250 mcg" },
+                aggressive: { am: "250 mcg", pm: "250 mcg", total: "500 mcg" },
+                desc: "Systemic administration effects brain inflammation via gut-brain axis modulation."
+            }
+        };
+
+        let state = { ind: 'msk_acute', sev: 'standard', charts: {} };
+
+        function setSeverity(level) {
+            state.sev = level;
+            const btnStd = document.getElementById('sev-standard');
+            const btnAgg = document.getElementById('sev-aggressive');
+            
+            if (level === 'standard') {
+                btnStd.className = "btn-stealth active py-2.5";
+                btnAgg.className = "btn-stealth py-2.5";
+            } else {
+                btnStd.className = "btn-stealth py-2.5";
+                btnAgg.className = "btn-stealth active py-2.5";
+            }
+            updateProtocol();
+        }
+
+        function updateProtocol() {
+            state.ind = document.getElementById('indication-select').value;
+            const p = protocols[state.ind];
+            const data = p[state.sev];
+
+            document.getElementById('protocol-title').innerText = p.title;
+            document.getElementById('daily-load').innerText = data.total;
+            document.getElementById('dose-am').innerText = data.am;
+            document.getElementById('dose-pm').innerText = data.pm;
+            document.getElementById('protocol-instructions').innerText = p.desc;
+            document.getElementById('route-display').innerText = p.route;
+            document.getElementById('route-note').innerText = p.routeNote;
+
+            updateCharts();
+        }
+
+        function calculateDates() {
+            const startVal = document.getElementById('start-date').value;
+            if(!startVal) return;
+            
+            const start = new Date(startVal);
+            const weeks = parseInt(document.getElementById('duration-select').value);
+            
+            const end = new Date(start);
+            end.setDate(end.getDate() + (weeks * 7));
+            
+            const resume = new Date(end);
+            resume.setDate(resume.getDate() + 14);
+
+            const fmt = d => d.toLocaleDateString('en-US', {month:'short', day:'numeric'});
+            
+            document.getElementById('display-start').innerText = fmt(start);
+            document.getElementById('display-end').innerText = fmt(end);
+            document.getElementById('display-resume').innerText = fmt(resume);
+        }
+
+        Chart.defaults.font.family = "'Inter', sans-serif";
+        Chart.defaults.color = "#a1a1aa";
+        Chart.defaults.scale.grid.color = "#27272a";
+
+        function initCharts() {
+            const rCtx = document.getElementById('radarChart').getContext('2d');
+            state.charts.radar = new Chart(rCtx, {
+                type: 'radar',
+                data: {
+                    labels: ['TENDON', 'MUSCLE', 'GUT', 'NERVE', 'BONE'],
+                    datasets: [{
+                        data: [90, 70, 40, 50, 60],
+                        backgroundColor: 'rgba(59, 130, 246, 0.1)',
+                        borderColor: '#3b82f6',
+                        borderWidth: 2,
+                        pointBackgroundColor: '#050505',
+                        pointBorderColor: '#3b82f6'
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        r: {
+                            angleLines: { color: '#27272a' },
+                            grid: { color: '#27272a' },
+                            pointLabels: { color: '#a1a1aa', font: {size: 10, weight: '600'} },
+                            ticks: { display: false }
+                        }
+                    },
+                    plugins: { legend: { display: false } }
+                }
+            });
+
+            const sCtx = document.getElementById('saturationChart').getContext('2d');
+            let gradient = sCtx.createLinearGradient(0, 0, 0, 200);
+            gradient.addColorStop(0, 'rgba(59, 130, 246, 0.2)');
+            gradient.addColorStop(1, 'rgba(59, 130, 246, 0)');
+
+            state.charts.sat = new Chart(sCtx, {
+                type: 'line',
+                data: {
+                    labels: ['1', '2', '3', '4', '5', '6', '7'],
+                    datasets: [{
+                        data: [100, 300, 450, 500, 500, 500, 500],
+                        borderColor: '#3b82f6',
+                        backgroundColor: gradient,
+                        fill: true,
+                        tension: 0.4,
+                        borderWidth: 2,
+                        pointRadius: 0
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: { x: { display: false }, y: { display: false } },
+                    plugins: { legend: { display: false } }
+                }
+            });
+        }
+
+        function updateCharts() {
+            if(!state.charts.radar) return;
+            
+            const i = state.ind;
+            let data = [50,50,50,50,50];
+
+            if(i.includes('msk')) data = [95, 80, 20, 30, 50];
+            else if(i.includes('gut')) { data = [20, 20, 95, 30, 10]; }
+            else if(i === 'neuro') data = [30, 40, 30, 90, 20];
+
+            state.charts.radar.data.datasets[0].data = data;
+            state.charts.radar.update();
+            state.charts.sat.update();
+        }
+
+        window.addEventListener('DOMContentLoaded', () => {
+            document.getElementById('start-date').valueAsDate = new Date();
+            initCharts();
+            updateProtocol();
+            calculateDates();
+        });
+    </script>
+</body>
+</html>

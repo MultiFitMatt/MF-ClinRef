@@ -1,0 +1,619 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Enclomiphene Citrate | Clinical Reference</title>
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&family=Rajdhani:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        mono: ['Rajdhani', 'monospace'],
+                    },
+                    colors: {
+                        brand: {
+                            black: '#050505',
+                            charcoal: '#0f0f11',
+                            surface: '#18181b',
+                            border: '#27272a',
+                            green: '#10b981',
+                            blue: '#3b82f6',
+                            text: '#e4e4e7',
+                            muted: '#a1a1aa'
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        body {
+            background-color: #050505;
+            color: #e4e4e7;
+        }
+
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #0f0f11; }
+        ::-webkit-scrollbar-thumb { background: #27272a; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #3b82f6; }
+
+        .chart-container {
+            position: relative;
+            width: 100%;
+            height: 300px;
+            max-height: 400px;
+        }
+        
+        .bg-grid {
+            background-size: 40px 40px;
+            background-image:
+                linear-gradient(to right, rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+        }
+    </style>
+</head>
+<body class="font-sans antialiased bg-grid min-h-screen flex flex-col">
+
+    <!-- ========================================
+         STANDARDIZED HEADER
+         ======================================== -->
+    <header class="sticky top-0 z-50 bg-brand-black/90 backdrop-blur-md border-b border-brand-border">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16">
+                <div class="flex items-center gap-3">
+                    <a href="index.html" class="text-brand-muted hover:text-brand-blue transition-colors">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+                        </svg>
+                    </a>
+                    
+                    <div class="h-10 w-10 bg-brand-surface border border-brand-blue rounded flex items-center justify-center shadow-[0_0_10px_rgba(59,130,246,0.3)]">
+                        <span class="font-mono font-bold text-brand-green text-base">M</span>
+                    </div>
+                    
+                    <div>
+                        <h1 class="font-mono text-xl font-bold tracking-wider text-white">ENCLOMIPHENE <span class="text-brand-blue">CITRATE</span></h1>
+                        <p class="text-[10px] text-brand-green font-mono tracking-widest uppercase">Clinical Reference</p>
+                    </div>
+                </div>
+                
+                <nav class="hidden md:flex space-x-8">
+                    <button onclick="scrollToSection('mechanism')" class="text-sm font-mono text-brand-muted hover:text-brand-green transition-colors uppercase tracking-wide">Mechanism</button>
+                    <button onclick="scrollToSection('dosing')" class="text-sm font-mono text-brand-muted hover:text-brand-green transition-colors uppercase tracking-wide">Protocols</button>
+                    <button onclick="scrollToSection('comparison')" class="text-sm font-mono text-brand-muted hover:text-brand-green transition-colors uppercase tracking-wide">Data</button>
+                    <button onclick="scrollToSection('monitoring')" class="text-sm font-mono text-brand-muted hover:text-brand-green transition-colors uppercase tracking-wide">Monitoring</button>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <main class="flex-grow max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8 w-full">
+
+        <!-- Intro / Hero Cards -->
+        <section class="grid grid-cols-1 md:grid-cols-4 gap-4">
+            <div class="md:col-span-2 bg-brand-surface border border-brand-border p-6 rounded-lg relative overflow-hidden group">
+                <div class="absolute top-0 right-0 w-24 h-24 bg-brand-green/10 rounded-bl-full -mr-4 -mt-4 transition-all group-hover:bg-brand-green/20"></div>
+                <h2 class="text-2xl font-mono font-bold text-white mb-2">Enclomiphene Citrate</h2>
+                <p class="text-brand-muted text-sm mb-4">Non-Steroidal Selective Estrogen Receptor Modulator (SERM)</p>
+                <div class="flex gap-2 mt-4">
+                    <span class="px-2 py-1 bg-brand-blue/20 border border-brand-blue/40 text-brand-blue text-xs font-mono rounded">ICD-10: E29.1 (Hypogonadism)</span>
+                    <span class="px-2 py-1 bg-brand-green/20 border border-brand-green/40 text-brand-green text-xs font-mono rounded">Off-Label Use</span>
+                </div>
+            </div>
+
+            <div class="bg-brand-charcoal border border-brand-border p-4 rounded-lg flex flex-col justify-center">
+                <span class="text-xs font-mono text-brand-muted uppercase tracking-widest">Half-Life</span>
+                <div class="flex items-baseline gap-1 mt-1">
+                    <span class="text-3xl font-mono font-bold text-white">10</span>
+                    <span class="text-sm text-brand-green">hours</span>
+                </div>
+                <p class="text-xs text-brand-muted mt-2">vs. Zuclomiphene (30 days)</p>
+            </div>
+
+            <div class="bg-brand-charcoal border border-brand-border p-4 rounded-lg flex flex-col justify-center">
+                <span class="text-xs font-mono text-brand-muted uppercase tracking-widest">Primary Target</span>
+                <div class="text-xl font-mono font-bold text-brand-blue mt-1">Pituitary ER</div>
+                <p class="text-xs text-brand-muted mt-2">Antagonism increases LH/FSH</p>
+            </div>
+        </section>
+
+        <!-- Mechanism Section -->
+        <section id="mechanism" class="bg-brand-surface border border-brand-border rounded-lg p-6">
+            <div class="flex items-center justify-between mb-6">
+                <div>
+                    <h3 class="text-xl font-mono font-bold text-white border-l-4 border-brand-green pl-3">Mechanism of Action</h3>
+                    <p class="text-sm text-brand-muted mt-1 pl-3">HPTA Axis Modulation</p>
+                </div>
+                <button id="mechanismToggle" onclick="toggleMechanism()" class="bg-brand-charcoal border border-brand-green text-brand-green hover:bg-brand-green hover:text-black px-4 py-2 font-mono text-sm rounded transition-all">
+                    Show: Baseline
+                </button>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                <div class="col-span-1 space-y-4 text-sm text-gray-300">
+                    <p>
+                        <strong class="text-white">Baseline Hypogonadism:</strong> Often characterized by inappropriate feedback inhibition. Even with low Testosterone, the hypothalamus perceives adequate levels due to estrogenic signaling (aromatization), resulting in low LH/FSH.
+                    </p>
+                    <p>
+                        <strong class="text-brand-green">Enclomiphene Effect:</strong> Acts as an antagonist at estrogen receptors in the pituitary and hypothalamus. It "blinds" the system to circulating estrogen.
+                    </p>
+                    <p>
+                        <strong class="text-white">Result:</strong> The pituitary perceives a sex-hormone deficit and pulsatilely releases GnRH, LH, and FSH, stimulating the Leydig cells to produce endogenous Testosterone.
+                    </p>
+                </div>
+
+                <div class="col-span-2 bg-black/50 rounded-lg p-4 relative h-64 flex items-center justify-center border border-brand-border overflow-hidden">
+                    <div id="diagramContainer" class="w-full h-full relative font-mono text-xs">
+                        <div class="absolute top-4 left-1/2 transform -translate-x-1/2 w-32 h-12 bg-brand-surface border border-brand-border rounded flex items-center justify-center text-center z-10 transition-colors duration-500" id="pituitaryBox">
+                            Pituitary<br><span class="text-[9px] text-brand-muted">ER Receptors</span>
+                        </div>
+
+                        <div class="absolute bottom-4 left-1/2 transform -translate-x-1/2 w-32 h-12 bg-brand-surface border border-brand-border rounded flex items-center justify-center text-center z-10 transition-colors duration-500" id="testesBox">
+                            Testes<br><span class="text-[9px] text-brand-muted">Leydig Cells</span>
+                        </div>
+
+                        <div class="absolute top-16 left-[48%] w-1 h-[calc(100%-8rem)] bg-brand-border transition-all duration-500" id="lhPath"></div>
+                        <div class="absolute top-[50%] left-[49%] text-brand-muted transform -translate-x-1/2 bg-black px-1 transition-all duration-500" id="lhLabel">Low LH</div>
+
+                        <div class="absolute top-16 right-[48%] w-1 h-[calc(100%-8rem)] bg-brand-border transition-all duration-500" id="e2Path"></div>
+                        <div class="absolute top-[50%] right-[49%] text-brand-muted transform translate-x-1/2 bg-black px-1 transition-all duration-500" id="e2Label">E2 Feedback</div>
+
+                        <div id="encloBlocker" class="absolute top-14 right-[47%] text-brand-green font-bold text-lg opacity-0 transition-opacity duration-500">
+                            ✖ <span class="text-xs text-white">Enclomiphene</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Prescribing Engine (Protocols) -->
+        <section id="dosing" class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+            <div class="bg-brand-surface border border-brand-border rounded-lg p-6">
+                <h3 class="text-xl font-mono font-bold text-white border-l-4 border-brand-blue pl-3 mb-6">Protocol Generator</h3>
+                
+                <div class="space-y-4">
+                    <div>
+                        <label class="block text-xs font-mono text-brand-muted uppercase mb-1">Patient Type</label>
+                        <select id="patientType" class="w-full bg-brand-charcoal border border-brand-border text-white font-mono text-sm rounded p-2 focus:border-brand-blue focus:outline-none">
+                            <option value="standard">Standard Secondary Hypogonadism</option>
+                            <option value="sensitive">Estrogen Sensitive / High Body Fat</option>
+                            <option value="optimization">Functional Optimization (Normal Levels)</option>
+                        </select>
+                    </div>
+
+                    <div class="grid grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-xs font-mono text-brand-muted uppercase mb-1">Baseline TT (ng/dL)</label>
+                            <input type="number" id="baselineT" placeholder="e.g. 350" class="w-full bg-brand-charcoal border border-brand-border text-white font-mono text-sm rounded p-2 focus:border-brand-blue focus:outline-none">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-mono text-brand-muted uppercase mb-1">Age</label>
+                            <input type="number" id="patientAge" placeholder="e.g. 35" class="w-full bg-brand-charcoal border border-brand-border text-white font-mono text-sm rounded p-2 focus:border-brand-blue focus:outline-none">
+                        </div>
+                    </div>
+
+                    <div>
+                        <label class="block text-xs font-mono text-brand-muted uppercase mb-1">Preferred Route</label>
+                        <div class="flex space-x-2">
+                            <button class="flex-1 py-2 bg-brand-blue text-white font-mono text-sm rounded hover:bg-blue-600 active:bg-blue-700" onclick="calculateProtocol('oral')">Oral (Capsule)</button>
+                            <button class="flex-1 py-2 bg-brand-charcoal border border-brand-border text-brand-muted font-mono text-sm rounded cursor-not-allowed" title="Availability Limited">Injection (N/A)</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="protocolOutput" class="mt-6 p-4 bg-black/40 border border-brand-blue/30 rounded hidden">
+                    <h4 class="text-brand-blue font-mono font-bold mb-2">Recommended Starting Protocol</h4>
+                    <div class="text-3xl text-white font-mono font-bold mb-1" id="doseDisplay">12.5mg QD</div>
+                    <p class="text-sm text-brand-muted" id="doseDetail">Take daily upon waking.</p>
+                    
+                    <div class="mt-4 pt-4 border-t border-brand-border">
+                        <h5 class="text-xs text-brand-muted uppercase font-mono mb-2">Cycle Structure</h5>
+                        <div class="flex gap-2">
+                            <span class="px-2 py-1 bg-brand-surface text-xs text-gray-300 rounded" id="cycleTag">Continuous</span>
+                            <span class="px-2 py-1 bg-brand-surface text-xs text-gray-300 rounded">Review @ 8 Weeks</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="space-y-4">
+                <div class="bg-brand-surface border border-brand-border rounded-lg p-6">
+                    <h3 class="text-lg font-mono font-bold text-white mb-3">Dosing & Duration Logic</h3>
+                    <ul class="space-y-3 text-sm text-brand-muted list-disc list-inside marker:text-brand-blue">
+                        <li><strong class="text-gray-200">Standard Dosing:</strong> 12.5mg to 25mg Daily. Due to the short half-life (~10h), daily dosing maintains stable LH pulses.</li>
+                        <li><strong class="text-gray-200">Alternative (EOD):</strong> 12.5mg - 25mg Every Other Day. Used for patients who hyper-respond (TT > 1100 ng/dL) or experience side effects.</li>
+                        <li><strong class="text-gray-200">Cycling:</strong> Unlike TRT, "cycling off" is less critical for HPTA suppression (as it stimulates it), but some practitioners use a "3 Months On, 1 Month Off" protocol to reassess baseline function.</li>
+                    </ul>
+                </div>
+
+                <div class="bg-brand-charcoal border-l-4 border-brand-green p-4 rounded-r-lg">
+                    <h4 class="text-brand-green font-mono font-bold text-sm mb-1">Clinical Pearl</h4>
+                    <p class="text-xs text-brand-muted">Enclomiphene avoids the accumulation of Zuclomiphene (found in Clomid), which is estrogenic and anti-gonadotropic over time. This allows for longer-term continuous use compared to Clomid.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Comparative Data (Charts) -->
+        <section id="comparison" class="bg-brand-surface border border-brand-border rounded-lg p-6">
+             <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-6">
+                <div>
+                    <h3 class="text-xl font-mono font-bold text-white border-l-4 border-purple-500 pl-3">Comparative Analysis</h3>
+                    <p class="text-sm text-brand-muted mt-1 pl-3">Enclomiphene vs. Clomiphene vs. TRT</p>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <div>
+                    <h4 class="text-sm font-mono text-gray-300 mb-4 text-center">Relative Side Effect Risk Profile</h4>
+                    <div class="chart-container">
+                        <canvas id="riskChart"></canvas>
+                    </div>
+                    <p class="text-xs text-center text-brand-muted mt-2 italic">Based on aggregate clinical observations</p>
+                </div>
+
+                <div>
+                    <h4 class="text-sm font-mono text-gray-300 mb-4 text-center">Active Drug Concentration (7 Days)</h4>
+                    <div class="chart-container">
+                        <canvas id="pkChart"></canvas>
+                    </div>
+                    <div class="flex justify-center gap-4 mt-2 text-xs font-mono">
+                        <div class="flex items-center gap-1"><div class="w-3 h-3 bg-brand-green rounded-full"></div> Enclo</div>
+                        <div class="flex items-center gap-1"><div class="w-3 h-3 bg-red-500 rounded-full"></div> Clomid (Zuclo Accumulation)</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Monitoring Timeline -->
+        <section id="monitoring">
+            <h3 class="text-xl font-mono font-bold text-white mb-6">Monitoring Timeline</h3>
+            
+            <div class="relative">
+                <div class="absolute top-1/2 left-0 w-full h-1 bg-brand-border -translate-y-1/2 rounded z-0"></div>
+                
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4 relative z-10">
+                    <div class="bg-brand-charcoal border border-brand-border p-4 rounded hover:border-brand-blue transition-colors cursor-pointer group" onclick="showLabDetails('baseline')">
+                        <div class="flex items-center justify-between mb-2">
+                            <span class="text-xs font-mono text-brand-blue px-2 py-1 bg-blue-900/30 rounded">START</span>
+                            <span class="text-brand-muted text-xs">Week 0</span>
+                        </div>
+                        <h4 class="text-white font-bold font-mono">Baseline Labs</h4>
+                        <p class="text-xs text-brand-muted mt-2 group-hover:text-gray-200">Essential to establish HPTA status.</p>
+                    </div>
+
+                    <div class="bg-brand-charcoal border border-brand-border p-4 rounded hover:border-brand-green transition-colors cursor-pointer group" onclick="showLabDetails('titration')">
+                        <div class="flex items-center justify-between mb-2">
+                            <span class="text-xs font-mono text-brand-green px-2 py-1 bg-green-900/30 rounded">TITRATION</span>
+                            <span class="text-brand-muted text-xs">Week 4-6</span>
+                        </div>
+                        <h4 class="text-white font-bold font-mono">Response Check</h4>
+                        <p class="text-xs text-brand-muted mt-2 group-hover:text-gray-200">Assess LH pulse and T response.</p>
+                    </div>
+
+                    <div class="bg-brand-charcoal border border-brand-border p-4 rounded hover:border-purple-500 transition-colors cursor-pointer group" onclick="showLabDetails('maintenance')">
+                        <div class="flex items-center justify-between mb-2">
+                            <span class="text-xs font-mono text-purple-400 px-2 py-1 bg-purple-900/30 rounded">MAINTENANCE</span>
+                            <span class="text-brand-muted text-xs">Month 3+</span>
+                        </div>
+                        <h4 class="text-white font-bold font-mono">Long-term Safety</h4>
+                        <p class="text-xs text-brand-muted mt-2 group-hover:text-gray-200">Monitor E2 and IGF-1 levels.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div id="labDetails" class="mt-6 bg-black border border-dashed border-brand-border p-6 rounded text-sm text-gray-300 font-mono transition-all">
+                <p class="text-center text-brand-muted">Select a timeline stage above to view required lab panels.</p>
+            </div>
+        </section>
+
+        <!-- Safety & Contraindications -->
+        <section class="grid grid-cols-1 md:grid-cols-2 gap-8">
+            <div class="bg-red-900/10 border border-red-900/30 rounded-lg p-6">
+                <h3 class="text-lg font-mono font-bold text-red-400 mb-4 flex items-center gap-2">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path></svg>
+                    Contraindications
+                </h3>
+                <ul class="space-y-2 text-sm text-brand-muted">
+                    <li class="flex items-start gap-2"><span class="text-red-500">•</span> Unexplained uterine bleeding (standard label) or liver disease.</li>
+                    <li class="flex items-start gap-2"><span class="text-red-500">•</span> <strong class="text-gray-300">Visual Disturbances:</strong> History of scotoma or blurry vision with Clomid.</li>
+                    <li class="flex items-start gap-2"><span class="text-red-500">•</span> <strong class="text-gray-300">Pituitary Tumors:</strong> Functional HPTA axis required.</li>
+                    <li class="flex items-start gap-2"><span class="text-red-500">•</span> Primary Hypogonadism (Testicular failure) - Enclo requires functional Leydig cells.</li>
+                </ul>
+            </div>
+
+            <div class="bg-brand-surface border border-brand-border rounded-lg p-6">
+                <h3 class="text-lg font-mono font-bold text-white mb-4">Management of Side Effects</h3>
+                <div class="space-y-4">
+                    <div>
+                        <h4 class="text-xs font-bold text-brand-muted uppercase">Estrogen Elevation</h4>
+                        <p class="text-sm text-gray-300">Enclo raises T, which raises E2 via aromatization. However, ERs are blocked centrally. Monitor for peripheral symptoms (water retention, mood). DIM or lower dose if needed.</p>
+                    </div>
+                    <div>
+                        <h4 class="text-xs font-bold text-brand-muted uppercase">IGF-1 Reduction</h4>
+                        <p class="text-sm text-gray-300">SERMs can lower IGF-1. Monitor in athletes or those concerned with growth factors. Consider MK-677 or Sermorelin adjunct if clinically indicated.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- ========================================
+         STANDARDIZED FOOTER
+         ======================================== -->
+    <footer class="mt-12 pt-8 border-t border-brand-border/30">
+        <div class="max-w-7xl mx-auto px-4">
+            <div class="bg-brand-charcoal/50 border border-brand-border rounded-lg p-6 mb-6">
+                <div class="flex items-start gap-3">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-brand-muted flex-shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                    </svg>
+                    <div>
+                        <p class="text-xs text-brand-text leading-relaxed">
+                            <span class="text-white font-bold">LEGAL DISCLAIMER:</span> This platform is a <span class="text-white font-semibold">clinical reference tool</span> designed to summarize available research literature and pharmacological data for educational purposes. It is <span class="text-red-400 font-bold">NOT</span> a dosing guide, prescriptive engine, or substitute for professional medical training.
+                        </p>
+                        <p class="text-[10px] text-brand-muted mt-3 tracking-wide uppercase">
+                            Secure Clinical Environment | HIPAA Compliant | Authorized Personnel Only
+                        </p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="flex flex-col md:flex-row justify-between items-center text-[10px] text-brand-muted font-mono uppercase pb-8">
+                <div>Multifactor Solutions &copy; 2024</div>
+                <div class="mt-2 md:mt-0 flex items-center">
+                    <span class="w-2 h-2 rounded-full bg-brand-blue mr-2"></span>
+                    For Clinical Educational Use Only.
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        let mechanismState = 'baseline';
+        
+        function toggleMechanism() {
+            const btn = document.getElementById('mechanismToggle');
+            const lhPath = document.getElementById('lhPath');
+            const lhLabel = document.getElementById('lhLabel');
+            const e2Path = document.getElementById('e2Path');
+            const e2Label = document.getElementById('e2Label');
+            const testes = document.getElementById('testesBox');
+            const blocker = document.getElementById('encloBlocker');
+            const pituitary = document.getElementById('pituitaryBox');
+
+            if (mechanismState === 'baseline') {
+                mechanismState = 'enclo';
+                btn.innerText = 'Reset to Baseline';
+                btn.classList.replace('text-brand-green', 'text-white');
+                btn.classList.replace('border-brand-green', 'border-brand-blue');
+                btn.classList.add('bg-brand-blue');
+
+                blocker.classList.remove('opacity-0');
+                lhPath.style.backgroundColor = '#10b981';
+                lhPath.style.width = '4px';
+                lhLabel.innerText = 'High LH/FSH';
+                lhLabel.style.color = '#10b981';
+                e2Path.style.backgroundColor = '#27272a';
+                e2Label.innerText = 'Feedback Blocked';
+                e2Label.style.color = '#a1a1aa';
+                testes.style.borderColor = '#10b981';
+                testes.style.boxShadow = '0 0 10px rgba(16, 185, 129, 0.3)';
+                pituitary.style.borderColor = '#3b82f6';
+            } else {
+                mechanismState = 'baseline';
+                btn.classList.replace('text-white', 'text-brand-green');
+                btn.classList.replace('border-brand-blue', 'border-brand-green');
+                btn.classList.remove('bg-brand-blue');
+                btn.innerText = 'Show: Enclomiphene Effect';
+
+                blocker.classList.add('opacity-0');
+                lhPath.style.backgroundColor = '#27272a';
+                lhPath.style.width = '4px';
+                lhLabel.innerText = 'Low LH';
+                lhLabel.style.color = '#a1a1aa';
+                e2Path.style.backgroundColor = '#27272a';
+                e2Label.innerText = 'E2 Feedback';
+                e2Label.style.color = '#a1a1aa';
+                testes.style.borderColor = '#27272a';
+                testes.style.boxShadow = 'none';
+                pituitary.style.borderColor = '#27272a';
+            }
+        }
+
+        function calculateProtocol(route) {
+            const patientType = document.getElementById('patientType').value;
+            const output = document.getElementById('protocolOutput');
+            const display = document.getElementById('doseDisplay');
+            const detail = document.getElementById('doseDetail');
+            const cycleTag = document.getElementById('cycleTag');
+
+            output.classList.remove('hidden');
+
+            let dose = "12.5mg QD";
+            let instructions = "Take daily in the morning.";
+            let cycle = "Continuous";
+
+            if (patientType === 'sensitive') {
+                dose = "12.5mg EOD";
+                instructions = "Every other day dosing to minimize E2 conversion.";
+            } else if (patientType === 'optimization') {
+                dose = "6.25mg - 12.5mg QD";
+                instructions = "Low dose support for natural optimization.";
+                cycle = "Cycle: 3 Mo On / 1 Mo Off";
+            } else if (patientType === 'standard') {
+                dose = "12.5mg - 25mg QD";
+                instructions = "Titrate based on Week 4 Free T and IGF-1.";
+            }
+
+            display.innerText = dose;
+            detail.innerText = instructions;
+            cycleTag.innerText = cycle;
+        }
+
+        function showLabDetails(stage) {
+            const container = document.getElementById('labDetails');
+            let content = '';
+            
+            if (stage === 'baseline') {
+                content = `
+                    <h5 class="text-brand-blue font-bold mb-2">Required Baseline Panel (Fasting)</h5>
+                    <div class="grid grid-cols-2 gap-4">
+                        <ul class="list-disc list-inside">
+                            <li>Total Testosterone (LC/MS)</li>
+                            <li>Free Testosterone (Dialysis)</li>
+                            <li>LH & FSH (Pituitary function)</li>
+                        </ul>
+                        <ul class="list-disc list-inside">
+                            <li>Estradiol (Sensitive)</li>
+                            <li>CBC / CMP (Liver/Kidney)</li>
+                            <li>PSA (Age > 40)</li>
+                        </ul>
+                    </div>
+                `;
+            } else if (stage === 'titration') {
+                content = `
+                    <h5 class="text-brand-green font-bold mb-2">Titration Check (Week 4-6)</h5>
+                    <p class="mb-2">Goal: Confirm LH rise and T response. Ensure E2 is not disproportionately high.</p>
+                    <ul class="list-disc list-inside text-brand-muted">
+                        <li>Total & Free Testosterone</li>
+                        <li>LH (Should be elevated significantly)</li>
+                        <li>Estradiol (Sensitive)</li>
+                        <li>IGF-1 (Monitor for suppression)</li>
+                    </ul>
+                `;
+            } else if (stage === 'maintenance') {
+                content = `
+                    <h5 class="text-purple-400 font-bold mb-2">Maintenance & Safety (Every 3-6 Months)</h5>
+                    <ul class="list-disc list-inside text-brand-muted">
+                        <li>Comprehensive Hormone Panel</li>
+                        <li>CBC (Hematocrit usually stable unlike TRT)</li>
+                        <li>Vision Screen (Patient Report)</li>
+                        <li>Lipid Panel</li>
+                    </ul>
+                `;
+            }
+            container.innerHTML = content;
+            container.classList.remove('bg-black');
+            container.classList.add('bg-brand-charcoal');
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            Chart.defaults.color = '#a1a1aa';
+            Chart.defaults.borderColor = '#27272a';
+            Chart.defaults.font.family = "'Rajdhani', monospace";
+
+            const ctxRisk = document.getElementById('riskChart').getContext('2d');
+            new Chart(ctxRisk, {
+                type: 'bar',
+                data: {
+                    labels: ['Testicular Atrophy', 'Hematocrit Rise', 'Estrogenic Sides', 'Sperm Count Reduction'],
+                    datasets: [
+                        {
+                            label: 'Enclomiphene',
+                            data: [5, 10, 30, 0],
+                            backgroundColor: '#10b981',
+                            borderRadius: 4
+                        },
+                        {
+                            label: 'TRT (Injection)',
+                            data: [95, 80, 50, 95],
+                            backgroundColor: '#3b82f6',
+                            borderRadius: 4
+                        },
+                        {
+                            label: 'Clomid (Mixed Isomers)',
+                            data: [10, 15, 80, 10],
+                            backgroundColor: '#ef4444',
+                            borderRadius: 4
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            max: 100,
+                            title: { display: true, text: 'Risk Probability (%)' }
+                        }
+                    },
+                    plugins: {
+                        legend: { position: 'bottom' }
+                    }
+                }
+            });
+
+            const ctxPK = document.getElementById('pkChart').getContext('2d');
+            const hours = Array.from({length: 168}, (_, i) => i);
+            const encloData = hours.map(h => {
+                const doseTime = h % 24;
+                const decay = Math.exp(-0.069 * doseTime);
+                return (100 * decay) + (h > 24 ? 15 : 0);
+            });
+            const zucloData = hours.map(h => 10 + (h * 0.5));
+
+            new Chart(ctxPK, {
+                type: 'line',
+                data: {
+                    labels: hours.map(h => `H${h}`),
+                    datasets: [
+                        {
+                            label: 'Enclomiphene (Daily Dose)',
+                            data: encloData,
+                            borderColor: '#10b981',
+                            borderWidth: 2,
+                            pointRadius: 0,
+                            tension: 0.4,
+                            fill: true,
+                            backgroundColor: 'rgba(16, 185, 129, 0.1)'
+                        },
+                        {
+                            label: 'Zuclomiphene Accumulation',
+                            data: zucloData,
+                            borderColor: '#ef4444',
+                            borderWidth: 2,
+                            borderDash: [5, 5],
+                            pointRadius: 0,
+                            tension: 0.1
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        x: { display: false },
+                        y: { 
+                            beginAtZero: true,
+                            title: { display: true, text: 'Plasma Concentration (arb)' }
+                        }
+                    },
+                    plugins: {
+                        tooltip: { mode: 'index', intersect: false }
+                    }
+                }
+            });
+        });
+
+        function scrollToSection(id) {
+            document.getElementById(id).scrollIntoView({ behavior: 'smooth' });
+        }
+    </script>
+</body>
+</html>

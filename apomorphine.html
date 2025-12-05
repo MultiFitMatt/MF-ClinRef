@@ -1,0 +1,506 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Apomorphine | Clinical Reference</title>
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Rajdhani:wght@500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            black: '#050505',
+                            charcoal: '#0f0f11',
+                            surface: '#18181b',
+                            border: '#27272a',
+                            green: '#10b981',
+                            neonGreen: '#00ffa3',
+                            blue: '#3b82f6',
+                            neonBlue: '#00d4ff',
+                            cyan: '#06b6d4',
+                            amber: '#f59e0b',
+                            red: '#ef4444',
+                            text: '#e4e4e7',
+                            muted: '#a1a1aa'
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        mono: ['Rajdhani', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <style>
+        body {
+            background-color: #050505;
+            color: #e4e4e7;
+            background-image: radial-gradient(circle at 50% 0%, #18181b 0%, #050505 45%);
+        }
+
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #0f0f11; }
+        ::-webkit-scrollbar-thumb { background: #27272a; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #3b82f6; }
+
+        .chart-container {
+            position: relative;
+            height: 220px; 
+            width: 100%;
+        }
+
+        .section-bar {
+            width: 4px;
+            height: 24px;
+            margin-right: 12px;
+            background-color: #06b6d4;
+        }
+
+        .tab-btn {
+            font-family: 'Rajdhani', sans-serif;
+            font-weight: 600;
+            font-size: 0.75rem;
+            padding: 0.5rem 1rem;
+            border: 1px solid transparent;
+            transition: all 0.2s;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+        .tab-active {
+            background-color: rgba(6, 182, 212, 0.1);
+            color: #06b6d4;
+            border-color: #06b6d4;
+        }
+        .tab-inactive {
+            color: #6b7280;
+            background-color: transparent;
+            border-color: #27272a;
+        }
+        .tab-inactive:hover {
+            color: #d1d5db;
+            border-color: #52525b;
+        }
+    </style>
+</head>
+<body class="antialiased min-h-screen pb-12">
+
+    <!-- ========================================
+         STANDARDIZED HEADER
+         ======================================== -->
+    <header class="border-b border-brand-border bg-brand-charcoal sticky top-0 z-50">
+        <div class="max-w-[1400px] mx-auto px-6 lg:px-12">
+            <div class="flex items-center justify-between h-16">
+                <div class="flex items-center gap-3">
+                    <a href="index.html" class="text-brand-muted hover:text-brand-blue transition-colors">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+                        </svg>
+                    </a>
+                    
+                    <div class="w-10 h-10 bg-brand-surface border border-brand-blue flex items-center justify-center rounded shadow-[0_0_10px_rgba(59,130,246,0.3)]">
+                        <span class="font-mono font-bold text-brand-neonGreen text-base">M</span>
+                    </div>
+
+                    <div class="flex flex-col">
+                        <span class="font-mono text-xl font-bold text-white tracking-wide uppercase">Apomorphine</span>
+                        <span class="text-[10px] text-brand-cyan uppercase tracking-[0.2em]">Clinical Reference</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main class="max-w-[1400px] mx-auto p-6 lg:p-10 space-y-12">
+
+        <!-- Indications & Usage -->
+        <section>
+            <div class="flex items-center mb-4">
+                <div class="section-bar bg-brand-blue"></div>
+                <h2 class="font-mono text-xl font-bold text-brand-blue uppercase tracking-wider">Indications & Usage</h2>
+            </div>
+            
+            <p class="text-sm text-brand-muted mb-6 max-w-4xl leading-relaxed">
+                Apomorphine is a non-selective dopamine agonist (high D2/D3 affinity) acting centrally to modulate neural drive and arousal. Unlike PDE5 inhibitors, it targets the central nervous system to initiate response rather than maintaining vascular engorgement.
+            </p>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div class="bg-brand-charcoal border border-brand-border rounded-lg p-6 relative">
+                    <div class="flex justify-between items-start mb-4">
+                        <h3 class="font-mono font-bold text-white uppercase text-sm">FDA Label Indications</h3>
+                        <span class="text-[10px] bg-blue-900/30 text-blue-400 px-2 py-0.5 rounded border border-blue-900/50">NEUROLOGY</span>
+                    </div>
+                    <ul class="space-y-3 text-sm">
+                        <li class="flex items-start gap-3">
+                            <span class="text-blue-500 mt-1">▸</span>
+                            <span class="text-gray-400"><strong class="text-gray-200">Target:</strong> Parkinson's Disease (Advanced).</span>
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <span class="text-blue-500 mt-1">▸</span>
+                            <span class="text-gray-400"><strong class="text-gray-200">Condition:</strong> Acute intermittent treatment of hypomobility ("off" episodes).</span>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="bg-brand-charcoal border border-brand-border rounded-lg p-6 relative">
+                    <div class="flex justify-between items-start mb-4">
+                        <h3 class="font-mono font-bold text-white uppercase text-sm">Off-Label / Functional Use</h3>
+                        <span class="text-[10px] bg-green-900/30 text-green-400 px-2 py-0.5 rounded border border-green-900/50">CLINICAL PRACTICE</span>
+                    </div>
+                    <ul class="space-y-3 text-sm">
+                        <li class="flex items-start gap-3">
+                            <span class="text-green-500 mt-1">▸</span>
+                            <span class="text-gray-400"><strong class="text-gray-200">Target:</strong> Men & Women (Central Activation).</span>
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <span class="text-green-500 mt-1">▸</span>
+                            <span class="text-gray-400"><strong class="text-gray-200">Condition:</strong> Psychogenic ED, Delayed Ejaculation, Hypoactive Desire (HSDD).</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- Dosing Protocols -->
+        <section>
+            <div class="flex flex-col md:flex-row md:items-center justify-between mb-4">
+                <div class="flex items-center">
+                    <div class="section-bar bg-brand-green"></div>
+                    <h2 class="font-mono text-xl font-bold text-brand-green uppercase tracking-wider">Dosing Protocols</h2>
+                </div>
+                
+                <div class="flex gap-2 mt-4 md:mt-0">
+                    <button onclick="setMode('sl')" id="btn-sl" class="tab-btn tab-active rounded-l">Oral / Troche</button>
+                    <button onclick="setMode('sc')" id="btn-sc" class="tab-btn tab-inactive rounded-r">Injection (SC)</button>
+                </div>
+            </div>
+            <p class="text-sm text-brand-muted mb-6">Select administration route to view specific protocols.</p>
+
+            <div class="bg-brand-charcoal border border-brand-border rounded-lg overflow-hidden">
+                <div class="flex items-center justify-between px-6 py-4 border-b border-brand-border bg-brand-surface">
+                    <h3 id="protocol-title" class="font-mono font-bold text-white uppercase tracking-wide">SUBLINGUAL TROCHE</h3>
+                    <span id="protocol-badge" class="text-[10px] font-bold px-2 py-1 bg-brand-blue text-white rounded uppercase tracking-wider">GOLD STANDARD</span>
+                </div>
+
+                <div class="grid grid-cols-1 lg:grid-cols-3 divide-y lg:divide-y-0 lg:divide-x divide-brand-border">
+                    
+                    <!-- Column 1: Dosage & Titration -->
+                    <div class="p-6 lg:p-8 space-y-6">
+                        <div>
+                            <span class="text-xs font-mono text-brand-muted uppercase tracking-widest">Standard Dosage</span>
+                            <div class="mt-2 flex items-baseline gap-2">
+                                <span id="dose-amount" class="text-5xl font-mono font-bold text-white">2.0 mg</span>
+                                <span id="dose-unit" class="text-sm font-mono text-gray-400 uppercase">Start</span>
+                            </div>
+                            <p id="dose-instruction" class="mt-2 text-sm text-gray-400">
+                                Place under tongue. Allow full dissolution (approx 10 mins). Do not swallow saliva immediately.
+                            </p>
+                        </div>
+                        
+                        <div>
+                            <span class="text-xs font-mono text-brand-muted uppercase tracking-widest">Titration Strategy</span>
+                            <p id="titration-text" class="mt-2 text-sm text-gray-400 leading-relaxed">
+                                Start with 2.0 mg test dose to assess nausea tolerance. Titrate up to 3.0-4.0 mg if needed at next trial. Doses >4mg significantly increase nausea risk.
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- Column 2: Timing & Warnings -->
+                    <div class="p-6 lg:p-8 space-y-8 bg-black/20">
+                        <div class="space-y-4">
+                            <span class="text-xs font-mono text-brand-blue uppercase tracking-widest">Timing & Onset</span>
+                            <div class="grid grid-cols-2 gap-y-4 text-sm">
+                                <div class="text-brand-muted">Onset of Action</div>
+                                <div id="time-onset" class="text-right font-mono font-bold text-white">20 mins</div>
+                                
+                                <div class="text-brand-muted">Peak Effect</div>
+                                <div id="time-peak" class="text-right font-mono font-bold text-white">45 - 60 mins</div>
+                                
+                                <div class="text-brand-muted">Duration</div>
+                                <div id="time-duration" class="text-right font-mono font-bold text-white">2 Hours</div>
+                            </div>
+                        </div>
+
+                        <div class="border-l-2 border-brand-amber pl-4 py-1">
+                            <div class="flex items-center gap-2 mb-2">
+                                <span class="text-brand-amber text-xs">⚠️</span>
+                                <span class="text-xs font-mono font-bold text-brand-amber uppercase">Clinical Note</span>
+                            </div>
+                            <p id="clinical-note" class="text-xs text-gray-400 leading-relaxed">
+                                Nausea is the primary dose-limiting side effect. The "Yawn" reflex typically precedes therapeutic onset by 5-10 minutes.
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- Column 3: Chart -->
+                    <div class="p-6 lg:p-8 flex flex-col justify-between">
+                        <span class="text-xs font-mono text-brand-muted uppercase tracking-widest mb-4">Pharmacokinetics Profile</span>
+                        <div class="chart-container">
+                            <canvas id="pkChart"></canvas>
+                        </div>
+                        <div class="mt-4 text-center">
+                            <span class="text-[10px] text-gray-600">Estimated plasma concentration over time</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Cycling & Safety Limits -->
+        <section>
+            <div class="flex items-center mb-6">
+                <div class="section-bar bg-white"></div>
+                <h2 class="font-mono text-xl font-bold text-white uppercase tracking-wider">Cycling & Safety Limits</h2>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                
+                <div class="bg-brand-charcoal border border-brand-border rounded-lg p-8">
+                    <h3 class="text-sm font-mono text-brand-blue font-bold uppercase mb-6">The "Pre/60/120" Rule</h3>
+                    
+                    <div class="space-y-6">
+                        <div class="flex gap-4">
+                            <div class="flex-shrink-0 w-8 h-8 flex items-center justify-center bg-brand-surface text-white font-mono font-bold rounded text-sm border border-brand-border">1</div>
+                            <div>
+                                <h4 class="text-sm font-bold text-white">Pre-Medicate (Tigan)</h4>
+                                <p class="text-xs text-gray-400 mt-1 leading-relaxed">
+                                    Initiate Trimethobenzamide 300mg TID, 3 days prior to first dose to prevent severe emesis.
+                                </p>
+                            </div>
+                        </div>
+
+                        <div class="flex gap-4">
+                            <div class="flex-shrink-0 w-8 h-8 flex items-center justify-center bg-brand-surface text-white font-mono font-bold rounded text-sm border border-brand-border">2</div>
+                            <div>
+                                <h4 class="text-sm font-bold text-white">60 Minute Window</h4>
+                                <p class="text-xs text-gray-400 mt-1 leading-relaxed">
+                                    Therapeutic window is short. Activity should be planned 45-60 mins post-dose (SL).
+                                </p>
+                            </div>
+                        </div>
+
+                        <div class="flex gap-4">
+                            <div class="flex-shrink-0 w-8 h-8 flex items-center justify-center bg-brand-surface text-white font-mono font-bold rounded text-sm border border-brand-border">3</div>
+                            <div>
+                                <h4 class="text-sm font-bold text-white">120 Min Washout</h4>
+                                <p class="text-xs text-gray-400 mt-1 leading-relaxed">
+                                    Wait at least 2 hours between doses to allow receptor reset and prevent accumulation.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-brand-charcoal border border-brand-border rounded-lg p-8 flex flex-col justify-between">
+                    <div>
+                        <div class="flex justify-between text-[10px] font-mono uppercase text-brand-muted mb-2">
+                            <span>Dosing Frequency</span>
+                            <span>Based on standard safety profile</span>
+                        </div>
+                        
+                        <div class="h-3 w-full bg-brand-surface rounded-full overflow-hidden flex mb-1">
+                            <div class="h-full bg-brand-cyan w-[25%]"></div>
+                            <div class="h-full bg-brand-blue w-[25%] opacity-50"></div>
+                            <div class="h-full bg-brand-green w-[50%] opacity-30"></div>
+                        </div>
+                        
+                        <div class="flex justify-between text-[10px] font-mono uppercase text-brand-muted mb-8">
+                            <span class="text-brand-cyan">Active Pulse</span>
+                            <span class="text-brand-text">Safe Redose Zone</span>
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-3 gap-4 border-t border-brand-border pt-6">
+                        <div class="text-center">
+                            <div class="text-lg font-mono font-bold text-brand-blue">~15%</div>
+                            <div class="text-[10px] text-brand-muted uppercase mt-1">Yawn Incidence</div>
+                        </div>
+                        <div class="text-center border-l border-brand-border">
+                            <div class="text-lg font-mono font-bold text-brand-blue">Transient</div>
+                            <div class="text-[10px] text-brand-muted uppercase mt-1">Hypotension</div>
+                        </div>
+                        <div class="text-center border-l border-brand-border">
+                            <div class="text-lg font-mono font-bold text-white">Rare</div>
+                            <div class="text-[10px] text-brand-muted uppercase mt-1">Priapism</div>
+                        </div>
+                    </div>
+                    
+                    <div class="mt-6 p-3 bg-red-900/10 border border-red-900/30 rounded">
+                         <span class="block text-[10px] text-brand-red font-bold uppercase mb-1">CONTRAINDICATION</span>
+                         <p class="text-xs text-gray-400">DO NOT COMBINE with 5HT3 Antagonists (Zofran). Risk of severe hypotension.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ========================================
+             STANDARDIZED FOOTER
+             ======================================== -->
+        <footer class="mt-12 pt-8 border-t border-brand-border/30">
+            <div class="bg-brand-charcoal/50 border border-brand-border rounded-lg p-6 mb-6">
+                <div class="flex items-start gap-3">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-brand-muted flex-shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                    </svg>
+                    <div>
+                        <p class="text-xs text-brand-text leading-relaxed">
+                            <span class="text-white font-bold">LEGAL DISCLAIMER:</span> This platform is a <span class="text-white font-semibold">clinical reference tool</span> designed to summarize available research literature and pharmacological data for educational purposes. It is <span class="text-red-400 font-bold">NOT</span> a dosing guide, prescriptive engine, or substitute for professional medical training.
+                        </p>
+                        <p class="text-[10px] text-brand-muted mt-3 tracking-wide uppercase">
+                            Secure Clinical Environment | HIPAA Compliant | Authorized Personnel Only
+                        </p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="flex flex-col md:flex-row justify-between items-center text-[10px] text-brand-muted font-mono uppercase">
+                <div>Multifactor Solutions &copy; 2024</div>
+                <div class="mt-2 md:mt-0 flex items-center">
+                    <span class="w-2 h-2 rounded-full bg-brand-blue mr-2"></span>
+                    For Clinical Educational Use Only.
+                </div>
+            </div>
+        </footer>
+    </main>
+
+    <script>
+        const data = {
+            sl: {
+                title: "SUBLINGUAL TROCHE",
+                badge: "GOLD STANDARD",
+                dose: "2.0 mg",
+                unit: "START",
+                instruction: "Place under tongue. Allow full dissolution (approx 10 mins). Do not swallow saliva immediately.",
+                titration: "Start with 2.0 mg test dose. Titrate up to 3.0-4.0 mg if needed. Doses >4mg significantly increase nausea risk.",
+                onset: "20 mins",
+                peak: "45 - 60 mins",
+                duration: "2 Hours",
+                note: "Nausea is the primary dose-limiting side effect. The 'Yawn' reflex typically precedes therapeutic onset by 5-10 minutes.",
+                chartData: [0, 10, 40, 85, 100, 70, 40, 15, 5, 0],
+                chartColor: '#06b6d4'
+            },
+            sc: {
+                title: "SUBCUTANEOUS INJECTION",
+                badge: "RAPID RESCUE",
+                dose: "2.0 mg",
+                unit: "SC (0.2ml)",
+                instruction: "Administer subcutaneously into abdomen or thigh via insulin syringe. Rotate sites.",
+                titration: "Initial test dose 0.2ml (2mg). May titrate to 0.6ml (6mg) max. Requires strict anti-emetic prophylaxis.",
+                onset: "5 - 10 mins",
+                peak: "20 - 30 mins",
+                duration: "60 - 90 mins",
+                note: "Rapid onset carries higher risk of orthostatic hypotension. Monitor BP on first dose.",
+                chartData: [0, 60, 100, 50, 20, 10, 5, 0, 0, 0],
+                chartColor: '#10b981'
+            }
+        };
+
+        let pkChart;
+
+        function setMode(mode) {
+            const d = data[mode];
+            
+            document.getElementById('protocol-title').innerText = d.title;
+            document.getElementById('protocol-badge').innerText = d.badge;
+            document.getElementById('dose-amount').innerText = d.dose;
+            document.getElementById('dose-unit').innerText = d.unit;
+            document.getElementById('dose-instruction').innerText = d.instruction;
+            document.getElementById('titration-text').innerText = d.titration;
+            
+            document.getElementById('time-onset').innerText = d.onset;
+            document.getElementById('time-peak').innerText = d.peak;
+            document.getElementById('time-duration').innerText = d.duration;
+            document.getElementById('clinical-note').innerText = d.note;
+
+            if(mode === 'sl') {
+                document.getElementById('btn-sl').classList.add('tab-active');
+                document.getElementById('btn-sl').classList.remove('tab-inactive');
+                document.getElementById('btn-sc').classList.add('tab-inactive');
+                document.getElementById('btn-sc').classList.remove('tab-active');
+            } else {
+                document.getElementById('btn-sc').classList.add('tab-active');
+                document.getElementById('btn-sc').classList.remove('tab-inactive');
+                document.getElementById('btn-sl').classList.add('tab-inactive');
+                document.getElementById('btn-sl').classList.remove('tab-active');
+            }
+
+            updateChart(d.chartData, d.chartColor);
+        }
+
+        function initChart() {
+            const ctx = document.getElementById('pkChart').getContext('2d');
+            
+            pkChart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: ['0', '10m', '20m', '30m', '45m', '1h', '1.5h', '2h', '3h', '4h'],
+                    datasets: [{
+                        label: 'Concentration',
+                        data: data.sl.chartData,
+                        borderColor: '#06b6d4',
+                        backgroundColor: (context) => {
+                            const ctx = context.chart.ctx;
+                            const gradient = ctx.createLinearGradient(0, 0, 0, 220);
+                            gradient.addColorStop(0, 'rgba(6, 182, 212, 0.5)');
+                            gradient.addColorStop(1, 'rgba(6, 182, 212, 0)');
+                            return gradient;
+                        },
+                        borderWidth: 2,
+                        tension: 0.4,
+                        pointRadius: 0,
+                        fill: true
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { display: false },
+                        tooltip: { mode: 'index', intersect: false }
+                    },
+                    scales: {
+                        x: {
+                            grid: { display: false },
+                            ticks: { color: '#a1a1aa', font: { family: 'Rajdhani', size: 10 } }
+                        },
+                        y: { display: false, min: 0 }
+                    }
+                }
+            });
+        }
+
+        function updateChart(newData, newColor) {
+            pkChart.data.datasets[0].data = newData;
+            pkChart.data.datasets[0].borderColor = newColor;
+            
+            const ctx = pkChart.ctx;
+            const gradient = ctx.createLinearGradient(0, 0, 0, 220);
+            const r = parseInt(newColor.slice(1, 3), 16);
+            const g = parseInt(newColor.slice(3, 5), 16);
+            const b = parseInt(newColor.slice(5, 7), 16);
+            
+            gradient.addColorStop(0, `rgba(${r}, ${g}, ${b}, 0.5)`);
+            gradient.addColorStop(1, `rgba(${r}, ${g}, ${b}, 0)`);
+            
+            pkChart.data.datasets[0].backgroundColor = gradient;
+            pkChart.update();
+        }
+
+        document.addEventListener('DOMContentLoaded', initChart);
+    </script>
+</body>
+</html>
