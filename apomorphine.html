@@ -8,7 +8,7 @@
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Rajdhani:wght@500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
     
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
@@ -17,26 +17,8 @@
             darkMode: 'class',
             theme: {
                 extend: {
-                    colors: {
-                        brand: {
-                            black: '#050505',
-                            charcoal: '#0f0f11',
-                            surface: '#18181b',
-                            border: '#27272a',
-                            green: '#10b981',
-                            neonGreen: '#00ffa3',
-                            blue: '#3b82f6',
-                            neonBlue: '#00d4ff',
-                            cyan: '#06b6d4',
-                            amber: '#f59e0b',
-                            red: '#ef4444',
-                            text: '#e4e4e7',
-                            muted: '#a1a1aa'
-                        }
-                    },
                     fontFamily: {
                         sans: ['Inter', 'sans-serif'],
-                        mono: ['Rajdhani', 'sans-serif'],
                     }
                 }
             }
@@ -48,15 +30,62 @@
 
     <style>
         body {
-            background-color: #050505;
-            color: #e4e4e7;
-            background-image: radial-gradient(circle at 50% 0%, #18181b 0%, #050505 45%);
+            background-color: #000000;
+            color: #ffffff;
         }
 
-        ::-webkit-scrollbar { width: 8px; }
-        ::-webkit-scrollbar-track { background: #0f0f11; }
-        ::-webkit-scrollbar-thumb { background: #27272a; border-radius: 4px; }
-        ::-webkit-scrollbar-thumb:hover { background: #3b82f6; }
+        /* Scrollbar */
+        ::-webkit-scrollbar { width: 10px; }
+        ::-webkit-scrollbar-track { background: #000000; }
+        ::-webkit-scrollbar-thumb { background: linear-gradient(180deg, #ef4463 0%, #f59e0b 100%); border-radius: 5px; }
+        ::-webkit-scrollbar-thumb:hover { background: linear-gradient(180deg, #f87171 0%, #fbbf24 100%); }
+
+        /* Content sections */
+        .content-section {
+            background: #0a0a0a;
+            border: 1px solid #1a1a1a;
+            border-radius: 12px;
+            padding: 24px;
+        }
+
+        /* Spotlight card effect */
+        .spotlight-card {
+            background: #0a0a0a;
+            border: 1px solid #1a1a1a;
+            border-radius: 12px;
+            padding: 24px;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+        
+        .spotlight-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: radial-gradient(600px circle at var(--mouse-x) var(--mouse-y), rgba(239, 68, 99, 0.15), transparent 40%);
+            opacity: 0;
+            transition: opacity 0.3s;
+            pointer-events: none;
+            z-index: 1;
+        }
+        
+        .spotlight-card:hover::before {
+            opacity: 1;
+        }
+        
+        .spotlight-card:hover {
+            border-color: rgba(239, 68, 99, 0.5);
+            box-shadow: 0 0 20px rgba(239, 68, 99, 0.1);
+        }
+        
+        .spotlight-card > * {
+            position: relative;
+            z-index: 2;
+        }
 
         .chart-container {
             position: relative;
@@ -64,16 +93,9 @@
             width: 100%;
         }
 
-        .section-bar {
-            width: 4px;
-            height: 24px;
-            margin-right: 12px;
-            background-color: #06b6d4;
-        }
-
+        /* Tab buttons */
         .tab-btn {
-            font-family: 'Rajdhani', sans-serif;
-            font-weight: 600;
+            font-weight: 500;
             font-size: 0.75rem;
             padding: 0.5rem 1rem;
             border: 1px solid transparent;
@@ -82,93 +104,108 @@
             letter-spacing: 0.05em;
         }
         .tab-active {
-            background-color: rgba(6, 182, 212, 0.1);
-            color: #06b6d4;
-            border-color: #06b6d4;
+            background-color: rgba(239, 68, 99, 0.1);
+            color: #ef4463;
+            border-color: #ef4463;
         }
         .tab-inactive {
             color: #6b7280;
             background-color: transparent;
-            border-color: #27272a;
+            border-color: #1a1a1a;
         }
         .tab-inactive:hover {
             color: #d1d5db;
-            border-color: #52525b;
+            border-color: #ef4463;
+        }
+
+        /* Buttons */
+        .btn-primary {
+            background: linear-gradient(135deg, #ef4463 0%, #f59e0b 100%);
+            color: white;
+            padding: 10px 20px;
+            border-radius: 8px;
+            font-weight: 500;
+            font-size: 14px;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+        }
+        
+        .btn-primary:hover {
+            box-shadow: 0 0 30px rgba(239, 68, 99, 0.4);
+            transform: translateY(-1px);
         }
     </style>
 </head>
-<body class="antialiased min-h-screen pb-12">
+<body class="antialiased min-h-screen pb-12 font-sans">
 
-    <!-- ========================================
-         STANDARDIZED HEADER
-         ======================================== -->
-    <header class="border-b border-brand-border bg-brand-charcoal sticky top-0 z-50">
-        <div class="max-w-[1400px] mx-auto px-6 lg:px-12">
-            <div class="flex items-center justify-between h-16">
-                <div class="flex items-center gap-3">
-                    <a href="index.html" class="text-brand-muted hover:text-brand-blue transition-colors">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
-                        </svg>
-                    </a>
-                    
-                    <div class="w-10 h-10 bg-brand-surface border border-brand-blue flex items-center justify-center rounded shadow-[0_0_10px_rgba(59,130,246,0.3)]">
-                        <span class="font-mono font-bold text-brand-neonGreen text-base">M</span>
-                    </div>
-
-                    <div class="flex flex-col">
-                        <span class="font-mono text-xl font-bold text-white tracking-wide uppercase">Apomorphine</span>
-                        <span class="text-[10px] text-brand-cyan uppercase tracking-[0.2em]">Clinical Reference</span>
-                    </div>
-                </div>
+    <!-- Navigation -->
+    <nav class="fixed top-0 left-0 right-0 z-50 bg-black/80 backdrop-blur-xl border-b border-white/[0.08]">
+        <div class="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
+            <div class="flex items-center gap-12">
+                <a href="index.html" class="text-sm font-semibold text-white hover:text-[#ef4463] transition-colors">
+                    ← Multifactor Solutions
+                </a>
+            </div>
+            <div class="flex items-center gap-8 text-sm text-gray-400">
+                <a href="index.html#protocols" class="hover:text-white transition-colors">All Protocols</a>
             </div>
         </div>
-    </header>
+    </nav>
 
-    <main class="max-w-[1400px] mx-auto p-6 lg:p-10 space-y-12">
+    <main class="max-w-7xl mx-auto px-6 pt-24 pb-12 space-y-12">
+
+        <!-- Hero Section -->
+        <header class="pt-8 pb-4">
+            <div class="inline-block px-3 py-1 rounded-full border border-[#ef4463]/30 bg-[#ef4463]/10 text-[#ef4463] text-xs font-medium uppercase tracking-wider mb-6">
+                Sexual Health & Vascular
+            </div>
+            <h1 class="text-4xl md:text-5xl font-semibold text-white tracking-tight leading-[1.1] mb-4">
+                Apomorphine
+            </h1>
+            <p class="text-lg text-gray-400 leading-relaxed max-w-3xl">
+                Non-selective dopamine agonist (high D2/D3 affinity) acting centrally to modulate neural drive and arousal. Unlike PDE5 inhibitors, it targets the central nervous system to initiate response rather than maintaining vascular engorgement.
+            </p>
+        </header>
 
         <!-- Indications & Usage -->
         <section>
-            <div class="flex items-center mb-4">
-                <div class="section-bar bg-brand-blue"></div>
-                <h2 class="font-mono text-xl font-bold text-brand-blue uppercase tracking-wider">Indications & Usage</h2>
+            <div class="flex items-center mb-6">
+                <div class="w-1 h-6 bg-[#ef4463] rounded mr-3"></div>
+                <h2 class="text-lg font-semibold text-white">Indications & Usage</h2>
             </div>
-            
-            <p class="text-sm text-brand-muted mb-6 max-w-4xl leading-relaxed">
-                Apomorphine is a non-selective dopamine agonist (high D2/D3 affinity) acting centrally to modulate neural drive and arousal. Unlike PDE5 inhibitors, it targets the central nervous system to initiate response rather than maintaining vascular engorgement.
-            </p>
 
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div class="bg-brand-charcoal border border-brand-border rounded-lg p-6 relative">
+                <div class="spotlight-card">
                     <div class="flex justify-between items-start mb-4">
-                        <h3 class="font-mono font-bold text-white uppercase text-sm">FDA Label Indications</h3>
-                        <span class="text-[10px] bg-blue-900/30 text-blue-400 px-2 py-0.5 rounded border border-blue-900/50">NEUROLOGY</span>
+                        <h3 class="font-semibold text-white text-sm uppercase">FDA Label Indications</h3>
+                        <span class="text-[10px] bg-[#ef4463]/20 text-[#ef4463] px-2 py-0.5 rounded">NEUROLOGY</span>
                     </div>
                     <ul class="space-y-3 text-sm">
                         <li class="flex items-start gap-3">
-                            <span class="text-blue-500 mt-1">▸</span>
-                            <span class="text-gray-400"><strong class="text-gray-200">Target:</strong> Parkinson's Disease (Advanced).</span>
+                            <span class="text-[#ef4463] mt-1">▸</span>
+                            <span class="text-gray-400"><strong class="text-white">Target:</strong> Parkinson's Disease (Advanced).</span>
                         </li>
                         <li class="flex items-start gap-3">
-                            <span class="text-blue-500 mt-1">▸</span>
-                            <span class="text-gray-400"><strong class="text-gray-200">Condition:</strong> Acute intermittent treatment of hypomobility ("off" episodes).</span>
+                            <span class="text-[#ef4463] mt-1">▸</span>
+                            <span class="text-gray-400"><strong class="text-white">Condition:</strong> Acute intermittent treatment of hypomobility ("off" episodes).</span>
                         </li>
                     </ul>
                 </div>
 
-                <div class="bg-brand-charcoal border border-brand-border rounded-lg p-6 relative">
+                <div class="spotlight-card">
                     <div class="flex justify-between items-start mb-4">
-                        <h3 class="font-mono font-bold text-white uppercase text-sm">Off-Label / Functional Use</h3>
-                        <span class="text-[10px] bg-green-900/30 text-green-400 px-2 py-0.5 rounded border border-green-900/50">CLINICAL PRACTICE</span>
+                        <h3 class="font-semibold text-white text-sm uppercase">Off-Label / Functional Use</h3>
+                        <span class="text-[10px] bg-[#f59e0b]/20 text-[#f59e0b] px-2 py-0.5 rounded">CLINICAL PRACTICE</span>
                     </div>
                     <ul class="space-y-3 text-sm">
                         <li class="flex items-start gap-3">
-                            <span class="text-green-500 mt-1">▸</span>
-                            <span class="text-gray-400"><strong class="text-gray-200">Target:</strong> Men & Women (Central Activation).</span>
+                            <span class="text-[#f59e0b] mt-1">▸</span>
+                            <span class="text-gray-400"><strong class="text-white">Target:</strong> Men & Women (Central Activation).</span>
                         </li>
                         <li class="flex items-start gap-3">
-                            <span class="text-green-500 mt-1">▸</span>
-                            <span class="text-gray-400"><strong class="text-gray-200">Condition:</strong> Psychogenic ED, Delayed Ejaculation, Hypoactive Desire (HSDD).</span>
+                            <span class="text-[#f59e0b] mt-1">▸</span>
+                            <span class="text-gray-400"><strong class="text-white">Condition:</strong> Psychogenic ED, Delayed Ejaculation, Hypoactive Desire (HSDD).</span>
                         </li>
                     </ul>
                 </div>
@@ -177,34 +214,34 @@
 
         <!-- Dosing Protocols -->
         <section>
-            <div class="flex flex-col md:flex-row md:items-center justify-between mb-4">
+            <div class="flex flex-col md:flex-row md:items-center justify-between mb-6">
                 <div class="flex items-center">
-                    <div class="section-bar bg-brand-green"></div>
-                    <h2 class="font-mono text-xl font-bold text-brand-green uppercase tracking-wider">Dosing Protocols</h2>
+                    <div class="w-1 h-6 bg-[#f59e0b] rounded mr-3"></div>
+                    <h2 class="text-lg font-semibold text-white">Dosing Protocols</h2>
                 </div>
                 
                 <div class="flex gap-2 mt-4 md:mt-0">
-                    <button onclick="setMode('sl')" id="btn-sl" class="tab-btn tab-active rounded-l">Oral / Troche</button>
-                    <button onclick="setMode('sc')" id="btn-sc" class="tab-btn tab-inactive rounded-r">Injection (SC)</button>
+                    <button onclick="setMode('sl')" id="btn-sl" class="tab-btn tab-active rounded-l-md">Oral / Troche</button>
+                    <button onclick="setMode('sc')" id="btn-sc" class="tab-btn tab-inactive rounded-r-md">Injection (SC)</button>
                 </div>
             </div>
-            <p class="text-sm text-brand-muted mb-6">Select administration route to view specific protocols.</p>
+            <p class="text-sm text-gray-400 mb-6">Select administration route to view specific protocols.</p>
 
-            <div class="bg-brand-charcoal border border-brand-border rounded-lg overflow-hidden">
-                <div class="flex items-center justify-between px-6 py-4 border-b border-brand-border bg-brand-surface">
-                    <h3 id="protocol-title" class="font-mono font-bold text-white uppercase tracking-wide">SUBLINGUAL TROCHE</h3>
-                    <span id="protocol-badge" class="text-[10px] font-bold px-2 py-1 bg-brand-blue text-white rounded uppercase tracking-wider">GOLD STANDARD</span>
+            <div class="spotlight-card overflow-hidden">
+                <div class="flex items-center justify-between px-0 py-4 border-b border-white/10 mb-6">
+                    <h3 id="protocol-title" class="font-semibold text-white uppercase tracking-wide">SUBLINGUAL TROCHE</h3>
+                    <span id="protocol-badge" class="text-[10px] font-medium px-2 py-1 bg-[#ef4463] text-white rounded uppercase tracking-wider">GOLD STANDARD</span>
                 </div>
 
-                <div class="grid grid-cols-1 lg:grid-cols-3 divide-y lg:divide-y-0 lg:divide-x divide-brand-border">
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
                     
                     <!-- Column 1: Dosage & Titration -->
-                    <div class="p-6 lg:p-8 space-y-6">
+                    <div class="space-y-6">
                         <div>
-                            <span class="text-xs font-mono text-brand-muted uppercase tracking-widest">Standard Dosage</span>
+                            <span class="text-xs text-gray-400 uppercase tracking-widest">Standard Dosage</span>
                             <div class="mt-2 flex items-baseline gap-2">
-                                <span id="dose-amount" class="text-5xl font-mono font-bold text-white">2.0 mg</span>
-                                <span id="dose-unit" class="text-sm font-mono text-gray-400 uppercase">Start</span>
+                                <span id="dose-amount" class="text-4xl font-semibold text-white">2.0 mg</span>
+                                <span id="dose-unit" class="text-sm text-gray-400 uppercase">Start</span>
                             </div>
                             <p id="dose-instruction" class="mt-2 text-sm text-gray-400">
                                 Place under tongue. Allow full dissolution (approx 10 mins). Do not swallow saliva immediately.
@@ -212,7 +249,7 @@
                         </div>
                         
                         <div>
-                            <span class="text-xs font-mono text-brand-muted uppercase tracking-widest">Titration Strategy</span>
+                            <span class="text-xs text-gray-400 uppercase tracking-widest">Titration Strategy</span>
                             <p id="titration-text" class="mt-2 text-sm text-gray-400 leading-relaxed">
                                 Start with 2.0 mg test dose to assess nausea tolerance. Titrate up to 3.0-4.0 mg if needed at next trial. Doses >4mg significantly increase nausea risk.
                             </p>
@@ -220,25 +257,25 @@
                     </div>
 
                     <!-- Column 2: Timing & Warnings -->
-                    <div class="p-6 lg:p-8 space-y-8 bg-black/20">
+                    <div class="space-y-6 bg-black/30 rounded-lg p-4">
                         <div class="space-y-4">
-                            <span class="text-xs font-mono text-brand-blue uppercase tracking-widest">Timing & Onset</span>
+                            <span class="text-xs text-[#ef4463] uppercase tracking-widest font-medium">Timing & Onset</span>
                             <div class="grid grid-cols-2 gap-y-4 text-sm">
-                                <div class="text-brand-muted">Onset of Action</div>
-                                <div id="time-onset" class="text-right font-mono font-bold text-white">20 mins</div>
+                                <div class="text-gray-400">Onset of Action</div>
+                                <div id="time-onset" class="text-right font-semibold text-white">20 mins</div>
                                 
-                                <div class="text-brand-muted">Peak Effect</div>
-                                <div id="time-peak" class="text-right font-mono font-bold text-white">45 - 60 mins</div>
+                                <div class="text-gray-400">Peak Effect</div>
+                                <div id="time-peak" class="text-right font-semibold text-white">45 - 60 mins</div>
                                 
-                                <div class="text-brand-muted">Duration</div>
-                                <div id="time-duration" class="text-right font-mono font-bold text-white">2 Hours</div>
+                                <div class="text-gray-400">Duration</div>
+                                <div id="time-duration" class="text-right font-semibold text-white">2 Hours</div>
                             </div>
                         </div>
 
-                        <div class="border-l-2 border-brand-amber pl-4 py-1">
+                        <div class="border-l-2 border-[#f59e0b] pl-4 py-1">
                             <div class="flex items-center gap-2 mb-2">
-                                <span class="text-brand-amber text-xs">⚠️</span>
-                                <span class="text-xs font-mono font-bold text-brand-amber uppercase">Clinical Note</span>
+                                <span class="text-[#f59e0b] text-xs">⚠️</span>
+                                <span class="text-xs font-medium text-[#f59e0b] uppercase">Clinical Note</span>
                             </div>
                             <p id="clinical-note" class="text-xs text-gray-400 leading-relaxed">
                                 Nausea is the primary dose-limiting side effect. The "Yawn" reflex typically precedes therapeutic onset by 5-10 minutes.
@@ -247,13 +284,13 @@
                     </div>
 
                     <!-- Column 3: Chart -->
-                    <div class="p-6 lg:p-8 flex flex-col justify-between">
-                        <span class="text-xs font-mono text-brand-muted uppercase tracking-widest mb-4">Pharmacokinetics Profile</span>
+                    <div class="flex flex-col justify-between">
+                        <span class="text-xs text-gray-400 uppercase tracking-widest mb-4">Pharmacokinetics Profile</span>
                         <div class="chart-container">
                             <canvas id="pkChart"></canvas>
                         </div>
                         <div class="mt-4 text-center">
-                            <span class="text-[10px] text-gray-600">Estimated plasma concentration over time</span>
+                            <span class="text-[10px] text-gray-500">Estimated plasma concentration over time</span>
                         </div>
                     </div>
                 </div>
@@ -263,20 +300,20 @@
         <!-- Cycling & Safety Limits -->
         <section>
             <div class="flex items-center mb-6">
-                <div class="section-bar bg-white"></div>
-                <h2 class="font-mono text-xl font-bold text-white uppercase tracking-wider">Cycling & Safety Limits</h2>
+                <div class="w-1 h-6 bg-white rounded mr-3"></div>
+                <h2 class="text-lg font-semibold text-white">Cycling & Safety Limits</h2>
             </div>
 
             <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
                 
-                <div class="bg-brand-charcoal border border-brand-border rounded-lg p-8">
-                    <h3 class="text-sm font-mono text-brand-blue font-bold uppercase mb-6">The "Pre/60/120" Rule</h3>
+                <div class="spotlight-card">
+                    <h3 class="text-sm text-[#ef4463] font-medium uppercase mb-6">The "Pre/60/120" Rule</h3>
                     
                     <div class="space-y-6">
                         <div class="flex gap-4">
-                            <div class="flex-shrink-0 w-8 h-8 flex items-center justify-center bg-brand-surface text-white font-mono font-bold rounded text-sm border border-brand-border">1</div>
+                            <div class="flex-shrink-0 w-8 h-8 flex items-center justify-center bg-black text-white font-semibold rounded text-sm border border-white/10">1</div>
                             <div>
-                                <h4 class="text-sm font-bold text-white">Pre-Medicate (Tigan)</h4>
+                                <h4 class="text-sm font-medium text-white">Pre-Medicate (Tigan)</h4>
                                 <p class="text-xs text-gray-400 mt-1 leading-relaxed">
                                     Initiate Trimethobenzamide 300mg TID, 3 days prior to first dose to prevent severe emesis.
                                 </p>
@@ -284,9 +321,9 @@
                         </div>
 
                         <div class="flex gap-4">
-                            <div class="flex-shrink-0 w-8 h-8 flex items-center justify-center bg-brand-surface text-white font-mono font-bold rounded text-sm border border-brand-border">2</div>
+                            <div class="flex-shrink-0 w-8 h-8 flex items-center justify-center bg-black text-white font-semibold rounded text-sm border border-white/10">2</div>
                             <div>
-                                <h4 class="text-sm font-bold text-white">60 Minute Window</h4>
+                                <h4 class="text-sm font-medium text-white">60 Minute Window</h4>
                                 <p class="text-xs text-gray-400 mt-1 leading-relaxed">
                                     Therapeutic window is short. Activity should be planned 45-60 mins post-dose (SL).
                                 </p>
@@ -294,9 +331,9 @@
                         </div>
 
                         <div class="flex gap-4">
-                            <div class="flex-shrink-0 w-8 h-8 flex items-center justify-center bg-brand-surface text-white font-mono font-bold rounded text-sm border border-brand-border">3</div>
+                            <div class="flex-shrink-0 w-8 h-8 flex items-center justify-center bg-black text-white font-semibold rounded text-sm border border-white/10">3</div>
                             <div>
-                                <h4 class="text-sm font-bold text-white">120 Min Washout</h4>
+                                <h4 class="text-sm font-medium text-white">120 Min Washout</h4>
                                 <p class="text-xs text-gray-400 mt-1 leading-relaxed">
                                     Wait at least 2 hours between doses to allow receptor reset and prevent accumulation.
                                 </p>
@@ -305,79 +342,92 @@
                     </div>
                 </div>
 
-                <div class="bg-brand-charcoal border border-brand-border rounded-lg p-8 flex flex-col justify-between">
+                <div class="spotlight-card flex flex-col justify-between">
                     <div>
-                        <div class="flex justify-between text-[10px] font-mono uppercase text-brand-muted mb-2">
+                        <div class="flex justify-between text-[10px] uppercase text-gray-400 mb-2">
                             <span>Dosing Frequency</span>
                             <span>Based on standard safety profile</span>
                         </div>
                         
-                        <div class="h-3 w-full bg-brand-surface rounded-full overflow-hidden flex mb-1">
-                            <div class="h-full bg-brand-cyan w-[25%]"></div>
-                            <div class="h-full bg-brand-blue w-[25%] opacity-50"></div>
-                            <div class="h-full bg-brand-green w-[50%] opacity-30"></div>
+                        <div class="h-3 w-full bg-black rounded-full overflow-hidden flex mb-1">
+                            <div class="h-full bg-[#ef4463] w-[25%]"></div>
+                            <div class="h-full bg-[#f59e0b] w-[25%] opacity-50"></div>
+                            <div class="h-full bg-white/20 w-[50%]"></div>
                         </div>
                         
-                        <div class="flex justify-between text-[10px] font-mono uppercase text-brand-muted mb-8">
-                            <span class="text-brand-cyan">Active Pulse</span>
-                            <span class="text-brand-text">Safe Redose Zone</span>
+                        <div class="flex justify-between text-[10px] uppercase text-gray-400 mb-8">
+                            <span class="text-[#ef4463]">Active Pulse</span>
+                            <span class="text-white">Safe Redose Zone</span>
                         </div>
                     </div>
 
-                    <div class="grid grid-cols-3 gap-4 border-t border-brand-border pt-6">
+                    <div class="grid grid-cols-3 gap-4 border-t border-white/10 pt-6">
                         <div class="text-center">
-                            <div class="text-lg font-mono font-bold text-brand-blue">~15%</div>
-                            <div class="text-[10px] text-brand-muted uppercase mt-1">Yawn Incidence</div>
+                            <div class="text-lg font-semibold text-[#ef4463]">~15%</div>
+                            <div class="text-[10px] text-gray-400 uppercase mt-1">Yawn Incidence</div>
                         </div>
-                        <div class="text-center border-l border-brand-border">
-                            <div class="text-lg font-mono font-bold text-brand-blue">Transient</div>
-                            <div class="text-[10px] text-brand-muted uppercase mt-1">Hypotension</div>
+                        <div class="text-center border-l border-white/10">
+                            <div class="text-lg font-semibold text-[#ef4463]">Transient</div>
+                            <div class="text-[10px] text-gray-400 uppercase mt-1">Hypotension</div>
                         </div>
-                        <div class="text-center border-l border-brand-border">
-                            <div class="text-lg font-mono font-bold text-white">Rare</div>
-                            <div class="text-[10px] text-brand-muted uppercase mt-1">Priapism</div>
+                        <div class="text-center border-l border-white/10">
+                            <div class="text-lg font-semibold text-white">Rare</div>
+                            <div class="text-[10px] text-gray-400 uppercase mt-1">Priapism</div>
                         </div>
                     </div>
                     
-                    <div class="mt-6 p-3 bg-red-900/10 border border-red-900/30 rounded">
-                         <span class="block text-[10px] text-brand-red font-bold uppercase mb-1">CONTRAINDICATION</span>
+                    <div class="mt-6 p-3 bg-red-900/10 border border-red-900/30 rounded-lg">
+                         <span class="block text-[10px] text-red-400 font-semibold uppercase mb-1">CONTRAINDICATION</span>
                          <p class="text-xs text-gray-400">DO NOT COMBINE with 5HT3 Antagonists (Zofran). Risk of severe hypotension.</p>
                     </div>
                 </div>
             </div>
         </section>
 
-        <!-- ========================================
-             STANDARDIZED FOOTER
-             ======================================== -->
-        <footer class="mt-12 pt-8 border-t border-brand-border/30">
-            <div class="bg-brand-charcoal/50 border border-brand-border rounded-lg p-6 mb-6">
+        <!-- Footer -->
+        <footer class="mt-16 pt-8 border-t border-white/[0.08]">
+            <div class="content-section mb-6">
                 <div class="flex items-start gap-3">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-brand-muted flex-shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-500 flex-shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
                     </svg>
                     <div>
-                        <p class="text-xs text-brand-text leading-relaxed">
-                            <span class="text-white font-bold">LEGAL DISCLAIMER:</span> This platform is a <span class="text-white font-semibold">clinical reference tool</span> designed to summarize available research literature and pharmacological data for educational purposes. It is <span class="text-red-400 font-bold">NOT</span> a dosing guide, prescriptive engine, or substitute for professional medical training.
+                        <p class="text-xs text-gray-400 leading-relaxed">
+                            <span class="text-white font-semibold">LEGAL DISCLAIMER:</span> This platform is a <span class="text-white font-medium">clinical reference tool</span> designed to summarize available research literature and pharmacological data for educational purposes. It is <span class="text-red-400 font-semibold">NOT</span> a dosing guide, prescriptive engine, or substitute for professional medical training.
                         </p>
-                        <p class="text-[10px] text-brand-muted mt-3 tracking-wide uppercase">
+                        <p class="text-[10px] text-gray-500 mt-3 tracking-wide uppercase">
                             Secure Clinical Environment | HIPAA Compliant | Authorized Personnel Only
                         </p>
                     </div>
                 </div>
             </div>
             
-            <div class="flex flex-col md:flex-row justify-between items-center text-[10px] text-brand-muted font-mono uppercase">
-                <div>Multifactor Solutions &copy; 2024</div>
-                <div class="mt-2 md:mt-0 flex items-center">
-                    <span class="w-2 h-2 rounded-full bg-brand-blue mr-2"></span>
-                    For Clinical Educational Use Only.
+            <div class="flex flex-col md:flex-row justify-between items-center text-sm text-gray-500">
+                <div>© 2025 Multifactor Solutions</div>
+                <div class="mt-2 md:mt-0 flex items-center gap-6">
+                    <a href="#" class="hover:text-white transition-colors">Privacy</a>
+                    <a href="#" class="hover:text-white transition-colors">Terms</a>
                 </div>
             </div>
         </footer>
     </main>
 
+    <!-- Gradient Orbs -->
+    <div style="position: fixed; width: 600px; height: 600px; background: radial-gradient(circle, #ef4463 0%, transparent 70%); top: -200px; right: -200px; opacity: 0.1; filter: blur(100px); pointer-events: none; z-index: 0;"></div>
+    <div style="position: fixed; width: 400px; height: 400px; background: radial-gradient(circle, #f59e0b 0%, transparent 70%); bottom: -150px; left: -150px; opacity: 0.08; filter: blur(100px); pointer-events: none; z-index: 0;"></div>
+
     <script>
+        // Spotlight effect mouse tracking
+        document.querySelectorAll('.spotlight-card').forEach(card => {
+            card.addEventListener('mousemove', (e) => {
+                const rect = card.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+                card.style.setProperty('--mouse-x', `${x}px`);
+                card.style.setProperty('--mouse-y', `${y}px`);
+            });
+        });
+
         const data = {
             sl: {
                 title: "SUBLINGUAL TROCHE",
@@ -391,7 +441,7 @@
                 duration: "2 Hours",
                 note: "Nausea is the primary dose-limiting side effect. The 'Yawn' reflex typically precedes therapeutic onset by 5-10 minutes.",
                 chartData: [0, 10, 40, 85, 100, 70, 40, 15, 5, 0],
-                chartColor: '#06b6d4'
+                chartColor: '#ef4463'
             },
             sc: {
                 title: "SUBCUTANEOUS INJECTION",
@@ -405,7 +455,7 @@
                 duration: "60 - 90 mins",
                 note: "Rapid onset carries higher risk of orthostatic hypotension. Monitor BP on first dose.",
                 chartData: [0, 60, 100, 50, 20, 10, 5, 0, 0, 0],
-                chartColor: '#10b981'
+                chartColor: '#f59e0b'
             }
         };
 
@@ -451,12 +501,12 @@
                     datasets: [{
                         label: 'Concentration',
                         data: data.sl.chartData,
-                        borderColor: '#06b6d4',
+                        borderColor: '#ef4463',
                         backgroundColor: (context) => {
                             const ctx = context.chart.ctx;
                             const gradient = ctx.createLinearGradient(0, 0, 0, 220);
-                            gradient.addColorStop(0, 'rgba(6, 182, 212, 0.5)');
-                            gradient.addColorStop(1, 'rgba(6, 182, 212, 0)');
+                            gradient.addColorStop(0, 'rgba(239, 68, 99, 0.5)');
+                            gradient.addColorStop(1, 'rgba(239, 68, 99, 0)');
                             return gradient;
                         },
                         borderWidth: 2,
@@ -475,7 +525,7 @@
                     scales: {
                         x: {
                             grid: { display: false },
-                            ticks: { color: '#a1a1aa', font: { family: 'Rajdhani', size: 10 } }
+                            ticks: { color: '#6b7280', font: { family: 'Inter', size: 10 } }
                         },
                         y: { display: false, min: 0 }
                     }

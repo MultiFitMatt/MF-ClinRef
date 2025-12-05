@@ -8,7 +8,7 @@
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Rajdhani:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
     
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
@@ -18,22 +18,8 @@
         tailwind.config = {
             theme: {
                 extend: {
-                    colors: {
-                        brand: {
-                            black: '#050505',
-                            charcoal: '#0f0f11',
-                            surface: '#18181b',
-                            border: '#27272a',
-                            green: '#10b981',
-                            blue: '#3b82f6',
-                            cyan: '#06b6d4',
-                            text: '#e4e4e7',
-                            muted: '#a1a1aa'
-                        }
-                    },
                     fontFamily: {
                         sans: ['Inter', 'sans-serif'],
-                        mono: ['Rajdhani', 'monospace'],
                     }
                 }
             }
@@ -42,14 +28,62 @@
     
     <style>
         body {
-            background-color: #050505;
-            color: #e4e4e7;
+            background-color: #000000;
+            color: #ffffff;
         }
         
-        ::-webkit-scrollbar { width: 8px; }
-        ::-webkit-scrollbar-track { background: #0f0f11; }
-        ::-webkit-scrollbar-thumb { background: #27272a; border-radius: 4px; }
-        ::-webkit-scrollbar-thumb:hover { background: #3b82f6; }
+        /* Scrollbar */
+        ::-webkit-scrollbar { width: 10px; }
+        ::-webkit-scrollbar-track { background: #000000; }
+        ::-webkit-scrollbar-thumb { background: linear-gradient(180deg, #10b981 0%, #06b6d4 100%); border-radius: 5px; }
+        ::-webkit-scrollbar-thumb:hover { background: linear-gradient(180deg, #34d399 0%, #22d3ee 100%); }
+        
+        /* Content sections */
+        .content-section {
+            background: #0a0a0a;
+            border: 1px solid #1a1a1a;
+            border-radius: 12px;
+            padding: 24px;
+        }
+
+        /* Spotlight card effect */
+        .spotlight-card {
+            background: #0a0a0a;
+            border: 1px solid #1a1a1a;
+            border-radius: 12px;
+            padding: 24px;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+        
+        .spotlight-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: radial-gradient(600px circle at var(--mouse-x) var(--mouse-y), rgba(16, 185, 129, 0.15), transparent 40%);
+            opacity: 0;
+            transition: opacity 0.3s;
+            pointer-events: none;
+            z-index: 1;
+        }
+        
+        .spotlight-card:hover::before {
+            opacity: 1;
+        }
+        
+        .spotlight-card:hover {
+            border-color: rgba(16, 185, 129, 0.5);
+            box-shadow: 0 0 20px rgba(16, 185, 129, 0.1);
+        }
+        
+        .spotlight-card > * {
+            position: relative;
+            z-index: 2;
+        }
         
         .chart-container {
             position: relative;
@@ -57,73 +91,73 @@
             height: 300px;
             max-height: 400px;
         }
-        
-        .mf-card {
-            background: #0f0f11;
-            border: 1px solid #27272a;
-            backdrop-filter: blur(10px);
+
+        /* Buttons */
+        .btn-primary {
+            background: linear-gradient(135deg, #10b981 0%, #06b6d4 100%);
+            color: white;
+            padding: 10px 20px;
+            border-radius: 8px;
+            font-weight: 500;
+            font-size: 14px;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
         }
         
-        .mf-card:hover {
-            border-color: #3b82f6;
-            transition: border-color 0.3s ease;
+        .btn-primary:hover {
+            box-shadow: 0 0 30px rgba(16, 185, 129, 0.4);
+            transform: translateY(-1px);
         }
     </style>
 </head>
-<body class="antialiased min-h-screen flex flex-col font-sans selection:bg-brand-blue selection:text-white">
+<body class="antialiased min-h-screen flex flex-col font-sans selection:bg-green-500 selection:text-white">
 
-    <!-- ========================================
-         STANDARDIZED HEADER
-         ======================================== -->
-    <header class="sticky top-0 z-50 bg-brand-black/90 backdrop-blur border-b border-brand-border">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
-            <div class="flex items-center gap-2">
-                <a href="index.html" class="text-brand-muted hover:text-brand-blue transition-colors">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
-                    </svg>
+    <!-- Navigation -->
+    <nav class="fixed top-0 left-0 right-0 z-50 bg-black/80 backdrop-blur-xl border-b border-white/[0.08]">
+        <div class="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
+            <div class="flex items-center gap-12">
+                <a href="index.html" class="text-sm font-semibold text-white hover:text-green-400 transition-colors">
+                    ← Multifactor Solutions
                 </a>
-                
-                <div class="w-10 h-10 bg-brand-surface border border-brand-blue rounded flex items-center justify-center shadow-[0_0_10px_rgba(59,130,246,0.3)]">
-                    <span class="font-mono font-bold text-brand-green text-base">M</span>
-                </div>
-                
-                <div class="flex flex-col">
-                    <span class="font-mono font-bold text-lg tracking-tight text-white leading-none">hCG PROTOCOL</span>
-                    <span class="font-mono text-xs text-brand-green tracking-widest leading-none uppercase">Clinical Reference</span>
-                </div>
             </div>
-            
-            <div class="hidden md:flex items-center gap-6 font-mono text-sm text-brand-muted">
-                <span class="flex items-center gap-1"><span class="w-2 h-2 rounded-full bg-brand-green animate-pulse"></span> OFF-LABEL</span>
+            <div class="flex items-center gap-8 text-sm text-gray-400">
+                <a href="index.html#protocols" class="hover:text-white transition-colors">All Protocols</a>
             </div>
         </div>
-    </header>
+    </nav>
 
-    <main class="flex-grow max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 w-full space-y-8">
+    <main class="flex-grow max-w-7xl mx-auto px-6 pt-24 pb-12 w-full space-y-8">
+
+        <!-- Hero Section -->
+        <header class="pt-8 pb-4">
+            <div class="inline-block px-3 py-1 rounded-full border border-green-500/30 bg-green-500/10 text-green-400 text-xs font-medium uppercase tracking-wider mb-6">
+                Hormone Optimization
+            </div>
+            <h1 class="text-4xl md:text-5xl font-semibold text-white tracking-tight leading-[1.1] mb-4">
+                hCG <span class="text-gray-500 text-2xl font-normal">/ Human Chorionic Gonadotropin</span>
+            </h1>
+            <p class="text-lg text-gray-400 leading-relaxed max-w-3xl">
+                LH analog utilized off-label for preventing testicular atrophy during TRT, preserving fertility, and as a monotherapy for secondary hypogonadism.
+            </p>
+        </header>
 
         <!-- Intro Section -->
         <section class="grid grid-cols-1 lg:grid-cols-3 gap-6">
             <div class="lg:col-span-2 space-y-4">
-                <h1 class="font-mono text-4xl md:text-5xl font-bold text-white uppercase tracking-tighter">
-                    <span class="text-brand-blue">hCG</span> Prescribing Protocol
-                </h1>
-                <p class="text-brand-muted text-lg max-w-2xl">
-                    Human Chorionic Gonadotropin (hCG) is utilized off-label in male functional medicine to mimic Luteinizing Hormone (LH). It is primarily indicated for preventing testicular atrophy during TRT, preserving fertility, and as a monotherapy for secondary hypogonadism.
-                </p>
                 <div class="flex gap-4 pt-2">
-                    <div class="px-3 py-1 bg-brand-blue/10 border border-brand-blue/30 text-brand-blue text-xs font-mono rounded">LH ANALOG</div>
-                    <div class="px-3 py-1 bg-brand-green/10 border border-brand-green/30 text-brand-green text-xs font-mono rounded">FERTILITY</div>
-                    <div class="px-3 py-1 bg-white/10 border border-white/20 text-white text-xs font-mono rounded">NEUROPROTECTIVE</div>
+                    <div class="px-3 py-1 bg-green-500/10 border border-green-500/30 text-green-400 text-xs rounded">LH ANALOG</div>
+                    <div class="px-3 py-1 bg-cyan-500/10 border border-cyan-500/30 text-cyan-400 text-xs rounded">FERTILITY</div>
+                    <div class="px-3 py-1 bg-white/10 border border-white/20 text-white text-xs rounded">NEUROPROTECTIVE</div>
                 </div>
             </div>
             
-            <div class="mf-card p-6 rounded-lg flex flex-col justify-center border-l-4 border-l-brand-green">
-                <h3 class="font-mono text-brand-green text-lg font-bold mb-2">QUICK REFERENCE</h3>
-                <ul class="space-y-2 text-sm text-gray-400 font-mono">
-                    <li class="flex justify-between border-b border-brand-border pb-1"><span>Half-Life (Inj):</span> <span class="text-white">24-36 Hours</span></li>
-                    <li class="flex justify-between border-b border-brand-border pb-1"><span>Half-Life (Oral):</span> <span class="text-white">~4-6 Hours</span></li>
-                    <li class="flex justify-between border-b border-brand-border pb-1"><span>Typical Freq:</span> <span class="text-white">2-3x Weekly (Inj)</span></li>
+            <div class="spotlight-card flex flex-col justify-center border-l-4 border-l-green-400">
+                <h3 class="text-green-400 text-lg font-semibold mb-2">QUICK REFERENCE</h3>
+                <ul class="space-y-2 text-sm text-gray-400">
+                    <li class="flex justify-between border-b border-white/10 pb-1"><span>Half-Life (Inj):</span> <span class="text-white">24-36 Hours</span></li>
+                    <li class="flex justify-between border-b border-white/10 pb-1"><span>Half-Life (Oral):</span> <span class="text-white">~4-6 Hours</span></li>
+                    <li class="flex justify-between border-b border-white/10 pb-1"><span>Typical Freq:</span> <span class="text-white">2-3x Weekly (Inj)</span></li>
                     <li class="flex justify-between"><span>Monitor:</span> <span class="text-white">E2 (Estradiol)</span></li>
                 </ul>
             </div>
@@ -131,39 +165,40 @@
 
         <!-- Interactive Protocol Configurator -->
         <section class="space-y-4">
-            <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-brand-border pb-2">
-                <h2 class="font-mono text-2xl text-white flex items-center gap-2">
-                    <span class="text-brand-green">01</span> // PROTOCOL CONFIGURATOR
-                </h2>
-                <div class="text-xs text-brand-muted font-mono">Select parameters to generate guidance</div>
+            <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-white/10 pb-3">
+                <div class="flex items-center">
+                    <div class="w-1 h-6 bg-green-400 rounded mr-3"></div>
+                    <h2 class="text-xl font-semibold text-white">Protocol Configurator</h2>
+                </div>
+                <div class="text-xs text-gray-500 uppercase">Select parameters to generate guidance</div>
             </div>
 
             <!-- Controls -->
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 bg-brand-surface p-6 rounded-lg border border-brand-border">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 spotlight-card">
                 <div class="space-y-4">
-                    <label class="block text-sm font-mono text-brand-blue uppercase tracking-wider">Clinical Goal</label>
+                    <label class="block text-sm text-green-400 uppercase tracking-wider">Clinical Goal</label>
                     <div class="grid grid-cols-2 gap-2">
-                        <button onclick="setGoal('adjunct')" id="btn-adjunct" class="protocol-btn p-3 rounded border border-brand-border hover:bg-brand-charcoal text-left transition-all active-protocol bg-brand-blue/10 border-brand-blue">
-                            <div class="font-bold text-white text-sm">TRT Adjunct</div>
-                            <div class="text-xs text-brand-muted mt-1">Prevent Atrophy / Maintain Function</div>
+                        <button onclick="setGoal('adjunct')" id="btn-adjunct" class="protocol-btn p-3 rounded-lg border border-green-500 bg-green-500/10 text-left transition-all">
+                            <div class="font-medium text-white text-sm">TRT Adjunct</div>
+                            <div class="text-xs text-gray-400 mt-1">Prevent Atrophy / Maintain Function</div>
                         </button>
-                        <button onclick="setGoal('mono')" id="btn-mono" class="protocol-btn p-3 rounded border border-brand-border hover:bg-brand-charcoal text-left transition-all">
-                            <div class="font-bold text-white text-sm">Monotherapy</div>
-                            <div class="text-xs text-brand-muted mt-1">Secondary Hypogonadism / PCT</div>
+                        <button onclick="setGoal('mono')" id="btn-mono" class="protocol-btn p-3 rounded-lg border border-white/10 hover:bg-white/5 text-left transition-all">
+                            <div class="font-medium text-white text-sm">Monotherapy</div>
+                            <div class="text-xs text-gray-400 mt-1">Secondary Hypogonadism / PCT</div>
                         </button>
                     </div>
                 </div>
 
                 <div class="space-y-4">
-                    <label class="block text-sm font-mono text-brand-green uppercase tracking-wider">Administration Route</label>
+                    <label class="block text-sm text-cyan-400 uppercase tracking-wider">Administration Route</label>
                     <div class="grid grid-cols-2 gap-2">
-                        <button onclick="setRoute('injection')" id="btn-injection" class="route-btn p-3 rounded border border-brand-border hover:bg-brand-charcoal text-left transition-all active-route bg-brand-green/10 border-brand-green">
-                            <div class="font-bold text-white text-sm">Injection (SQ/IM)</div>
-                            <div class="text-xs text-brand-muted mt-1">High Bioavailability</div>
+                        <button onclick="setRoute('injection')" id="btn-injection" class="route-btn p-3 rounded-lg border border-cyan-500 bg-cyan-500/10 text-left transition-all">
+                            <div class="font-medium text-white text-sm">Injection (SQ/IM)</div>
+                            <div class="text-xs text-gray-400 mt-1">High Bioavailability</div>
                         </button>
-                        <button onclick="setRoute('oral')" id="btn-oral" class="route-btn p-3 rounded border border-brand-border hover:bg-brand-charcoal text-left transition-all">
-                            <div class="font-bold text-white text-sm">Oral (Troche/SL)</div>
-                            <div class="text-xs text-brand-muted mt-1">Ease of Use / Variable Abs.</div>
+                        <button onclick="setRoute('oral')" id="btn-oral" class="route-btn p-3 rounded-lg border border-white/10 hover:bg-white/5 text-left transition-all">
+                            <div class="font-medium text-white text-sm">Oral (Troche/SL)</div>
+                            <div class="text-xs text-gray-400 mt-1">Ease of Use / Variable Abs.</div>
                         </button>
                     </div>
                 </div>
@@ -171,67 +206,67 @@
 
             <!-- Dynamic Output Grid -->
             <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                <div class="mf-card p-6 rounded-lg relative overflow-hidden group">
+                <div class="spotlight-card relative overflow-hidden group">
                     <div class="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition-opacity">
-                        <svg class="w-16 h-16 text-brand-blue" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z"></path></svg>
+                        <svg class="w-16 h-16 text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z"></path></svg>
                     </div>
-                    <h4 class="text-brand-blue font-mono text-sm uppercase mb-2">Recommended Dose</h4>
-                    <div class="text-3xl font-bold text-white mb-1" id="display-dose">250-500 IU</div>
-                    <p class="text-xs text-brand-muted" id="display-dose-note">Administer SQ. Monitor E2.</p>
+                    <h4 class="text-green-400 text-sm uppercase mb-2">Recommended Dose</h4>
+                    <div class="text-3xl font-semibold text-white mb-1" id="display-dose">250-500 IU</div>
+                    <p class="text-xs text-gray-400" id="display-dose-note">Administer SQ. Monitor E2.</p>
                 </div>
 
-                <div class="mf-card p-6 rounded-lg relative overflow-hidden group">
+                <div class="spotlight-card relative overflow-hidden group">
                     <div class="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition-opacity">
-                        <svg class="w-16 h-16 text-brand-green" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                        <svg class="w-16 h-16 text-cyan-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
                     </div>
-                    <h4 class="text-brand-green font-mono text-sm uppercase mb-2">Frequency</h4>
-                    <div class="text-3xl font-bold text-white mb-1" id="display-freq">2-3x Weekly</div>
-                    <p class="text-xs text-brand-muted" id="display-freq-note">Typical: Mon/Thu or Mon/Wed/Fri</p>
+                    <h4 class="text-cyan-400 text-sm uppercase mb-2">Frequency</h4>
+                    <div class="text-3xl font-semibold text-white mb-1" id="display-freq">2-3x Weekly</div>
+                    <p class="text-xs text-gray-400" id="display-freq-note">Typical: Mon/Thu or Mon/Wed/Fri</p>
                 </div>
 
-                <div class="mf-card p-6 rounded-lg relative overflow-hidden group">
+                <div class="spotlight-card relative overflow-hidden group">
                     <div class="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition-opacity">
                         <svg class="w-16 h-16 text-purple-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
                     </div>
-                    <h4 class="text-purple-500 font-mono text-sm uppercase mb-2">Cycle Duration</h4>
-                    <div class="text-3xl font-bold text-white mb-1" id="display-duration">Continuous</div>
-                    <p class="text-xs text-brand-muted" id="display-duration-note">Or 8-10wk cycle</p>
+                    <h4 class="text-purple-500 text-sm uppercase mb-2">Cycle Duration</h4>
+                    <div class="text-3xl font-semibold text-white mb-1" id="display-duration">Continuous</div>
+                    <p class="text-xs text-gray-400" id="display-duration-note">Or 8-10wk cycle</p>
                 </div>
             </div>
         </section>
 
         <!-- Visual Analysis Section -->
         <section class="grid grid-cols-1 lg:grid-cols-2 gap-6">
-            <div class="mf-card p-6 rounded-lg border border-brand-border">
+            <div class="spotlight-card">
                 <div class="flex justify-between items-center mb-6">
-                    <h3 class="font-mono text-lg text-white">Pharmacokinetics: Serum Levels</h3>
-                    <div class="flex gap-2 text-xs font-mono">
-                        <span class="flex items-center gap-1"><span class="w-2 h-2 rounded-full bg-brand-blue"></span> Injectable</span>
-                        <span class="flex items-center gap-1"><span class="w-2 h-2 rounded-full bg-brand-green"></span> Oral</span>
+                    <h3 class="text-lg font-semibold text-white">Pharmacokinetics: Serum Levels</h3>
+                    <div class="flex gap-2 text-xs">
+                        <span class="flex items-center gap-1"><span class="w-2 h-2 rounded-full bg-green-400"></span> Injectable</span>
+                        <span class="flex items-center gap-1"><span class="w-2 h-2 rounded-full bg-cyan-400"></span> Oral</span>
                     </div>
                 </div>
                 <div class="chart-container">
                     <canvas id="pkChart"></canvas>
                 </div>
-                <div class="mt-4 p-3 bg-black/50 rounded border border-brand-border text-xs text-brand-muted font-mono">
+                <div class="mt-4 p-3 bg-black/50 rounded-lg border border-white/10 text-xs text-gray-400">
                     <strong>Note:</strong> Injection provides stable serum levels with typical dosing. Oral administration results in rapid spikes and elimination, requiring daily or BID dosing to maintain therapeutic threshold.
                 </div>
             </div>
 
-            <div class="mf-card p-6 rounded-lg border border-brand-border">
+            <div class="spotlight-card">
                  <div class="flex justify-between items-center mb-6">
-                    <h3 class="font-mono text-lg text-white">Route Comparison Matrix</h3>
+                    <h3 class="text-lg font-semibold text-white">Route Comparison Matrix</h3>
                 </div>
                 <div class="chart-container flex justify-center">
                     <canvas id="radarChart"></canvas>
                 </div>
-                <div class="mt-4 grid grid-cols-2 gap-4 text-xs font-mono">
-                    <div class="p-2 border-l-2 border-brand-blue bg-brand-blue/5">
-                        <strong class="text-brand-blue block mb-1">INJECTION</strong>
+                <div class="mt-4 grid grid-cols-2 gap-4 text-xs">
+                    <div class="p-2 border-l-2 border-green-400 bg-green-500/5">
+                        <strong class="text-green-400 block mb-1">INJECTION</strong>
                         Standard of care. High reliability. Risk of high E2 conversion.
                     </div>
-                    <div class="p-2 border-l-2 border-brand-green bg-brand-green/5">
-                        <strong class="text-brand-green block mb-1">ORAL</strong>
+                    <div class="p-2 border-l-2 border-cyan-400 bg-cyan-500/5">
+                        <strong class="text-cyan-400 block mb-1">ORAL</strong>
                         Convenient. Lower max serum E2. Higher cost per effective unit.
                     </div>
                 </div>
@@ -240,10 +275,11 @@
 
         <!-- Cycling & Washout Section -->
         <section class="space-y-4">
-            <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-brand-border pb-2">
-                <h2 class="font-mono text-2xl text-white flex items-center gap-2">
-                    <span class="text-purple-500">02</span> // CYCLING & WASHOUT
-                </h2>
+            <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-white/10 pb-3">
+                <div class="flex items-center">
+                    <div class="w-1 h-6 bg-purple-400 rounded mr-3"></div>
+                    <h2 class="text-xl font-semibold text-white">Cycling & Washout</h2>
+                </div>
             </div>
             
             <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
@@ -251,8 +287,8 @@
                     <p>Continuous hCG use may lead to Leydig cell desensitization to LH in some patients.</p>
                     <p>Cycling protocols mitigate this risk by introducing a "washout" period where the receptor sensitivity can reset.</p>
                     
-                    <div class="p-4 border border-brand-border bg-brand-charcoal rounded">
-                        <h5 class="text-white font-mono font-bold mb-2">Washout Logic</h5>
+                    <div class="p-4 border border-white/10 bg-black rounded-lg">
+                        <h5 class="text-white font-medium mb-2">Washout Logic</h5>
                         <ul class="space-y-2 list-disc pl-4 text-xs">
                             <li>Short Cycle: 8 wks ON, 2 wks OFF</li>
                             <li>Long Cycle: 12 wks ON, 4 wks OFF</li>
@@ -261,18 +297,18 @@
                     </div>
                 </div>
 
-                <div class="md:col-span-3 mf-card p-6 rounded-lg border border-brand-border flex flex-col justify-center">
-                    <h3 class="font-mono text-white mb-4">Visualizing the Dosing Cycle (8 Week Protocol)</h3>
+                <div class="md:col-span-3 spotlight-card flex flex-col justify-center">
+                    <h3 class="text-white mb-4">Visualizing the Dosing Cycle (8 Week Protocol)</h3>
                     <div class="relative pt-6 pb-2">
-                        <div class="h-4 bg-brand-border rounded-full w-full flex overflow-hidden">
-                            <div class="h-full bg-brand-blue w-[80%] relative group cursor-help">
-                                <span class="absolute -top-6 left-1/2 -translate-x-1/2 text-xs font-mono text-brand-blue font-bold opacity-0 group-hover:opacity-100 transition-opacity">ACTIVE TREATMENT (8 WKS)</span>
+                        <div class="h-4 bg-white/10 rounded-full w-full flex overflow-hidden">
+                            <div class="h-full bg-gradient-to-r from-green-500 to-cyan-500 w-[80%] relative group cursor-help">
+                                <span class="absolute -top-6 left-1/2 -translate-x-1/2 text-xs text-green-400 font-medium opacity-0 group-hover:opacity-100 transition-opacity">ACTIVE TREATMENT (8 WKS)</span>
                             </div>
-                            <div class="h-full bg-brand-border w-[20%] relative group cursor-help">
-                                <span class="absolute -top-6 left-1/2 -translate-x-1/2 text-xs font-mono text-gray-400 font-bold opacity-0 group-hover:opacity-100 transition-opacity">WASHOUT (2 WKS)</span>
+                            <div class="h-full bg-white/10 w-[20%] relative group cursor-help">
+                                <span class="absolute -top-6 left-1/2 -translate-x-1/2 text-xs text-gray-400 font-medium opacity-0 group-hover:opacity-100 transition-opacity">WASHOUT (2 WKS)</span>
                             </div>
                         </div>
-                        <div class="flex justify-between mt-2 font-mono text-xs text-brand-muted">
+                        <div class="flex justify-between mt-2 text-xs text-gray-500">
                             <span>Week 1</span>
                             <span>Week 4</span>
                             <span>Week 8 (Stop)</span>
@@ -281,17 +317,17 @@
                     </div>
                     
                     <div class="mt-6 grid grid-cols-3 gap-4 text-center">
-                        <div class="bg-black/40 p-3 rounded">
-                            <div class="text-xs text-brand-muted font-mono uppercase">Start Date</div>
-                            <div class="text-white font-bold" id="date-start">Today</div>
+                        <div class="bg-black/40 p-3 rounded-lg">
+                            <div class="text-xs text-gray-400 uppercase">Start Date</div>
+                            <div class="text-white font-semibold" id="date-start">Today</div>
                         </div>
-                        <div class="bg-black/40 p-3 rounded border border-brand-blue/30">
-                            <div class="text-xs text-brand-blue font-mono uppercase">Washout Begins</div>
-                            <div class="text-white font-bold" id="date-washout">...</div>
+                        <div class="bg-black/40 p-3 rounded-lg border border-green-500/30">
+                            <div class="text-xs text-green-400 uppercase">Washout Begins</div>
+                            <div class="text-white font-semibold" id="date-washout">...</div>
                         </div>
-                         <div class="bg-black/40 p-3 rounded border border-brand-green/30">
-                            <div class="text-xs text-brand-green font-mono uppercase">Next Cycle</div>
-                            <div class="text-white font-bold" id="date-resume">...</div>
+                         <div class="bg-black/40 p-3 rounded-lg border border-cyan-500/30">
+                            <div class="text-xs text-cyan-400 uppercase">Next Cycle</div>
+                            <div class="text-white font-semibold" id="date-resume">...</div>
                         </div>
                     </div>
                 </div>
@@ -300,38 +336,51 @@
 
     </main>
 
-    <!-- ========================================
-         STANDARDIZED FOOTER
-         ======================================== -->
-    <footer class="mt-12 pt-8 border-t border-brand-border/30">
-        <div class="max-w-7xl mx-auto px-4">
-            <div class="bg-brand-charcoal/50 border border-brand-border rounded-lg p-6 mb-6">
+    <!-- Footer -->
+    <footer class="mt-12 pt-8 border-t border-white/[0.08]">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="content-section mb-6">
                 <div class="flex items-start gap-3">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-brand-muted flex-shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-500 flex-shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
                     </svg>
                     <div>
-                        <p class="text-xs text-brand-text leading-relaxed">
-                            <span class="text-white font-bold">LEGAL DISCLAIMER:</span> This platform is a <span class="text-white font-semibold">clinical reference tool</span> designed to summarize available research literature and pharmacological data for educational purposes. It is <span class="text-red-400 font-bold">NOT</span> a dosing guide, prescriptive engine, or substitute for professional medical training.
+                        <p class="text-xs text-gray-400 leading-relaxed">
+                            <span class="text-white font-semibold">LEGAL DISCLAIMER:</span> This platform is a <span class="text-white font-medium">clinical reference tool</span> designed to summarize available research literature and pharmacological data for educational purposes. It is <span class="text-red-400 font-semibold">NOT</span> a dosing guide, prescriptive engine, or substitute for professional medical training.
                         </p>
-                        <p class="text-[10px] text-brand-muted mt-3 tracking-wide uppercase">
+                        <p class="text-[10px] text-gray-500 mt-3 tracking-wide uppercase">
                             Secure Clinical Environment | HIPAA Compliant | Authorized Personnel Only
                         </p>
                     </div>
                 </div>
             </div>
             
-            <div class="flex flex-col md:flex-row justify-between items-center text-[10px] text-brand-muted font-mono uppercase pb-8">
-                <div>Multifactor Solutions &copy; 2024</div>
-                <div class="mt-2 md:mt-0 flex items-center">
-                    <span class="w-2 h-2 rounded-full bg-brand-blue mr-2"></span>
-                    For Clinical Educational Use Only.
+            <div class="flex flex-col md:flex-row justify-between items-center text-sm text-gray-500 pb-8">
+                <div>© 2025 Multifactor Solutions</div>
+                <div class="mt-2 md:mt-0 flex items-center gap-6">
+                    <a href="#" class="hover:text-white transition-colors">Privacy</a>
+                    <a href="#" class="hover:text-white transition-colors">Terms</a>
                 </div>
             </div>
         </div>
     </footer>
 
+    <!-- Gradient Orbs -->
+    <div style="position: fixed; width: 600px; height: 600px; background: radial-gradient(circle, #10b981 0%, transparent 70%); top: -200px; right: -200px; opacity: 0.1; filter: blur(100px); pointer-events: none; z-index: 0;"></div>
+    <div style="position: fixed; width: 400px; height: 400px; background: radial-gradient(circle, #06b6d4 0%, transparent 70%); bottom: -150px; left: -150px; opacity: 0.08; filter: blur(100px); pointer-events: none; z-index: 0;"></div>
+
     <script>
+        // Spotlight effect mouse tracking
+        document.querySelectorAll('.spotlight-card').forEach(card => {
+            card.addEventListener('mousemove', (e) => {
+                const rect = card.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+                card.style.setProperty('--mouse-x', `${x}px`);
+                card.style.setProperty('--mouse-y', `${y}px`);
+            });
+        });
+
         const state = {
             goal: 'adjunct',
             route: 'injection'
@@ -383,17 +432,17 @@
         function updateUI() {
             [btnAdjunct, btnMono].forEach(b => {
                 if(state.goal === (b.id === 'btn-adjunct' ? 'adjunct' : 'mono')) {
-                   b.className = 'protocol-btn p-3 rounded border border-brand-blue bg-brand-blue/10 text-left transition-all';
+                   b.className = 'protocol-btn p-3 rounded-lg border border-green-500 bg-green-500/10 text-left transition-all';
                 } else {
-                   b.className = 'protocol-btn p-3 rounded border border-brand-border hover:bg-brand-charcoal text-left transition-all';
+                   b.className = 'protocol-btn p-3 rounded-lg border border-white/10 hover:bg-white/5 text-left transition-all';
                 }
             });
 
             [btnInjection, btnOral].forEach(b => {
                  if(state.route === (b.id === 'btn-injection' ? 'injection' : 'oral')) {
-                   b.className = 'route-btn p-3 rounded border border-brand-green bg-brand-green/10 text-left transition-all';
+                   b.className = 'route-btn p-3 rounded-lg border border-cyan-500 bg-cyan-500/10 text-left transition-all';
                 } else {
-                   b.className = 'route-btn p-3 rounded border border-brand-border hover:bg-brand-charcoal text-left transition-all';
+                   b.className = 'route-btn p-3 rounded-lg border border-white/10 hover:bg-white/5 text-left transition-all';
                 }
             });
 
@@ -453,8 +502,8 @@
                         {
                             label: 'Injection (SQ)',
                             data: [0, 40, 75, 85, 60, 40, 25, 10],
-                            borderColor: '#3b82f6',
-                            backgroundColor: 'rgba(59, 130, 246, 0.1)',
+                            borderColor: '#10b981',
+                            backgroundColor: 'rgba(16, 185, 129, 0.1)',
                             borderWidth: 2,
                             fill: true,
                             tension: 0.4
@@ -462,8 +511,8 @@
                         {
                             label: 'Oral (SL)',
                             data: [0, 80, 30, 10, 5, 0, 0, 0],
-                            borderColor: '#10b981',
-                            backgroundColor: 'rgba(16, 185, 129, 0.1)',
+                            borderColor: '#06b6d4',
+                            backgroundColor: 'rgba(6, 182, 212, 0.1)',
                             borderWidth: 2,
                             fill: true,
                             tension: 0.4,
@@ -481,12 +530,12 @@
                     scales: {
                         y: {
                             beginAtZero: true,
-                            grid: { color: '#27272a' },
-                            ticks: { color: '#a1a1aa', font: { family: 'Rajdhani' } }
+                            grid: { color: '#1a1a1a' },
+                            ticks: { color: '#94a3b8', font: { family: 'Inter' } }
                         },
                         x: {
                             grid: { display: false },
-                            ticks: { color: '#a1a1aa', font: { family: 'Rajdhani' } }
+                            ticks: { color: '#94a3b8', font: { family: 'Inter' } }
                         }
                     }
                 }
@@ -501,12 +550,12 @@
                         label: 'Current Selection',
                         data: [90, 80, 40, 85, 95],
                         fill: true,
-                        backgroundColor: 'rgba(59, 130, 246, 0.2)',
-                        borderColor: '#3b82f6',
-                        pointBackgroundColor: '#3b82f6',
+                        backgroundColor: 'rgba(16, 185, 129, 0.2)',
+                        borderColor: '#10b981',
+                        pointBackgroundColor: '#10b981',
                         pointBorderColor: '#fff',
                         pointHoverBackgroundColor: '#fff',
-                        pointHoverBorderColor: '#3b82f6'
+                        pointHoverBorderColor: '#10b981'
                     }]
                 },
                 options: {
@@ -514,11 +563,11 @@
                     maintainAspectRatio: false,
                     scales: {
                         r: {
-                            angleLines: { color: '#27272a' },
-                            grid: { color: '#27272a' },
+                            angleLines: { color: '#1a1a1a' },
+                            grid: { color: '#1a1a1a' },
                             pointLabels: {
                                 color: '#e4e4e7',
-                                font: { family: 'Rajdhani', size: 12 }
+                                font: { family: 'Inter', size: 12 }
                             },
                             ticks: { display: false, backdropColor: 'transparent' },
                             suggestedMin: 0,
@@ -538,13 +587,13 @@
             const radarData = {
                 injection: {
                     data: [95, 70, 40, 90, 95],
-                    color: '#3b82f6',
-                    bg: 'rgba(59, 130, 246, 0.2)'
+                    color: '#10b981',
+                    bg: 'rgba(16, 185, 129, 0.2)'
                 },
                 oral: {
                     data: [30, 40, 95, 20, 40],
-                    color: '#10b981',
-                    bg: 'rgba(16, 185, 129, 0.2)'
+                    color: '#06b6d4',
+                    bg: 'rgba(6, 182, 212, 0.2)'
                 }
             };
 
@@ -559,7 +608,7 @@
             pkChartInstance.data.datasets.forEach((ds, index) => {
                 if ((state.route === 'injection' && index === 0) || (state.route === 'oral' && index === 1)) {
                     ds.borderWidth = 3;
-                    ds.backgroundColor = ds.borderColor === '#3b82f6' ? 'rgba(59, 130, 246, 0.2)' : 'rgba(16, 185, 129, 0.2)';
+                    ds.backgroundColor = ds.borderColor === '#10b981' ? 'rgba(16, 185, 129, 0.2)' : 'rgba(6, 182, 212, 0.2)';
                 } else {
                     ds.borderWidth = 1;
                     ds.backgroundColor = 'transparent';

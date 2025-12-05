@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" class="dark">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,33 +8,25 @@
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Rajdhani:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
     
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
         tailwind.config = {
-            darkMode: 'class',
             theme: {
                 extend: {
-                    colors: {
-                        brand: {
-                            black: '#000000',
-                            charcoal: '#0a0a0a',
-                            surface: '#111111',
-                            border: '#1f1f1f',
-                            green: '#10b981',
-                            neonGreen: '#00ffa3',
-                            blue: '#3b82f6',
-                            neonBlue: '#00d4ff',
-                            cyan: '#06b6d4',
-                            text: '#e4e4e7',
-                            muted: '#a1a1aa'
-                        }
-                    },
                     fontFamily: {
-                        sans: ['Inter', 'sans-serif'],
-                        mono: ['Rajdhani', 'sans-serif'],
+                        sans: ['Inter', 'system-ui', '-apple-system', 'sans-serif'],
+                    },
+                    colors: {
+                        accent: {
+                            blue: '#3b82f6',
+                            green: '#10b981',
+                            red: '#ef4444',
+                            cyan: '#06b6d4',
+                            gold: '#f59e0b'
+                        }
                     }
                 }
             }
@@ -42,128 +34,23 @@
     </script>
 
     <style>
+        * {
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
         body {
             background-color: #000000;
-            color: #e4e4e7;
-            /* Pure black - no green tint! */
-            background-image: 
-                radial-gradient(ellipse at 70% 80%, rgba(59, 130, 246, 0.03) 0%, transparent 50%),
-                linear-gradient(180deg, #000000 0%, #000000 100%);
-        }
-        
-        /* Glassmorphism Cards - Darker base */
-        .glass-card {
-            background: rgba(10, 10, 10, 0.7);
-            backdrop-filter: blur(20px);
-            border: 1px solid rgba(255, 255, 255, 0.06);
-            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-        
-        .glass-card:hover {
-            background: rgba(17, 17, 17, 0.9);
-            border-color: rgba(16, 185, 129, 0.4);
-            box-shadow: 
-                0 0 40px rgba(16, 185, 129, 0.12),
-                0 8px 32px rgba(0, 0, 0, 0.6);
-            transform: translateY(-4px);
+            color: #ffffff;
         }
 
-        /* Subtle animated glows - MINIMAL */
-        .glow-green {
-            position: absolute;
-            width: 600px;
-            height: 600px;
-            background: radial-gradient(circle, rgba(16, 185, 129, 0.02) 0%, transparent 70%);
-            pointer-events: none;
-            filter: blur(100px);
-            animation: float-slow 25s ease-in-out infinite;
-        }
-        
-        .glow-blue {
-            position: absolute;
-            width: 500px;
-            height: 500px;
-            background: radial-gradient(circle, rgba(59, 130, 246, 0.02) 0%, transparent 70%);
-            pointer-events: none;
-            filter: blur(100px);
-            animation: float-slow 20s ease-in-out infinite reverse;
-        }
-
-        @keyframes float-slow {
-            0%, 100% { transform: translate(0, 0) scale(1); opacity: 1; }
-            50% { transform: translate(30px, -30px) scale(1.05); opacity: 0.8; }
-        }
-
-        /* Icon Boxes - More refined */
-        .icon-box {
-            width: 44px;
-            height: 44px;
-            background: rgba(16, 185, 129, 0.05);
-            border: 1px solid rgba(16, 185, 129, 0.15);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border-radius: 10px;
-            transition: all 0.3s ease;
-        }
-        
-        .glass-card:hover .icon-box {
-            background: rgba(16, 185, 129, 0.1);
-            border-color: rgba(16, 185, 129, 0.4);
-            box-shadow: 0 0 20px rgba(16, 185, 129, 0.2);
-            transform: scale(1.08) rotate(-3deg);
-        }
-
-        /* Category Headers - More sophisticated */
-        .category-header {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            margin-bottom: 20px;
-            padding: 16px 0 12px 0;
-            border-bottom: 1px solid rgba(31, 31, 31, 0.8);
-            position: relative;
-        }
-
-        .category-header::before {
-            content: '';
-            position: absolute;
-            bottom: -1px;
-            left: 0;
-            width: 60px;
-            height: 1px;
-            background: linear-gradient(90deg, rgba(16, 185, 129, 0.8), transparent);
-        }
-
-        /* Popular Badge - Sexier green */
-        .badge-popular {
-            position: absolute;
-            top: 12px;
-            right: 12px;
-            background: linear-gradient(135deg, rgba(16, 185, 129, 0.2) 0%, rgba(6, 182, 212, 0.15) 100%);
-            border: 1px solid rgba(16, 185, 129, 0.4);
-            color: #00ffa3;
-            font-size: 9px;
-            padding: 4px 10px;
-            border-radius: 6px;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 0.08em;
-            box-shadow: 0 0 15px rgba(16, 185, 129, 0.2);
-        }
-
-        /* Smooth Scrolling */
-        html {
-            scroll-behavior: smooth;
-        }
-
-        /* Selection - Green accent */
+        /* Selection with gradient effect */
         ::selection {
-            background: rgba(16, 185, 129, 0.3);
-            color: #00ffa3;
+            background: rgba(59, 130, 246, 0.3);
+            color: white;
         }
 
-        /* Custom Scrollbar - Charcoal/Dark Blue */
+        /* Gradient Scrollbar */
         ::-webkit-scrollbar {
             width: 10px;
         }
@@ -171,422 +58,399 @@
             background: #000000;
         }
         ::-webkit-scrollbar-thumb {
-            background: #1a1a2e;
+            background: linear-gradient(180deg, #3b82f6 0%, #10b981 100%);
             border-radius: 5px;
         }
         ::-webkit-scrollbar-thumb:hover {
-            background: #252540;
+            background: linear-gradient(180deg, #60a5fa 0%, #34d399 100%);
         }
 
-        /* Hero text animation */
-        .hero-title {
-            animation: fadeInUp 0.8s ease-out;
+        /* Animated Gradient Hero Text */
+        .gradient-hero {
+            background: linear-gradient(135deg, #3b82f6 0%, #10b981 50%, #ef4444 100%);
+            background-size: 200% 200%;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: gradient-shift 8s ease infinite;
         }
 
-        @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(20px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
+        @keyframes gradient-shift {
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
         }
 
-        /* Hover arrow animation */
-        .arrow-slide {
+        /* Protocol Cards with Spotlight Effect */
+        .protocol-card {
+            background: #0a0a0a;
+            border: 1px solid #1a1a1a;
+            border-radius: 12px;
+            padding: 24px;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .protocol-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: radial-gradient(600px circle at var(--mouse-x, 50%) var(--mouse-y, 50%), 
+                rgba(59, 130, 246, 0.15), 
+                transparent 40%);
+            opacity: 0;
+            transition: opacity 0.3s;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .protocol-card:hover::before {
+            opacity: 1;
+        }
+
+        .protocol-card > * {
+            position: relative;
+            z-index: 2;
+        }
+
+        .protocol-card:hover {
+            background: #0f0f0f;
+            border-color: rgba(59, 130, 246, 0.5);
+            box-shadow: 0 0 20px rgba(59, 130, 246, 0.1);
+            transform: translateY(-2px);
+        }
+
+        /* Card Title Underline Animation */
+        .protocol-card h3 {
+            transition: all 0.3s ease;
+            position: relative;
             display: inline-block;
-            transition: transform 0.3s ease;
         }
 
-        .group:hover .arrow-slide {
-            transform: translateX(4px);
+        .protocol-card h3::after {
+            content: '';
+            position: absolute;
+            bottom: -4px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: linear-gradient(90deg, #3b82f6, #10b981);
+            transition: width 0.3s ease;
         }
 
-        /* Status indicator */
-        .status-indicator {
-            width: 8px;
-            height: 8px;
-            background: #10b981;
+        .protocol-card:hover h3::after {
+            width: 100%;
+        }
+
+        /* Primary CTA Button */
+        .cta-primary {
+            background: linear-gradient(135deg, #3b82f6 0%, #10b981 100%);
+            color: white;
+            transition: all 0.3s ease;
+        }
+
+        .cta-primary:hover {
+            box-shadow: 0 0 30px rgba(59, 130, 246, 0.4);
+            transform: translateY(-1px);
+        }
+
+        /* Floating Gradient Orbs */
+        .gradient-orb {
+            position: fixed;
             border-radius: 50%;
-            box-shadow: 0 0 12px rgba(16, 185, 129, 0.6);
-            animation: pulse-glow 2s ease-in-out infinite;
+            filter: blur(100px);
+            opacity: 0.15;
+            pointer-events: none;
+            z-index: 0;
+            animation: float-orb 20s ease-in-out infinite;
         }
 
-        @keyframes pulse-glow {
-            0%, 100% { opacity: 1; box-shadow: 0 0 12px rgba(16, 185, 129, 0.6); }
-            50% { opacity: 0.6; box-shadow: 0 0 20px rgba(16, 185, 129, 0.8); }
+        .orb-1 {
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, #3b82f6 0%, transparent 70%);
+            top: -200px;
+            right: -200px;
+            animation-delay: 0s;
         }
+
+        .orb-2 {
+            width: 500px;
+            height: 500px;
+            background: radial-gradient(circle, #10b981 0%, transparent 70%);
+            bottom: -150px;
+            left: -150px;
+            animation-delay: 5s;
+        }
+
+        .orb-3 {
+            width: 400px;
+            height: 400px;
+            background: radial-gradient(circle, #ef4444 0%, transparent 70%);
+            top: 40%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            animation-delay: 10s;
+        }
+
+        @keyframes float-orb {
+            0%, 100% { transform: translate(0, 0) scale(1); }
+            33% { transform: translate(30px, -30px) scale(1.1); }
+            66% { transform: translate(-30px, 30px) scale(0.9); }
+        }
+
+        .orb-3 {
+            animation: float-orb-center 20s ease-in-out infinite;
+            animation-delay: 10s;
+        }
+
+        @keyframes float-orb-center {
+            0%, 100% { transform: translate(-50%, -50%) scale(1); }
+            33% { transform: translate(calc(-50% + 30px), calc(-50% - 30px)) scale(1.1); }
+            66% { transform: translate(calc(-50% - 30px), calc(-50% + 30px)) scale(0.9); }
+        }
+
+        /* Smooth scroll */
+        html {
+            scroll-behavior: smooth;
+        }
+
+        /* Category accent colors */
+        .category-blue { color: #3b82f6; }
+        .category-red { color: #ef4444; }
+        .category-green { color: #10b981; }
+        .category-cyan { color: #06b6d4; }
+        .category-gold { color: #f59e0b; }
     </style>
 </head>
-<body class="min-h-screen p-6 md:p-12 font-sans relative overflow-x-hidden">
+<body class="min-h-screen font-sans">
 
-    <!-- Subtle Animated Background Glows -->
-    <div class="glow-green" style="top: -200px; right: -100px;"></div>
-    <div class="glow-blue" style="bottom: -150px; left: -100px;"></div>
+    <!-- Floating Gradient Orbs -->
+    <div class="gradient-orb orb-1"></div>
+    <div class="gradient-orb orb-2"></div>
+    <div class="gradient-orb orb-3"></div>
 
-    <div class="max-w-7xl mx-auto space-y-12 relative z-10">
-        
-        <!-- Hero Header -->
-        <header class="text-center space-y-5 pt-8 pb-12 hero-title">
-            <h1 class="font-mono text-5xl md:text-7xl font-bold tracking-wider">
-                <span class="text-white">MULTIFACTOR</span> 
-                <span style="background: linear-gradient(135deg, #3b82f6 0%, #10b981 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">SOLUTIONS</span>
+    <!-- Navigation -->
+    <nav class="fixed top-0 left-0 right-0 z-50 bg-black/80 backdrop-blur-xl border-b border-white/[0.08]">
+        <div class="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
+            <div class="flex items-center gap-12">
+                <a href="index.html" class="text-sm font-semibold text-white">Multifactor Solutions</a>
+                <div class="hidden md:flex items-center gap-8 text-sm text-gray-400">
+                    <a href="#protocols" class="hover:text-white transition-colors">Protocols</a>
+                    <a href="#about" class="hover:text-white transition-colors">About</a>
+                    <a href="#contact" class="hover:text-white transition-colors">Contact</a>
+                </div>
+            </div>
+            <div class="flex items-center gap-4">
+                <a href="#demo" class="text-sm text-gray-400 hover:text-white transition-colors">Request Demo</a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="max-w-7xl mx-auto px-6 relative z-10">
+
+        <!-- Hero Section -->
+        <header class="pt-32 pb-20 text-center max-w-4xl mx-auto">
+            <h1 class="gradient-hero text-5xl md:text-6xl font-semibold tracking-tight leading-[1.1] mb-6">
+                Clinical summary of modern hormone optimization practices
             </h1>
-            <p class="text-brand-muted text-sm md:text-base max-w-2xl mx-auto leading-relaxed">
-                Advanced clinical reference portal for peptide therapy, hormone optimization,<br class="hidden md:block">
-                and metabolic protocols.
+            <p class="text-lg text-slate-400 leading-relaxed max-w-2xl mx-auto mb-8">
+                Interactive pharmacokinetic simulators, dosing calculators, and evidence-based protocols for peptide therapy and TRT clinics.
             </p>
-            <div class="flex items-center justify-center gap-2 mt-6">
-                <div class="status-indicator"></div>
-                <span class="text-xs font-mono text-brand-muted uppercase tracking-wider">19 Modules Active</span>
+            <div class="flex items-center justify-center gap-4">
+                <a href="#demo" class="cta-primary px-6 py-2.5 text-sm font-medium rounded-md">
+                    Book Demo
+                </a>
+                <a href="#protocols" class="px-6 py-2.5 text-sm font-medium text-gray-400 hover:text-white transition-colors">
+                    View Protocols →
+                </a>
             </div>
         </header>
 
-        <!-- Category: Growth Hormone Secretagogues -->
-        <section>
-            <div class="category-header">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-brand-green" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
-                </svg>
-                <h2 class="font-mono text-xl text-brand-green uppercase font-semibold tracking-wide">Growth Hormone Secretagogues</h2>
-            </div>
-            
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5">
+        <!-- Protocols Section -->
+        <main id="protocols" class="space-y-20 pb-32">
+
+            <!-- Category: Growth Hormone Secretagogues -->
+            <section>
+                <div class="mb-6">
+                    <h2 class="text-xs uppercase tracking-wider font-medium category-blue">Growth Hormone Secretagogues</h2>
+                </div>
                 
-                <!-- CJC-1295 -->
-                <a href="cjc-1295.html" class="glass-card rounded-xl p-5 block relative group">
-                    <span class="badge-popular">POPULAR</span>
-                    <div class="icon-box mb-4">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-brand-green" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z" />
-                        </svg>
-                    </div>
-                    <h3 class="font-mono text-lg font-bold text-white mb-2">CJC-1295</h3>
-                    <p class="text-sm text-brand-muted leading-relaxed">GHRH analog. Pulsatile GH release without somatostatin interference.</p>
-                    <div class="mt-4 text-xs text-brand-green font-mono opacity-0 group-hover:opacity-100 transition-opacity">
-                        VIEW PROTOCOL <span class="arrow-slide">→</span>
-                    </div>
-                </a>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    
+                    <a href="cjc-1295.html" class="protocol-card block">
+                        <h3 class="text-base font-semibold text-white mb-2">CJC-1295</h3>
+                        <p class="text-sm text-gray-500 leading-relaxed">GHRH analog. Pulsatile GH release without somatostatin interference.</p>
+                    </a>
 
-                <!-- Ipamorelin -->
-                <a href="ipamorelin.html" class="glass-card rounded-xl p-5 block relative group">
-                    <span class="badge-popular">POPULAR</span>
-                    <div class="icon-box mb-4">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-brand-green" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-                        </svg>
-                    </div>
-                    <h3 class="font-mono text-lg font-bold text-white mb-2">Ipamorelin</h3>
-                    <p class="text-sm text-brand-muted leading-relaxed">Selective ghrelin mimetic. Minimal ACTH/cortisol elevation.</p>
-                    <div class="mt-4 text-xs text-brand-green font-mono opacity-0 group-hover:opacity-100 transition-opacity">
-                        VIEW PROTOCOL <span class="arrow-slide">→</span>
-                    </div>
-                </a>
+                    <a href="ipamorelin.html" class="protocol-card block">
+                        <h3 class="text-base font-semibold text-white mb-2">Ipamorelin</h3>
+                        <p class="text-sm text-gray-500 leading-relaxed">Selective ghrelin mimetic. Minimal ACTH/cortisol elevation.</p>
+                    </a>
 
-                <!-- CJC + Ipamorelin Stack -->
-                <a href="combo-stack.html" class="glass-card rounded-xl p-5 block relative group">
-                    <div class="icon-box mb-4">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-brand-green" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4" />
-                        </svg>
-                    </div>
-                    <h3 class="font-mono text-lg font-bold text-white mb-2">CJC + Ipamorelin</h3>
-                    <p class="text-sm text-brand-muted leading-relaxed">Synergistic combination with optimized dosing schedules.</p>
-                    <div class="mt-4 text-xs text-brand-green font-mono opacity-0 group-hover:opacity-100 transition-opacity">
-                        VIEW PROTOCOL <span class="arrow-slide">→</span>
-                    </div>
-                </a>
+                    <a href="combo-stack.html" class="protocol-card block">
+                        <h3 class="text-base font-semibold text-white mb-2">CJC + Ipamorelin</h3>
+                        <p class="text-sm text-gray-500 leading-relaxed">Synergistic combination with optimized dosing schedules.</p>
+                    </a>
 
-                <!-- Sermorelin -->
-                <a href="sermorelin.html" class="glass-card rounded-xl p-5 block relative group">
-                    <div class="icon-box mb-4">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-brand-green" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
-                        </svg>
-                    </div>
-                    <h3 class="font-mono text-lg font-bold text-white mb-2">Sermorelin</h3>
-                    <p class="text-sm text-brand-muted leading-relaxed">GHRH 1-29 analog. Natural pulsatility preservation.</p>
-                    <div class="mt-4 text-xs text-brand-green font-mono opacity-0 group-hover:opacity-100 transition-opacity">
-                        VIEW PROTOCOL <span class="arrow-slide">→</span>
-                    </div>
-                </a>
+                    <a href="sermorelin.html" class="protocol-card block">
+                        <h3 class="text-base font-semibold text-white mb-2">Sermorelin</h3>
+                        <p class="text-sm text-gray-500 leading-relaxed">GHRH 1-29 analog. Natural pulsatility preservation.</p>
+                    </a>
 
-                <!-- Tesamorelin -->
-                <a href="tesamorelin.html" class="glass-card rounded-xl p-5 block relative group">
-                    <div class="icon-box mb-4">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-brand-green" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
-                        </svg>
-                    </div>
-                    <h3 class="font-mono text-lg font-bold text-white mb-2">Tesamorelin</h3>
-                    <p class="text-sm text-brand-muted leading-relaxed">VAT-specific GH analog. Lipodystrophy management.</p>
-                    <div class="mt-4 text-xs text-brand-green font-mono opacity-0 group-hover:opacity-100 transition-opacity">
-                        VIEW PROTOCOL <span class="arrow-slide">→</span>
-                    </div>
-                </a>
+                    <a href="tesamorelin.html" class="protocol-card block">
+                        <h3 class="text-base font-semibold text-white mb-2">Tesamorelin</h3>
+                        <p class="text-sm text-gray-500 leading-relaxed">VAT-specific GH analog. Lipodystrophy management.</p>
+                    </a>
 
-            </div>
-        </section>
+                </div>
+            </section>
 
-        <!-- Category: Sexual Health & Vascular -->
-        <section>
-            <div class="category-header">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-brand-cyan" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
-                </svg>
-                <h2 class="font-mono text-xl text-brand-cyan uppercase font-semibold tracking-wide">Sexual Health & Vascular</h2>
-            </div>
-            
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5">
+            <!-- Category: Sexual Health & Vascular -->
+            <section>
+                <div class="mb-6">
+                    <h2 class="text-xs uppercase tracking-wider font-medium category-red">Sexual Health & Vascular</h2>
+                </div>
                 
-                <!-- Tadalafil -->
-                <a href="tadalafil.html" class="glass-card rounded-xl p-5 block relative group">
-                    <span class="badge-popular">POPULAR</span>
-                    <div class="icon-box mb-4">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-brand-cyan" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
-                        </svg>
-                    </div>
-                    <h3 class="font-mono text-lg font-bold text-white mb-2">Tadalafil</h3>
-                    <p class="text-sm text-brand-muted leading-relaxed">PDE5 inhibitor. 36hr half-life for continuous NO optimization.</p>
-                    <div class="mt-4 text-xs text-brand-cyan font-mono opacity-0 group-hover:opacity-100 transition-opacity">
-                        VIEW PROTOCOL <span class="arrow-slide">→</span>
-                    </div>
-                </a>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    
+                    <a href="tadalafil.html" class="protocol-card block">
+                        <h3 class="text-base font-semibold text-white mb-2">Tadalafil</h3>
+                        <p class="text-sm text-gray-500 leading-relaxed">PDE5 inhibitor. 36hr half-life for continuous NO optimization.</p>
+                    </a>
 
-                <!-- Sildenafil -->
-                <a href="sildenafil.html" class="glass-card rounded-xl p-5 block relative group">
-                    <div class="icon-box mb-4">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-brand-cyan" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z" />
-                        </svg>
-                    </div>
-                    <h3 class="font-mono text-lg font-bold text-white mb-2">Sildenafil</h3>
-                    <p class="text-sm text-brand-muted leading-relaxed">Classic PDE5i. Fed vs fasted kinetics and clinical quirks.</p>
-                    <div class="mt-4 text-xs text-brand-cyan font-mono opacity-0 group-hover:opacity-100 transition-opacity">
-                        VIEW PROTOCOL <span class="arrow-slide">→</span>
-                    </div>
-                </a>
+                    <a href="sildenafil.html" class="protocol-card block">
+                        <h3 class="text-base font-semibold text-white mb-2">Sildenafil</h3>
+                        <p class="text-sm text-gray-500 leading-relaxed">Classic PDE5i. Fed vs fasted kinetics and clinical quirks.</p>
+                    </a>
 
-                <!-- PT-141 -->
-                <a href="pt-141.html" class="glass-card rounded-xl p-5 block relative group">
-                    <div class="icon-box mb-4">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-brand-cyan" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
-                        </svg>
-                    </div>
-                    <h3 class="font-mono text-lg font-bold text-white mb-2">PT-141</h3>
-                    <p class="text-sm text-brand-muted leading-relaxed">Bremelanotide. MC4R agonist for central HSDD management.</p>
-                    <div class="mt-4 text-xs text-brand-cyan font-mono opacity-0 group-hover:opacity-100 transition-opacity">
-                        VIEW PROTOCOL <span class="arrow-slide">→</span>
-                    </div>
-                </a>
+                    <a href="pt-141.html" class="protocol-card block">
+                        <h3 class="text-base font-semibold text-white mb-2">PT-141</h3>
+                        <p class="text-sm text-gray-500 leading-relaxed">Bremelanotide. MC4R agonist for central HSDD management.</p>
+                    </a>
 
-                <!-- Apomorphine -->
-                <a href="apomorphine.html" class="glass-card rounded-xl p-5 block relative group">
-                    <div class="icon-box mb-4">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-brand-cyan" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
-                        </svg>
-                    </div>
-                    <h3 class="font-mono text-lg font-bold text-white mb-2">Apomorphine</h3>
-                    <p class="text-sm text-brand-muted leading-relaxed">D2 dopamine agonist. Sublingual rapid-onset protocols.</p>
-                    <div class="mt-4 text-xs text-brand-cyan font-mono opacity-0 group-hover:opacity-100 transition-opacity">
-                        VIEW PROTOCOL <span class="arrow-slide">→</span>
-                    </div>
-                </a>
+                    <a href="apomorphine.html" class="protocol-card block">
+                        <h3 class="text-base font-semibold text-white mb-2">Apomorphine</h3>
+                        <p class="text-sm text-gray-500 leading-relaxed">D2 dopamine agonist. Sublingual rapid-onset protocols.</p>
+                    </a>
 
-            </div>
-        </section>
+                </div>
+            </section>
 
-        <!-- Category: Hormone Optimization -->
-        <section>
-            <div class="category-header">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-brand-blue" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
-                </svg>
-                <h2 class="font-mono text-xl text-brand-blue uppercase font-semibold tracking-wide">Hormone Optimization</h2>
-            </div>
-            
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5">
+            <!-- Category: Hormone Optimization -->
+            <section>
+                <div class="mb-6">
+                    <h2 class="text-xs uppercase tracking-wider font-medium category-green">Hormone Optimization</h2>
+                </div>
                 
-                <!-- Testosterone -->
-                <a href="testosterone.html" class="glass-card rounded-xl p-5 block relative group">
-                    <span class="badge-popular">POPULAR</span>
-                    <div class="icon-box mb-4">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-brand-blue" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z" />
-                        </svg>
-                    </div>
-                    <h3 class="font-mono text-lg font-bold text-white mb-2">Testosterone</h3>
-                    <p class="text-sm text-brand-muted leading-relaxed">TRT optimization with PK simulator. Multiple ester protocols.</p>
-                    <div class="mt-4 text-xs text-brand-blue font-mono opacity-0 group-hover:opacity-100 transition-opacity">
-                        VIEW PROTOCOL <span class="arrow-slide">→</span>
-                    </div>
-                </a>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    
+                    <a href="testosterone.html" class="protocol-card block">
+                        <h3 class="text-base font-semibold text-white mb-2">Testosterone</h3>
+                        <p class="text-sm text-gray-500 leading-relaxed">TRT optimization with PK simulator. Multiple ester protocols.</p>
+                    </a>
 
-                <!-- Enclomiphene -->
-                <a href="enclomiphene.html" class="glass-card rounded-xl p-5 block relative group">
-                    <div class="icon-box mb-4">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-brand-blue" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
-                        </svg>
-                    </div>
-                    <h3 class="font-mono text-lg font-bold text-white mb-2">Enclomiphene</h3>
-                    <p class="text-sm text-brand-muted leading-relaxed">SERM for endogenous T optimization. HPTA preservation.</p>
-                    <div class="mt-4 text-xs text-brand-blue font-mono opacity-0 group-hover:opacity-100 transition-opacity">
-                        VIEW PROTOCOL <span class="arrow-slide">→</span>
-                    </div>
-                </a>
+                    <a href="enclomiphene.html" class="protocol-card block">
+                        <h3 class="text-base font-semibold text-white mb-2">Enclomiphene</h3>
+                        <p class="text-sm text-gray-500 leading-relaxed">SERM for endogenous T optimization. HPTA preservation.</p>
+                    </a>
 
-                <!-- hCG -->
-                <a href="hcg.html" class="glass-card rounded-xl p-5 block relative group">
-                    <div class="icon-box mb-4">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-brand-blue" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4" />
-                        </svg>
-                    </div>
-                    <h3 class="font-mono text-lg font-bold text-white mb-2">hCG</h3>
-                    <p class="text-sm text-brand-muted leading-relaxed">LH analog for testicular function. TRT adjunct protocols.</p>
-                    <div class="mt-4 text-xs text-brand-blue font-mono opacity-0 group-hover:opacity-100 transition-opacity">
-                        VIEW PROTOCOL <span class="arrow-slide">→</span>
-                    </div>
-                </a>
+                    <a href="hcg.html" class="protocol-card block">
+                        <h3 class="text-base font-semibold text-white mb-2">hCG</h3>
+                        <p class="text-sm text-gray-500 leading-relaxed">LH analog for testicular function. TRT adjunct protocols.</p>
+                    </a>
 
-                <!-- Anastrozole -->
-                <a href="anastrozole.html" class="glass-card rounded-xl p-5 block relative group">
-                    <div class="icon-box mb-4">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-brand-blue" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
-                        </svg>
-                    </div>
-                    <h3 class="font-mono text-lg font-bold text-white mb-2">Anastrozole</h3>
-                    <p class="text-sm text-brand-muted leading-relaxed">Aromatase inhibitor. High E2 management in TRT.</p>
-                    <div class="mt-4 text-xs text-brand-blue font-mono opacity-0 group-hover:opacity-100 transition-opacity">
-                        VIEW PROTOCOL <span class="arrow-slide">→</span>
-                    </div>
-                </a>
+                    <a href="anastrozole.html" class="protocol-card block">
+                        <h3 class="text-base font-semibold text-white mb-2">Anastrozole</h3>
+                        <p class="text-sm text-gray-500 leading-relaxed">Aromatase inhibitor. High E2 management in TRT.</p>
+                    </a>
 
-            </div>
-        </section>
+                </div>
+            </section>
 
-        <!-- Category: Recovery & Tissue Repair -->
-        <section>
-            <div class="category-header">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-brand-neonGreen" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 10h4.764a2 2 0 011.789 2.894l-3.5 7A2 2 0 0115.263 21h-4.017c-.163 0-.326-.02-.485-.06L7 20m7-10V5a2 2 0 00-2-2h-.095c-.5 0-.905.405-.905.905 0 .714-.211 1.412-.608 2.006L7 11v9m7-10h-2M7 20H5a2 2 0 01-2-2v-6a2 2 0 012-2h2.5" />
-                </svg>
-                <h2 class="font-mono text-xl text-brand-neonGreen uppercase font-semibold tracking-wide">Recovery & Tissue Repair</h2>
-            </div>
-            
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+            <!-- Category: Recovery & Tissue Repair -->
+            <section>
+                <div class="mb-6">
+                    <h2 class="text-xs uppercase tracking-wider font-medium category-cyan">Recovery & Tissue Repair</h2>
+                </div>
                 
-                <!-- BPC-157 -->
-                <a href="bpc-157.html" class="glass-card rounded-xl p-5 block relative group">
-                    <span class="badge-popular">POPULAR</span>
-                    <div class="icon-box mb-4">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-brand-neonGreen" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
-                        </svg>
-                    </div>
-                    <h3 class="font-mono text-lg font-bold text-white mb-2">BPC-157</h3>
-                    <p class="text-sm text-brand-muted leading-relaxed">Body Protection Compound. Multi-tissue angiogenesis support.</p>
-                    <div class="mt-4 text-xs text-brand-neonGreen font-mono opacity-0 group-hover:opacity-100 transition-opacity">
-                        VIEW PROTOCOL <span class="arrow-slide">→</span>
-                    </div>
-                </a>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    
+                    <a href="bpc-157.html" class="protocol-card block">
+                        <h3 class="text-base font-semibold text-white mb-2">BPC-157</h3>
+                        <p class="text-sm text-gray-500 leading-relaxed">Body Protection Compound. Multi-tissue angiogenesis support.</p>
+                    </a>
 
-                <!-- TB-500 -->
-                <a href="tb-500.html" class="glass-card rounded-xl p-5 block relative group">
-                    <div class="icon-box mb-4">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-brand-neonGreen" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z" />
-                        </svg>
-                    </div>
-                    <h3 class="font-mono text-lg font-bold text-white mb-2">TB-500</h3>
-                    <p class="text-sm text-brand-muted leading-relaxed">Thymosin Beta-4. Acute injury loading protocols.</p>
-                    <div class="mt-4 text-xs text-brand-neonGreen font-mono opacity-0 group-hover:opacity-100 transition-opacity">
-                        VIEW PROTOCOL <span class="arrow-slide">→</span>
-                    </div>
-                </a>
+                    <a href="tb-500.html" class="protocol-card block">
+                        <h3 class="text-base font-semibold text-white mb-2">TB-500</h3>
+                        <p class="text-sm text-gray-500 leading-relaxed">Thymosin Beta-4. Acute injury loading protocols.</p>
+                    </a>
 
-            </div>
-        </section>
+                </div>
+            </section>
 
-        <!-- Category: Mitochondrial & Metabolic -->
-        <section>
-            <div class="category-header">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-brand-neonBlue" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
-                </svg>
-                <h2 class="font-mono text-xl text-brand-neonBlue uppercase font-semibold tracking-wide">Mitochondrial & Metabolic</h2>
-            </div>
-            
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+            <!-- Category: Mitochondrial & Metabolic -->
+            <section>
+                <div class="mb-6">
+                    <h2 class="text-xs uppercase tracking-wider font-medium category-gold">Mitochondrial & Metabolic</h2>
+                </div>
                 
-                <!-- SS-31 -->
-                <a href="ss-31.html" class="glass-card rounded-xl p-5 block relative group">
-                    <div class="icon-box mb-4">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-brand-neonBlue" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z" />
-                        </svg>
-                    </div>
-                    <h3 class="font-mono text-lg font-bold text-white mb-2">SS-31</h3>
-                    <p class="text-sm text-brand-muted leading-relaxed">Elamipretide. Cardiolipin stabilization and IMM optimization.</p>
-                    <div class="mt-4 text-xs text-brand-neonBlue font-mono opacity-0 group-hover:opacity-100 transition-opacity">
-                        VIEW PROTOCOL <span class="arrow-slide">→</span>
-                    </div>
-                </a>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    
+                    <a href="ss-31.html" class="protocol-card block">
+                        <h3 class="text-base font-semibold text-white mb-2">SS-31</h3>
+                        <p class="text-sm text-gray-500 leading-relaxed">Elamipretide. Cardiolipin stabilization and IMM optimization.</p>
+                    </a>
 
-                <!-- NAD+ -->
-                <a href="nad.html" class="glass-card rounded-xl p-5 block relative group">
-                    <div class="icon-box mb-4">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-brand-neonBlue" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M9 3v2m6-2v2M9 19v2m6-2v2M5 9H3m2 6H3m18-6h-2m2 6h-2M7 19h10a2 2 0 002-2V7a2 2 0 00-2-2H7a2 2 0 00-2 2v10a2 2 0 002 2zM9 9h6v6H9V9z" />
-                        </svg>
-                    </div>
-                    <h3 class="font-mono text-lg font-bold text-white mb-2">NAD+</h3>
-                    <p class="text-sm text-brand-muted leading-relaxed">Mitochondrial support. Sirtuin activation and ETC optimization.</p>
-                    <div class="mt-4 text-xs text-brand-neonBlue font-mono opacity-0 group-hover:opacity-100 transition-opacity">
-                        VIEW PROTOCOL <span class="arrow-slide">→</span>
-                    </div>
-                </a>
+                    <a href="nad.html" class="protocol-card block">
+                        <h3 class="text-base font-semibold text-white mb-2">NAD+</h3>
+                        <p class="text-sm text-gray-500 leading-relaxed">Mitochondrial support. Sirtuin activation and ETC optimization.</p>
+                    </a>
 
-            </div>
-        </section>
+                </div>
+            </section>
+
+            <!-- Disclaimer Section -->
+            <section id="about" class="pt-8">
+                <div class="protocol-card">
+                    <p class="text-sm text-gray-400 leading-relaxed">
+                        <span class="text-white font-medium">Legal disclaimer</span> — This platform is a clinical reference tool designed to summarize available research literature and pharmacological data for educational purposes. It is not a dosing guide, prescriptive engine, or substitute for professional medical training. All protocols must be independently verified by licensed healthcare providers.
+                    </p>
+                </div>
+            </section>
+
+        </main>
 
         <!-- Footer -->
-        <footer class="mt-16 pt-8 border-t border-brand-border/50">
-            <!-- Legal Disclaimer -->
-            <div class="bg-brand-charcoal/60 border border-brand-border rounded-xl p-6 mb-6 backdrop-blur-sm">
-                <div class="flex items-start gap-3">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-brand-muted flex-shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-                    </svg>
-                    <div>
-                        <p class="text-xs text-brand-text leading-relaxed">
-                            <span class="text-white font-bold">LEGAL DISCLAIMER:</span> This platform is a <span class="text-white font-semibold">clinical reference tool</span> designed to summarize available research literature and pharmacological data for educational purposes. It is <span class="text-red-400 font-bold">NOT</span> a dosing guide, prescriptive engine, or substitute for professional medical training. All protocols must be independently verified by licensed healthcare providers.
-                        </p>
-                        <p class="text-[10px] text-brand-muted mt-3 tracking-wide uppercase">
-                            Secure Clinical Environment | HIPAA Compliant | Authorized Personnel Only
-                        </p>
+        <footer class="mt-32 pt-12 border-t border-white/[0.08]">
+            <div class="pb-12">
+                <div class="flex flex-col md:flex-row justify-between items-center text-sm text-gray-500 gap-4">
+                    <div>© 2025 Multifactor Solutions</div>
+                    <div class="flex gap-8">
+                        <a href="#" class="hover:text-white transition-colors">Privacy</a>
+                        <a href="#" class="hover:text-white transition-colors">Terms</a>
                     </div>
-                </div>
-            </div>
-            
-            <!-- Copyright -->
-            <div class="flex flex-col md:flex-row justify-between items-center text-[10px] text-brand-muted font-mono uppercase">
-                <div>Multifactor Solutions © 2024</div>
-                <div class="mt-2 md:mt-0 flex items-center gap-2">
-                    <div class="status-indicator" style="width: 5px; height: 5px; animation: none; box-shadow: 0 0 8px rgba(16, 185, 129, 0.5);"></div>
-                    For Clinical Educational Use Only
                 </div>
             </div>
         </footer>
 
     </div>
+
+    <!-- Spotlight Effect Script -->
+    <script>
+        document.querySelectorAll('.protocol-card').forEach(card => {
+            card.addEventListener('mousemove', (e) => {
+                const rect = card.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+                card.style.setProperty('--mouse-x', `${x}px`);
+                card.style.setProperty('--mouse-y', `${y}px`);
+            });
+        });
+    </script>
 
 </body>
 </html>

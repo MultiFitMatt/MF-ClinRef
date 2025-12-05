@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" class="dark">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,32 +8,16 @@
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Rajdhani:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
     
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
         tailwind.config = {
-            darkMode: 'class',
             theme: {
                 extend: {
-                    colors: {
-                        brand: {
-                            black: '#050505',
-                            charcoal: '#0f0f11',
-                            surface: '#18181b',
-                            border: '#27272a',
-                            green: '#10b981',
-                            neonGreen: '#00ffa3',
-                            blue: '#3b82f6',
-                            neonBlue: '#00d4ff',
-                            text: '#e4e4e7',
-                            muted: '#a1a1aa'
-                        }
-                    },
                     fontFamily: {
-                        sans: ['Inter', 'sans-serif'],
-                        mono: ['Rajdhani', 'sans-serif'],
+                        sans: ['Inter', 'system-ui', '-apple-system', 'sans-serif'],
                     }
                 }
             }
@@ -44,396 +28,476 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
     <style>
+        * {
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
         body {
-            background-color: #050505;
-            color: #e4e4e7;
-            background-image: radial-gradient(circle at 50% 0%, #18181b 0%, #050505 45%);
+            background-color: #000000;
+            color: #ffffff;
         }
-        
-        .tech-font {
-            font-family: 'Rajdhani', sans-serif;
-            text-transform: uppercase;
+
+        ::-webkit-scrollbar { width: 10px; }
+        ::-webkit-scrollbar-track { background: #000000; }
+        ::-webkit-scrollbar-thumb { background: linear-gradient(180deg, #3b82f6 0%, #10b981 100%); border-radius: 5px; }
+        ::-webkit-scrollbar-thumb:hover { background: linear-gradient(180deg, #60a5fa 0%, #34d399 100%); }
+
+        /* Spotlight Cards */
+        .spotlight-card {
+            background: #0a0a0a;
+            border: 1px solid #1a1a1a;
+            border-radius: 12px;
+            padding: 24px;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s ease;
         }
-        
+
+        .spotlight-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: radial-gradient(600px circle at var(--mouse-x, 50%) var(--mouse-y, 50%), rgba(59, 130, 246, 0.15), transparent 40%);
+            opacity: 0;
+            transition: opacity 0.3s;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .spotlight-card:hover::before {
+            opacity: 1;
+        }
+
+        .spotlight-card > * {
+            position: relative;
+            z-index: 2;
+        }
+
+        .spotlight-card:hover {
+            border-color: rgba(59, 130, 246, 0.3);
+        }
+
+        /* Buttons */
+        .btn-primary {
+            background: linear-gradient(135deg, #3b82f6 0%, #10b981 100%);
+            color: white;
+            padding: 10px 20px;
+            border-radius: 8px;
+            font-weight: 500;
+            font-size: 14px;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+        }
+
+        .btn-primary:hover {
+            box-shadow: 0 0 30px rgba(59, 130, 246, 0.4);
+            transform: translateY(-1px);
+        }
+
+        .btn-toggle {
+            padding: 8px 16px;
+            border-radius: 6px;
+            font-size: 12px;
+            font-weight: 500;
+            transition: all 0.2s;
+            cursor: pointer;
+            border: 1px solid transparent;
+        }
+
+        .btn-toggle.active {
+            background: #1a1a1a;
+            border-color: #3b82f6;
+            color: #fff;
+        }
+
+        .btn-toggle:not(.active) {
+            background: transparent;
+            border-color: #1a1a1a;
+            color: #6b7280;
+        }
+
+        .btn-toggle:hover:not(.active) {
+            color: #fff;
+            border-color: #2a2a2a;
+        }
+
+        /* Form styles */
+        .custom-select {
+            width: 100%;
+            background-color: #0a0a0a;
+            border: 1px solid #1a1a1a;
+            color: white;
+            padding: 12px;
+            border-radius: 8px;
+            font-size: 14px;
+            outline: none;
+            cursor: pointer;
+        }
+        .custom-select:focus { border-color: #3b82f6; }
+
+        .custom-input {
+            width: 100%;
+            background-color: #0a0a0a;
+            border: 1px solid #1a1a1a;
+            border-radius: 8px;
+            padding: 10px 12px;
+            color: white;
+            font-size: 14px;
+            outline: none;
+        }
+        .custom-input:focus { border-color: #3b82f6; }
+
+        /* Route option cards */
+        .route-option {
+            cursor: pointer;
+            border: 1px solid #1a1a1a;
+            background: #0a0a0a;
+            padding: 12px;
+            border-radius: 8px;
+            transition: all 0.2s;
+        }
+        .route-option.selected {
+            border-color: #3b82f6;
+            background: rgba(59, 130, 246, 0.1);
+        }
+        .route-option:hover:not(.selected) {
+            border-color: #2a2a2a;
+        }
+
         .chart-container {
             position: relative;
             width: 100%;
             height: 250px;
         }
-        
-        .config-btn.active {
-            background-color: #27272a;
-            border-color: #10b981;
-            color: white;
-        }
-        
-        .freq-box {
-            transition: all 0.2s;
-        }
-        
-        .freq-box.active {
-            background-color: #10b981;
-            color: black;
-            border-color: #10b981;
-            font-weight: 700;
-        }
-        
-        /* Custom Input Styling */
-        input[type="number"]::-webkit-inner-spin-button,
-        input[type="number"]::-webkit-outer-spin-button {
-            -webkit-appearance: none;
-            margin: 0;
-        }
-        
-        select {
-            -webkit-appearance: none;
-            -moz-appearance: none;
-            appearance: none;
-            background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%236b7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M6 8l4 4 4-4'/%3e%3c/svg%3e");
-            background-position: right 0.5rem center;
-            background-repeat: no-repeat;
-            background-size: 1.5em 1.5em;
+
+        .section-header {
+            font-size: 12px;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: #3b82f6;
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
         }
 
-        /* Custom Scrollbar */
-        .custom-scrollbar::-webkit-scrollbar {
-            width: 8px;
+        .section-header::before {
+            content: '';
+            width: 6px;
+            height: 6px;
+            background: currentColor;
+            border-radius: 50%;
         }
-        .custom-scrollbar::-webkit-scrollbar-track {
-            background: #0f0f11;
+
+        .input-label {
+            display: block;
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: #6b7280;
+            margin-bottom: 8px;
         }
-        .custom-scrollbar::-webkit-scrollbar-thumb {
-            background: #27272a;
-            border-radius: 4px;
+
+        .freq-box {
+            width: 40px;
+            height: 40px;
+            border: 1px solid #1a1a1a;
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 11px;
+            transition: all 0.2s;
         }
-        .custom-scrollbar::-webkit-scrollbar-thumb:hover {
-            background: #3b82f6;
+
+        .freq-box.active {
+            background: #10b981;
+            color: black;
+            border-color: #10b981;
+            font-weight: 600;
         }
     </style>
 </head>
-<body class="antialiased h-screen flex flex-col overflow-hidden">
+<body class="min-h-screen font-sans">
 
-    <!-- ========================================
-         STANDARDIZED HEADER
-         ======================================== -->
-    <header class="h-16 border-b border-brand-border bg-brand-black flex items-center justify-between px-6 shrink-0 z-20">
-        <div class="flex items-center gap-4">
-            <!-- Back Button -->
-            <a href="index.html" class="text-brand-muted hover:text-brand-blue transition-colors">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
-                </svg>
-            </a>
-            
-            <!-- Logo -->
-            <div class="w-10 h-10 bg-brand-surface border border-brand-blue flex items-center justify-center rounded shadow-[0_0_10px_rgba(59,130,246,0.3)]">
-                <span class="font-mono font-bold text-brand-neonGreen text-base">M</span>
+    <!-- Navigation -->
+    <nav class="fixed top-0 left-0 right-0 z-50 bg-black/80 backdrop-blur-xl border-b border-white/[0.08]">
+        <div class="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
+            <div class="flex items-center gap-12">
+                <a href="index.html" class="text-sm font-semibold text-white hover:text-blue-400 transition-colors">
+                    ← Multifactor Solutions
+                </a>
             </div>
-            
-            <!-- Module Title -->
-            <div>
-                <h1 class="font-mono text-xl md:text-2xl font-bold tracking-wider text-white uppercase">
-                    CJC-1295 + Ipamorelin
-                </h1>
-                <p class="text-brand-muted text-[10px] tracking-[0.15em] font-mono uppercase">Clinical Reference</p>
+            <div class="flex items-center gap-8 text-sm text-gray-400">
+                <a href="index.html#protocols" class="hover:text-white transition-colors">All Protocols</a>
             </div>
         </div>
-        
-        <!-- Right Side: Navigation & Warning Badge -->
-        <div class="flex items-center gap-6">
-            <nav class="hidden md:flex space-x-6">
-                <a href="#protocol" class="tech-font text-sm font-semibold text-white border-b-2 border-brand-blue py-5">Protocol Builder</a>
-                <a href="#pk" class="tech-font text-sm font-semibold text-brand-muted hover:text-white transition-colors">Pharmacokinetics</a>
-                <a href="#safety" class="tech-font text-sm font-semibold text-brand-muted hover:text-white transition-colors">Safety Profile</a>
-            </nav>
-            <div class="px-3 py-1 bg-red-900/20 border border-red-900/50 rounded text-red-500 text-[10px] font-bold tracking-wider uppercase flex items-center gap-2">
-                <span class="w-1.5 h-1.5 rounded-full bg-red-500 animate-pulse"></span>
-                Research Use Only
+    </nav>
+
+    <div class="max-w-7xl mx-auto px-6 relative z-10">
+
+        <!-- Hero Section -->
+        <header class="pt-32 pb-12 max-w-4xl">
+            <div class="inline-block px-3 py-1 rounded-full border border-blue-500/30 bg-blue-500/10 text-blue-400 text-xs font-medium uppercase tracking-wider mb-6">
+                Growth Hormone Secretagogues
             </div>
-        </div>
-    </header>
+            <h1 class="text-4xl md:text-5xl font-semibold text-white tracking-tight leading-[1.1] mb-4">
+                CJC-1295 + Ipamorelin
+            </h1>
+            <p class="text-lg text-gray-400 leading-relaxed">
+                Synergistic GHRH + Ghrelin mimetic combination. The gold standard stack for pulsatile GH optimization with enhanced amplitude and duration of release.
+            </p>
+        </header>
 
-    <!-- Main Workspace -->
-    <main class="flex-1 flex overflow-hidden">
-        
-        <!-- Left Sidebar: CONFIGURATION -->
-        <aside class="w-full md:w-[320px] bg-brand-charcoal border-r border-brand-border flex flex-col shrink-0 overflow-y-auto custom-scrollbar">
-            <div class="p-5 border-b border-brand-border">
-                <div class="flex items-center gap-2 mb-4">
-                    <svg class="w-4 h-4 text-brand-blue" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
-                    <h2 class="tech-font font-bold text-white tracking-widest text-sm">CONFIGURATION</h2>
-                </div>
+        <!-- Main Workspace -->
+        <main class="pb-32 flex flex-col lg:flex-row gap-6">
+            
+            <!-- Left Sidebar: CONFIGURATION -->
+            <aside class="w-full lg:w-80 flex-shrink-0 space-y-6">
+                <div class="spotlight-card">
+                    <div class="section-header">Configuration</div>
 
-                <!-- Indication Selector -->
-                <div class="mb-6 space-y-2">
-                    <label class="tech-font text-xs text-brand-muted font-bold tracking-wider">Indication</label>
-                    <div class="relative">
-                        <select id="indication-select" onchange="updateProtocol()" class="w-full bg-brand-surface border border-brand-border text-white text-sm rounded p-3 focus:border-brand-blue focus:outline-none tech-font">
+                    <!-- Indication Selector -->
+                    <div class="mb-6">
+                        <label class="input-label">Indication</label>
+                        <select id="indication-select" onchange="updateProtocol()" class="custom-select">
                             <option value="wellness">Wellness / Anti-Aging</option>
                             <option value="bodycomp">Body Composition</option>
                             <option value="recovery">Injury Recovery</option>
                             <option value="cognitive">Cognitive / Sleep</option>
                         </select>
                     </div>
-                </div>
 
-                <!-- Intensity Toggle -->
-                <div class="mb-6 space-y-2">
-                    <label class="tech-font text-xs text-brand-muted font-bold tracking-wider">Protocol Intensity</label>
-                    <div class="grid grid-cols-2 bg-brand-surface rounded border border-brand-border p-1">
-                        <button class="config-btn active py-2 rounded text-[10px] font-bold tech-font tracking-wider transition-all" onclick="setIntensity('standard', this)">STANDARD</button>
-                        <button class="config-btn py-2 rounded text-[10px] font-bold tech-font tracking-wider text-brand-muted transition-all" onclick="setIntensity('aggressive', this)">AGGRESSIVE</button>
-                    </div>
-                </div>
-
-                <!-- Route Selector -->
-                <div class="mb-6 space-y-2">
-                    <label class="tech-font text-xs text-brand-muted font-bold tracking-wider">Primary Route</label>
-                    <div class="space-y-2">
-                        <div class="route-option cursor-pointer border border-brand-blue bg-blue-900/10 p-3 rounded flex flex-col relative transition-all" onclick="setRoute('injection', this)">
-                            <div class="flex justify-between items-center mb-1">
-                                <span class="tech-font text-sm font-bold text-brand-blue">INJECTION (SubQ)</span>
-                                <div class="w-2 h-2 rounded-full bg-brand-blue"></div>
-                            </div>
-                            <p class="text-[10px] text-brand-muted leading-tight">High bioavailability. Pulsatile mimicking. Gold standard.</p>
-                        </div>
-                        <div class="route-option cursor-pointer border border-brand-border bg-brand-surface p-3 rounded flex flex-col relative transition-all opacity-60 hover:opacity-100" onclick="setRoute('oral', this)">
-                            <div class="flex justify-between items-center mb-1">
-                                <span class="tech-font text-sm font-bold text-brand-muted">ORAL (Troche)</span>
-                                <div class="w-2 h-2 rounded-full bg-transparent border border-gray-600"></div>
-                            </div>
-                            <p class="text-[10px] text-brand-muted leading-tight">Lower bioavailability. Requires higher dosing. Convenience focused.</p>
+                    <!-- Intensity Toggle -->
+                    <div class="mb-6">
+                        <label class="input-label">Protocol Intensity</label>
+                        <div class="grid grid-cols-2 gap-2">
+                            <button class="btn-toggle active" onclick="setIntensity('standard', this)">STANDARD</button>
+                            <button class="btn-toggle" onclick="setIntensity('aggressive', this)">AGGRESSIVE</button>
                         </div>
                     </div>
-                </div>
-            </div>
 
-            <!-- Reconstitution Calculator (Mini) -->
-            <div class="p-5 flex-1">
-                <div class="flex items-center gap-2 mb-4">
-                    <svg class="w-4 h-4 text-brand-muted" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z"></path></svg>
-                    <h2 class="tech-font font-bold text-brand-muted tracking-widest text-xs">RECONSTITUTION CALC</h2>
-                </div>
-                
-                <div class="bg-brand-charcoal border border-brand-border rounded p-4 space-y-4">
-                    <div class="grid grid-cols-2 gap-3">
-                        <div>
-                            <label class="block text-[10px] text-brand-muted uppercase font-bold mb-1">Vial (mg)</label>
-                            <input type="number" id="calc-vial" value="5" class="w-full bg-brand-surface border border-brand-border rounded p-2 text-white text-xs font-mono focus:border-brand-green outline-none" oninput="calculateUnits()">
-                        </div>
-                        <div>
-                            <label class="block text-[10px] text-brand-muted uppercase font-bold mb-1">BAC Water (ml)</label>
-                            <input type="number" id="calc-water" value="2" class="w-full bg-brand-surface border border-brand-border rounded p-2 text-white text-xs font-mono focus:border-brand-green outline-none" oninput="calculateUnits()">
-                        </div>
-                    </div>
+                    <!-- Route Selector -->
                     <div>
-                        <label class="block text-[10px] text-brand-muted uppercase font-bold mb-1">Dose (mcg)</label>
-                        <input type="number" id="calc-dose" value="100" class="w-full bg-brand-surface border border-brand-border rounded p-2 text-white text-xs font-mono focus:border-brand-green outline-none" oninput="calculateUnits()">
-                    </div>
-                    
-                    <div class="pt-2 border-t border-brand-border flex justify-between items-center">
-                        <span class="text-[10px] text-brand-muted">DRAW TO:</span>
-                        <div class="text-right">
-                            <span id="calc-result" class="text-xl font-bold text-white tech-font">4</span>
-                            <span class="text-[10px] text-brand-green font-bold">UNITS</span>
+                        <label class="input-label">Primary Route</label>
+                        <div class="space-y-2">
+                            <div class="route-option selected" onclick="setRoute('injection', this)">
+                                <div class="flex justify-between items-center mb-1">
+                                    <span class="text-sm font-medium text-blue-400">INJECTION (SubQ)</span>
+                                    <div class="w-2 h-2 rounded-full bg-blue-500"></div>
+                                </div>
+                                <p class="text-xs text-gray-500">High bioavailability. Pulsatile mimicking. Gold standard.</p>
+                            </div>
+                            <div class="route-option opacity-60" onclick="setRoute('oral', this)">
+                                <div class="flex justify-between items-center mb-1">
+                                    <span class="text-sm font-medium text-gray-400">ORAL (Troche)</span>
+                                    <div class="w-2 h-2 rounded-full border border-gray-600"></div>
+                                </div>
+                                <p class="text-xs text-gray-500">Lower bioavailability. Requires higher dosing.</p>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
-        </aside>
 
-        <!-- Right Content: DASHBOARD -->
-        <section class="flex-1 bg-brand-black overflow-y-auto p-6 custom-scrollbar">
-            
-            <div class="max-w-5xl mx-auto space-y-6">
-                
-                <!-- ROW 1: Protocol Output -->
-                <div class="bg-brand-charcoal border border-brand-border rounded-lg overflow-hidden shadow-2xl">
-                    <div class="border-b border-brand-border p-4 bg-brand-charcoal flex justify-between items-center">
-                        <div class="flex items-center gap-2">
-                            <div class="w-2 h-2 bg-brand-blue rounded-full"></div>
-                            <span class="tech-font text-xs font-bold text-brand-blue tracking-widest">PROTOCOL GENERATED</span>
+                <!-- Reconstitution Calculator -->
+                <div class="spotlight-card">
+                    <div class="section-header" style="color: #94a3b8;">Reconstitution Calc</div>
+                    
+                    <div class="space-y-4">
+                        <div class="grid grid-cols-2 gap-3">
+                            <div>
+                                <label class="input-label">Vial (mg)</label>
+                                <input type="number" id="calc-vial" value="5" class="custom-input" oninput="calculateUnits()">
+                            </div>
+                            <div>
+                                <label class="input-label">BAC Water (ml)</label>
+                                <input type="number" id="calc-water" value="2" class="custom-input" oninput="calculateUnits()">
+                            </div>
                         </div>
+                        <div>
+                            <label class="input-label">Dose (mcg)</label>
+                            <input type="number" id="calc-dose" value="100" class="custom-input" oninput="calculateUnits()">
+                        </div>
+                        
+                        <div class="pt-3 border-t border-white/[0.08] flex justify-between items-center">
+                            <span class="text-xs text-gray-500 uppercase">Draw to:</span>
+                            <div class="text-right">
+                                <span id="calc-result" class="text-xl font-semibold text-white">4</span>
+                                <span class="text-xs text-green-400 font-medium ml-1">UNITS</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </aside>
+
+            <!-- Right Content: DASHBOARD -->
+            <section class="flex-1 space-y-6">
+                
+                <!-- Protocol Output -->
+                <div class="spotlight-card">
+                    <div class="flex justify-between items-center mb-6 pb-4 border-b border-white/[0.08]">
+                        <div class="section-header mb-0">Protocol Generated</div>
                         <div class="text-right">
-                            <span class="block tech-font text-[10px] text-brand-muted tracking-wider">TOTAL DAILY LOAD</span>
-                            <span id="total-load" class="tech-font text-xl font-bold text-brand-green">200 mcg</span>
+                            <span class="block text-xs text-gray-500 uppercase tracking-wider">Total Daily Load</span>
+                            <span id="total-load" class="text-xl font-semibold text-blue-400">200 mcg</span>
                         </div>
                     </div>
 
-                    <div class="p-8">
-                        <h2 id="protocol-title" class="text-3xl md:text-4xl font-bold text-white tech-font mb-8">Wellness / Anti-Aging</h2>
+                    <h2 id="protocol-title" class="text-2xl font-semibold text-white mb-6">Wellness / Anti-Aging</h2>
 
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
-                            <!-- Dose Box 1 -->
-                            <div class="border-l-2 border-brand-blue pl-6 relative">
-                                <span class="absolute -left-[9px] top-0 w-4 h-4 rounded-full bg-brand-charcoal border-2 border-brand-blue"></span>
-                                <h4 class="tech-font text-xs text-brand-muted uppercase tracking-wider mb-2">Primary Dose (Pre-Bed)</h4>
-                                <div class="text-5xl font-bold text-white tech-font mb-2 tracking-tight">
-                                    <span id="dose-pm">100</span> <span class="text-xl text-brand-muted">mcg</span>
-                                </div>
-                                <p class="text-xs text-brand-muted">Fasted state required (3 hrs post meal). Administer immediately before sleep to synergize with natural SWS pulse.</p>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+                        <!-- Dose Box 1 -->
+                        <div class="border-l-2 border-blue-500 pl-4">
+                            <h4 class="text-xs text-gray-500 uppercase tracking-wider mb-2">Primary Dose (Pre-Bed)</h4>
+                            <div class="text-4xl font-semibold text-white mb-2">
+                                <span id="dose-pm">100</span> <span class="text-lg text-gray-500">mcg</span>
                             </div>
-
-                            <!-- Dose Box 2 (Conditional) -->
-                            <div id="dose-box-am" class="border-l-2 border-brand-border pl-6 opacity-30">
-                                <h4 class="tech-font text-xs text-brand-muted uppercase tracking-wider mb-2">Morning Dose (Optional)</h4>
-                                <div class="text-5xl font-bold text-gray-600 tech-font mb-2 tracking-tight">
-                                    <span id="dose-am">---</span>
-                                </div>
-                                <p class="text-xs text-gray-600">Secondary pulse initiation. Only required for aggressive recovery or body composition protocols.</p>
-                            </div>
+                            <p class="text-xs text-gray-500">Fasted state required (3 hrs post meal). Administer immediately before sleep.</p>
                         </div>
 
-                        <!-- Clinical Instructions -->
-                        <div class="bg-brand-charcoal rounded border border-brand-border p-5">
-                            <h4 class="tech-font text-xs font-bold text-white mb-2 uppercase tracking-wider">CLINICAL INSTRUCTIONS</h4>
-                            <p id="clinical-text" class="text-sm text-brand-muted leading-relaxed font-light">
-                                Reconstitute 2mg/2mg blend with 2ml Bacteriostatic Water. Administer subcutaneously into abdominal fat pad. Monitor for flushing or head pressure immediately post-injection (vasodilation effect).
-                            </p>
+                        <!-- Dose Box 2 -->
+                        <div id="dose-box-am" class="border-l-2 border-gray-700 pl-4 opacity-30">
+                            <h4 class="text-xs text-gray-500 uppercase tracking-wider mb-2">Morning Dose (Optional)</h4>
+                            <div class="text-4xl font-semibold text-gray-600 mb-2">
+                                <span id="dose-am">---</span>
+                            </div>
+                            <p class="text-xs text-gray-600">Secondary pulse initiation. Only for aggressive protocols.</p>
                         </div>
+                    </div>
+
+                    <!-- Clinical Instructions -->
+                    <div class="bg-black border border-white/[0.08] rounded-lg p-5 mb-6">
+                        <h4 class="text-xs font-medium text-white mb-2 uppercase tracking-wider">Clinical Instructions</h4>
+                        <p id="clinical-text" class="text-sm text-gray-400 leading-relaxed">
+                            Reconstitute 2mg/2mg blend with 2ml Bacteriostatic Water. Administer subcutaneously into abdominal fat pad. Monitor for flushing or head pressure immediately post-injection.
+                        </p>
                     </div>
                     
                     <!-- Frequency Toggle Bar -->
-                    <div class="bg-brand-charcoal border-t border-brand-border p-6">
-                        <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
-                            <div>
-                                <h5 class="tech-font text-xs font-bold text-white tracking-widest uppercase mb-1">Dosing Schedule (5/2 Split)</h5>
-                                <p class="text-[10px] text-brand-muted">Prevents pituitary desensitization (tachyphylaxis).</p>
-                            </div>
-                            <div class="flex gap-1">
-                                <div class="freq-box active w-10 h-10 border border-brand-border rounded flex items-center justify-center text-[10px] font-mono">M</div>
-                                <div class="freq-box active w-10 h-10 border border-brand-border rounded flex items-center justify-center text-[10px] font-mono">T</div>
-                                <div class="freq-box active w-10 h-10 border border-brand-border rounded flex items-center justify-center text-[10px] font-mono">W</div>
-                                <div class="freq-box active w-10 h-10 border border-brand-border rounded flex items-center justify-center text-[10px] font-mono">T</div>
-                                <div class="freq-box active w-10 h-10 border border-brand-border rounded flex items-center justify-center text-[10px] font-mono">F</div>
-                                <div class="freq-box w-10 h-10 border border-brand-border bg-brand-surface text-gray-600 rounded flex items-center justify-center text-[10px] font-mono">S</div>
-                                <div class="freq-box w-10 h-10 border border-brand-border bg-brand-surface text-gray-600 rounded flex items-center justify-center text-[10px] font-mono">S</div>
-                            </div>
+                    <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 pt-4 border-t border-white/[0.08]">
+                        <div>
+                            <h5 class="text-xs font-medium text-white uppercase tracking-wider mb-1">Dosing Schedule (5/2 Split)</h5>
+                            <p class="text-xs text-gray-500">Prevents pituitary desensitization.</p>
+                        </div>
+                        <div class="flex gap-1">
+                            <div class="freq-box active">M</div>
+                            <div class="freq-box active">T</div>
+                            <div class="freq-box active">W</div>
+                            <div class="freq-box active">T</div>
+                            <div class="freq-box active">F</div>
+                            <div class="freq-box bg-black text-gray-600">S</div>
+                            <div class="freq-box bg-black text-gray-600">S</div>
                         </div>
                     </div>
                 </div>
 
-                <!-- ROW 2: Data Visualization -->
+                <!-- Charts Row -->
                 <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
                     
                     <!-- Chart 1: Pulse Saturation -->
-                    <div class="bg-brand-charcoal border border-brand-border rounded-lg p-5">
-                        <div class="flex justify-between items-center mb-6">
-                            <h3 class="tech-font text-sm font-bold text-white tracking-widest uppercase">Physiological Pulse Model</h3>
-                            <div class="text-[10px] text-brand-muted border border-brand-border px-2 py-1 rounded">SERUM GH (ng/ml)</div>
-                        </div>
+                    <div class="spotlight-card">
+                        <div class="section-header" style="color: #94a3b8;">Physiological Pulse Model</div>
                         <div class="chart-container">
                             <canvas id="pulseChart"></canvas>
-                        </div>
-                        <div class="flex justify-between mt-4 text-[10px] text-brand-muted font-mono uppercase">
-                            <span>Injection</span>
-                            <span>+30m</span>
-                            <span>+60m</span>
-                            <span>+120m</span>
-                            <span>+180m</span>
                         </div>
                     </div>
 
                     <!-- Chart 2: Efficacy Radar -->
-                    <div class="bg-brand-charcoal border border-brand-border rounded-lg p-5">
-                        <div class="flex justify-between items-center mb-6">
-                            <h3 class="tech-font text-sm font-bold text-white tracking-widest uppercase">Efficacy Target Profile</h3>
-                            <div class="flex gap-2">
-                                <span class="text-[10px] text-brand-blue font-bold">SELECTED</span>
-                                <span class="text-[10px] text-gray-600">BASELINE</span>
-                            </div>
-                        </div>
+                    <div class="spotlight-card">
+                        <div class="section-header" style="color: #94a3b8;">Efficacy Target Profile</div>
                         <div class="chart-container">
                             <canvas id="radarChart"></canvas>
                         </div>
                     </div>
                 </div>
 
-                <!-- ROW 3: Timeline -->
-                <div class="bg-brand-charcoal border border-brand-border rounded-lg p-6">
-                    <h3 class="tech-font text-sm font-bold text-white tracking-widest uppercase mb-6">Cycle Duration Plan</h3>
+                <!-- Timeline -->
+                <div class="spotlight-card">
+                    <div class="section-header" style="color: #94a3b8;">Cycle Duration Plan</div>
                     <div class="relative pt-4 pb-2">
-                        <!-- Progress Bar Background -->
-                        <div class="h-2 bg-brand-charcoal rounded-full w-full absolute top-1/2 -translate-y-1/2"></div>
-                        <!-- Active Progress -->
-                        <div class="h-2 bg-gradient-to-r from-brand-blue to-brand-green rounded-full w-3/4 absolute top-1/2 -translate-y-1/2 opacity-50"></div>
+                        <div class="h-1 bg-white/[0.05] rounded-full w-full absolute top-1/2 -translate-y-1/2"></div>
+                        <div class="h-1 bg-gradient-to-r from-blue-500 to-green-500 rounded-full w-3/4 absolute top-1/2 -translate-y-1/2 opacity-50"></div>
                         
                         <div class="relative flex justify-between">
                             <div class="text-center">
-                                <div class="w-4 h-4 bg-brand-blue rounded-full border-4 border-brand-charcoal mx-auto mb-2 relative z-10"></div>
-                                <span class="block tech-font text-[10px] font-bold text-white">START</span>
-                                <span class="block text-[9px] text-brand-muted">Week 0</span>
+                                <div class="w-3 h-3 bg-blue-500 rounded-full mx-auto mb-2 relative z-10"></div>
+                                <span class="block text-xs font-medium text-white">START</span>
+                                <span class="block text-xs text-gray-600">Week 0</span>
                             </div>
                             <div class="text-center">
-                                <div class="w-3 h-3 bg-brand-charcoal border border-brand-blue rounded-full mx-auto mb-2 relative z-10 top-0.5"></div>
-                                <span class="block tech-font text-[10px] font-bold text-brand-muted">LOADING</span>
-                                <span class="block text-[9px] text-gray-600">Week 4</span>
+                                <div class="w-2 h-2 bg-black border border-blue-500 rounded-full mx-auto mb-2 relative z-10 mt-0.5"></div>
+                                <span class="block text-xs font-medium text-gray-500">LOADING</span>
+                                <span class="block text-xs text-gray-600">Week 4</span>
                             </div>
                             <div class="text-center">
-                                <div class="w-3 h-3 bg-brand-charcoal border border-brand-green rounded-full mx-auto mb-2 relative z-10 top-0.5"></div>
-                                <span class="block tech-font text-[10px] font-bold text-brand-green">OPTIMAL</span>
-                                <span class="block text-[9px] text-gray-600">Week 8</span>
+                                <div class="w-2 h-2 bg-black border border-green-500 rounded-full mx-auto mb-2 relative z-10 mt-0.5"></div>
+                                <span class="block text-xs font-medium text-green-400">OPTIMAL</span>
+                                <span class="block text-xs text-gray-600">Week 8</span>
                             </div>
                             <div class="text-center">
-                                <div class="w-3 h-3 bg-brand-charcoal border border-brand-green rounded-full mx-auto mb-2 relative z-10 top-0.5"></div>
-                                <span class="block tech-font text-[10px] font-bold text-brand-muted">PEAK</span>
-                                <span class="block text-[9px] text-gray-600">Week 12</span>
+                                <div class="w-2 h-2 bg-black border border-green-500 rounded-full mx-auto mb-2 relative z-10 mt-0.5"></div>
+                                <span class="block text-xs font-medium text-gray-500">PEAK</span>
+                                <span class="block text-xs text-gray-600">Week 12</span>
                             </div>
                             <div class="text-center">
-                                <div class="w-4 h-4 bg-red-500 rounded-full border-4 border-brand-charcoal mx-auto mb-2 relative z-10"></div>
-                                <span class="block tech-font text-[10px] font-bold text-white">WASHOUT</span>
-                                <span class="block text-[9px] text-brand-muted">Week 16</span>
+                                <div class="w-3 h-3 bg-red-500 rounded-full mx-auto mb-2 relative z-10"></div>
+                                <span class="block text-xs font-medium text-white">WASHOUT</span>
+                                <span class="block text-xs text-gray-500">Week 16</span>
                             </div>
                         </div>
                     </div>
                 </div>
+            </section>
+        </main>
 
+        <!-- Footer -->
+        <footer class="pb-12 border-t border-white/[0.08] pt-12">
+            <div class="spotlight-card mb-6">
+                <p class="text-sm text-gray-400 leading-relaxed">
+                    <span class="text-white font-medium">Legal disclaimer</span> — This platform is a clinical reference tool designed to summarize available research literature and pharmacological data for educational purposes. It is not a dosing guide, prescriptive engine, or substitute for professional medical training. All protocols must be independently verified by licensed healthcare providers.
+                </p>
             </div>
-        </section>
-    </main>
-
-    <!-- ========================================
-         STANDARDIZED FOOTER
-         ======================================== -->
-    <footer class="border-t border-brand-border/30 bg-brand-black p-6">
-        <!-- Legal Disclaimer -->
-        <div class="max-w-7xl mx-auto">
-            <div class="bg-brand-charcoal/50 border border-brand-border rounded-lg p-6 mb-4">
-                <div class="flex items-start gap-3">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-brand-muted flex-shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-                    </svg>
-                    <div>
-                        <p class="text-xs text-brand-text leading-relaxed">
-                            <span class="text-white font-bold">LEGAL DISCLAIMER:</span> This platform is a <span class="text-white font-semibold">clinical reference tool</span> designed to summarize available research literature and pharmacological data for educational purposes. It is <span class="text-red-400 font-bold">NOT</span> a dosing guide, prescriptive engine, or substitute for professional medical training. All protocols, calculations, and visualizations are theoretical and based on off-label observations. Licensed healthcare providers must exercise independent clinical judgment and verify all information against primary literature and local regulations.
-                        </p>
-                        <p class="text-[10px] text-brand-muted mt-3 tracking-wide uppercase">
-                            Secure Clinical Environment | HIPAA Compliant | Authorized Personnel Only
-                        </p>
-                    </div>
+            <div class="flex flex-col md:flex-row justify-between items-center text-sm text-gray-500 gap-4">
+                <div>© 2025 Multifactor Solutions</div>
+                <div class="flex gap-8">
+                    <a href="#" class="hover:text-white transition-colors">Privacy</a>
+                    <a href="#" class="hover:text-white transition-colors">Terms</a>
                 </div>
             </div>
-            
-            <!-- Copyright -->
-            <div class="flex flex-col md:flex-row justify-between items-center text-[10px] text-brand-muted font-mono uppercase">
-                <div>Multifactor Solutions &copy; 2024</div>
-                <div class="mt-2 md:mt-0 flex items-center">
-                    <span class="w-2 h-2 rounded-full bg-brand-blue mr-2"></span>
-                    For Clinical Educational Use Only.
-                </div>
-            </div>
-        </div>
-    </footer>
+        </footer>
+
+    </div>
+
+    <!-- Gradient Orbs -->
+    <div style="position: fixed; width: 600px; height: 600px; background: radial-gradient(circle, #3b82f6 0%, transparent 70%); top: -200px; right: -200px; opacity: 0.1; filter: blur(100px); pointer-events: none; z-index: 0;"></div>
+    <div style="position: fixed; width: 400px; height: 400px; background: radial-gradient(circle, #10b981 0%, transparent 70%); bottom: -150px; left: -150px; opacity: 0.08; filter: blur(100px); pointer-events: none; z-index: 0;"></div>
+
+    <!-- Spotlight Effect Script -->
+    <script>
+        document.querySelectorAll('.spotlight-card').forEach(card => {
+            card.addEventListener('mousemove', (e) => {
+                const rect = card.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+                card.style.setProperty('--mouse-x', `${x}px`);
+                card.style.setProperty('--mouse-y', `${y}px`);
+            });
+        });
+    </script>
 
     <script>
-        // --- State Management ---
         const state = {
             indication: 'wellness',
             intensity: 'standard',
             route: 'injection'
         };
 
-        // --- Data: Protocol Logic ---
         const protocolLogic = {
             injection: {
                 standard: {
@@ -479,16 +543,12 @@
             cognitive: [60, 95, 30, 30, 80]
         };
 
-        // --- Chart Instances ---
         let pulseChart, radarChart;
 
-        // --- Functions ---
-
         function initCharts() {
-            // 1. Pulse Chart
             const ctxPulse = document.getElementById('pulseChart').getContext('2d');
             const gradientPulse = ctxPulse.createLinearGradient(0, 0, 0, 250);
-            gradientPulse.addColorStop(0, 'rgba(59, 130, 246, 0.5)');
+            gradientPulse.addColorStop(0, 'rgba(59, 130, 246, 0.4)');
             gradientPulse.addColorStop(1, 'rgba(59, 130, 246, 0.0)');
 
             pulseChart = new Chart(ctxPulse, {
@@ -498,7 +558,7 @@
                     datasets: [{
                         label: 'GH Pulse Amplitude',
                         data: [5, 45, 85, 60, 25, 10, 5],
-                        borderColor: '#3B82F6',
+                        borderColor: '#3b82f6',
                         backgroundColor: gradientPulse,
                         borderWidth: 2,
                         pointRadius: 0,
@@ -518,7 +578,6 @@
                 }
             });
 
-            // 2. Radar Chart
             const ctxRadar = document.getElementById('radarChart').getContext('2d');
             radarChart = new Chart(ctxRadar, {
                 type: 'radar',
@@ -527,10 +586,10 @@
                     datasets: [{
                         label: 'Target',
                         data: radarData.wellness,
-                        borderColor: '#10b981',
-                        backgroundColor: 'rgba(16, 185, 129, 0.2)',
+                        borderColor: '#3b82f6',
+                        backgroundColor: 'rgba(59, 130, 246, 0.1)',
                         borderWidth: 2,
-                        pointBackgroundColor: '#10b981',
+                        pointBackgroundColor: '#3b82f6',
                         pointRadius: 3
                     }]
                 },
@@ -539,9 +598,9 @@
                     maintainAspectRatio: false,
                     scales: {
                         r: {
-                            angleLines: { color: '#27272a' },
-                            grid: { color: '#18181b' },
-                            pointLabels: { color: '#a1a1aa', font: { family: 'Rajdhani', size: 10 } },
+                            angleLines: { color: '#1a1a1a' },
+                            grid: { color: '#1a1a1a' },
+                            pointLabels: { color: '#94a3b8', font: { family: 'Inter', size: 10 } },
                             ticks: { display: false }
                         }
                     },
@@ -563,17 +622,19 @@
             const amVal = document.getElementById('dose-am');
             
             if (data.doseAM > 0) {
-                amBox.classList.remove('opacity-30', 'border-brand-border');
-                amBox.classList.add('border-brand-green');
+                amBox.classList.remove('opacity-30');
+                amBox.classList.add('border-blue-500');
+                amBox.classList.remove('border-gray-700');
                 amVal.innerText = data.doseAM + " mcg";
-                amVal.parentElement.classList.remove('text-gray-600');
-                amVal.parentElement.classList.add('text-white');
+                amVal.classList.remove('text-gray-600');
+                amVal.classList.add('text-white');
             } else {
-                amBox.classList.add('opacity-30', 'border-brand-border');
-                amBox.classList.remove('border-brand-green');
+                amBox.classList.add('opacity-30');
+                amBox.classList.remove('border-blue-500');
+                amBox.classList.add('border-gray-700');
                 amVal.innerText = "---";
-                amVal.parentElement.classList.add('text-gray-600');
-                amVal.parentElement.classList.remove('text-white');
+                amVal.classList.add('text-gray-600');
+                amVal.classList.remove('text-white');
             }
 
             radarChart.data.datasets[0].data = radarData[state.indication];
@@ -581,13 +642,13 @@
 
             if (state.route === 'oral') {
                 pulseChart.data.datasets[0].data = [5, 25, 40, 35, 20, 10, 5];
-                pulseChart.data.datasets[0].borderColor = '#71717a';
-                pulseChart.data.datasets[0].backgroundColor = 'rgba(113, 113, 122, 0.2)';
+                pulseChart.data.datasets[0].borderColor = '#6b7280';
+                pulseChart.data.datasets[0].backgroundColor = 'rgba(107, 114, 128, 0.2)';
             } else {
                 pulseChart.data.datasets[0].data = [5, 45, 85, 60, 25, 10, 5];
-                pulseChart.data.datasets[0].borderColor = '#3B82F6';
+                pulseChart.data.datasets[0].borderColor = '#3b82f6';
                 const gradientPulse = pulseChart.ctx.createLinearGradient(0, 0, 0, 250);
-                gradientPulse.addColorStop(0, 'rgba(59, 130, 246, 0.5)');
+                gradientPulse.addColorStop(0, 'rgba(59, 130, 246, 0.4)');
                 gradientPulse.addColorStop(1, 'rgba(59, 130, 246, 0.0)');
                 pulseChart.data.datasets[0].backgroundColor = gradientPulse;
             }
@@ -599,12 +660,10 @@
         function setIntensity(lvl, btn) {
             state.intensity = lvl;
             
-            document.querySelectorAll('.config-btn').forEach(b => {
-                b.classList.remove('active', 'text-white', 'border-brand-green');
-                b.classList.add('text-brand-muted');
+            document.querySelectorAll('.btn-toggle').forEach(b => {
+                b.classList.remove('active');
             });
-            btn.classList.add('active', 'text-white');
-            btn.classList.remove('text-brand-muted');
+            btn.classList.add('active');
             
             updateProtocol();
         }
@@ -613,20 +672,12 @@
             state.route = rt;
             
             document.querySelectorAll('.route-option').forEach(opt => {
-                opt.classList.remove('border-brand-blue', 'bg-blue-900/10', 'opacity-100');
-                opt.classList.add('border-brand-border', 'bg-brand-surface', 'opacity-60');
-                opt.querySelector('span').classList.remove('text-brand-blue');
-                opt.querySelector('span').classList.add('text-brand-muted');
-                opt.querySelector('.rounded-full').classList.remove('bg-brand-blue');
-                opt.querySelector('.rounded-full').classList.add('bg-transparent', 'border', 'border-gray-600');
+                opt.classList.remove('selected');
+                opt.classList.add('opacity-60');
             });
 
-            el.classList.remove('border-brand-border', 'bg-brand-surface', 'opacity-60');
-            el.classList.add('border-brand-blue', 'bg-blue-900/10', 'opacity-100');
-            el.querySelector('span').classList.remove('text-brand-muted');
-            el.querySelector('span').classList.add('text-brand-blue');
-            el.querySelector('.rounded-full').classList.remove('bg-transparent', 'border', 'border-gray-600');
-            el.querySelector('.rounded-full').classList.add('bg-brand-blue');
+            el.classList.add('selected');
+            el.classList.remove('opacity-60');
 
             updateProtocol();
         }

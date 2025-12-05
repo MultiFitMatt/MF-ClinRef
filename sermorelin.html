@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" class="dark">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,33 +8,16 @@
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&family=Rajdhani:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
     
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
         tailwind.config = {
-            darkMode: 'class',
             theme: {
                 extend: {
-                    colors: {
-                        brand: {
-                            black: '#050505',
-                            charcoal: '#0f0f11',
-                            surface: '#18181b',
-                            border: '#27272a',
-                            green: '#10b981',
-                            neonGreen: '#00ffa3',
-                            blue: '#3b82f6',
-                            neonBlue: '#00d4ff',
-                            cyan: '#06b6d4',
-                            text: '#e4e4e7',
-                            muted: '#a1a1aa'
-                        }
-                    },
                     fontFamily: {
-                        sans: ['Inter', 'sans-serif'],
-                        mono: ['Rajdhani', 'sans-serif'],
+                        sans: ['Inter', 'system-ui', '-apple-system', 'sans-serif'],
                     }
                 }
             }
@@ -45,281 +28,359 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
     <style>
-        body {
-            background-color: #050505;
-            color: #e4e4e7;
-            background-image: radial-gradient(circle at 50% 0%, #18181b 0%, #050505 45%);
-        }
-        
-        /* Custom Scrollbar */
-        ::-webkit-scrollbar {
-            width: 8px;
-        }
-        ::-webkit-scrollbar-track {
-            background: #0f0f11; 
-        }
-        ::-webkit-scrollbar-thumb {
-            background: #27272a; 
-            border-radius: 4px;
-        }
-        ::-webkit-scrollbar-thumb:hover {
-            background: #3b82f6; 
+        * {
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
         }
 
-        .tech-border {
-            border: 1px solid #27272a;
+        body {
+            background-color: #000000;
+            color: #ffffff;
+        }
+        
+        ::-webkit-scrollbar { width: 10px; }
+        ::-webkit-scrollbar-track { background: #000000; }
+        ::-webkit-scrollbar-thumb { background: linear-gradient(180deg, #3b82f6 0%, #10b981 100%); border-radius: 5px; }
+        ::-webkit-scrollbar-thumb:hover { background: linear-gradient(180deg, #60a5fa 0%, #34d399 100%); }
+
+        /* Spotlight Cards */
+        .spotlight-card {
+            background: #0a0a0a;
+            border: 1px solid #1a1a1a;
+            border-radius: 12px;
+            padding: 24px;
+            position: relative;
+            overflow: hidden;
             transition: all 0.3s ease;
         }
-        
-        .tech-border:hover {
-            border-color: #10b981;
-            box-shadow: 0 0 10px rgba(16, 185, 129, 0.1);
+
+        .spotlight-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: radial-gradient(600px circle at var(--mouse-x, 50%) var(--mouse-y, 50%), rgba(59, 130, 246, 0.15), transparent 40%);
+            opacity: 0;
+            transition: opacity 0.3s;
+            pointer-events: none;
+            z-index: 1;
         }
 
-        .active-tab {
-            background-color: rgba(16, 185, 129, 0.1);
-            border-bottom: 2px solid #10b981;
-            color: #10b981;
+        .spotlight-card:hover::before {
+            opacity: 1;
         }
 
-        .inactive-tab {
+        .spotlight-card > * {
+            position: relative;
+            z-index: 2;
+        }
+
+        .spotlight-card:hover {
+            border-color: rgba(59, 130, 246, 0.3);
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #3b82f6 0%, #10b981 100%);
+            color: white;
+            padding: 10px 20px;
+            border-radius: 8px;
+            font-weight: 500;
+            font-size: 14px;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+        }
+
+        .btn-primary:hover {
+            box-shadow: 0 0 30px rgba(59, 130, 246, 0.4);
+            transform: translateY(-1px);
+        }
+
+        .tab-btn {
+            padding: 8px 16px;
+            font-size: 12px;
+            font-weight: 500;
+            transition: all 0.2s;
+            cursor: pointer;
             border-bottom: 2px solid transparent;
+        }
+
+        .tab-btn.active {
+            background: rgba(59, 130, 246, 0.1);
+            border-bottom-color: #3b82f6;
+            color: #3b82f6;
+        }
+
+        .tab-btn:not(.active) {
             color: #6b7280;
         }
+
+        .tab-btn:hover:not(.active) {
+            color: #fff;
+        }
+
+        .custom-input {
+            width: 100%;
+            background-color: #0a0a0a;
+            border: 1px solid #1a1a1a;
+            border-radius: 8px;
+            padding: 10px 12px;
+            color: white;
+            font-size: 14px;
+            outline: none;
+        }
+        .custom-input:focus { border-color: #3b82f6; }
 
         .chart-container {
             position: relative;
             width: 100%;
             height: 300px;
-            max-height: 300px;
+        }
+
+        .section-header {
+            font-size: 12px;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: #3b82f6;
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .section-header::before {
+            content: '';
+            width: 6px;
+            height: 6px;
+            background: currentColor;
+            border-radius: 50%;
+        }
+
+        .input-label {
+            display: block;
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: #6b7280;
+            margin-bottom: 8px;
         }
     </style>
 </head>
-<body class="font-sans antialiased selection:bg-brand-green selection:text-black">
+<body class="min-h-screen font-sans">
 
-    <!-- ========================================
-         STANDARDIZED HEADER
-         ======================================== -->
-    <header class="border-b border-brand-border bg-brand-charcoal sticky top-0 z-50">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex items-center justify-between h-16">
-                <div class="flex items-center gap-3">
-                    <!-- Back Button -->
-                    <a href="index.html" class="text-brand-muted hover:text-brand-blue transition-colors">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
-                        </svg>
-                    </a>
-                    
-                    <!-- Logo -->
-                    <div class="w-10 h-10 bg-brand-surface border border-brand-blue flex items-center justify-center rounded shadow-[0_0_10px_rgba(59,130,246,0.3)]">
-                        <span class="font-mono font-bold text-brand-neonGreen text-base">M</span>
-                    </div>
-                    
-                    <div class="flex flex-col">
-                        <span class="font-mono text-xl font-bold tracking-wide text-white uppercase">Sermorelin</span>
-                        <span class="text-[10px] text-brand-cyan uppercase tracking-[0.2em]">Clinical Reference Guide</span>
-                    </div>
-                </div>
-                <div class="hidden md:block">
-                    <span class="px-3 py-1 rounded bg-red-900/30 text-red-400 text-xs border border-red-900/50 font-mono">
-                        OFF-LABEL USE ONLY
-                    </span>
-                </div>
+    <!-- Navigation -->
+    <nav class="fixed top-0 left-0 right-0 z-50 bg-black/80 backdrop-blur-xl border-b border-white/[0.08]">
+        <div class="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
+            <div class="flex items-center gap-12">
+                <a href="index.html" class="text-sm font-semibold text-white hover:text-blue-400 transition-colors">
+                    ← Multifactor Solutions
+                </a>
+            </div>
+            <div class="flex items-center gap-8 text-sm text-gray-400">
+                <a href="index.html#protocols" class="hover:text-white transition-colors">All Protocols</a>
             </div>
         </div>
-    </header>
+    </nav>
 
-    <!-- Main Content Grid -->
-    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        
-        <!-- Intro Section -->
-        <div class="mb-8">
-            <h1 class="text-3xl font-mono font-bold text-white mb-2">Functional Peptide Profile</h1>
-            <p class="text-brand-muted max-w-3xl text-sm leading-relaxed">
-                Sermorelin (GHRH 1-29) is a growth hormone-releasing hormone analogue. Unlike exogenous HGH, Sermorelin stimulates the patient's pituitary gland to produce its own growth hormone, preserving the negative feedback loop and reducing the risk of tachyphylaxis and side effects associated with rHGH.
+    <div class="max-w-7xl mx-auto px-6 relative z-10">
+
+        <!-- Hero Section -->
+        <header class="pt-32 pb-12 max-w-4xl">
+            <div class="inline-block px-3 py-1 rounded-full border border-blue-500/30 bg-blue-500/10 text-blue-400 text-xs font-medium uppercase tracking-wider mb-6">
+                Growth Hormone Secretagogues
+            </div>
+            <h1 class="text-4xl md:text-5xl font-semibold text-white tracking-tight leading-[1.1] mb-4">
+                Sermorelin
+            </h1>
+            <p class="text-lg text-gray-400 leading-relaxed">
+                GHRH 1-29 analog that stimulates the pituitary to produce its own growth hormone, preserving the negative feedback loop and reducing risks associated with exogenous rHGH.
             </p>
-        </div>
+        </header>
 
-        <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
-
-            <!-- LEFT COLUMN: Dosing & Tools (Width 7/12) -->
-            <div class="lg:col-span-7 space-y-6">
-                
-                <!-- Dosing Protocols Card -->
-                <div class="bg-brand-charcoal rounded-lg border border-brand-border p-6 tech-border">
-                    <div class="flex items-center justify-between mb-6">
-                        <h2 class="text-xl font-mono font-bold text-brand-green flex items-center gap-2">
-                            <span class="w-2 h-2 bg-brand-green rounded-full animate-pulse"></span>
-                            DOSING PROTOCOLS
-                        </h2>
-                        <!-- Tabs -->
-                        <div class="flex gap-4 text-sm font-mono font-medium">
-                            <button id="tab-inject" class="active-tab px-3 py-1 transition-colors" onclick="switchDosing('injection')">INJECTION (SUB-Q)</button>
-                            <button id="tab-oral" class="inactive-tab px-3 py-1 transition-colors hover:text-white" onclick="switchDosing('oral')">ORAL (TROCHE/CAP)</button>
-                        </div>
-                    </div>
-
-                    <!-- Dynamic Dosing Content -->
-                    <div id="dosing-content" class="space-y-6">
-                        <!-- Content injected via JS -->
-                    </div>
-                </div>
-
-                <!-- Reconstitution Calculator -->
-                <div class="bg-brand-charcoal rounded-lg border border-brand-border p-6 tech-border">
-                    <h2 class="text-xl font-mono font-bold text-brand-blue mb-4">RECONSTITUTION CALCULATOR</h2>
-                    <p class="text-xs text-brand-muted mb-4">Calculate draw units for Sub-Q injection based on vial concentration.</p>
-                    
-                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
-                        <div>
-                            <label class="block text-xs font-mono text-brand-muted mb-1">VIAL SIZE (MG)</label>
-                            <input type="number" id="calc-mg" value="2" class="w-full bg-brand-black border border-brand-border rounded px-3 py-2 text-white font-mono focus:border-brand-blue focus:outline-none" oninput="calculateDraw()">
-                        </div>
-                        <div>
-                            <label class="block text-xs font-mono text-brand-muted mb-1">BACT. WATER ADDED (ML)</label>
-                            <input type="number" id="calc-ml" value="2" class="w-full bg-brand-black border border-brand-border rounded px-3 py-2 text-white font-mono focus:border-brand-blue focus:outline-none" oninput="calculateDraw()">
-                        </div>
-                        <div>
-                            <label class="block text-xs font-mono text-brand-muted mb-1">TARGET DOSE (MCG)</label>
-                            <input type="number" id="calc-dose" value="300" step="50" class="w-full bg-brand-black border border-brand-border rounded px-3 py-2 text-white font-mono focus:border-brand-blue focus:outline-none" oninput="calculateDraw()">
-                        </div>
-                    </div>
-
-                    <div class="bg-brand-black rounded p-4 border border-brand-border flex justify-between items-center">
-                        <span class="text-xs text-brand-muted font-mono uppercase">INSTRUCTION:</span>
-                        <div class="text-right">
-                            <span class="text-2xl font-mono font-bold text-white" id="calc-result">30</span>
-                            <span class="text-xs text-brand-green font-mono">UNITS (on U-100 Syringe)</span>
-                        </div>
-                    </div>
-                </div>
-
-            </div>
-
-            <!-- RIGHT COLUMN: Timeline & Data (Width 5/12) -->
-            <div class="lg:col-span-5 space-y-6">
-                
-                <!-- Timeline Visualization -->
-                <div class="bg-brand-charcoal rounded-lg border border-brand-border p-6 tech-border">
-                    <h2 class="text-xl font-mono font-bold text-white mb-2">TREATMENT TRAJECTORY</h2>
-                    <p class="text-xs text-brand-muted mb-4">Projected IGF-1 optimization over a standard 6-month protocol.</p>
-                    
-                    <div class="chart-container">
-                        <canvas id="treatmentChart"></canvas>
-                    </div>
-                    
-                    <div class="mt-4 grid grid-cols-3 gap-2 text-center">
-                        <div class="bg-brand-surface p-2 rounded border border-brand-border">
-                            <div class="text-[10px] text-brand-muted font-mono">LOADING</div>
-                            <div class="text-sm font-bold text-gray-300">Wk 1-4</div>
-                        </div>
-                        <div class="bg-brand-surface p-2 rounded border border-brand-border">
-                            <div class="text-[10px] text-brand-green font-mono">OPTIMAL</div>
-                            <div class="text-sm font-bold text-white">Month 3-6</div>
-                        </div>
-                        <div class="bg-brand-surface p-2 rounded border border-brand-border">
-                            <div class="text-[10px] text-brand-muted font-mono">WASHOUT</div>
-                            <div class="text-sm font-bold text-gray-300">Month 7</div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Cycle Frequency Visualizer -->
-                <div class="bg-brand-charcoal rounded-lg border border-brand-border p-6 tech-border">
-                    <h2 class="text-xl font-mono font-bold text-white mb-4">DOSING FREQUENCY</h2>
-                    <div class="flex flex-col gap-4">
-                        <div>
-                            <div class="flex justify-between text-xs font-mono text-brand-muted mb-1">
-                                <span>STANDARD PROTOCOL (5/2 SPLIT)</span>
-                                <span class="text-brand-green">PREVENTS DOWNREGULATION</span>
-                            </div>
-                            <!-- Visual representation of a week -->
-                            <div class="flex gap-1 h-8">
-                                <div class="flex-1 bg-brand-green rounded-sm flex items-center justify-center text-[10px] font-bold text-black" title="Monday: Dose">ON</div>
-                                <div class="flex-1 bg-brand-green rounded-sm flex items-center justify-center text-[10px] font-bold text-black" title="Tuesday: Dose">ON</div>
-                                <div class="flex-1 bg-brand-green rounded-sm flex items-center justify-center text-[10px] font-bold text-black" title="Wednesday: Dose">ON</div>
-                                <div class="flex-1 bg-brand-green rounded-sm flex items-center justify-center text-[10px] font-bold text-black" title="Thursday: Dose">ON</div>
-                                <div class="flex-1 bg-brand-green rounded-sm flex items-center justify-center text-[10px] font-bold text-black" title="Friday: Dose">ON</div>
-                                <div class="flex-1 bg-gray-700/50 border border-gray-600 rounded-sm flex items-center justify-center text-[10px] text-gray-400" title="Saturday: Off">OFF</div>
-                                <div class="flex-1 bg-gray-700/50 border border-gray-600 rounded-sm flex items-center justify-center text-[10px] text-gray-400" title="Sunday: Off">OFF</div>
-                            </div>
-                        </div>
-                        <p class="text-xs text-brand-muted">
-                            *The 5-days-on, 2-days-off protocol mimics natural pulsatile secretion variability and maintains pituitary sensitivity.
-                        </p>
-                    </div>
-                </div>
-
-            </div>
-        </div>
-
-        <!-- Off-Label Grid Section -->
-        <div class="mt-8">
-            <h2 class="text-xl font-mono font-bold text-white mb-6 border-l-4 border-brand-blue pl-3">CLINICAL INDICATIONS (OFF-LABEL)</h2>
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-                
-                <div class="bg-brand-charcoal p-4 rounded border border-brand-border hover:border-brand-blue transition-colors group">
-                    <div class="text-brand-blue mb-2 font-mono text-sm font-bold group-hover:text-white">BODY COMPOSITION</div>
-                    <p class="text-xs text-brand-muted leading-snug">
-                        Increases lean muscle mass and lipolysis (fat loss), particularly visceral adipose tissue. Often combined with lifestyle interventions.
-                    </p>
-                </div>
-
-                <div class="bg-brand-charcoal p-4 rounded border border-brand-border hover:border-brand-blue transition-colors group">
-                    <div class="text-brand-blue mb-2 font-mono text-sm font-bold group-hover:text-white">SLEEP ARCHITECTURE</div>
-                    <p class="text-xs text-brand-muted leading-snug">
-                        Enhances Stage 4 non-REM slow-wave sleep. Patients often report improved sleep quality within the first 2 weeks of therapy.
-                    </p>
-                </div>
-
-                <div class="bg-brand-charcoal p-4 rounded border border-brand-border hover:border-brand-blue transition-colors group">
-                    <div class="text-brand-blue mb-2 font-mono text-sm font-bold group-hover:text-white">RECOVERY & REPAIR</div>
-                    <p class="text-xs text-brand-muted leading-snug">
-                        Accelerates recovery from musculoskeletal injuries and surgery via increased IGF-1 signaling.
-                    </p>
-                </div>
-
-                <div class="bg-brand-charcoal p-4 rounded border border-brand-border hover:border-brand-blue transition-colors group">
-                    <div class="text-brand-blue mb-2 font-mono text-sm font-bold group-hover:text-white">COGNITIVE FUNCTION</div>
-                    <p class="text-xs text-brand-muted leading-snug">
-                        Potential neuroprotective effects. Users frequently report improved mental clarity and general sense of well-being.
-                    </p>
-                </div>
-
-            </div>
-        </div>
-
-        <!-- ========================================
-             STANDARDIZED FOOTER
-             ======================================== -->
-        <footer class="mt-12 pt-8 border-t border-brand-border/30">
-            <div class="bg-brand-charcoal/50 border border-brand-border rounded-lg p-6 mb-6">
-                <div class="flex items-start gap-3">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-brand-muted flex-shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-                    </svg>
-                    <div>
-                        <p class="text-xs text-brand-text leading-relaxed">
-                            <span class="text-white font-bold">LEGAL DISCLAIMER:</span> This platform is a <span class="text-white font-semibold">clinical reference tool</span> designed to summarize available research literature and pharmacological data for educational purposes. It is <span class="text-red-400 font-bold">NOT</span> a dosing guide, prescriptive engine, or substitute for professional medical training. All protocols, calculations, and visualizations are theoretical and based on off-label observations. Licensed healthcare providers must exercise independent clinical judgment and verify all information against primary literature and local regulations.
-                        </p>
-                        <p class="text-[10px] text-brand-muted mt-3 tracking-wide uppercase">
-                            Secure Clinical Environment | HIPAA Compliant | Authorized Personnel Only
-                        </p>
-                    </div>
-                </div>
-            </div>
+        <!-- Main Content Grid -->
+        <main class="pb-32">
             
-            <div class="flex flex-col md:flex-row justify-between items-center text-[10px] text-brand-muted font-mono uppercase">
-                <div>Multifactor Solutions &copy; 2024</div>
-                <div class="mt-2 md:mt-0 flex items-center">
-                    <span class="w-2 h-2 rounded-full bg-brand-blue mr-2"></span>
-                    For Clinical Educational Use Only.
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 mb-6">
+
+                <!-- LEFT COLUMN: Dosing & Tools -->
+                <div class="lg:col-span-7 space-y-6">
+                    
+                    <!-- Dosing Protocols Card -->
+                    <div class="spotlight-card">
+                        <div class="flex items-center justify-between mb-6">
+                            <div class="section-header mb-0">Dosing Protocols</div>
+                            <div class="flex gap-2">
+                                <button id="tab-inject" class="tab-btn active" onclick="switchDosing('injection')">INJECTION (SUB-Q)</button>
+                                <button id="tab-oral" class="tab-btn" onclick="switchDosing('oral')">ORAL (TROCHE)</button>
+                            </div>
+                        </div>
+
+                        <div id="dosing-content" class="space-y-6">
+                            <!-- Content injected via JS -->
+                        </div>
+                    </div>
+
+                    <!-- Reconstitution Calculator -->
+                    <div class="spotlight-card">
+                        <div class="section-header">Reconstitution Calculator</div>
+                        <p class="text-xs text-gray-500 mb-4">Calculate draw units for Sub-Q injection based on vial concentration.</p>
+                        
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
+                            <div>
+                                <label class="input-label">Vial Size (mg)</label>
+                                <input type="number" id="calc-mg" value="2" class="custom-input" oninput="calculateDraw()">
+                            </div>
+                            <div>
+                                <label class="input-label">Bact. Water (ml)</label>
+                                <input type="number" id="calc-ml" value="2" class="custom-input" oninput="calculateDraw()">
+                            </div>
+                            <div>
+                                <label class="input-label">Target Dose (mcg)</label>
+                                <input type="number" id="calc-dose" value="300" step="50" class="custom-input" oninput="calculateDraw()">
+                            </div>
+                        </div>
+
+                        <div class="bg-black rounded-lg p-4 border border-white/[0.08] flex justify-between items-center">
+                            <span class="text-xs text-gray-500 uppercase">Instruction:</span>
+                            <div class="text-right">
+                                <span class="text-xl font-semibold text-white" id="calc-result">30</span>
+                                <span class="text-xs text-green-400 font-medium ml-1">UNITS (on U-100 Syringe)</span>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+                <!-- RIGHT COLUMN: Timeline & Data -->
+                <div class="lg:col-span-5 space-y-6">
+                    
+                    <!-- Timeline Visualization -->
+                    <div class="spotlight-card">
+                        <div class="section-header">Treatment Trajectory</div>
+                        <p class="text-xs text-gray-500 mb-4">Projected IGF-1 optimization over a standard 6-month protocol.</p>
+                        
+                        <div class="chart-container">
+                            <canvas id="treatmentChart"></canvas>
+                        </div>
+                        
+                        <div class="mt-4 grid grid-cols-3 gap-2 text-center">
+                            <div class="bg-black p-2 rounded-lg border border-white/[0.08]">
+                                <div class="text-xs text-gray-500">LOADING</div>
+                                <div class="text-sm font-medium text-gray-300">Wk 1-4</div>
+                            </div>
+                            <div class="bg-black p-2 rounded-lg border border-white/[0.08]">
+                                <div class="text-xs text-green-400">OPTIMAL</div>
+                                <div class="text-sm font-medium text-white">Month 3-6</div>
+                            </div>
+                            <div class="bg-black p-2 rounded-lg border border-white/[0.08]">
+                                <div class="text-xs text-gray-500">WASHOUT</div>
+                                <div class="text-sm font-medium text-gray-300">Month 7</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Cycle Frequency -->
+                    <div class="spotlight-card">
+                        <div class="section-header">Dosing Frequency</div>
+                        <div class="flex flex-col gap-4">
+                            <div>
+                                <div class="flex justify-between text-xs mb-1">
+                                    <span class="text-gray-500 uppercase">Standard Protocol (5/2 Split)</span>
+                                    <span class="text-green-400">Prevents Downregulation</span>
+                                </div>
+                                <div class="flex gap-1 h-8">
+                                    <div class="flex-1 bg-blue-500 rounded flex items-center justify-center text-xs font-medium text-white">ON</div>
+                                    <div class="flex-1 bg-blue-500 rounded flex items-center justify-center text-xs font-medium text-white">ON</div>
+                                    <div class="flex-1 bg-blue-500 rounded flex items-center justify-center text-xs font-medium text-white">ON</div>
+                                    <div class="flex-1 bg-blue-500 rounded flex items-center justify-center text-xs font-medium text-white">ON</div>
+                                    <div class="flex-1 bg-blue-500 rounded flex items-center justify-center text-xs font-medium text-white">ON</div>
+                                    <div class="flex-1 bg-gray-800 border border-gray-700 rounded flex items-center justify-center text-xs text-gray-500">OFF</div>
+                                    <div class="flex-1 bg-gray-800 border border-gray-700 rounded flex items-center justify-center text-xs text-gray-500">OFF</div>
+                                </div>
+                            </div>
+                            <p class="text-xs text-gray-500">
+                                *The 5-days-on, 2-days-off protocol mimics natural pulsatile secretion variability and maintains pituitary sensitivity.
+                            </p>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- Clinical Indications Grid -->
+            <div class="mb-6">
+                <div class="section-header mb-4">Clinical Indications (Off-Label)</div>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+                    
+                    <div class="spotlight-card hover:border-blue-500/30 group">
+                        <div class="text-blue-400 mb-2 text-sm font-medium group-hover:text-white transition-colors">Body Composition</div>
+                        <p class="text-xs text-gray-500 leading-relaxed">
+                            Increases lean muscle mass and lipolysis, particularly visceral adipose tissue. Often combined with lifestyle interventions.
+                        </p>
+                    </div>
+
+                    <div class="spotlight-card hover:border-blue-500/30 group">
+                        <div class="text-blue-400 mb-2 text-sm font-medium group-hover:text-white transition-colors">Sleep Architecture</div>
+                        <p class="text-xs text-gray-500 leading-relaxed">
+                            Enhances Stage 4 non-REM slow-wave sleep. Patients often report improved sleep quality within the first 2 weeks.
+                        </p>
+                    </div>
+
+                    <div class="spotlight-card hover:border-blue-500/30 group">
+                        <div class="text-blue-400 mb-2 text-sm font-medium group-hover:text-white transition-colors">Recovery & Repair</div>
+                        <p class="text-xs text-gray-500 leading-relaxed">
+                            Accelerates recovery from musculoskeletal injuries and surgery via increased IGF-1 signaling.
+                        </p>
+                    </div>
+
+                    <div class="spotlight-card hover:border-blue-500/30 group">
+                        <div class="text-blue-400 mb-2 text-sm font-medium group-hover:text-white transition-colors">Cognitive Function</div>
+                        <p class="text-xs text-gray-500 leading-relaxed">
+                            Potential neuroprotective effects. Users frequently report improved mental clarity and general sense of well-being.
+                        </p>
+                    </div>
+
+                </div>
+            </div>
+        </main>
+
+        <!-- Footer -->
+        <footer class="pb-12 border-t border-white/[0.08] pt-12">
+            <div class="spotlight-card mb-6">
+                <p class="text-sm text-gray-400 leading-relaxed">
+                    <span class="text-white font-medium">Legal disclaimer</span> — This platform is a clinical reference tool designed to summarize available research literature and pharmacological data for educational purposes. It is not a dosing guide, prescriptive engine, or substitute for professional medical training. All protocols must be independently verified by licensed healthcare providers.
+                </p>
+            </div>
+            <div class="flex flex-col md:flex-row justify-between items-center text-sm text-gray-500 gap-4">
+                <div>© 2025 Multifactor Solutions</div>
+                <div class="flex gap-8">
+                    <a href="#" class="hover:text-white transition-colors">Privacy</a>
+                    <a href="#" class="hover:text-white transition-colors">Terms</a>
                 </div>
             </div>
         </footer>
 
-    </main>
+    </div>
+
+    <!-- Gradient Orbs -->
+    <div style="position: fixed; width: 600px; height: 600px; background: radial-gradient(circle, #3b82f6 0%, transparent 70%); top: -200px; right: -200px; opacity: 0.1; filter: blur(100px); pointer-events: none; z-index: 0;"></div>
+    <div style="position: fixed; width: 400px; height: 400px; background: radial-gradient(circle, #10b981 0%, transparent 70%); bottom: -150px; left: -150px; opacity: 0.08; filter: blur(100px); pointer-events: none; z-index: 0;"></div>
+
+    <!-- Spotlight Effect Script -->
+    <script>
+        document.querySelectorAll('.spotlight-card').forEach(card => {
+            card.addEventListener('mousemove', (e) => {
+                const rect = card.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+                card.style.setProperty('--mouse-x', `${x}px`);
+                card.style.setProperty('--mouse-y', `${y}px`);
+            });
+        });
+    </script>
 
     <script>
         const dosingData = {
@@ -333,7 +394,7 @@
                     "Administer to abdominal fat or thigh.",
                     "Insulin spike blunts GH release; ensure fasting window."
                 ],
-                color: "text-brand-green"
+                color: "text-blue-400"
             },
             oral: {
                 title: "ORAL (TROCHE / CAPSULE)",
@@ -345,7 +406,7 @@
                     "Requires much higher doses to achieve therapeutic effect.",
                     "Easier compliance for needle-phobic patients."
                 ],
-                color: "text-brand-blue"
+                color: "text-gray-400"
             }
         };
 
@@ -358,24 +419,24 @@
             const data = dosingData[type];
             
             let html = `
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 animate-fade-in">
-                    <div class="bg-brand-surface p-4 rounded border border-brand-border">
-                        <div class="text-xs font-mono text-brand-muted mb-1">TYPICAL DAILY DOSE</div>
-                        <div class="text-3xl font-mono font-bold text-white mb-1">${data.standard}</div>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div class="bg-black p-4 rounded-lg border border-white/[0.08]">
+                        <div class="text-xs text-gray-500 uppercase mb-1">Typical Daily Dose</div>
+                        <div class="text-2xl font-semibold text-white mb-1">${data.standard}</div>
                         <div class="text-xs ${data.color}">Range: ${data.range}</div>
                     </div>
-                    <div class="bg-brand-surface p-4 rounded border border-brand-border">
-                        <div class="text-xs font-mono text-brand-muted mb-1">ADMINISTRATION TIMING</div>
-                        <div class="text-sm text-gray-300 font-medium leading-relaxed">${data.timing}</div>
+                    <div class="bg-black p-4 rounded-lg border border-white/[0.08]">
+                        <div class="text-xs text-gray-500 uppercase mb-1">Administration Timing</div>
+                        <div class="text-sm text-gray-300 leading-relaxed">${data.timing}</div>
                     </div>
                 </div>
                 
                 <div class="mt-4">
-                    <div class="text-xs font-mono text-brand-muted mb-2">CLINICAL PEARLS</div>
+                    <div class="text-xs text-gray-500 uppercase mb-2">Clinical Pearls</div>
                     <ul class="space-y-2">
                         ${data.notes.map(note => `
-                            <li class="flex items-start gap-2 text-sm text-brand-muted">
-                                <span class="mt-1 w-1 h-1 rounded-full bg-gray-500"></span>
+                            <li class="flex items-start gap-2 text-sm text-gray-400">
+                                <span class="mt-1.5 w-1 h-1 rounded-full bg-gray-500 flex-shrink-0"></span>
                                 ${note}
                             </li>
                         `).join('')}
@@ -390,15 +451,11 @@
             renderDosingContent(type);
             
             if (type === 'injection') {
-                injectTab.classList.add('active-tab');
-                injectTab.classList.remove('inactive-tab');
-                oralTab.classList.remove('active-tab');
-                oralTab.classList.add('inactive-tab');
+                injectTab.classList.add('active');
+                oralTab.classList.remove('active');
             } else {
-                oralTab.classList.add('active-tab');
-                oralTab.classList.remove('inactive-tab');
-                injectTab.classList.remove('active-tab');
-                injectTab.classList.add('inactive-tab');
+                oralTab.classList.add('active');
+                injectTab.classList.remove('active');
             }
         }
 
@@ -414,8 +471,6 @@
                 const units = Math.round(drawVolumeMl * 100);
                 
                 resultDisplay.innerText = units;
-                resultDisplay.classList.remove('text-red-500');
-                resultDisplay.classList.add('text-white');
             } else {
                 resultDisplay.innerText = "--";
             }
@@ -427,21 +482,21 @@
                 data: {
                     labels: ['Baseline', 'Month 1', 'Month 2', 'Month 3', 'Month 4', 'Month 5', 'Month 6', 'Washout'],
                     datasets: [{
-                        label: 'IGF-1 Plasma Level Trend (Estimated)',
+                        label: 'IGF-1 Plasma Level Trend',
                         data: [100, 130, 180, 220, 240, 250, 255, 180],
-                        borderColor: '#10b981',
+                        borderColor: '#3b82f6',
                         backgroundColor: (context) => {
                             const ctx = context.chart.ctx;
                             const gradient = ctx.createLinearGradient(0, 0, 0, 300);
-                            gradient.addColorStop(0, 'rgba(16, 185, 129, 0.4)');
-                            gradient.addColorStop(1, 'rgba(16, 185, 129, 0.0)');
+                            gradient.addColorStop(0, 'rgba(59, 130, 246, 0.3)');
+                            gradient.addColorStop(1, 'rgba(59, 130, 246, 0.0)');
                             return gradient;
                         },
                         borderWidth: 2,
                         fill: true,
                         tension: 0.4,
-                        pointBackgroundColor: '#050505',
-                        pointBorderColor: '#10b981',
+                        pointBackgroundColor: '#000',
+                        pointBorderColor: '#3b82f6',
                         pointBorderWidth: 2,
                         pointRadius: 4
                     }]
@@ -452,8 +507,8 @@
                     plugins: {
                         legend: { display: false },
                         tooltip: {
-                            backgroundColor: '#27272a',
-                            titleColor: '#10b981',
+                            backgroundColor: '#1a1a1a',
+                            titleColor: '#3b82f6',
                             bodyColor: '#fff',
                             borderColor: '#3b82f6',
                             borderWidth: 1,
@@ -466,14 +521,14 @@
                     },
                     scales: {
                         y: {
-                            grid: { color: '#27272a', borderDash: [5, 5] },
-                            ticks: { color: '#6b7280', font: { family: 'Rajdhani' } },
+                            grid: { color: '#1a1a1a', borderDash: [5, 5] },
+                            ticks: { color: '#6b7280', font: { family: 'Inter' } },
                             suggestedMin: 80,
                             suggestedMax: 280
                         },
                         x: {
                             grid: { display: false },
-                            ticks: { color: '#6b7280', font: { family: 'Rajdhani' } }
+                            ticks: { color: '#6b7280', font: { family: 'Inter' } }
                         }
                     }
                 }

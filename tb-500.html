@@ -8,54 +8,83 @@
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&family=Rajdhani:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
     
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    
     <script>
         tailwind.config = {
-            darkMode: 'class',
             theme: {
                 extend: {
-                    colors: {
-                        brand: {
-                            black: '#050505',
-                            charcoal: '#0f0f11',
-                            surface: '#18181b',
-                            border: '#27272a',
-                            green: '#10b981',
-                            neonGreen: '#00ffa3',
-                            blue: '#3b82f6',
-                            neonBlue: '#00d4ff',
-                            cyan: '#06b6d4',
-                            text: '#e4e4e7',
-                            muted: '#a1a1aa'
-                        }
-                    },
                     fontFamily: {
                         sans: ['Inter', 'sans-serif'],
-                        mono: ['Rajdhani', 'monospace'],
                     }
                 }
             }
         }
     </script>
     
-    <!-- Chart.js -->
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    
     <style>
         body {
-            background-color: #050505;
-            color: #e4e4e7;
-            background-image: radial-gradient(circle at 50% 0%, #18181b 0%, #050505 45%);
+            background-color: #000000;
+            color: #ffffff;
         }
         
-        ::-webkit-scrollbar { width: 8px; }
-        ::-webkit-scrollbar-track { background: #0f0f11; }
-        ::-webkit-scrollbar-thumb { background: #27272a; border-radius: 4px; }
-        ::-webkit-scrollbar-thumb:hover { background: #3b82f6; }
+        /* Scrollbar */
+        ::-webkit-scrollbar { width: 10px; }
+        ::-webkit-scrollbar-track { background: #000000; }
+        ::-webkit-scrollbar-thumb { background: linear-gradient(180deg, #06b6d4 0%, #3b82f6 100%); border-radius: 5px; }
+        ::-webkit-scrollbar-thumb:hover { background: linear-gradient(180deg, #22d3ee 0%, #60a5fa 100%); }
+
+        /* Content sections */
+        .content-section {
+            background: #0a0a0a;
+            border: 1px solid #1a1a1a;
+            border-radius: 12px;
+            padding: 24px;
+        }
         
+        /* Spotlight card effect */
+        .spotlight-card {
+            background: #0a0a0a;
+            border: 1px solid #1a1a1a;
+            border-radius: 12px;
+            padding: 24px;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+        
+        .spotlight-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: radial-gradient(600px circle at var(--mouse-x) var(--mouse-y), rgba(6, 182, 212, 0.15), transparent 40%);
+            opacity: 0;
+            transition: opacity 0.3s;
+            pointer-events: none;
+            z-index: 1;
+        }
+        
+        .spotlight-card:hover::before {
+            opacity: 1;
+        }
+        
+        .spotlight-card:hover {
+            border-color: rgba(6, 182, 212, 0.5);
+            box-shadow: 0 0 20px rgba(6, 182, 212, 0.1);
+        }
+        
+        .spotlight-card > * {
+            position: relative;
+            z-index: 2;
+        }
+
         .chart-container {
             position: relative;
             width: 100%;
@@ -63,208 +92,255 @@
             height: 300px;
             margin: 0 auto;
         }
-        .glass-panel {
-            background: rgba(15, 15, 17, 0.7);
-            border: 1px solid #27272a;
-            backdrop-filter: blur(4px);
+
+        /* Buttons */
+        .btn-primary {
+            background: linear-gradient(135deg, #06b6d4 0%, #3b82f6 100%);
+            color: white;
+            padding: 10px 20px;
+            border-radius: 8px;
+            font-weight: 500;
+            font-size: 14px;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
         }
+        
+        .btn-primary:hover {
+            box-shadow: 0 0 30px rgba(6, 182, 212, 0.4);
+            transform: translateY(-1px);
+        }
+
         .active-tab {
-            background-color: #06b6d4;
-            color: #000;
+            background: linear-gradient(135deg, #06b6d4 0%, #3b82f6 100%);
+            color: white;
             border-color: #06b6d4;
+            box-shadow: 0 0 15px rgba(6, 182, 212, 0.3);
         }
+        
         .inactive-tab {
-            background-color: transparent;
-            color: #a1a1aa;
-            border-color: #27272a;
+            background-color: #0a0a0a;
+            color: #94a3b8;
+            border-color: #1a1a1a;
         }
+        
         .inactive-tab:hover {
-            border-color: #06b6d4;
-            color: #e4e4e7;
+            border-color: rgba(6, 182, 212, 0.5);
+            color: #ffffff;
         }
     </style>
 </head>
-<body class="antialiased min-h-screen flex flex-col font-sans selection:bg-brand-blue selection:text-black">
+<body class="font-sans antialiased min-h-screen flex flex-col">
 
-    <!-- ========================================
-         STANDARDIZED HEADER
-         ======================================== -->
-    <header class="border-b border-brand-border bg-brand-charcoal sticky top-0 z-50">
-        <div class="max-w-7xl mx-auto px-4 py-4">
-            <div class="flex items-center justify-between">
-                <div class="flex items-center gap-3">
-                    <a href="index.html" class="text-brand-muted hover:text-brand-blue transition-colors">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
-                        </svg>
-                    </a>
-                    
-                    <div class="w-10 h-10 bg-brand-surface border border-brand-blue flex items-center justify-center rounded shadow-[0_0_10px_rgba(59,130,246,0.3)]">
-                        <span class="font-mono font-bold text-brand-neonGreen text-base">M</span>
-                    </div>
-                    
-                    <div class="flex flex-col">
-                        <h1 class="font-mono text-2xl md:text-3xl font-bold text-white uppercase">
-                            TB<span class="text-brand-blue">-500</span> <span class="text-gray-500 text-base md:text-lg font-normal">| Thymosin Beta-4</span>
-                        </h1>
-                        <p class="text-[10px] text-brand-green uppercase tracking-[0.2em]">Clinical Reference</p>
-                    </div>
-                </div>
+    <!-- Navigation -->
+    <nav class="fixed top-0 left-0 right-0 z-50 bg-black/80 backdrop-blur-xl border-b border-white/[0.08]">
+        <div class="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
+            <div class="flex items-center gap-12">
+                <a href="index.html" class="text-sm font-semibold text-white hover:text-cyan-400 transition-colors">
+                    ← Multifactor Solutions
+                </a>
+            </div>
+            <div class="flex items-center gap-8 text-sm text-gray-400">
+                <a href="index.html#protocols" class="hover:text-white transition-colors">All Protocols</a>
             </div>
         </div>
-    </header>
+    </nav>
 
-    <main class="flex-grow w-full max-w-7xl mx-auto px-4 py-8 grid grid-cols-1 lg:grid-cols-12 gap-6">
+    <main class="flex-grow w-full max-w-7xl mx-auto px-6 pt-24 pb-12">
 
-        <!-- Left Column: Protocol Controls & Details -->
-        <div class="lg:col-span-7 flex flex-col gap-6">
-            
-            <!-- Context Block -->
-            <div class="glass-panel p-6 rounded-lg border-l-4 border-brand-blue">
-                <h2 class="font-mono text-xl text-white mb-2">Clinical Context</h2>
-                <p class="text-brand-muted text-sm leading-relaxed">
-                    TB-500 is a synthetic version of the naturally occurring peptide Thymosin Beta-4. It is primarily utilized in functional medicine for its potential to upregulate actin via actin sequestration, promoting cell migration and tissue repair. Key applications include soft tissue injuries (tendons, ligaments, muscle) and inflammation management.
-                </p>
+        <!-- Hero Section -->
+        <header class="pt-8 pb-8 mb-8">
+            <div class="inline-block px-3 py-1 rounded-full border border-cyan-500/30 bg-cyan-500/10 text-cyan-400 text-xs font-medium uppercase tracking-wider mb-6">
+                Recovery & Tissue Repair
             </div>
-
-            <!-- Protocol Selector -->
-            <div class="glass-panel p-1 rounded-lg flex flex-wrap gap-2" id="protocol-controls">
-                <button onclick="setProtocol('acute')" id="btn-acute" class="active-tab flex-1 py-3 px-4 rounded font-mono font-bold text-sm tracking-wide transition-all uppercase">
-                    Acute Injury (Inj)
-                </button>
-                <button onclick="setProtocol('maintenance')" id="btn-maintenance" class="inactive-tab flex-1 py-3 px-4 rounded font-mono font-bold text-sm tracking-wide transition-all uppercase">
-                    Maintenance (Inj)
-                </button>
-                <button onclick="setProtocol('oral')" id="btn-oral" class="inactive-tab flex-1 py-3 px-4 rounded font-mono font-bold text-sm tracking-wide transition-all uppercase">
-                    Oral Protocol
-                </button>
-            </div>
-
-            <!-- Dynamic Protocol Display -->
-            <div class="glass-panel p-6 rounded-lg relative overflow-hidden">
-                <div class="absolute top-0 right-0 p-4 opacity-10">
-                    <span class="font-mono text-9xl font-bold text-white">Rx</span>
+            <h1 class="text-4xl md:text-5xl font-semibold text-white tracking-tight leading-[1.1] mb-4">
+                TB-500 <span class="text-gray-500 text-2xl font-normal">/ Thymosin Beta-4</span>
+            </h1>
+            <p class="text-lg text-gray-400 leading-relaxed max-w-3xl mb-8">
+                Synthetic version of naturally occurring Thymosin Beta-4 peptide. Primarily utilized for upregulating actin via actin sequestration, promoting cell migration and tissue repair in soft tissue injuries.
+            </p>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4 max-w-3xl">
+                <div class="spotlight-card p-4">
+                    <div class="text-cyan-400 text-sm mb-1">HALF-LIFE</div>
+                    <div class="font-medium text-white">~14 Days (Systemic)</div>
                 </div>
+                <div class="spotlight-card p-4">
+                    <div class="text-blue-400 text-sm mb-1">CLASS</div>
+                    <div class="font-medium text-white">Peptide (43 Amino Acids)</div>
+                </div>
+                <div class="spotlight-card p-4">
+                    <div class="text-cyan-400 text-sm mb-1">PRIMARY USE</div>
+                    <div class="font-medium text-white">Soft Tissue / Cardiac</div>
+                </div>
+            </div>
+        </header>
+
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+
+            <!-- Left Column: Protocol Controls & Details -->
+            <div class="lg:col-span-7 flex flex-col gap-6">
                 
-                <div id="protocol-content">
-                    <!-- Content injected via JS -->
+                <!-- Context Block -->
+                <div class="spotlight-card border-l-4 border-cyan-500">
+                    <h2 class="text-xl text-white font-semibold mb-2">Clinical Context</h2>
+                    <p class="text-gray-400 text-sm leading-relaxed">
+                        TB-500 is a synthetic version of the naturally occurring peptide Thymosin Beta-4. It is primarily utilized in functional medicine for its potential to upregulate actin via actin sequestration, promoting cell migration and tissue repair. Key applications include soft tissue injuries (tendons, ligaments, muscle) and inflammation management.
+                    </p>
                 </div>
-            </div>
 
-            <!-- Key Metrics Grid -->
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div class="glass-panel p-5 rounded-lg">
-                    <h3 class="font-mono text-brand-blue text-sm uppercase mb-3">Mechanism of Action</h3>
-                    <ul class="space-y-3">
-                        <li class="flex items-start gap-3">
-                            <span class="w-1.5 h-1.5 rounded-full bg-brand-green mt-1.5"></span>
-                            <span class="text-sm text-gray-300"><strong class="text-white">G-Actin Sequestration:</strong> Prevents polymerization, maintaining a pool of actin monomers for rapid cell structure remodeling.</span>
-                        </li>
-                        <li class="flex items-start gap-3">
-                            <span class="w-1.5 h-1.5 rounded-full bg-brand-green mt-1.5"></span>
-                            <span class="text-sm text-gray-300"><strong class="text-white">Cell Migration:</strong> Promotes endothelial and keratinocyte migration to wound sites.</span>
-                        </li>
-                    </ul>
+                <!-- Protocol Selector -->
+                <div class="spotlight-card p-2 flex flex-wrap gap-2" id="protocol-controls">
+                    <button onclick="setProtocol('acute')" id="btn-acute" class="active-tab flex-1 py-3 px-4 rounded-lg font-medium text-sm tracking-wide transition-all uppercase border">
+                        Acute Injury (Inj)
+                    </button>
+                    <button onclick="setProtocol('maintenance')" id="btn-maintenance" class="inactive-tab flex-1 py-3 px-4 rounded-lg font-medium text-sm tracking-wide transition-all uppercase border">
+                        Maintenance (Inj)
+                    </button>
+                    <button onclick="setProtocol('oral')" id="btn-oral" class="inactive-tab flex-1 py-3 px-4 rounded-lg font-medium text-sm tracking-wide transition-all uppercase border">
+                        Oral Protocol
+                    </button>
                 </div>
-                <div class="glass-panel p-5 rounded-lg">
-                    <h3 class="font-mono text-red-400 text-sm uppercase mb-3">Warnings & Contraindications</h3>
-                    <ul class="space-y-3">
-                        <li class="flex items-start gap-3">
-                            <span class="w-1.5 h-1.5 rounded-full bg-red-500 mt-1.5"></span>
-                            <span class="text-sm text-gray-300"><strong class="text-white">Active Malignancy:</strong> Theoretical risk due to angiogenic properties. Avoid in patients with active cancer or history of melanoma.</span>
-                        </li>
-                        <li class="flex items-start gap-3">
-                            <span class="w-1.5 h-1.5 rounded-full bg-yellow-500 mt-1.5"></span>
-                            <span class="text-sm text-gray-300"><strong class="text-white">Combination Therapy:</strong> Often paired with BPC-157. Monitor for immune response (rare).</span>
-                        </li>
-                    </ul>
-                </div>
-            </div>
 
-        </div>
-
-        <!-- Right Column: Visualizations -->
-        <div class="lg:col-span-5 flex flex-col gap-6">
-            
-            <!-- Chart 1: Cycle Visualizer -->
-            <div class="glass-panel p-6 rounded-lg">
-                <div class="flex justify-between items-end mb-4">
-                    <h3 class="font-mono text-lg text-white font-bold">Cycle Timeline Visualizer</h3>
-                    <span class="text-xs text-brand-green font-mono px-2 py-1 bg-brand-green/10 rounded">ESTIMATED EXPOSURE</span>
-                </div>
-                <div class="chart-container">
-                    <canvas id="cycleChart"></canvas>
-                </div>
-                <p class="text-xs text-brand-muted mt-3 text-center font-mono">
-                    *Visual representation of systemic exposure based on dosing frequency.
-                </p>
-            </div>
-
-            <!-- Chart 2: Therapeutic Profile -->
-            <div class="glass-panel p-6 rounded-lg">
-                <div class="flex justify-between items-end mb-4">
-                    <h3 class="font-mono text-lg text-white font-bold">Therapeutic Profile</h3>
-                </div>
-                <div class="chart-container" style="height: 250px;">
-                    <canvas id="radarChart"></canvas>
-                </div>
-            </div>
-
-            <!-- Admin Notes -->
-            <div class="glass-panel p-5 rounded-lg border border-brand-border bg-brand-surface">
-                <h3 class="font-mono text-brand-muted text-xs uppercase tracking-wider mb-2">Administration Notes</h3>
-                <div class="flex flex-col gap-2 text-sm text-gray-300">
-                    <div class="flex justify-between border-b border-brand-border pb-2">
-                        <span>Reconstitution</span>
-                        <span class="font-mono text-brand-blue">Bacteriostatic Water</span>
+                <!-- Dynamic Protocol Display -->
+                <div class="spotlight-card relative overflow-hidden">
+                    <div class="absolute top-0 right-0 p-4 opacity-5">
+                        <span class="text-9xl font-bold text-white">Rx</span>
                     </div>
-                    <div class="flex justify-between border-b border-brand-border pb-2">
-                        <span>Storage (Lyophilized)</span>
-                        <span class="font-mono text-brand-blue">-20°C (Freezer)</span>
-                    </div>
-                    <div class="flex justify-between pb-1">
-                        <span>Storage (Reconstituted)</span>
-                        <span class="font-mono text-brand-blue">2-8°C (Fridge)</span>
+                    
+                    <div id="protocol-content">
+                        <!-- Content injected via JS -->
                     </div>
                 </div>
+
+                <!-- Key Metrics Grid -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div class="spotlight-card">
+                        <h3 class="text-cyan-400 text-sm uppercase mb-3 font-medium">Mechanism of Action</h3>
+                        <ul class="space-y-3">
+                            <li class="flex items-start gap-3">
+                                <span class="w-1.5 h-1.5 rounded-full bg-cyan-400 mt-1.5"></span>
+                                <span class="text-sm text-gray-400"><strong class="text-white">G-Actin Sequestration:</strong> Prevents polymerization, maintaining a pool of actin monomers for rapid cell structure remodeling.</span>
+                            </li>
+                            <li class="flex items-start gap-3">
+                                <span class="w-1.5 h-1.5 rounded-full bg-cyan-400 mt-1.5"></span>
+                                <span class="text-sm text-gray-400"><strong class="text-white">Cell Migration:</strong> Promotes endothelial and keratinocyte migration to wound sites.</span>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="spotlight-card">
+                        <h3 class="text-red-400 text-sm uppercase mb-3 font-medium">Warnings & Contraindications</h3>
+                        <ul class="space-y-3">
+                            <li class="flex items-start gap-3">
+                                <span class="w-1.5 h-1.5 rounded-full bg-red-400 mt-1.5"></span>
+                                <span class="text-sm text-gray-400"><strong class="text-white">Active Malignancy:</strong> Theoretical risk due to angiogenic properties. Avoid in patients with active cancer or history of melanoma.</span>
+                            </li>
+                            <li class="flex items-start gap-3">
+                                <span class="w-1.5 h-1.5 rounded-full bg-yellow-500 mt-1.5"></span>
+                                <span class="text-sm text-gray-400"><strong class="text-white">Combination Therapy:</strong> Often paired with BPC-157. Monitor for immune response (rare).</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- Right Column: Visualizations -->
+            <div class="lg:col-span-5 flex flex-col gap-6">
+                
+                <!-- Chart 1: Cycle Visualizer -->
+                <div class="spotlight-card">
+                    <div class="flex justify-between items-end mb-4">
+                        <h3 class="text-lg text-white font-semibold">Cycle Timeline Visualizer</h3>
+                        <span class="text-xs text-cyan-400 font-medium px-2 py-1 bg-cyan-500/10 rounded border border-cyan-500/20">ESTIMATED EXPOSURE</span>
+                    </div>
+                    <div class="chart-container">
+                        <canvas id="cycleChart"></canvas>
+                    </div>
+                    <p class="text-xs text-gray-500 mt-3 text-center">
+                        *Visual representation of systemic exposure based on dosing frequency.
+                    </p>
+                </div>
+
+                <!-- Chart 2: Therapeutic Profile -->
+                <div class="spotlight-card">
+                    <div class="flex justify-between items-end mb-4">
+                        <h3 class="text-lg text-white font-semibold">Therapeutic Profile</h3>
+                    </div>
+                    <div class="chart-container" style="height: 250px;">
+                        <canvas id="radarChart"></canvas>
+                    </div>
+                </div>
+
+                <!-- Admin Notes -->
+                <div class="spotlight-card">
+                    <h3 class="text-gray-400 text-xs uppercase tracking-wider mb-3 font-medium">Administration Notes</h3>
+                    <div class="flex flex-col gap-2 text-sm text-gray-300">
+                        <div class="flex justify-between border-b border-white/10 pb-2">
+                            <span>Reconstitution</span>
+                            <span class="text-cyan-400 font-medium">Bacteriostatic Water</span>
+                        </div>
+                        <div class="flex justify-between border-b border-white/10 pb-2">
+                            <span>Storage (Lyophilized)</span>
+                            <span class="text-cyan-400 font-medium">-20°C (Freezer)</span>
+                        </div>
+                        <div class="flex justify-between pb-1">
+                            <span>Storage (Reconstituted)</span>
+                            <span class="text-cyan-400 font-medium">2-8°C (Fridge)</span>
+                        </div>
+                    </div>
+                </div>
+
             </div>
 
         </div>
 
     </main>
 
-    <!-- ========================================
-         STANDARDIZED FOOTER
-         ======================================== -->
-    <footer class="mt-12 pt-8 border-t border-brand-border/30">
-        <div class="max-w-7xl mx-auto px-4">
-            <div class="bg-brand-charcoal/50 border border-brand-border rounded-lg p-6 mb-6">
+    <!-- Footer -->
+    <footer class="mt-12 pt-8 border-t border-white/[0.08]">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="content-section mb-6">
                 <div class="flex items-start gap-3">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-brand-muted flex-shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-500 flex-shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
                     </svg>
                     <div>
-                        <p class="text-xs text-brand-text leading-relaxed">
-                            <span class="text-white font-bold">LEGAL DISCLAIMER:</span> This platform is a <span class="text-white font-semibold">clinical reference tool</span> designed to summarize available research literature and pharmacological data for educational purposes. It is <span class="text-red-400 font-bold">NOT</span> a dosing guide, prescriptive engine, or substitute for professional medical training.
+                        <p class="text-xs text-gray-400 leading-relaxed">
+                            <span class="text-white font-semibold">LEGAL DISCLAIMER:</span> This platform is a <span class="text-white font-medium">clinical reference tool</span> designed to summarize available research literature and pharmacological data for educational purposes. It is <span class="text-red-400 font-semibold">NOT</span> a dosing guide, prescriptive engine, or substitute for professional medical training.
                         </p>
-                        <p class="text-[10px] text-brand-muted mt-3 tracking-wide uppercase">
+                        <p class="text-[10px] text-gray-500 mt-3 tracking-wide uppercase">
                             Secure Clinical Environment | HIPAA Compliant | Authorized Personnel Only
                         </p>
                     </div>
                 </div>
             </div>
             
-            <div class="flex flex-col md:flex-row justify-between items-center text-[10px] text-brand-muted font-mono uppercase pb-8">
-                <div>Multifactor Solutions &copy; 2024</div>
-                <div class="mt-2 md:mt-0 flex items-center">
-                    <span class="w-2 h-2 rounded-full bg-brand-blue mr-2"></span>
-                    For Clinical Educational Use Only.
+            <div class="flex flex-col md:flex-row justify-between items-center text-sm text-gray-500 pb-8">
+                <div>© 2025 Multifactor Solutions</div>
+                <div class="mt-2 md:mt-0 flex items-center gap-6">
+                    <a href="#" class="hover:text-white transition-colors">Privacy</a>
+                    <a href="#" class="hover:text-white transition-colors">Terms</a>
                 </div>
             </div>
         </div>
     </footer>
 
+    <!-- Gradient Orbs -->
+    <div style="position: fixed; width: 600px; height: 600px; background: radial-gradient(circle, #06b6d4 0%, transparent 70%); top: -200px; right: -200px; opacity: 0.1; filter: blur(100px); pointer-events: none; z-index: 0;"></div>
+    <div style="position: fixed; width: 400px; height: 400px; background: radial-gradient(circle, #3b82f6 0%, transparent 70%); bottom: -150px; left: -150px; opacity: 0.08; filter: blur(100px); pointer-events: none; z-index: 0;"></div>
+
     <script>
+        // Spotlight effect mouse tracking
+        document.querySelectorAll('.spotlight-card').forEach(card => {
+            card.addEventListener('mousemove', (e) => {
+                const rect = card.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+                card.style.setProperty('--mouse-x', `${x}px`);
+                card.style.setProperty('--mouse-y', `${y}px`);
+            });
+        });
+
         const state = {
             currentProtocol: 'acute'
         };
@@ -312,7 +388,7 @@
             const ctxCycle = document.getElementById('cycleChart').getContext('2d');
             
             const gradient = ctxCycle.createLinearGradient(0, 0, 0, 300);
-            gradient.addColorStop(0, 'rgba(6, 182, 212, 0.5)');
+            gradient.addColorStop(0, 'rgba(6, 182, 212, 0.3)');
             gradient.addColorStop(1, 'rgba(6, 182, 212, 0.0)');
 
             cycleChart = new Chart(ctxCycle, {
@@ -327,8 +403,8 @@
                         borderWidth: 2,
                         fill: true,
                         tension: 0.4,
-                        pointBackgroundColor: '#050505',
-                        pointBorderColor: '#10b981',
+                        pointBackgroundColor: '#000000',
+                        pointBorderColor: '#22d3ee',
                         pointBorderWidth: 2,
                         pointRadius: 4
                     }]
@@ -339,21 +415,21 @@
                     scales: {
                         y: {
                             beginAtZero: true,
-                            grid: { color: '#27272a' },
-                            ticks: { color: '#a1a1aa', font: { family: 'Rajdhani' } }
+                            grid: { color: '#1a1a1a' },
+                            ticks: { color: '#94a3b8', font: { family: 'Inter' } }
                         },
                         x: {
                             grid: { display: false },
-                            ticks: { color: '#a1a1aa', font: { family: 'Rajdhani' } }
+                            ticks: { color: '#94a3b8', font: { family: 'Inter' } }
                         }
                     },
                     plugins: {
                         legend: { display: false },
                         tooltip: {
-                            backgroundColor: 'rgba(0,0,0,0.9)',
-                            titleFont: { family: 'Rajdhani' },
+                            backgroundColor: '#0a0a0a',
+                            titleFont: { family: 'Inter' },
                             bodyFont: { family: 'Inter' },
-                            borderColor: '#27272a',
+                            borderColor: '#1a1a1a',
                             borderWidth: 1,
                             callbacks: {
                                 label: function(context) {
@@ -373,9 +449,9 @@
                     datasets: [{
                         label: 'TB-500 Profile',
                         data: [90, 75, 95, 85, 60],
-                        backgroundColor: 'rgba(16, 185, 129, 0.2)',
-                        borderColor: '#10b981',
-                        pointBackgroundColor: '#10b981',
+                        backgroundColor: 'rgba(6, 182, 212, 0.1)',
+                        borderColor: '#06b6d4',
+                        pointBackgroundColor: '#06b6d4',
                         borderWidth: 2
                     }]
                 },
@@ -384,11 +460,11 @@
                     maintainAspectRatio: false,
                     scales: {
                         r: {
-                            angleLines: { color: '#27272a' },
-                            grid: { color: '#27272a' },
+                            angleLines: { color: '#1a1a1a' },
+                            grid: { color: '#1a1a1a' },
                             pointLabels: {
-                                color: '#e4e4e7',
-                                font: { family: 'Rajdhani', size: 11, weight: 'bold' }
+                                color: '#94a3b8',
+                                font: { family: 'Inter', size: 11, weight: '500' }
                             },
                             ticks: { display: false, backdropColor: 'transparent' }
                         }
@@ -405,14 +481,14 @@
             const container = document.getElementById('protocol-content');
             
             const phasesHtml = data.phases.map((phase, index) => `
-                <div class="flex flex-col md:flex-row md:items-center justify-between border-b border-brand-border pb-3 mb-3 last:border-0 last:mb-0 last:pb-0">
+                <div class="flex flex-col md:flex-row md:items-center justify-between border-b border-white/10 pb-3 mb-3 last:border-0 last:mb-0 last:pb-0">
                     <div class="flex items-center gap-3">
-                        <div class="flex items-center justify-center w-8 h-8 rounded bg-brand-surface text-brand-blue font-mono font-bold text-sm">
+                        <div class="flex items-center justify-center w-8 h-8 rounded bg-black text-cyan-400 font-semibold text-sm border border-white/10">
                             ${index + 1}
                         </div>
                         <div>
-                            <div class="text-white font-bold font-mono text-lg">${phase.name}</div>
-                            <div class="text-brand-green text-sm font-mono tracking-wide">${phase.duration}</div>
+                            <div class="text-white font-semibold text-lg">${phase.name}</div>
+                            <div class="text-cyan-400 text-sm tracking-wide">${phase.duration}</div>
                         </div>
                     </div>
                     <div class="mt-2 md:mt-0 text-right">
@@ -423,18 +499,18 @@
 
             container.innerHTML = `
                 <div class="mb-6">
-                    <h2 class="text-3xl font-mono font-bold text-white mb-1">${data.title}</h2>
-                    <div class="inline-block px-3 py-1 bg-brand-surface rounded text-xs font-mono text-brand-muted uppercase tracking-widest border border-brand-border">
+                    <h2 class="text-3xl font-semibold text-white mb-1">${data.title}</h2>
+                    <div class="inline-block px-3 py-1 bg-black rounded text-xs text-gray-400 uppercase tracking-widest border border-white/10">
                         Route: ${data.sub}
                     </div>
                 </div>
                 
-                <div class="bg-black/30 rounded-lg p-5 mb-6 border border-brand-border">
+                <div class="bg-black/30 rounded-lg p-5 mb-6 border border-white/10">
                     ${phasesHtml}
                 </div>
 
-                <div class="flex items-start gap-2 text-brand-muted text-sm italic">
-                    <span class="text-brand-blue text-lg leading-none">&raquo;</span>
+                <div class="flex items-start gap-2 text-gray-400 text-sm italic">
+                    <span class="text-cyan-400 text-lg leading-none">&raquo;</span>
                     <p>${data.notes}</p>
                 </div>
             `;
@@ -446,9 +522,9 @@
             ['acute', 'maintenance', 'oral'].forEach(k => {
                 const btn = document.getElementById(`btn-${k}`);
                 if (k === key) {
-                    btn.className = "active-tab flex-1 py-3 px-4 rounded font-mono font-bold text-sm tracking-wide transition-all uppercase shadow-[0_0_15px_rgba(6,182,212,0.3)]";
+                    btn.className = "active-tab flex-1 py-3 px-4 rounded-lg font-medium text-sm tracking-wide transition-all uppercase border";
                 } else {
-                    btn.className = "inactive-tab flex-1 py-3 px-4 rounded font-mono font-bold text-sm tracking-wide transition-all uppercase hover:bg-white/5";
+                    btn.className = "inactive-tab flex-1 py-3 px-4 rounded-lg font-medium text-sm tracking-wide transition-all uppercase border hover:bg-white/5";
                 }
             });
 

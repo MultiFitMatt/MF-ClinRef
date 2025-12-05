@@ -8,7 +8,7 @@
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&family=Rajdhani:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
     
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
@@ -18,20 +18,7 @@
         tailwind.config = {
             theme: {
                 extend: {
-                    colors: {
-                        brand: {
-                            black: '#050505',
-                            charcoal: '#0f0f11',
-                            surface: '#18181b',
-                            border: '#27272a',
-                            green: '#10b981',
-                            blue: '#3b82f6',
-                            text: '#e4e4e7',
-                            muted: '#a1a1aa'
-                        }
-                    },
                     fontFamily: {
-                        mono: ['Rajdhani', 'sans-serif'],
                         sans: ['Inter', 'sans-serif'],
                     }
                 }
@@ -41,19 +28,61 @@
 
     <style>
         body {
-            background-color: #050505;
-            color: #e4e4e7;
+            background-color: #000000;
+            color: #ffffff;
         }
         
-        ::-webkit-scrollbar { width: 8px; }
-        ::-webkit-scrollbar-track { background: #0f0f11; }
-        ::-webkit-scrollbar-thumb { background: #27272a; border-radius: 4px; }
-        ::-webkit-scrollbar-thumb:hover { background: #10b981; }
+        /* Scrollbar */
+        ::-webkit-scrollbar { width: 10px; }
+        ::-webkit-scrollbar-track { background: #000000; }
+        ::-webkit-scrollbar-thumb { background: linear-gradient(180deg, #f59e0b 0%, #ef4463 100%); border-radius: 5px; }
+        ::-webkit-scrollbar-thumb:hover { background: linear-gradient(180deg, #fbbf24 0%, #f87171 100%); }
 
-        .glass-panel {
-            background: rgba(15, 15, 17, 0.6);
-            backdrop-filter: blur(12px);
-            border: 1px solid #27272a;
+        /* Content sections */
+        .content-section {
+            background: #0a0a0a;
+            border: 1px solid #1a1a1a;
+            border-radius: 12px;
+            padding: 24px;
+        }
+
+        /* Spotlight card effect */
+        .spotlight-card {
+            background: #0a0a0a;
+            border: 1px solid #1a1a1a;
+            border-radius: 12px;
+            padding: 24px;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+        
+        .spotlight-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: radial-gradient(600px circle at var(--mouse-x) var(--mouse-y), rgba(245, 158, 11, 0.15), transparent 40%);
+            opacity: 0;
+            transition: opacity 0.3s;
+            pointer-events: none;
+            z-index: 1;
+        }
+        
+        .spotlight-card:hover::before {
+            opacity: 1;
+        }
+        
+        .spotlight-card:hover {
+            border-color: rgba(245, 158, 11, 0.5);
+            box-shadow: 0 0 20px rgba(245, 158, 11, 0.1);
+        }
+        
+        .spotlight-card > * {
+            position: relative;
+            z-index: 2;
         }
 
         .chart-container {
@@ -62,344 +91,384 @@
             max-width: 100%;
             height: 300px;
         }
+
+        /* Buttons */
+        .btn-primary {
+            background: linear-gradient(135deg, #f59e0b 0%, #ef4463 100%);
+            color: white;
+            padding: 10px 20px;
+            border-radius: 8px;
+            font-weight: 500;
+            font-size: 14px;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+        }
         
-        .glow-text {
-            text-shadow: 0 0 10px rgba(16, 185, 129, 0.3);
+        .btn-primary:hover {
+            box-shadow: 0 0 30px rgba(245, 158, 11, 0.4);
+            transform: translateY(-1px);
+        }
+
+        .route-btn {
+            transition: all 0.3s ease;
+        }
+        
+        .route-btn.active-route {
+            background: linear-gradient(135deg, #f59e0b 0%, #ef4463 100%);
+            border-color: #f59e0b;
+            color: white;
+            box-shadow: 0 0 15px rgba(245, 158, 11, 0.3);
         }
     </style>
 </head>
 <body class="font-sans antialiased min-h-screen flex flex-col">
 
-    <!-- ========================================
-         STANDARDIZED HEADER
-         ======================================== -->
-    <header class="w-full border-b border-brand-border bg-brand-charcoal sticky top-0 z-50">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
-            <div class="flex items-center space-x-2">
-                <a href="index.html" class="text-brand-muted hover:text-brand-blue transition-colors">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
-                    </svg>
+    <!-- Navigation -->
+    <nav class="fixed top-0 left-0 right-0 z-50 bg-black/80 backdrop-blur-xl border-b border-white/[0.08]">
+        <div class="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
+            <div class="flex items-center gap-12">
+                <a href="index.html" class="text-sm font-semibold text-white hover:text-yellow-400 transition-colors">
+                    ← Multifactor Solutions
                 </a>
-                
-                <div class="w-10 h-10 bg-brand-surface border border-brand-blue rounded flex items-center justify-center shadow-[0_0_10px_rgba(59,130,246,0.3)]">
-                    <span class="font-mono font-bold text-brand-green text-base">M</span>
-                </div>
-                
-                <div class="flex flex-col">
-                    <span class="font-mono font-bold text-xl tracking-wider text-white">SS-31</span>
-                    <span class="text-[10px] text-brand-green uppercase tracking-[0.2em] leading-none">Clinical Reference</span>
-                </div>
             </div>
-            
-            <div class="flex items-center space-x-4">
-                <span class="hidden md:inline-block px-2 py-1 rounded bg-red-900/30 border border-red-800 text-red-400 text-xs font-mono uppercase tracking-widest">Investigational</span>
+            <div class="flex items-center gap-8 text-sm text-gray-400">
+                <a href="index.html#protocols" class="hover:text-white transition-colors">All Protocols</a>
+                <span class="px-2 py-1 rounded bg-red-900/30 border border-red-800 text-red-400 text-xs font-medium uppercase tracking-wider">Investigational</span>
             </div>
         </div>
-    </header>
+    </nav>
 
     <!-- Main Content -->
-    <main class="flex-grow max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 w-full grid grid-cols-1 lg:grid-cols-12 gap-6">
+    <main class="flex-grow max-w-7xl mx-auto px-6 pt-24 pb-12 w-full">
 
-        <!-- Left Column: Intro & Mechanism (4 cols) -->
-        <div class="lg:col-span-4 space-y-6">
-            
-            <!-- Hero Card -->
-            <div class="glass-panel rounded-lg p-6 relative overflow-hidden">
-                <div class="absolute top-0 right-0 w-32 h-32 bg-brand-green opacity-5 rounded-full blur-3xl -mr-10 -mt-10"></div>
-                <h1 class="font-mono text-4xl font-bold text-white mb-1 glow-text">SS-31</h1>
-                <h2 class="font-mono text-xl text-brand-green mb-4">Elamipretide / Bendavia</h2>
-                <p class="text-sm text-brand-muted leading-relaxed mb-4">
-                    A first-in-class mitochondrially targeted tetrapeptide (D-Arg-Dmt-Lys-Phe-NH2) that selectively binds to cardiolipin on the inner mitochondrial membrane (IMM).
-                </p>
-                <div class="flex flex-wrap gap-2">
-                    <span class="px-2 py-1 bg-brand-charcoal border border-brand-border rounded text-xs text-gray-300">Antioxidant</span>
-                    <span class="px-2 py-1 bg-brand-charcoal border border-brand-border rounded text-xs text-gray-300">Cardiolipin Stabilizer</span>
-                    <span class="px-2 py-1 bg-brand-charcoal border border-brand-border rounded text-xs text-gray-300">Bioenergetic</span>
+        <!-- Hero Section -->
+        <header class="pt-8 pb-8 mb-8">
+            <div class="inline-block px-3 py-1 rounded-full border border-yellow-500/30 bg-yellow-500/10 text-yellow-400 text-xs font-medium uppercase tracking-wider mb-6">
+                Mitochondrial & Metabolic
+            </div>
+            <h1 class="text-4xl md:text-5xl font-semibold text-white tracking-tight leading-[1.1] mb-4">
+                SS-31 <span class="text-gray-500 text-2xl font-normal">/ Elamipretide / Bendavia</span>
+            </h1>
+            <p class="text-lg text-gray-400 leading-relaxed max-w-3xl mb-8">
+                A first-in-class mitochondrially targeted tetrapeptide (D-Arg-Dmt-Lys-Phe-NH2) that selectively binds to cardiolipin on the inner mitochondrial membrane (IMM). Restores ATP production and reduces reactive oxygen species.
+            </p>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4 max-w-3xl">
+                <div class="spotlight-card p-4">
+                    <div class="text-yellow-400 text-sm mb-1">MECHANISM</div>
+                    <div class="font-medium text-white">Cardiolipin Stabilizer</div>
+                </div>
+                <div class="spotlight-card p-4">
+                    <div class="text-red-400 text-sm mb-1">CLASS</div>
+                    <div class="font-medium text-white">Tetrapeptide</div>
+                </div>
+                <div class="spotlight-card p-4">
+                    <div class="text-yellow-400 text-sm mb-1">PRIMARY USE</div>
+                    <div class="font-medium text-white">Mito Myopathy / HF</div>
                 </div>
             </div>
+        </header>
 
-            <!-- Mechanism Visual -->
-            <div class="glass-panel rounded-lg p-6">
-                <h3 class="font-mono text-lg text-white mb-4 border-l-4 border-brand-blue pl-3">Mechanism of Action</h3>
-                <p class="text-xs text-gray-400 mb-4">
-                    SS-31 penetrates the cell and localizes to the IMM, interacting with cardiolipin to organize cristae structure and optimize the Electron Transport Chain (ETC).
-                </p>
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+
+            <!-- Left Column: Intro & Mechanism (4 cols) -->
+            <div class="lg:col-span-4 space-y-6">
                 
-                <!-- CSS Diagram of Mitochondria -->
-                <div class="w-full h-48 bg-brand-charcoal rounded border border-brand-border relative flex items-center justify-center overflow-hidden group">
-                    <div class="w-40 h-32 border-2 border-brand-border rounded-full relative flex items-center justify-center transition-all duration-700 group-hover:border-gray-500">
-                        <div class="w-32 h-24 border-2 border-brand-blue rounded-full relative overflow-hidden bg-brand-blue/10 transition-all duration-700 group-hover:shadow-[0_0_20px_rgba(59,130,246,0.3)]">
-                            <div class="absolute w-full h-1 bg-brand-blue opacity-30 top-4 rotate-12"></div>
-                            <div class="absolute w-full h-1 bg-brand-blue opacity-30 bottom-8 -rotate-12"></div>
-                            <div class="absolute w-full h-1 bg-brand-blue opacity-30 top-10 rotate-45"></div>
-                            
-                            <div id="particle-container" class="absolute inset-0"></div>
-                        </div>
-                        <div class="absolute -bottom-6 text-[10px] font-mono text-brand-blue">Inner Membrane (IMM)</div>
-                    </div>
-                    <div class="absolute top-2 right-2 text-[10px] font-mono text-gray-500">Visualization</div>
-                </div>
-                
-                <div class="mt-4 grid grid-cols-2 gap-2">
-                    <div class="bg-brand-charcoal p-2 rounded border-l-2 border-brand-green">
-                        <div class="text-[10px] text-gray-500 uppercase">Effect 1</div>
-                        <div class="text-xs font-bold text-gray-200">Restores ATP</div>
-                    </div>
-                    <div class="bg-brand-charcoal p-2 rounded border-l-2 border-brand-blue">
-                        <div class="text-[10px] text-gray-500 uppercase">Effect 2</div>
-                        <div class="text-xs font-bold text-gray-200">Reduces ROS</div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Evidence Levels -->
-            <div class="glass-panel rounded-lg p-6">
-                 <h3 class="font-mono text-lg text-white mb-4 border-l-4 border-gray-500 pl-3">Clinical Evidence Map</h3>
-                 <div class="space-y-3">
-                     <div>
-                         <div class="flex justify-between text-xs mb-1">
-                             <span class="text-gray-300">Prim. Mitochondrial Myopathy</span>
-                             <span class="text-brand-green">High (Phase 3)</span>
-                         </div>
-                         <div class="w-full bg-brand-surface rounded-full h-1.5">
-                             <div class="bg-brand-green h-1.5 rounded-full" style="width: 90%"></div>
-                         </div>
-                     </div>
-                     <div>
-                         <div class="flex justify-between text-xs mb-1">
-                             <span class="text-gray-300">Barth Syndrome</span>
-                             <span class="text-brand-green">High (Phase 2/3)</span>
-                         </div>
-                         <div class="w-full bg-brand-surface rounded-full h-1.5">
-                             <div class="bg-brand-green h-1.5 rounded-full" style="width: 85%"></div>
-                         </div>
-                     </div>
-                     <div>
-                         <div class="flex justify-between text-xs mb-1">
-                             <span class="text-gray-300">Heart Failure (HFrEF)</span>
-                             <span class="text-brand-blue">Moderate</span>
-                         </div>
-                         <div class="w-full bg-brand-surface rounded-full h-1.5">
-                             <div class="bg-brand-blue h-1.5 rounded-full" style="width: 60%"></div>
-                         </div>
-                     </div>
-                     <div>
-                         <div class="flex justify-between text-xs mb-1">
-                             <span class="text-gray-300">Sarcopenia / Aging</span>
-                             <span class="text-yellow-500">Emerging</span>
-                         </div>
-                         <div class="w-full bg-brand-surface rounded-full h-1.5">
-                             <div class="bg-yellow-500 h-1.5 rounded-full" style="width: 40%"></div>
-                         </div>
-                     </div>
-                 </div>
-            </div>
-
-        </div>
-
-        <!-- Right Column: Protocol Engine & Data (8 cols) -->
-        <div class="lg:col-span-8 space-y-6">
-
-            <!-- Protocol Engine Section -->
-            <div class="glass-panel rounded-lg p-0 overflow-hidden border border-brand-border">
-                <div class="bg-gradient-to-r from-brand-charcoal to-brand-surface p-4 border-b border-brand-border flex justify-between items-center">
-                    <h3 class="font-mono text-xl text-white flex items-center gap-2">
-                        <span class="w-2 h-6 bg-brand-green rounded-sm"></span>
-                        PROTOCOL ENGINE
-                    </h3>
-                    <div class="text-[10px] font-mono text-gray-500 bg-black px-2 py-1 rounded border border-brand-border">INTERACTIVE GUIDE</div>
-                </div>
-
-                <div class="p-6 grid grid-cols-1 md:grid-cols-2 gap-8">
+                <!-- Mechanism Visual -->
+                <div class="spotlight-card">
+                    <h3 class="text-lg text-white mb-4 border-l-4 border-yellow-500 pl-3 font-semibold">Mechanism of Action</h3>
+                    <p class="text-xs text-gray-400 mb-4">
+                        SS-31 penetrates the cell and localizes to the IMM, interacting with cardiolipin to organize cristae structure and optimize the Electron Transport Chain (ETC).
+                    </p>
                     
-                    <!-- Controls -->
-                    <div class="space-y-6">
-                        <div>
-                            <label class="block text-xs font-mono text-brand-green uppercase tracking-wider mb-2">1. Select Indication / Goal</label>
-                            <select id="indicationSelect" class="w-full bg-black border border-brand-border text-gray-200 text-sm rounded p-3 focus:border-brand-green focus:ring-1 focus:ring-brand-green outline-none transition-colors">
-                                <option value="mito_myopathy">Primary Mitochondrial Myopathy (PMM)</option>
-                                <option value="heart_failure">Heart Failure / Ischemic Injury</option>
-                                <option value="kidney">Renal Protection / RAS</option>
-                                <option value="aging">General Aging / Sarcopenia (Off-label)</option>
-                                <option value="cfs">Chronic Fatigue / Long-Viral (Off-label)</option>
-                            </select>
-                        </div>
-
-                        <div>
-                            <label class="block text-xs font-mono text-brand-green uppercase tracking-wider mb-2">2. Administration Route</label>
-                            <div class="grid grid-cols-2 gap-4">
-                                <button onclick="setRoute('injection')" id="btn-injection" class="route-btn active-route p-3 rounded border border-brand-green bg-brand-green/10 text-white text-sm font-mono transition-all hover:bg-brand-green/20 text-center">
-                                    Subcutaneous (SQ)
-                                </button>
-                                <button onclick="setRoute('oral')" id="btn-oral" class="route-btn p-3 rounded border border-brand-border bg-black text-gray-400 text-sm font-mono transition-all hover:border-gray-500 text-center">
-                                    Oral / Sublingual
-                                </button>
+                    <!-- CSS Diagram of Mitochondria -->
+                    <div class="w-full h-48 bg-black rounded border border-white/10 relative flex items-center justify-center overflow-hidden group">
+                        <div class="w-40 h-32 border-2 border-white/20 rounded-full relative flex items-center justify-center transition-all duration-700 group-hover:border-gray-500">
+                            <div class="w-32 h-24 border-2 border-yellow-500 rounded-full relative overflow-hidden bg-yellow-500/10 transition-all duration-700 group-hover:shadow-[0_0_20px_rgba(245,158,11,0.3)]">
+                                <div class="absolute w-full h-1 bg-yellow-500 opacity-30 top-4 rotate-12"></div>
+                                <div class="absolute w-full h-1 bg-yellow-500 opacity-30 bottom-8 -rotate-12"></div>
+                                <div class="absolute w-full h-1 bg-yellow-500 opacity-30 top-10 rotate-45"></div>
+                                
+                                <div id="particle-container" class="absolute inset-0"></div>
                             </div>
-                            <div id="oral-warning" class="hidden mt-3 p-2 bg-yellow-900/20 border border-yellow-700/50 rounded">
-                                <p class="text-[10px] text-yellow-500 leading-tight">
-                                    <span class="font-bold">⚠️ BIOAVAILABILITY ALERT:</span> Systemic absorption of oral SS-31 is extremely low (<1%). Clinical trials exclusively use SC/IV. Oral efficacy is not well-established in peer-reviewed literature.
-                                </p>
-                            </div>
+                            <div class="absolute -bottom-6 text-[10px] text-yellow-400">Inner Membrane (IMM)</div>
                         </div>
-
-                        <div class="pt-4 border-t border-brand-border">
-                             <div class="flex justify-between items-center mb-2">
-                                <span class="text-xs text-gray-400">Standard Concentration</span>
-                                <span class="text-xs font-mono text-white" id="concentration-display">10 mg/mL</span>
-                             </div>
-                             <div class="flex justify-between items-center">
-                                <span class="text-xs text-gray-400">Frequency</span>
-                                <span class="text-xs font-mono text-brand-blue" id="frequency-display">Once Daily (QD)</span>
-                             </div>
+                        <div class="absolute top-2 right-2 text-[10px] text-gray-500">Visualization</div>
+                    </div>
+                    
+                    <div class="mt-4 grid grid-cols-2 gap-2">
+                        <div class="bg-black p-2 rounded border-l-2 border-yellow-500">
+                            <div class="text-[10px] text-gray-500 uppercase">Effect 1</div>
+                            <div class="text-xs font-semibold text-gray-200">Restores ATP</div>
+                        </div>
+                        <div class="bg-black p-2 rounded border-l-2 border-red-400">
+                            <div class="text-[10px] text-gray-500 uppercase">Effect 2</div>
+                            <div class="text-xs font-semibold text-gray-200">Reduces ROS</div>
                         </div>
                     </div>
+                </div>
 
-                    <!-- Output Display -->
-                    <div class="bg-black rounded border border-brand-border p-5 relative">
-                        <div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-brand-green to-brand-blue"></div>
+                <!-- Evidence Levels -->
+                <div class="spotlight-card">
+                     <h3 class="text-lg text-white mb-4 border-l-4 border-gray-500 pl-3 font-semibold">Clinical Evidence Map</h3>
+                     <div class="space-y-3">
+                         <div>
+                             <div class="flex justify-between text-xs mb-1">
+                                 <span class="text-gray-300">Prim. Mitochondrial Myopathy</span>
+                                 <span class="text-yellow-400">High (Phase 3)</span>
+                             </div>
+                             <div class="w-full bg-white/5 rounded-full h-1.5">
+                                 <div class="bg-yellow-500 h-1.5 rounded-full" style="width: 90%"></div>
+                             </div>
+                         </div>
+                         <div>
+                             <div class="flex justify-between text-xs mb-1">
+                                 <span class="text-gray-300">Barth Syndrome</span>
+                                 <span class="text-yellow-400">High (Phase 2/3)</span>
+                             </div>
+                             <div class="w-full bg-white/5 rounded-full h-1.5">
+                                 <div class="bg-yellow-500 h-1.5 rounded-full" style="width: 85%"></div>
+                             </div>
+                         </div>
+                         <div>
+                             <div class="flex justify-between text-xs mb-1">
+                                 <span class="text-gray-300">Heart Failure (HFrEF)</span>
+                                 <span class="text-red-400">Moderate</span>
+                             </div>
+                             <div class="w-full bg-white/5 rounded-full h-1.5">
+                                 <div class="bg-red-400 h-1.5 rounded-full" style="width: 60%"></div>
+                             </div>
+                         </div>
+                         <div>
+                             <div class="flex justify-between text-xs mb-1">
+                                 <span class="text-gray-300">Sarcopenia / Aging</span>
+                                 <span class="text-yellow-500">Emerging</span>
+                             </div>
+                             <div class="w-full bg-white/5 rounded-full h-1.5">
+                                 <div class="bg-yellow-500 h-1.5 rounded-full" style="width: 40%"></div>
+                             </div>
+                         </div>
+                     </div>
+                </div>
+
+            </div>
+
+            <!-- Right Column: Protocol Engine & Data (8 cols) -->
+            <div class="lg:col-span-8 space-y-6">
+
+                <!-- Protocol Engine Section -->
+                <div class="spotlight-card p-0 overflow-hidden">
+                    <div class="bg-gradient-to-r from-yellow-500/10 to-transparent p-4 border-b border-white/10 flex justify-between items-center">
+                        <h3 class="text-xl text-white flex items-center gap-2 font-semibold">
+                            <span class="w-2 h-6 bg-yellow-500 rounded-sm"></span>
+                            PROTOCOL ENGINE
+                        </h3>
+                        <div class="text-[10px] text-gray-500 bg-black px-2 py-1 rounded border border-white/10">INTERACTIVE GUIDE</div>
+                    </div>
+
+                    <div class="p-6 grid grid-cols-1 md:grid-cols-2 gap-8">
                         
+                        <!-- Controls -->
                         <div class="space-y-6">
                             <div>
-                                <h4 class="text-xs text-gray-500 uppercase tracking-widest font-mono mb-1">Recommended Dosage</h4>
-                                <div class="flex items-baseline gap-2">
-                                    <span id="dosage-val" class="text-4xl font-bold text-white font-mono">40</span>
-                                    <span id="dosage-unit" class="text-xl text-brand-green font-mono">mg</span>
-                                </div>
-                                <p id="dosage-context" class="text-xs text-gray-400 mt-1">Subcutaneous injection daily</p>
+                                <label class="block text-xs text-yellow-400 uppercase tracking-wider mb-2 font-medium">1. Select Indication / Goal</label>
+                                <select id="indicationSelect" class="w-full bg-black border border-white/10 text-gray-200 text-sm rounded p-3 focus:border-yellow-500 focus:ring-1 focus:ring-yellow-500 outline-none transition-colors">
+                                    <option value="mito_myopathy">Primary Mitochondrial Myopathy (PMM)</option>
+                                    <option value="heart_failure">Heart Failure / Ischemic Injury</option>
+                                    <option value="kidney">Renal Protection / RAS</option>
+                                    <option value="aging">General Aging / Sarcopenia (Off-label)</option>
+                                    <option value="cfs">Chronic Fatigue / Long-Viral (Off-label)</option>
+                                </select>
                             </div>
 
-                            <div class="grid grid-cols-2 gap-4">
-                                <div>
-                                    <h4 class="text-[10px] text-gray-500 uppercase tracking-widest font-mono mb-1">Volume (at 10mg/mL)</h4>
-                                    <span id="volume-val" class="text-lg font-mono text-brand-blue">4.0 mL</span> 
-                                    <span class="text-[10px] text-gray-600 block">(High volume, split sites)</span>
+                            <div>
+                                <label class="block text-xs text-yellow-400 uppercase tracking-wider mb-2 font-medium">2. Administration Route</label>
+                                <div class="grid grid-cols-2 gap-4">
+                                    <button onclick="setRoute('injection')" id="btn-injection" class="route-btn active-route p-3 rounded border text-sm transition-all text-center">
+                                        Subcutaneous (SQ)
+                                    </button>
+                                    <button onclick="setRoute('oral')" id="btn-oral" class="route-btn p-3 rounded border border-white/10 bg-black text-gray-400 text-sm transition-all hover:border-gray-500 text-center">
+                                        Oral / Sublingual
+                                    </button>
                                 </div>
-                                <div>
-                                    <h4 class="text-[10px] text-gray-500 uppercase tracking-widest font-mono mb-1">Cycle Length</h4>
-                                    <span id="duration-val" class="text-lg font-mono text-brand-blue">8-12 Weeks</span>
+                                <div id="oral-warning" class="hidden mt-3 p-2 bg-yellow-900/20 border border-yellow-700/50 rounded">
+                                    <p class="text-[10px] text-yellow-500 leading-tight">
+                                        <span class="font-bold">⚠️ BIOAVAILABILITY ALERT:</span> Systemic absorption of oral SS-31 is extremely low (<1%). Clinical trials exclusively use SC/IV. Oral efficacy is not well-established in peer-reviewed literature.
+                                    </p>
                                 </div>
                             </div>
+
+                            <div class="pt-4 border-t border-white/10">
+                                 <div class="flex justify-between items-center mb-2">
+                                    <span class="text-xs text-gray-400">Standard Concentration</span>
+                                    <span class="text-xs text-white font-medium" id="concentration-display">10 mg/mL</span>
+                                 </div>
+                                 <div class="flex justify-between items-center">
+                                    <span class="text-xs text-gray-400">Frequency</span>
+                                    <span class="text-xs text-yellow-400 font-medium" id="frequency-display">Once Daily (QD)</span>
+                                 </div>
+                            </div>
+                        </div>
+
+                        <!-- Output Display -->
+                        <div class="bg-black rounded border border-white/10 p-5 relative">
+                            <div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-yellow-500 to-red-400"></div>
                             
-                            <div class="bg-brand-charcoal p-3 rounded border border-brand-border">
-                                <h4 class="text-[10px] text-brand-green uppercase tracking-widest font-mono mb-1">Clinical Note</h4>
-                                <p id="clinical-note" class="text-xs text-gray-300 leading-snug">
-                                    Based on MMPOWER-3 trial data. Injection site reactions are common (itching, redness). Rotate sites daily.
-                                </p>
+                            <div class="space-y-6">
+                                <div>
+                                    <h4 class="text-xs text-gray-500 uppercase tracking-widest mb-1">Recommended Dosage</h4>
+                                    <div class="flex items-baseline gap-2">
+                                        <span id="dosage-val" class="text-4xl font-bold text-white">40</span>
+                                        <span id="dosage-unit" class="text-xl text-yellow-400">mg</span>
+                                    </div>
+                                    <p id="dosage-context" class="text-xs text-gray-400 mt-1">Subcutaneous injection daily</p>
+                                </div>
+
+                                <div class="grid grid-cols-2 gap-4">
+                                    <div>
+                                        <h4 class="text-[10px] text-gray-500 uppercase tracking-widest mb-1">Volume (at 10mg/mL)</h4>
+                                        <span id="volume-val" class="text-lg text-yellow-400">4.0 mL</span> 
+                                        <span class="text-[10px] text-gray-600 block">(High volume, split sites)</span>
+                                    </div>
+                                    <div>
+                                        <h4 class="text-[10px] text-gray-500 uppercase tracking-widest mb-1">Cycle Length</h4>
+                                        <span id="duration-val" class="text-lg text-yellow-400">8-12 Weeks</span>
+                                    </div>
+                                </div>
+                                
+                                <div class="bg-white/5 p-3 rounded border border-white/10">
+                                    <h4 class="text-[10px] text-yellow-400 uppercase tracking-widest mb-1">Clinical Note</h4>
+                                    <p id="clinical-note" class="text-xs text-gray-300 leading-snug">
+                                        Based on MMPOWER-3 trial data. Injection site reactions are common (itching, redness). Rotate sites daily.
+                                    </p>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
 
-            <!-- Treatment Timeline Visualization -->
-            <div class="glass-panel rounded-lg p-6">
-                <div class="flex justify-between items-end mb-4">
-                    <div>
-                        <h3 class="font-mono text-lg text-white">Proposed Treatment Cycle</h3>
-                        <p class="text-xs text-gray-400">Visualizing the "Loading" vs "Maintenance" vs "Washout" phases.</p>
-                    </div>
-                    <div class="flex gap-4">
-                         <div class="flex items-center gap-2">
-                             <div class="w-3 h-3 bg-brand-green rounded-sm"></div>
-                             <span class="text-[10px] text-gray-400 uppercase">Treatment</span>
-                         </div>
-                         <div class="flex items-center gap-2">
-                             <div class="w-3 h-3 bg-brand-border rounded-sm"></div>
-                             <span class="text-[10px] text-gray-400 uppercase">Washout</span>
-                         </div>
-                    </div>
-                </div>
-                
-                <div class="chart-container bg-black/50 rounded border border-brand-border p-2">
-                    <canvas id="cycleChart"></canvas>
-                </div>
-                <div class="mt-3 flex justify-between text-xs text-gray-500 font-mono">
-                    <span>Start: Baseline Function</span>
-                    <span>End: Re-evaluation</span>
-                </div>
-            </div>
-
-            <!-- Off-Label & Safety Grid -->
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div class="glass-panel rounded-lg p-5 border-l-2 border-red-500/50">
-                    <h3 class="font-mono text-md text-white mb-3 flex items-center gap-2">
-                        <svg class="w-4 h-4 text-red-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path></svg>
-                        Adverse Events & Safety
-                    </h3>
-                    <ul class="space-y-2 text-sm text-gray-400">
-                        <li class="flex items-start gap-2">
-                            <span class="text-red-400 mt-1">•</span>
-                            <span><strong>Injection Site Reactions:</strong> Very common (erythema, pruritus). Can be mitigated by warming the vial or applying ice post-injection.</span>
-                        </li>
-                        <li class="flex items-start gap-2">
-                            <span class="text-red-400 mt-1">•</span>
-                            <span><strong>Contraindications:</strong> Pregnancy, breastfeeding (insufficient data). Known hypersensitivity to peptide.</span>
-                        </li>
-                        <li class="flex items-start gap-2">
-                            <span class="text-red-400 mt-1">•</span>
-                            <span><strong>Kidney Function:</strong> Generally protective, but monitor in severe CKD/ESRD patients.</span>
-                        </li>
-                    </ul>
-                </div>
-
-                <div class="glass-panel rounded-lg p-5 border-l-2 border-brand-blue">
-                    <h3 class="font-mono text-md text-white mb-3 flex items-center gap-2">
-                        <svg class="w-4 h-4 text-brand-blue" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
-                        Functional Medicine Context
-                    </h3>
-                    <p class="text-sm text-gray-400 mb-3">
-                        In functional practice, SS-31 is often used as a "Mitochondrial Reset" agent.
-                    </p>
-                    <div class="space-y-2">
-                        <div class="bg-brand-surface p-2 rounded flex justify-between items-center">
-                            <span class="text-xs text-gray-300">Synergy with NAD+</span>
-                            <span class="text-[10px] bg-brand-blue/20 text-brand-blue px-1.5 py-0.5 rounded">High</span>
+                <!-- Treatment Timeline Visualization -->
+                <div class="spotlight-card">
+                    <div class="flex justify-between items-end mb-4">
+                        <div>
+                            <h3 class="text-lg text-white font-semibold">Proposed Treatment Cycle</h3>
+                            <p class="text-xs text-gray-400">Visualizing the "Loading" vs "Maintenance" vs "Washout" phases.</p>
                         </div>
-                        <div class="bg-brand-surface p-2 rounded flex justify-between items-center">
-                            <span class="text-xs text-gray-300">Synergy with CoQ10/PQQ</span>
-                            <span class="text-[10px] bg-brand-blue/20 text-brand-blue px-1.5 py-0.5 rounded">Moderate</span>
+                        <div class="flex gap-4">
+                             <div class="flex items-center gap-2">
+                                 <div class="w-3 h-3 bg-yellow-500 rounded-sm"></div>
+                                 <span class="text-[10px] text-gray-400 uppercase">Treatment</span>
+                             </div>
+                             <div class="flex items-center gap-2">
+                                 <div class="w-3 h-3 bg-white/20 rounded-sm"></div>
+                                 <span class="text-[10px] text-gray-400 uppercase">Washout</span>
+                             </div>
                         </div>
                     </div>
+                    
+                    <div class="chart-container bg-black/50 rounded border border-white/10 p-2">
+                        <canvas id="cycleChart"></canvas>
+                    </div>
+                    <div class="mt-3 flex justify-between text-xs text-gray-500">
+                        <span>Start: Baseline Function</span>
+                        <span>End: Re-evaluation</span>
+                    </div>
                 </div>
+
+                <!-- Off-Label & Safety Grid -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div class="spotlight-card border-l-2 border-red-500/50">
+                        <h3 class="text-md text-white mb-3 flex items-center gap-2 font-semibold">
+                            <svg class="w-4 h-4 text-red-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path></svg>
+                            Adverse Events & Safety
+                        </h3>
+                        <ul class="space-y-2 text-sm text-gray-400">
+                            <li class="flex items-start gap-2">
+                                <span class="text-red-400 mt-1">•</span>
+                                <span><strong class="text-white">Injection Site Reactions:</strong> Very common (erythema, pruritus). Can be mitigated by warming the vial or applying ice post-injection.</span>
+                            </li>
+                            <li class="flex items-start gap-2">
+                                <span class="text-red-400 mt-1">•</span>
+                                <span><strong class="text-white">Contraindications:</strong> Pregnancy, breastfeeding (insufficient data). Known hypersensitivity to peptide.</span>
+                            </li>
+                            <li class="flex items-start gap-2">
+                                <span class="text-red-400 mt-1">•</span>
+                                <span><strong class="text-white">Kidney Function:</strong> Generally protective, but monitor in severe CKD/ESRD patients.</span>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div class="spotlight-card border-l-2 border-yellow-500">
+                        <h3 class="text-md text-white mb-3 flex items-center gap-2 font-semibold">
+                            <svg class="w-4 h-4 text-yellow-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
+                            Functional Medicine Context
+                        </h3>
+                        <p class="text-sm text-gray-400 mb-3">
+                            In functional practice, SS-31 is often used as a "Mitochondrial Reset" agent.
+                        </p>
+                        <div class="space-y-2">
+                            <div class="bg-black p-2 rounded flex justify-between items-center border border-white/10">
+                                <span class="text-xs text-gray-300">Synergy with NAD+</span>
+                                <span class="text-[10px] bg-yellow-500/20 text-yellow-400 px-1.5 py-0.5 rounded">High</span>
+                            </div>
+                            <div class="bg-black p-2 rounded flex justify-between items-center border border-white/10">
+                                <span class="text-xs text-gray-300">Synergy with CoQ10/PQQ</span>
+                                <span class="text-[10px] bg-yellow-500/20 text-yellow-400 px-1.5 py-0.5 rounded">Moderate</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
             </div>
 
         </div>
-
     </main>
 
-    <!-- ========================================
-         STANDARDIZED FOOTER
-         ======================================== -->
-    <footer class="mt-12 pt-8 border-t border-brand-border/30">
-        <div class="max-w-7xl mx-auto px-4">
-            <div class="bg-brand-charcoal/50 border border-brand-border rounded-lg p-6 mb-6">
+    <!-- Footer -->
+    <footer class="mt-12 pt-8 border-t border-white/[0.08]">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="content-section mb-6">
                 <div class="flex items-start gap-3">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-brand-muted flex-shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-500 flex-shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
                     </svg>
                     <div>
-                        <p class="text-xs text-brand-text leading-relaxed">
-                            <span class="text-white font-bold">LEGAL DISCLAIMER:</span> This platform is a <span class="text-white font-semibold">clinical reference tool</span> designed to summarize available research literature and pharmacological data for educational purposes. It is <span class="text-red-400 font-bold">NOT</span> a dosing guide, prescriptive engine, or substitute for professional medical training.
+                        <p class="text-xs text-gray-400 leading-relaxed">
+                            <span class="text-white font-semibold">LEGAL DISCLAIMER:</span> This platform is a <span class="text-white font-medium">clinical reference tool</span> designed to summarize available research literature and pharmacological data for educational purposes. It is <span class="text-red-400 font-semibold">NOT</span> a dosing guide, prescriptive engine, or substitute for professional medical training.
                         </p>
-                        <p class="text-[10px] text-brand-muted mt-3 tracking-wide uppercase">
+                        <p class="text-[10px] text-gray-500 mt-3 tracking-wide uppercase">
                             Secure Clinical Environment | HIPAA Compliant | Authorized Personnel Only
                         </p>
                     </div>
                 </div>
             </div>
             
-            <div class="flex flex-col md:flex-row justify-between items-center text-[10px] text-brand-muted font-mono uppercase pb-8">
-                <div>Multifactor Solutions &copy; 2024</div>
-                <div class="mt-2 md:mt-0 flex items-center">
-                    <span class="w-2 h-2 rounded-full bg-brand-blue mr-2"></span>
-                    For Clinical Educational Use Only.
+            <div class="flex flex-col md:flex-row justify-between items-center text-sm text-gray-500 pb-8">
+                <div>© 2025 Multifactor Solutions</div>
+                <div class="mt-2 md:mt-0 flex items-center gap-6">
+                    <a href="#" class="hover:text-white transition-colors">Privacy</a>
+                    <a href="#" class="hover:text-white transition-colors">Terms</a>
                 </div>
             </div>
         </div>
     </footer>
 
+    <!-- Gradient Orbs -->
+    <div style="position: fixed; width: 600px; height: 600px; background: radial-gradient(circle, #f59e0b 0%, transparent 70%); top: -200px; right: -200px; opacity: 0.1; filter: blur(100px); pointer-events: none; z-index: 0;"></div>
+    <div style="position: fixed; width: 400px; height: 400px; background: radial-gradient(circle, #ef4463 0%, transparent 70%); bottom: -150px; left: -150px; opacity: 0.08; filter: blur(100px); pointer-events: none; z-index: 0;"></div>
+
     <script>
+        // Spotlight effect mouse tracking
+        document.querySelectorAll('.spotlight-card').forEach(card => {
+            card.addEventListener('mousemove', (e) => {
+                const rect = card.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+                card.style.setProperty('--mouse-x', `${x}px`);
+                card.style.setProperty('--mouse-y', `${y}px`);
+            });
+        });
+
         const protocols = {
             'mito_myopathy': {
                 injection: { dose: '40', unit: 'mg', vol: '4.0 mL', duration: '52 Weeks', note: 'Based on MMPOWER-3. Long-term daily administration shown to improve 6MWT distance.' },
@@ -451,13 +520,13 @@
 
         function updateUI() {
             if (currentRoute === 'injection') {
-                btnInjection.className = 'route-btn active-route p-3 rounded border border-brand-green bg-brand-green/10 text-white text-sm font-mono transition-all hover:bg-brand-green/20 text-center shadow-[0_0_15px_rgba(16,185,129,0.2)]';
-                btnOral.className = 'route-btn p-3 rounded border border-brand-border bg-black text-gray-400 text-sm font-mono transition-all hover:border-gray-500 text-center opacity-60';
+                btnInjection.className = 'route-btn active-route p-3 rounded border text-sm transition-all text-center';
+                btnOral.className = 'route-btn p-3 rounded border border-white/10 bg-black text-gray-400 text-sm transition-all hover:border-gray-500 text-center';
                 oralWarning.classList.add('hidden');
                 document.getElementById('concentration-display').innerText = '10 mg/mL';
             } else {
-                btnOral.className = 'route-btn active-route p-3 rounded border border-brand-blue bg-brand-blue/10 text-white text-sm font-mono transition-all hover:bg-brand-blue/20 text-center shadow-[0_0_15px_rgba(59,130,246,0.2)]';
-                btnInjection.className = 'route-btn p-3 rounded border border-brand-border bg-black text-gray-400 text-sm font-mono transition-all hover:border-gray-500 text-center opacity-60';
+                btnOral.className = 'route-btn active-route p-3 rounded border text-sm transition-all text-center';
+                btnInjection.className = 'route-btn p-3 rounded border border-white/10 bg-black text-gray-400 text-sm transition-all hover:border-gray-500 text-center';
                 oralWarning.classList.remove('hidden');
                 document.getElementById('concentration-display').innerText = 'N/A (Pill)';
             }
@@ -488,7 +557,7 @@
             
             for (let i = 0; i < particleCount; i++) {
                 const p = document.createElement('div');
-                p.className = 'absolute w-1.5 h-1.5 bg-brand-green rounded-full shadow-[0_0_5px_#10B981]';
+                p.className = 'absolute w-1.5 h-1.5 bg-yellow-500 rounded-full shadow-[0_0_5px_#f59e0b]';
                 
                 const left = Math.random() * 100;
                 const top = Math.random() * 100;
@@ -520,8 +589,8 @@
             const ctx = document.getElementById('cycleChart').getContext('2d');
             
             const gradient = ctx.createLinearGradient(0, 0, 0, 300);
-            gradient.addColorStop(0, 'rgba(16, 185, 129, 0.5)');
-            gradient.addColorStop(1, 'rgba(16, 185, 129, 0.0)');
+            gradient.addColorStop(0, 'rgba(245, 158, 11, 0.5)');
+            gradient.addColorStop(1, 'rgba(245, 158, 11, 0.0)');
 
             chartInstance = new Chart(ctx, {
                 type: 'bar',
@@ -536,7 +605,7 @@
                         },
                         borderColor: (context) => {
                             const index = context.dataIndex;
-                            return index >= 8 ? '#4B5563' : '#10B981';
+                            return index >= 8 ? '#4B5563' : '#f59e0b';
                         },
                         borderWidth: 1,
                         borderRadius: 4,
@@ -549,6 +618,9 @@
                     plugins: {
                         legend: { display: false },
                         tooltip: {
+                            backgroundColor: '#0a0a0a',
+                            borderColor: '#1a1a1a',
+                            borderWidth: 1,
                             callbacks: {
                                 label: function(context) {
                                     if (context.dataIndex >= 8) return 'Washout Phase (Monitoring)';
@@ -560,12 +632,12 @@
                     scales: {
                         y: {
                             beginAtZero: true,
-                            grid: { color: '#27272a' },
+                            grid: { color: '#1a1a1a' },
                             ticks: { display: false }
                         },
                         x: {
                             grid: { display: false },
-                            ticks: { color: '#a1a1aa', font: { family: 'Rajdhani' } }
+                            ticks: { color: '#94a3b8', font: { family: 'Inter' } }
                         }
                     }
                 }
@@ -585,9 +657,14 @@
                 newData = [20, 40, 60, 75, 85, 90, 92, 95, 80, 70, 60, 50];
             }
 
+            const ctx = document.getElementById('cycleChart').getContext('2d');
+            const gradient = ctx.createLinearGradient(0, 0, 0, 300);
+            gradient.addColorStop(0, 'rgba(245, 158, 11, 0.5)');
+            gradient.addColorStop(1, 'rgba(245, 158, 11, 0.0)');
+
             const bgColors = newData.map((val, i) => {
-                if (currentIndication === 'mito_myopathy') return 'rgba(16, 185, 129, 0.5)';
-                return i >= 8 ? 'rgba(75, 85, 99, 0.5)' : 'rgba(16, 185, 129, 0.5)';
+                if (currentIndication === 'mito_myopathy') return gradient;
+                return i >= 8 ? 'rgba(75, 85, 99, 0.5)' : gradient;
             });
             
             chartInstance.data.datasets[0].data = newData;

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" class="dark">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,32 +8,16 @@
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Rajdhani:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
     
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
         tailwind.config = {
-            darkMode: 'class',
             theme: {
                 extend: {
-                    colors: {
-                        brand: {
-                            black: '#050505',
-                            charcoal: '#0f0f11',
-                            surface: '#18181b',
-                            border: '#27272a',
-                            green: '#10b981',
-                            neonGreen: '#00ffa3',
-                            blue: '#3b82f6',
-                            neonBlue: '#00d4ff',
-                            text: '#e4e4e7',
-                            muted: '#a1a1aa'
-                        }
-                    },
                     fontFamily: {
-                        sans: ['Inter', 'sans-serif'],
-                        mono: ['Rajdhani', 'sans-serif'],
+                        sans: ['Inter', 'system-ui', '-apple-system', 'sans-serif'],
                     }
                 }
             }
@@ -44,112 +28,133 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
     <style>
-        body {
-            background-color: #050505;
-            color: #e4e4e7;
-            background-image: radial-gradient(circle at 50% 0%, #18181b 0%, #050505 45%);
-            font-family: 'Inter', sans-serif;
+        * {
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
         }
 
-        .font-display { 
-            font-family: 'Rajdhani', sans-serif; 
+        body {
+            background-color: #000000;
+            color: #ffffff;
         }
-        
-        /* Cyber-Clinical Panel Style */
-        .tech-panel {
-            background-color: #0f0f11;
-            border: 1px solid #27272a;
+
+        /* Scrollbar */
+        ::-webkit-scrollbar { width: 10px; }
+        ::-webkit-scrollbar-track { background: #000000; }
+        ::-webkit-scrollbar-thumb { background: linear-gradient(180deg, #3b82f6 0%, #10b981 100%); border-radius: 5px; }
+        ::-webkit-scrollbar-thumb:hover { background: linear-gradient(180deg, #60a5fa 0%, #34d399 100%); }
+
+        /* Spotlight Cards */
+        .spotlight-card {
+            background: #0a0a0a;
+            border: 1px solid #1a1a1a;
+            border-radius: 12px;
+            padding: 24px;
             position: relative;
+            overflow: hidden;
+            transition: all 0.3s ease;
         }
-        
-        /* Corner Accents */
-        .tech-panel::before {
+
+        .spotlight-card::before {
             content: '';
             position: absolute;
-            top: -1px; left: -1px;
-            width: 8px; height: 8px;
-            border-top: 2px solid #10b981;
-            border-left: 2px solid #10b981;
-            opacity: 0.5;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: radial-gradient(600px circle at var(--mouse-x, 50%) var(--mouse-y, 50%), rgba(59, 130, 246, 0.15), transparent 40%);
+            opacity: 0;
+            transition: opacity 0.3s;
+            pointer-events: none;
+            z-index: 1;
         }
 
-        .tech-header {
-            font-family: 'Rajdhani', sans-serif;
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
-            color: #a1a1aa;
-            font-size: 0.75rem;
-            font-weight: 700;
-            margin-bottom: 1rem;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
+        .spotlight-card:hover::before {
+            opacity: 1;
         }
 
-        .tech-header::before {
-            content: '';
-            display: block;
-            width: 6px;
-            height: 6px;
-            background-color: #10b981;
-            border-radius: 50%;
+        .spotlight-card > * {
+            position: relative;
+            z-index: 2;
+        }
+
+        .spotlight-card:hover {
+            border-color: rgba(59, 130, 246, 0.3);
+            transform: translateY(-2px);
+        }
+
+        /* Buttons */
+        .btn-primary {
+            background: linear-gradient(135deg, #3b82f6 0%, #10b981 100%);
+            color: white;
+            padding: 10px 20px;
+            border-radius: 8px;
+            font-weight: 500;
+            font-size: 14px;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+        }
+
+        .btn-primary:hover {
+            box-shadow: 0 0 30px rgba(59, 130, 246, 0.4);
+            transform: translateY(-1px);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            border: 1px solid #1a1a1a;
+            color: #94a3b8;
+            padding: 8px 16px;
+            border-radius: 8px;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .btn-secondary.active {
+            background: #0a0a0a;
+            border-color: #3b82f6;
+            color: #ffffff;
+        }
+
+        .btn-secondary:hover:not(.active) {
+            border-color: #2a2a2a;
+            color: #ffffff;
         }
 
         /* Form Elements */
-        .tech-select {
+        .form-select {
             appearance: none;
-            background-color: #000;
-            border: 1px solid #27272a;
+            background-color: #0a0a0a;
+            border: 1px solid #1a1a1a;
             color: #fff;
-            padding: 0.75rem 1rem;
+            padding: 12px 16px;
             width: 100%;
-            font-family: 'Inter', sans-serif;
-            font-size: 0.875rem;
-            border-radius: 0;
+            font-size: 14px;
+            border-radius: 8px;
             transition: border-color 0.2s;
         }
-        .tech-select:focus {
+        .form-select:focus {
             outline: none;
-            border-color: #10b981;
+            border-color: #3b82f6;
         }
 
-        .tech-btn {
-            background: transparent;
-            border: 1px solid #27272a;
-            color: #71717a;
-            text-transform: uppercase;
-            font-family: 'Rajdhani', sans-serif;
-            font-weight: 600;
-            padding: 0.5rem 1rem;
-            font-size: 0.875rem;
-            cursor: pointer;
-            transition: all 0.2s;
-        }
-        
-        .tech-btn.active {
-            background: #18181b;
-            border-color: #fff;
-            color: #fff;
-        }
-
-        .tech-btn:hover:not(.active) {
-            border-color: #52525b;
-            color: #e4e4e7;
-        }
-
+        /* Route Cards */
         .route-card {
-            border: 1px solid #27272a;
-            padding: 1rem;
+            background: #0a0a0a;
+            border: 1px solid #1a1a1a;
+            padding: 16px;
+            border-radius: 8px;
             cursor: pointer;
             transition: all 0.2s;
-            background: #000;
         }
         .route-card.selected {
-            border-color: #10b981;
-            background: rgba(16, 185, 129, 0.1);
+            border-color: #3b82f6;
+            background: rgba(59, 130, 246, 0.1);
         }
         .route-card:hover:not(.selected) {
-            border-color: #52525b;
+            border-color: #2a2a2a;
         }
 
         /* Charts */
@@ -159,239 +164,249 @@
             width: 100%;
         }
 
-        /* Custom Scrollbar */
-        ::-webkit-scrollbar { width: 6px; }
-        ::-webkit-scrollbar-track { background: #000; }
-        ::-webkit-scrollbar-thumb { background: #27272a; border-radius: 3px; }
-        ::-webkit-scrollbar-thumb:hover { background: #3b82f6; }
-        
-        .glow-text {
-            text-shadow: 0 0 15px rgba(16, 185, 129, 0.4);
+        /* Section headers */
+        .section-header {
+            font-size: 12px;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: #3b82f6;
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .section-header::before {
+            content: '';
+            width: 6px;
+            height: 6px;
+            background: #3b82f6;
+            border-radius: 50%;
+        }
+
+        html {
+            scroll-behavior: smooth;
         }
     </style>
 </head>
-<body class="min-h-screen flex flex-col p-4 md:p-8">
+<body class="min-h-screen font-sans">
 
-    <!-- ========================================
-         STANDARDIZED HEADER
-         ======================================== -->
-    <header class="flex justify-between items-center mb-8 border-b border-brand-border pb-4">
-        <div class="flex items-center gap-4">
-            <!-- Back Button -->
-            <a href="index.html" class="text-brand-muted hover:text-brand-blue transition-colors">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
-                </svg>
-            </a>
-            
-            <!-- Logo -->
-            <div class="w-10 h-10 bg-brand-surface border border-brand-blue flex items-center justify-center rounded shadow-[0_0_10px_rgba(59,130,246,0.3)]">
-                <span class="font-mono font-bold text-brand-neonGreen text-base">M</span>
+    <!-- Navigation -->
+    <nav class="fixed top-0 left-0 right-0 z-50 bg-black/80 backdrop-blur-xl border-b border-white/[0.08]">
+        <div class="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
+            <div class="flex items-center gap-12">
+                <a href="index.html" class="text-sm font-semibold text-white hover:text-blue-400 transition-colors">
+                    ← Multifactor Solutions
+                </a>
             </div>
-            
-            <!-- Module Title -->
-            <div>
-                <h1 class="font-mono text-xl md:text-2xl font-bold tracking-wider text-white uppercase">
-                    CJC-1295
-                </h1>
-                <p class="text-brand-muted text-[10px] tracking-[0.15em] font-mono uppercase">Clinical Reference</p>
+            <div class="flex items-center gap-8 text-sm text-gray-400">
+                <a href="index.html#protocols" class="hover:text-white transition-colors">All Protocols</a>
             </div>
         </div>
-        
-        <!-- Right Side Navigation -->
-        <div class="hidden md:flex gap-1 text-xs font-display font-bold tracking-widest">
-            <div class="px-4 py-2 text-white border-b-2 border-brand-green cursor-default">PROTOCOL BUILDER</div>
-            <div class="px-4 py-2 text-brand-muted hover:text-white cursor-not-allowed">MECHANISM & KINETICS</div>
-            <div class="px-4 py-2 text-brand-muted hover:text-white cursor-not-allowed">SAFETY PROFILE</div>
-        </div>
-        
-        <div class="bg-red-900/20 border border-red-900/50 text-red-500 text-[10px] px-3 py-1 uppercase tracking-widest font-bold rounded">
-            Research Use Only
-        </div>
-    </header>
+    </nav>
 
-    <!-- Main Grid -->
-    <main class="grid grid-cols-1 lg:grid-cols-12 gap-6 flex-grow">
-        
-        <!-- LEFT COLUMN: CONFIGURATION -->
-        <div class="lg:col-span-4 flex flex-col gap-6">
-            <div class="tech-panel p-6">
-                <div class="tech-header text-brand-blue">Configuration</div>
-                
-                <!-- Indication -->
-                <div class="mb-6">
-                    <label class="block text-xs text-brand-muted font-display font-bold uppercase tracking-widest mb-2">Indication</label>
-                    <div class="relative">
-                        <select id="indication-select" class="tech-select cursor-pointer">
-                            <option value="aging">Anti-Aging / Wellness</option>
-                            <option value="bodycomp">Body Composition (Lipolysis)</option>
-                            <option value="recovery">Injury Recovery</option>
-                        </select>
-                        <div class="absolute right-4 top-3 text-brand-muted pointer-events-none">▼</div>
-                    </div>
-                </div>
+    <div class="max-w-7xl mx-auto px-6 relative z-10">
 
-                <!-- Intensity -->
-                <div class="mb-6">
-                    <label class="block text-xs text-brand-muted font-display font-bold uppercase tracking-widest mb-2">Intensity</label>
-                    <div class="grid grid-cols-2 gap-px bg-brand-border border border-brand-border">
-                        <button id="btn-std" class="tech-btn active w-full" onclick="setIntensity('std')">Standard</button>
-                        <button id="btn-agg" class="tech-btn w-full" onclick="setIntensity('agg')">Aggressive</button>
-                    </div>
-                </div>
-
-                <!-- Route Selection -->
-                <div>
-                    <label class="block text-xs text-brand-muted font-display font-bold uppercase tracking-widest mb-2">Primary Route</label>
-                    <div class="space-y-3">
-                        <div id="route-inject" class="route-card selected" onclick="setRoute('inject')">
-                            <div class="flex justify-between items-center mb-1">
-                                <span class="text-sm font-bold text-white font-display uppercase tracking-wider">Injection (SubQ)</span>
-                                <span class="text-xs text-brand-green font-mono">100% Bioavailability</span>
-                            </div>
-                            <p class="text-xs text-brand-muted">Golden standard. Pulsatile release. Requires reconstitution.</p>
-                        </div>
-                        <div id="route-oral" class="route-card" onclick="setRoute('oral')">
-                            <div class="flex justify-between items-center mb-1">
-                                <span class="text-sm font-bold text-white font-display uppercase tracking-wider">Oral (Capsule)</span>
-                                <span class="text-xs text-amber-500 font-mono">~3-5% Bioavailability</span>
-                            </div>
-                            <p class="text-xs text-brand-muted">Convenient but requires significantly higher dosage.</p>
-                        </div>
-                    </div>
-                </div>
+        <!-- Hero Section -->
+        <header class="pt-32 pb-12 max-w-4xl">
+            <div class="inline-block px-3 py-1 rounded-full border border-blue-500/30 bg-blue-500/10 text-blue-400 text-xs font-medium uppercase tracking-wider mb-6">
+                Growth Hormone Secretagogues
             </div>
-            
-            <!-- Context Box -->
-            <div class="tech-panel p-6 flex-grow">
-                <div class="tech-header text-brand-muted">Molecule Profile</div>
-                <div class="space-y-4">
-                    <div>
-                        <span class="text-xs text-brand-muted uppercase block mb-1">Name</span>
-                        <span class="text-sm text-white font-mono">Mod GRF 1-29 (No DAC)</span>
-                    </div>
-                    <div>
-                        <span class="text-xs text-brand-muted uppercase block mb-1">Half-Life</span>
-                        <span class="text-sm text-white font-mono">~30 Minutes (Native Pulse)</span>
-                    </div>
-                    <div>
-                        <span class="text-xs text-brand-muted uppercase block mb-1">Mechanism</span>
-                        <span class="text-sm text-brand-text text-xs leading-relaxed">
-                            Binds to GHRH receptors on anterior pituitary. Increases pulsatile release of GH without disrupting negative feedback loops.
-                        </span>
-                    </div>
-                </div>
-            </div>
-        </div>
+            <h1 class="text-4xl md:text-5xl font-semibold text-white tracking-tight leading-[1.1] mb-4">
+                CJC-1295
+            </h1>
+            <p class="text-lg text-gray-400 leading-relaxed">
+                GHRH analog (Mod GRF 1-29). Stimulates pulsatile GH release without disrupting negative feedback loops. ~30 minute half-life preserves natural secretion patterns.
+            </p>
+        </header>
 
-        <!-- RIGHT COLUMN: PROTOCOL DISPLAY -->
-        <div class="lg:col-span-8 flex flex-col gap-6">
+        <!-- Main Grid -->
+        <main class="grid grid-cols-1 lg:grid-cols-12 gap-6 pb-32">
             
-            <!-- TOP: GENERATED PROTOCOL -->
-            <div class="tech-panel p-6 lg:p-8 bg-brand-black">
-                <div class="flex justify-between items-start mb-6 pb-6 border-b border-brand-border">
-                    <div>
-                        <div class="tech-header text-brand-blue mb-1">Protocol Generated</div>
-                        <h2 id="protocol-title" class="text-3xl font-display font-bold text-white uppercase">Wellness Optimization</h2>
-                    </div>
-                    <div class="text-right">
-                        <div class="text-xs text-brand-muted font-bold uppercase tracking-widest mb-1">Total Daily Load</div>
-                        <div id="total-load" class="text-3xl md:text-4xl font-display font-bold text-brand-green glow-text">100 mcg</div>
-                    </div>
-                </div>
-
-                <!-- Dosing Grid -->
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
-                    <!-- Morning Dose -->
-                    <div class="bg-brand-charcoal border border-brand-border p-4 border-l-2 border-l-gray-700">
-                        <div class="text-xs text-brand-muted font-bold uppercase tracking-widest mb-2">Morning Dose</div>
-                        <div id="dose-am" class="text-2xl font-display font-bold text-white mb-1">---</div>
-                        <div class="text-xs text-brand-muted">Fasted, 30 min before food</div>
-                    </div>
+            <!-- LEFT COLUMN: CONFIGURATION -->
+            <div class="lg:col-span-4 flex flex-col gap-6">
+                <div class="spotlight-card">
+                    <div class="section-header">Configuration</div>
                     
-                    <!-- Evening Dose -->
-                    <div class="bg-brand-charcoal border border-brand-border p-4 border-l-2 border-l-brand-green">
-                        <div class="text-xs text-brand-muted font-bold uppercase tracking-widest mb-2">Evening Dose</div>
-                        <div id="dose-pm" class="text-2xl font-display font-bold text-white mb-1">100 mcg</div>
-                        <div class="text-xs text-brand-muted">Pre-bed, 2 hrs post-meal</div>
+                    <!-- Indication -->
+                    <div class="mb-6">
+                        <label class="block text-xs text-gray-500 font-medium uppercase tracking-wider mb-2">Indication</label>
+                        <div class="relative">
+                            <select id="indication-select" class="form-select cursor-pointer">
+                                <option value="aging">Anti-Aging / Wellness</option>
+                                <option value="bodycomp">Body Composition (Lipolysis)</option>
+                                <option value="recovery">Injury Recovery</option>
+                            </select>
+                            <div class="absolute right-4 top-3.5 text-gray-500 pointer-events-none">▼</div>
+                        </div>
                     </div>
-                </div>
 
-                <!-- Clinical Instructions -->
-                <div class="mb-8">
-                    <div class="text-xs text-brand-muted font-bold uppercase tracking-widest mb-3">Clinical Instructions</div>
-                    <p id="clinical-instructions" class="text-sm text-brand-muted leading-relaxed max-w-3xl">
-                        Reconstitute 2mg vial with 1ml or 2ml BAC water. Inject subcutaneously into abdominal fat pad. 
-                        Ensure strict fasting window around administration to prevent insulin blunting of GH release.
-                    </p>
-                </div>
+                    <!-- Intensity -->
+                    <div class="mb-6">
+                        <label class="block text-xs text-gray-500 font-medium uppercase tracking-wider mb-2">Intensity</label>
+                        <div class="grid grid-cols-2 gap-2">
+                            <button id="btn-std" class="btn-secondary active" onclick="setIntensity('std')">Standard</button>
+                            <button id="btn-agg" class="btn-secondary" onclick="setIntensity('agg')">Aggressive</button>
+                        </div>
+                    </div>
 
-                <!-- Duration Stats -->
-                <div class="grid grid-cols-2 gap-8 pt-6 border-t border-brand-border">
+                    <!-- Route Selection -->
                     <div>
-                        <div class="text-xs text-gray-600 font-bold uppercase tracking-widest mb-1">Cycle Duration</div>
-                        <span class="text-xl text-white font-display font-bold">12 Weeks</span>
-                    </div>
-                    <div>
-                        <div class="text-xs text-gray-600 font-bold uppercase tracking-widest mb-1">Washout Period</div>
-                        <span class="text-xl text-white font-display font-bold">4 Weeks</span>
+                        <label class="block text-xs text-gray-500 font-medium uppercase tracking-wider mb-2">Primary Route</label>
+                        <div class="space-y-3">
+                            <div id="route-inject" class="route-card selected" onclick="setRoute('inject')">
+                                <div class="flex justify-between items-center mb-1">
+                                    <span class="text-sm font-medium text-white">Injection (SubQ)</span>
+                                    <span class="text-xs text-green-400">100% Bioavailability</span>
+                                </div>
+                                <p class="text-xs text-gray-500">Golden standard. Pulsatile release. Requires reconstitution.</p>
+                            </div>
+                            <div id="route-oral" class="route-card" onclick="setRoute('oral')">
+                                <div class="flex justify-between items-center mb-1">
+                                    <span class="text-sm font-medium text-white">Oral (Capsule)</span>
+                                    <span class="text-xs text-amber-500">~3-5% Bioavailability</span>
+                                </div>
+                                <p class="text-xs text-gray-500">Convenient but requires significantly higher dosage.</p>
+                            </div>
+                        </div>
                     </div>
                 </div>
-            </div>
-
-            <!-- BOTTOM: CHARTS -->
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 h-full">
                 
-                <!-- Chart 1: Saturation -->
-                <div class="tech-panel p-6 flex flex-col">
-                    <div class="tech-header text-brand-muted">Plasma Concentration Model</div>
-                    <div class="chart-wrapper flex-grow">
-                        <canvas id="saturationChart"></canvas>
+                <!-- Context Box -->
+                <div class="spotlight-card flex-grow">
+                    <div class="section-header" style="color: #94a3b8;">Molecule Profile</div>
+                    <div class="space-y-4">
+                        <div>
+                            <span class="text-xs text-gray-500 uppercase block mb-1">Name</span>
+                            <span class="text-sm text-white">Mod GRF 1-29 (No DAC)</span>
+                        </div>
+                        <div>
+                            <span class="text-xs text-gray-500 uppercase block mb-1">Half-Life</span>
+                            <span class="text-sm text-white">~30 Minutes (Native Pulse)</span>
+                        </div>
+                        <div>
+                            <span class="text-xs text-gray-500 uppercase block mb-1">Mechanism</span>
+                            <span class="text-sm text-gray-400 leading-relaxed">
+                                Binds to GHRH receptors on anterior pituitary. Increases pulsatile release of GH without disrupting negative feedback loops.
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- RIGHT COLUMN: PROTOCOL DISPLAY -->
+            <div class="lg:col-span-8 flex flex-col gap-6">
+                
+                <!-- TOP: GENERATED PROTOCOL -->
+                <div class="spotlight-card">
+                    <div class="flex justify-between items-start mb-6 pb-6 border-b border-white/[0.08]">
+                        <div>
+                            <div class="section-header mb-1">Protocol Generated</div>
+                            <h2 id="protocol-title" class="text-2xl font-semibold text-white">Wellness Optimization</h2>
+                        </div>
+                        <div class="text-right">
+                            <div class="text-xs text-gray-500 font-medium uppercase tracking-wider mb-1">Total Daily Load</div>
+                            <div id="total-load" class="text-3xl font-semibold text-blue-400">100 mcg</div>
+                        </div>
+                    </div>
+
+                    <!-- Dosing Grid -->
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+                        <!-- Morning Dose -->
+                        <div class="bg-black/50 border border-white/[0.08] p-4 rounded-lg border-l-2 border-l-gray-700">
+                            <div class="text-xs text-gray-500 font-medium uppercase tracking-wider mb-2">Morning Dose</div>
+                            <div id="dose-am" class="text-xl font-semibold text-white mb-1">---</div>
+                            <div class="text-xs text-gray-500">Fasted, 30 min before food</div>
+                        </div>
+                        
+                        <!-- Evening Dose -->
+                        <div class="bg-black/50 border border-white/[0.08] p-4 rounded-lg border-l-2 border-l-blue-500">
+                            <div class="text-xs text-gray-500 font-medium uppercase tracking-wider mb-2">Evening Dose</div>
+                            <div id="dose-pm" class="text-xl font-semibold text-white mb-1">100 mcg</div>
+                            <div class="text-xs text-gray-500">Pre-bed, 2 hrs post-meal</div>
+                        </div>
+                    </div>
+
+                    <!-- Clinical Instructions -->
+                    <div class="mb-6">
+                        <div class="text-xs text-gray-500 font-medium uppercase tracking-wider mb-2">Clinical Instructions</div>
+                        <p id="clinical-instructions" class="text-sm text-gray-400 leading-relaxed">
+                            Reconstitute 2mg vial with 1ml or 2ml BAC water. Inject subcutaneously into abdominal fat pad. 
+                            Ensure strict fasting window around administration to prevent insulin blunting of GH release.
+                        </p>
+                    </div>
+
+                    <!-- Duration Stats -->
+                    <div class="grid grid-cols-2 gap-8 pt-6 border-t border-white/[0.08]">
+                        <div>
+                            <div class="text-xs text-gray-600 font-medium uppercase tracking-wider mb-1">Cycle Duration</div>
+                            <span class="text-lg text-white font-medium">12 Weeks</span>
+                        </div>
+                        <div>
+                            <div class="text-xs text-gray-600 font-medium uppercase tracking-wider mb-1">Washout Period</div>
+                            <span class="text-lg text-white font-medium">4 Weeks</span>
+                        </div>
                     </div>
                 </div>
 
-                <!-- Chart 2: Efficacy -->
-                <div class="tech-panel p-6 flex flex-col">
-                    <div class="tech-header text-brand-muted">Efficacy Target Profile</div>
-                    <div class="chart-wrapper flex-grow flex items-center justify-center">
-                        <canvas id="radarChart"></canvas>
+                <!-- BOTTOM: CHARTS -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 h-full">
+                    
+                    <!-- Chart 1: Saturation -->
+                    <div class="spotlight-card flex flex-col">
+                        <div class="section-header" style="color: #94a3b8;">Plasma Concentration Model</div>
+                        <div class="chart-wrapper flex-grow">
+                            <canvas id="saturationChart"></canvas>
+                        </div>
                     </div>
-                </div>
 
-            </div>
-        </div>
-    </main>
+                    <!-- Chart 2: Efficacy -->
+                    <div class="spotlight-card flex flex-col">
+                        <div class="section-header" style="color: #94a3b8;">Efficacy Target Profile</div>
+                        <div class="chart-wrapper flex-grow flex items-center justify-center">
+                            <canvas id="radarChart"></canvas>
+                        </div>
+                    </div>
 
-    <!-- ========================================
-         STANDARDIZED FOOTER
-         ======================================== -->
-    <footer class="mt-12 pt-8 border-t border-brand-border/30">
-        <!-- Legal Disclaimer -->
-        <div class="bg-brand-charcoal/50 border border-brand-border rounded-lg p-6 mb-6">
-            <div class="flex items-start gap-3">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-brand-muted flex-shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-                </svg>
-                <div>
-                    <p class="text-xs text-brand-text leading-relaxed">
-                        <span class="text-white font-bold">LEGAL DISCLAIMER:</span> This platform is a <span class="text-white font-semibold">clinical reference tool</span> designed to summarize available research literature and pharmacological data for educational purposes. It is <span class="text-red-400 font-bold">NOT</span> a dosing guide, prescriptive engine, or substitute for professional medical training. All protocols, calculations, and visualizations are theoretical and based on off-label observations. Licensed healthcare providers must exercise independent clinical judgment and verify all information against primary literature and local regulations.
-                    </p>
-                    <p class="text-[10px] text-brand-muted mt-3 tracking-wide uppercase">
-                        Secure Clinical Environment | HIPAA Compliant | Authorized Personnel Only
-                    </p>
                 </div>
             </div>
-        </div>
-        
-        <!-- Copyright -->
-        <div class="flex flex-col md:flex-row justify-between items-center text-[10px] text-brand-muted font-mono uppercase">
-            <div>Multifactor Solutions &copy; 2024</div>
-            <div class="mt-2 md:mt-0 flex items-center">
-                <span class="w-2 h-2 rounded-full bg-brand-blue mr-2"></span>
-                For Clinical Educational Use Only.
+        </main>
+
+        <!-- Footer -->
+        <footer class="pb-12 border-t border-white/[0.08] pt-12">
+            <div class="spotlight-card mb-6">
+                <p class="text-sm text-gray-400 leading-relaxed">
+                    <span class="text-white font-medium">Legal disclaimer</span> — This platform is a clinical reference tool designed to summarize available research literature and pharmacological data for educational purposes. It is not a dosing guide, prescriptive engine, or substitute for professional medical training. All protocols must be independently verified by licensed healthcare providers.
+                </p>
             </div>
-        </div>
-    </footer>
+            <div class="flex flex-col md:flex-row justify-between items-center text-sm text-gray-500 gap-4">
+                <div>© 2025 Multifactor Solutions</div>
+                <div class="flex gap-8">
+                    <a href="#" class="hover:text-white transition-colors">Privacy</a>
+                    <a href="#" class="hover:text-white transition-colors">Terms</a>
+                </div>
+            </div>
+        </footer>
+
+    </div>
+
+    <!-- Gradient Orbs -->
+    <div style="position: fixed; width: 600px; height: 600px; background: radial-gradient(circle, #3b82f6 0%, transparent 70%); top: -200px; right: -200px; opacity: 0.1; filter: blur(100px); pointer-events: none; z-index: 0;"></div>
+    <div style="position: fixed; width: 400px; height: 400px; background: radial-gradient(circle, #10b981 0%, transparent 70%); bottom: -150px; left: -150px; opacity: 0.08; filter: blur(100px); pointer-events: none; z-index: 0;"></div>
+
+    <!-- Spotlight Effect Script -->
+    <script>
+        document.querySelectorAll('.spotlight-card').forEach(card => {
+            card.addEventListener('mousemove', (e) => {
+                const rect = card.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+                card.style.setProperty('--mouse-x', `${x}px`);
+                card.style.setProperty('--mouse-y', `${y}px`);
+            });
+        });
+    </script>
 
     <script>
         // State
@@ -414,7 +429,7 @@
         };
 
         const radarData = {
-            aging: [60, 50, 80, 70, 40], // Sleep, Muscle, FatLoss, Skin, Recovery
+            aging: [60, 50, 80, 70, 40],
             bodycomp: [50, 80, 90, 40, 60],
             recovery: [70, 60, 40, 50, 95]
         };
@@ -446,7 +461,6 @@
         }
 
         function updateUI() {
-            // Update Text Data
             const currentData = dataModel[state.route][state.intensity];
             
             elTotalLoad.textContent = currentData.load;
@@ -454,11 +468,9 @@
             elDosePm.textContent = currentData.pm;
             elInstructions.textContent = currentData.desc;
 
-            // Update Titles
             const indicationText = document.getElementById('indication-select').options[document.getElementById('indication-select').selectedIndex].text;
             elProtocolTitle.textContent = indicationText;
 
-            // Update Charts
             updateCharts();
         }
 
@@ -476,7 +488,7 @@
                         backgroundColor: (context) => {
                             const ctx = context.chart.ctx;
                             const gradient = ctx.createLinearGradient(0, 0, 0, 200);
-                            gradient.addColorStop(0, 'rgba(59, 130, 246, 0.5)');
+                            gradient.addColorStop(0, 'rgba(59, 130, 246, 0.3)');
                             gradient.addColorStop(1, 'rgba(59, 130, 246, 0)');
                             return gradient;
                         },
@@ -491,7 +503,7 @@
                     maintainAspectRatio: false,
                     plugins: { legend: { display: false } },
                     scales: {
-                        x: { grid: { display: false }, ticks: { color: '#52525b', font: {family: 'Inter'} } },
+                        x: { grid: { display: false, color: '#1a1a1a' }, ticks: { color: '#6b7280', font: {family: 'Inter'} } },
                         y: { display: false }
                     }
                 }
@@ -506,13 +518,13 @@
                     datasets: [{
                         label: 'Projected Benefit',
                         data: radarData['aging'],
-                        backgroundColor: 'rgba(16, 185, 129, 0.2)',
-                        borderColor: '#10b981',
+                        backgroundColor: 'rgba(59, 130, 246, 0.1)',
+                        borderColor: '#3b82f6',
                         borderWidth: 2,
-                        pointBackgroundColor: '#10b981',
+                        pointBackgroundColor: '#3b82f6',
                         pointBorderColor: '#fff',
                         pointHoverBackgroundColor: '#fff',
-                        pointHoverBorderColor: '#10b981'
+                        pointHoverBorderColor: '#3b82f6'
                     }]
                 },
                 options: {
@@ -522,7 +534,7 @@
                         r: {
                             angleLines: { color: 'rgba(255, 255, 255, 0.1)' },
                             grid: { color: 'rgba(255, 255, 255, 0.1)' },
-                            pointLabels: { color: '#a1a1aa', font: { family: 'Inter', size: 10 } },
+                            pointLabels: { color: '#94a3b8', font: { family: 'Inter', size: 10 } },
                             ticks: { display: false, backdropColor: 'transparent' }
                         }
                     },
@@ -534,15 +546,13 @@
         function updateCharts() {
             if (!saturationChart || !radarChart) return;
 
-            // Update Saturation Curve based on Route
             const newData = state.route === 'inject' 
-                ? [0, 100, 30, 10, 5, 2, 0] // Sharp spike
-                : [0, 40, 60, 50, 30, 15, 5]; // Slower, lower curve
+                ? [0, 100, 30, 10, 5, 2, 0]
+                : [0, 40, 60, 50, 30, 15, 5];
             
             saturationChart.data.datasets[0].data = newData;
             saturationChart.update();
 
-            // Update Radar based on Indication
             radarChart.data.datasets[0].data = radarData[state.indication];
             radarChart.update();
         }

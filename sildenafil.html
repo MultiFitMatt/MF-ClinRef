@@ -8,7 +8,7 @@
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Rajdhani:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
     
     <!-- Scripts -->
     <script src="https://cdn.tailwindcss.com"></script>
@@ -18,21 +18,7 @@
         tailwind.config = {
             theme: {
                 extend: {
-                    colors: {
-                        brand: {
-                            black: '#050505',
-                            charcoal: '#0f0f11',
-                            surface: '#18181b',
-                            border: '#27272a',
-                            green: '#10b981',
-                            blue: '#3b82f6',
-                            cyan: '#06b6d4',
-                            text: '#e4e4e7',
-                            muted: '#a1a1aa'
-                        }
-                    },
                     fontFamily: {
-                        mono: ['Rajdhani', 'sans-serif'],
                         sans: ['Inter', 'sans-serif'],
                     }
                 }
@@ -42,19 +28,61 @@
 
     <style>
         body {
-            background-color: #050505;
-            color: #e4e4e7;
+            background-color: #000000;
+            color: #ffffff;
         }
         
-        ::-webkit-scrollbar { width: 8px; }
-        ::-webkit-scrollbar-track { background: #0f0f11; }
-        ::-webkit-scrollbar-thumb { background: #27272a; border-radius: 4px; }
-        ::-webkit-scrollbar-thumb:hover { background: #10b981; }
+        /* Scrollbar */
+        ::-webkit-scrollbar { width: 10px; }
+        ::-webkit-scrollbar-track { background: #000000; }
+        ::-webkit-scrollbar-thumb { background: linear-gradient(180deg, #ef4463 0%, #f59e0b 100%); border-radius: 5px; }
+        ::-webkit-scrollbar-thumb:hover { background: linear-gradient(180deg, #f87171 0%, #fbbf24 100%); }
 
-        .glass-panel {
-            background: rgba(15, 15, 17, 0.6);
-            backdrop-filter: blur(12px);
-            border: 1px solid #27272a;
+        /* Content sections */
+        .content-section {
+            background: #0a0a0a;
+            border: 1px solid #1a1a1a;
+            border-radius: 12px;
+            padding: 24px;
+        }
+
+        /* Spotlight card effect */
+        .spotlight-card {
+            background: #0a0a0a;
+            border: 1px solid #1a1a1a;
+            border-radius: 12px;
+            padding: 24px;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+        
+        .spotlight-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: radial-gradient(600px circle at var(--mouse-x) var(--mouse-y), rgba(239, 68, 99, 0.15), transparent 40%);
+            opacity: 0;
+            transition: opacity 0.3s;
+            pointer-events: none;
+            z-index: 1;
+        }
+        
+        .spotlight-card:hover::before {
+            opacity: 1;
+        }
+        
+        .spotlight-card:hover {
+            border-color: rgba(239, 68, 99, 0.5);
+            box-shadow: 0 0 20px rgba(239, 68, 99, 0.1);
+        }
+        
+        .spotlight-card > * {
+            position: relative;
+            z-index: 2;
         }
 
         .chart-container {
@@ -65,118 +93,134 @@
             max-height: 400px;
         }
 
-        .grid-bg {
-            background-image: linear-gradient(to right, #27272a 1px, transparent 1px), linear-gradient(to bottom, #27272a 1px, transparent 1px);
-            background-size: 40px 40px;
-            mask-image: linear-gradient(to bottom, transparent, black 10%, black 90%, transparent);
+        /* Buttons */
+        .btn-primary {
+            background: linear-gradient(135deg, #ef4463 0%, #f59e0b 100%);
+            color: white;
+            padding: 10px 20px;
+            border-radius: 8px;
+            font-weight: 500;
+            font-size: 14px;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+        }
+        
+        .btn-primary:hover {
+            box-shadow: 0 0 30px rgba(239, 68, 99, 0.4);
+            transform: translateY(-1px);
+        }
+
+        .btn-state {
+            padding: 8px 16px;
+            font-size: 12px;
+            font-weight: 500;
+            border-radius: 6px;
+            transition: all 0.2s;
+        }
+
+        .btn-active {
+            background: linear-gradient(135deg, #ef4463 0%, #f59e0b 100%);
+            color: white;
+        }
+
+        .btn-inactive {
+            background: #0a0a0a;
+            border: 1px solid #1a1a1a;
+            color: #94a3b8;
+        }
+
+        .btn-inactive:hover {
+            border-color: #ef4463;
+            color: white;
         }
     </style>
 </head>
 <body class="font-sans antialiased min-h-screen relative">
 
-    <!-- Grid Background Layer -->
-    <div class="fixed inset-0 grid-bg opacity-20 pointer-events-none z-0"></div>
-
-    <!-- ========================================
-         STANDARDIZED HEADER
-         ======================================== -->
-    <header class="w-full border-b border-brand-border bg-brand-charcoal sticky top-0 z-50">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
-            <div class="flex items-center space-x-2">
-                <a href="index.html" class="text-brand-muted hover:text-brand-blue transition-colors">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
-                    </svg>
+    <!-- Navigation -->
+    <nav class="fixed top-0 left-0 right-0 z-50 bg-black/80 backdrop-blur-xl border-b border-white/[0.08]">
+        <div class="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
+            <div class="flex items-center gap-12">
+                <a href="index.html" class="text-sm font-semibold text-white hover:text-[#ef4463] transition-colors">
+                    ← Multifactor Solutions
                 </a>
-                
-                <div class="w-10 h-10 bg-brand-surface border border-brand-green rounded flex items-center justify-center shadow-[0_0_10px_rgba(16,185,129,0.3)]">
-                    <span class="font-mono font-bold text-brand-blue text-base">M</span>
-                </div>
-                
-                <div class="flex flex-col">
-                    <span class="font-mono font-bold text-xl tracking-wider text-white">SILDENAFIL</span>
-                    <span class="text-[10px] text-brand-green uppercase tracking-[0.2em] leading-none">Clinical Reference</span>
-                </div>
             </div>
-            
-            <div class="hidden md:flex gap-8 text-sm font-medium text-brand-muted">
-                <button onclick="scrollToSection('profile')" class="hover:text-brand-green transition-colors">PROFILE</button>
-                <button onclick="scrollToSection('kinetics')" class="hover:text-brand-green transition-colors">KINETICS</button>
-                <button onclick="scrollToSection('quirks')" class="hover:text-brand-green transition-colors">QUIRKS</button>
-                <button onclick="scrollToSection('protocols')" class="hover:text-brand-green transition-colors">PROTOCOLS</button>
+            <div class="flex items-center gap-8 text-sm text-gray-400">
+                <a href="index.html#protocols" class="hover:text-white transition-colors">All Protocols</a>
             </div>
         </div>
-    </header>
+    </nav>
 
     <!-- Main Content -->
-    <main class="relative z-10 pt-24 pb-20 px-4 max-w-7xl mx-auto space-y-24">
+    <main class="relative z-10 pt-24 pb-20 px-6 max-w-7xl mx-auto space-y-16">
+
+        <!-- Hero Section -->
+        <header class="pt-8 pb-4">
+            <div class="inline-block px-3 py-1 rounded-full border border-[#ef4463]/30 bg-[#ef4463]/10 text-[#ef4463] text-xs font-medium uppercase tracking-wider mb-6">
+                Sexual Health & Vascular
+            </div>
+            <h1 class="text-4xl md:text-5xl font-semibold text-white tracking-tight leading-[1.1] mb-4">
+                Sildenafil <span class="text-gray-500 text-2xl font-normal">Citrate</span>
+            </h1>
+            <p class="text-lg text-gray-400 leading-relaxed max-w-3xl">
+                A potent, selective inhibitor of cGMP-specific phosphodiesterase type 5 (PDE5). While standardly prescribed for ED, functional applications extend to endothelial rehabilitation, pulmonary arterial modulation, and systemic nitric oxide optimization.
+            </p>
+        </header>
 
         <!-- Hero / Molecule Profile -->
         <section id="profile" class="grid grid-cols-1 lg:grid-cols-12 gap-8">
             <div class="lg:col-span-8 flex flex-col justify-center space-y-6">
-                <div class="inline-flex items-center gap-2 text-brand-blue text-sm font-mono tracking-wider">
-                    <span class="w-2 h-2 bg-brand-blue rounded-full animate-pulse"></span>
-                    PDE5 INHIBITOR CLASS
-                </div>
-                <h1 class="text-5xl md:text-7xl font-bold text-white leading-tight font-mono">
-                    SILDENAFIL <span class="text-brand-muted block text-3xl md:text-4xl mt-2 font-normal">CITRATE</span>
-                </h1>
-                <p class="text-lg text-brand-muted max-w-2xl leading-relaxed">
-                    A potent, selective inhibitor of cGMP-specific phosphodiesterase type 5 (PDE5). While standardly prescribed for ED, functional applications extend to endothelial rehabilitation, pulmonary arterial modulation, and systemic nitric oxide optimization.
-                </p>
-                
-                <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mt-8">
-                    <div class="glass-panel p-4 rounded hover:border-brand-green transition-colors group">
-                        <div class="text-brand-muted text-xs font-mono mb-1">HALF-LIFE</div>
-                        <div class="text-2xl font-mono text-white group-hover:text-brand-green">3-4 HOURS</div>
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                    <div class="spotlight-card p-4 group">
+                        <div class="text-gray-400 text-xs uppercase mb-1">HALF-LIFE</div>
+                        <div class="text-2xl font-semibold text-white group-hover:text-[#ef4463] transition-colors">3-4 HOURS</div>
                     </div>
-                    <div class="glass-panel p-4 rounded hover:border-brand-green transition-colors group">
-                        <div class="text-brand-muted text-xs font-mono mb-1">BIOAVAILABILITY</div>
-                        <div class="text-2xl font-mono text-white group-hover:text-brand-green">41% (AVG)</div>
+                    <div class="spotlight-card p-4 group">
+                        <div class="text-gray-400 text-xs uppercase mb-1">BIOAVAILABILITY</div>
+                        <div class="text-2xl font-semibold text-white group-hover:text-[#ef4463] transition-colors">41% (AVG)</div>
                     </div>
-                    <div class="glass-panel p-4 rounded hover:border-brand-green transition-colors group">
-                        <div class="text-brand-muted text-xs font-mono mb-1">METABOLISM</div>
-                        <div class="text-2xl font-mono text-white group-hover:text-brand-green">CYP3A4</div>
+                    <div class="spotlight-card p-4 group">
+                        <div class="text-gray-400 text-xs uppercase mb-1">METABOLISM</div>
+                        <div class="text-2xl font-semibold text-white group-hover:text-[#ef4463] transition-colors">CYP3A4</div>
                     </div>
-                    <div class="glass-panel p-4 rounded hover:border-brand-green transition-colors group">
-                        <div class="text-brand-muted text-xs font-mono mb-1">ONSET</div>
-                        <div class="text-2xl font-mono text-white group-hover:text-brand-green">30-60 MIN</div>
+                    <div class="spotlight-card p-4 group">
+                        <div class="text-gray-400 text-xs uppercase mb-1">ONSET</div>
+                        <div class="text-2xl font-semibold text-white group-hover:text-[#ef4463] transition-colors">30-60 MIN</div>
                     </div>
                 </div>
             </div>
 
             <!-- Contextual Dashboard -->
-            <div class="lg:col-span-4 glass-panel rounded-lg p-6 flex flex-col justify-between relative overflow-hidden">
-                <div class="absolute top-0 right-0 w-24 h-24 bg-brand-green blur-[80px] opacity-10"></div>
-                
+            <div class="lg:col-span-4 spotlight-card flex flex-col justify-between relative overflow-hidden">
                 <div>
-                    <h3 class="text-xl font-mono text-white mb-6 border-b border-brand-border pb-2">Primary Targets</h3>
+                    <h3 class="text-lg font-semibold text-white mb-6 border-b border-white/10 pb-3">Primary Targets</h3>
                     <ul class="space-y-4">
                         <li class="flex items-start gap-3 group cursor-pointer" onclick="updateTargetInfo(0)">
-                            <div class="w-1.5 h-1.5 mt-2 bg-brand-green rounded-full group-hover:scale-150 transition-transform"></div>
+                            <div class="w-1.5 h-1.5 mt-2 bg-[#ef4463] rounded-full group-hover:scale-150 transition-transform"></div>
                             <div>
-                                <span class="text-white font-medium block group-hover:text-brand-green transition-colors">Corpus Cavernosum</span>
-                                <span class="text-xs text-brand-muted">Smooth muscle relaxation via NO/cGMP pathway.</span>
+                                <span class="text-white font-medium block group-hover:text-[#ef4463] transition-colors">Corpus Cavernosum</span>
+                                <span class="text-xs text-gray-400">Smooth muscle relaxation via NO/cGMP pathway.</span>
                             </div>
                         </li>
                         <li class="flex items-start gap-3 group cursor-pointer" onclick="updateTargetInfo(1)">
-                            <div class="w-1.5 h-1.5 mt-2 bg-brand-blue rounded-full group-hover:scale-150 transition-transform"></div>
+                            <div class="w-1.5 h-1.5 mt-2 bg-[#f59e0b] rounded-full group-hover:scale-150 transition-transform"></div>
                             <div>
-                                <span class="text-white font-medium block group-hover:text-brand-blue transition-colors">Pulmonary Vasculature</span>
-                                <span class="text-xs text-brand-muted">Reduction of pulmonary vascular resistance.</span>
+                                <span class="text-white font-medium block group-hover:text-[#f59e0b] transition-colors">Pulmonary Vasculature</span>
+                                <span class="text-xs text-gray-400">Reduction of pulmonary vascular resistance.</span>
                             </div>
                         </li>
                         <li class="flex items-start gap-3 group cursor-pointer" onclick="updateTargetInfo(2)">
-                            <div class="w-1.5 h-1.5 mt-2 bg-brand-muted rounded-full group-hover:scale-150 transition-transform"></div>
+                            <div class="w-1.5 h-1.5 mt-2 bg-gray-400 rounded-full group-hover:scale-150 transition-transform"></div>
                             <div>
                                 <span class="text-white font-medium block group-hover:text-white transition-colors">Endothelium (Systemic)</span>
-                                <span class="text-xs text-brand-muted">Improvement of flow-mediated dilation.</span>
+                                <span class="text-xs text-gray-400">Improvement of flow-mediated dilation.</span>
                             </div>
                         </li>
                     </ul>
                 </div>
                 
-                <div id="target-detail" class="mt-8 p-4 bg-brand-black rounded border border-brand-border text-xs font-mono text-brand-green">
+                <div id="target-detail" class="mt-8 p-4 bg-black rounded-lg border border-white/10 text-xs text-[#ef4463]">
                     > SELECT A TARGET SYSTEM ABOVE FOR FUNCTIONAL CONTEXT
                 </div>
             </div>
@@ -184,20 +228,20 @@
 
         <!-- Pharmacokinetics Section -->
         <section id="kinetics" class="space-y-6">
-            <div class="flex flex-col md:flex-row justify-between items-end border-b border-brand-border pb-4">
+            <div class="flex flex-col md:flex-row justify-between items-end border-b border-white/10 pb-4">
                 <div class="max-w-2xl">
-                    <h2 class="text-3xl text-white mb-2">PHARMACOKINETICS & TIMING</h2>
-                    <p class="text-brand-muted">Understanding the absorption window is critical for therapeutic efficacy. High-fat meals drastically alter the Tmax and Cmax, a common cause of "treatment failure" in functional protocols.</p>
+                    <h2 class="text-2xl font-semibold text-white mb-2">Pharmacokinetics & Timing</h2>
+                    <p class="text-gray-400">Understanding the absorption window is critical for therapeutic efficacy. High-fat meals drastically alter the Tmax and Cmax, a common cause of "treatment failure" in functional protocols.</p>
                 </div>
                 <div class="flex gap-2 mt-4 md:mt-0">
-                    <button onclick="setChartState('fasted')" id="btn-fasted" class="px-4 py-2 text-xs font-mono font-bold bg-brand-green text-black rounded hover:bg-white transition-colors">FASTED STATE</button>
-                    <button onclick="setChartState('fed')" id="btn-fed" class="px-4 py-2 text-xs font-mono font-bold glass-panel text-brand-muted rounded hover:text-white transition-colors">HIGH FAT MEAL</button>
+                    <button onclick="setChartState('fasted')" id="btn-fasted" class="btn-state btn-active">FASTED STATE</button>
+                    <button onclick="setChartState('fed')" id="btn-fed" class="btn-state btn-inactive">HIGH FAT MEAL</button>
                 </div>
             </div>
 
             <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
                 <!-- Chart -->
-                <div class="lg:col-span-2 glass-panel rounded-lg p-4">
+                <div class="lg:col-span-2 spotlight-card">
                     <div class="chart-container mx-auto">
                         <canvas id="pkChart"></canvas>
                     </div>
@@ -205,17 +249,17 @@
 
                 <!-- Data Readout -->
                 <div class="space-y-4">
-                    <div class="glass-panel border-l-2 border-brand-green p-4">
-                        <h4 class="text-brand-green font-mono text-lg mb-1">ABSORPTION LAG</h4>
-                        <div id="readout-lag" class="text-sm text-brand-muted">In a fasted state, Tmax is reached within 30-120 minutes (median 60).</div>
+                    <div class="spotlight-card border-l-2 border-[#ef4463]">
+                        <h4 class="text-[#ef4463] text-lg mb-1 font-medium">ABSORPTION LAG</h4>
+                        <div id="readout-lag" class="text-sm text-gray-400">In a fasted state, Tmax is reached within 30-120 minutes (median 60).</div>
                     </div>
-                    <div class="glass-panel border-l-2 border-brand-blue p-4">
-                        <h4 class="text-brand-blue font-mono text-lg mb-1">PEAK CONCENTRATION</h4>
-                        <div id="readout-cmax" class="text-sm text-brand-muted">Cmax reduced by ~29% when taken with a high-fat meal.</div>
+                    <div class="spotlight-card border-l-2 border-[#f59e0b]">
+                        <h4 class="text-[#f59e0b] text-lg mb-1 font-medium">PEAK CONCENTRATION</h4>
+                        <div id="readout-cmax" class="text-sm text-gray-400">Cmax reduced by ~29% when taken with a high-fat meal.</div>
                     </div>
-                    <div class="glass-panel border-l-2 border-brand-muted p-4">
-                        <h4 class="text-white font-mono text-lg mb-1">DURATION WINDOW</h4>
-                        <div class="text-sm text-brand-muted">Therapeutic window persists for approximately 4 hours. Terminal half-life is 4 hours.</div>
+                    <div class="spotlight-card border-l-2 border-gray-500">
+                        <h4 class="text-white text-lg mb-1 font-medium">DURATION WINDOW</h4>
+                        <div class="text-sm text-gray-400">Therapeutic window persists for approximately 4 hours. Terminal half-life is 4 hours.</div>
                     </div>
                 </div>
             </div>
@@ -223,102 +267,102 @@
 
         <!-- Clinical Quirks Section -->
         <section id="quirks">
-            <h2 class="text-3xl text-white mb-8 border-b border-brand-border pb-4">CLINICAL NUANCE & QUIRKS</h2>
+            <h2 class="text-2xl font-semibold text-white mb-8 border-b border-white/10 pb-4">Clinical Nuance & Quirks</h2>
             
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
                 <!-- Card 1 -->
-                <div class="glass-panel hover:border-brand-blue transition-all duration-300 p-6 rounded-lg group cursor-help relative overflow-hidden" onclick="toggleQuirk(this, 0)">
-                    <div class="absolute top-0 right-0 p-2 opacity-50 font-mono text-xs text-brand-blue">01</div>
-                    <div class="h-12 w-12 bg-brand-blue/10 rounded-full flex items-center justify-center mb-4 text-brand-blue group-hover:scale-110 transition-transform">
+                <div class="spotlight-card hover:border-[#ef4463]/50 transition-all duration-300 group cursor-help" onclick="toggleQuirk(this, 0)">
+                    <div class="absolute top-0 right-0 p-2 opacity-50 text-xs text-[#ef4463]">01</div>
+                    <div class="h-12 w-12 bg-[#ef4463]/10 rounded-full flex items-center justify-center mb-4 text-[#ef4463] group-hover:scale-110 transition-transform">
                         <span class="text-2xl">👁</span>
                     </div>
-                    <h3 class="text-xl font-mono text-white mb-2">Cyanopsia</h3>
-                    <p class="text-sm text-brand-muted line-clamp-3">
+                    <h3 class="text-lg font-medium text-white mb-2">Cyanopsia</h3>
+                    <p class="text-sm text-gray-400 line-clamp-3">
                         "Blue Vision". Sildenafil has 10% affinity for PDE6 (retina) vs PDE5. High doses may cause transient blue tinge to vision.
                     </p>
-                    <div class="hidden h-0 overflow-hidden transition-all duration-500 opacity-0 mt-2 text-xs text-brand-blue border-t border-brand-border pt-2">
+                    <div class="hidden h-0 overflow-hidden transition-all duration-500 opacity-0 mt-2 text-xs text-[#ef4463] border-t border-white/10 pt-2">
                         Reversible. More common at 100mg doses. Advise pilots or night drivers accordingly.
                     </div>
                 </div>
 
                 <!-- Card 2 -->
-                <div class="glass-panel hover:border-brand-green transition-all duration-300 p-6 rounded-lg group cursor-help relative overflow-hidden" onclick="toggleQuirk(this, 1)">
-                    <div class="absolute top-0 right-0 p-2 opacity-50 font-mono text-xs text-brand-green">02</div>
-                    <div class="h-12 w-12 bg-brand-green/10 rounded-full flex items-center justify-center mb-4 text-brand-green group-hover:scale-110 transition-transform">
+                <div class="spotlight-card hover:border-[#f59e0b]/50 transition-all duration-300 group cursor-help" onclick="toggleQuirk(this, 1)">
+                    <div class="absolute top-0 right-0 p-2 opacity-50 text-xs text-[#f59e0b]">02</div>
+                    <div class="h-12 w-12 bg-[#f59e0b]/10 rounded-full flex items-center justify-center mb-4 text-[#f59e0b] group-hover:scale-110 transition-transform">
                         <span class="text-2xl">🧠</span>
                     </div>
-                    <h3 class="text-xl font-mono text-white mb-2">Auditory Shift</h3>
-                    <p class="text-sm text-brand-muted line-clamp-3">
+                    <h3 class="text-lg font-medium text-white mb-2">Auditory Shift</h3>
+                    <p class="text-sm text-gray-400 line-clamp-3">
                         Rare sudden decrease or loss of hearing, sometimes accompanied by tinnitus and dizziness.
                     </p>
-                    <div class="hidden h-0 overflow-hidden transition-all duration-500 opacity-0 mt-2 text-xs text-brand-green border-t border-brand-border pt-2">
+                    <div class="hidden h-0 overflow-hidden transition-all duration-500 opacity-0 mt-2 text-xs text-[#f59e0b] border-t border-white/10 pt-2">
                         FDA post-marketing reports suggest temporal association. Discontinue immediately if auditory changes occur.
                     </div>
                 </div>
 
                 <!-- Card 3 -->
-                <div class="glass-panel hover:border-red-500 transition-all duration-300 p-6 rounded-lg group cursor-help relative overflow-hidden" onclick="toggleQuirk(this, 2)">
-                    <div class="absolute top-0 right-0 p-2 opacity-50 font-mono text-xs text-red-500">03</div>
+                <div class="spotlight-card hover:border-red-500/50 transition-all duration-300 group cursor-help" onclick="toggleQuirk(this, 2)">
+                    <div class="absolute top-0 right-0 p-2 opacity-50 text-xs text-red-500">03</div>
                     <div class="h-12 w-12 bg-red-900/20 rounded-full flex items-center justify-center mb-4 text-red-500 group-hover:scale-110 transition-transform">
                         <span class="text-2xl">💊</span>
                     </div>
-                    <h3 class="text-xl font-mono text-white mb-2">NO Boosters</h3>
-                    <p class="text-sm text-brand-muted line-clamp-3">
+                    <h3 class="text-lg font-medium text-white mb-2">NO Boosters</h3>
+                    <p class="text-sm text-gray-400 line-clamp-3">
                         Synergistic hypotension risk. Patients supplementing heavily with L-Citrulline or Nitrates may experience exaggerated BP drops.
                     </p>
-                    <div class="hidden h-0 overflow-hidden transition-all duration-500 opacity-0 mt-2 text-xs text-red-400 border-t border-brand-border pt-2">
+                    <div class="hidden h-0 overflow-hidden transition-all duration-500 opacity-0 mt-2 text-xs text-red-400 border-t border-white/10 pt-2">
                         Contraindicated absolutely with organic nitrates (nitroglycerin). Caution with heavy functional NO stacks.
                     </div>
                 </div>
 
                 <!-- Card 4 -->
-                <div class="glass-panel hover:border-purple-500 transition-all duration-300 p-6 rounded-lg group cursor-help relative overflow-hidden" onclick="toggleQuirk(this, 3)">
-                    <div class="absolute top-0 right-0 p-2 opacity-50 font-mono text-xs text-purple-500">04</div>
+                <div class="spotlight-card hover:border-purple-500/50 transition-all duration-300 group cursor-help" onclick="toggleQuirk(this, 3)">
+                    <div class="absolute top-0 right-0 p-2 opacity-50 text-xs text-purple-500">04</div>
                     <div class="h-12 w-12 bg-purple-900/20 rounded-full flex items-center justify-center mb-4 text-purple-500 group-hover:scale-110 transition-transform">
                         <span class="text-2xl">💤</span>
                     </div>
-                    <h3 class="text-xl font-mono text-white mb-2">Reflux/GERD</h3>
-                    <p class="text-sm text-brand-muted line-clamp-3">
+                    <h3 class="text-lg font-medium text-white mb-2">Reflux/GERD</h3>
+                    <p class="text-sm text-gray-400 line-clamp-3">
                         Lower Esophageal Sphincter (LES) is smooth muscle. PDE5i causes relaxation of the LES, exacerbating GERD.
                     </p>
-                    <div class="hidden h-0 overflow-hidden transition-all duration-500 opacity-0 mt-2 text-xs text-purple-400 border-t border-brand-border pt-2">
+                    <div class="hidden h-0 overflow-hidden transition-all duration-500 opacity-0 mt-2 text-xs text-purple-400 border-t border-white/10 pt-2">
                         Take with plenty of water. Avoid lying down immediately after dosing.
                     </div>
                 </div>
             </div>
-            <div class="text-center mt-2 text-xs text-brand-muted italic font-mono">Tap cards to expand functional details</div>
+            <div class="text-center mt-3 text-xs text-gray-500 italic">Tap cards to expand functional details</div>
         </section>
 
         <!-- Dosing Protocols Section -->
         <section id="protocols" class="grid grid-cols-1 lg:grid-cols-12 gap-8">
             <!-- Sidebar Controls -->
             <div class="lg:col-span-4 space-y-4">
-                <h2 class="text-3xl text-white mb-4 font-mono">DOSING & CYCLES</h2>
+                <h2 class="text-2xl font-semibold text-white mb-4">Dosing & Cycles</h2>
                 
-                <div class="p-4 glass-panel rounded-lg">
-                    <label class="block text-xs font-mono text-brand-green mb-2">SELECT PROTOCOL TYPE</label>
-                    <select id="protocol-select" onchange="updateProtocolDisplay()" class="w-full bg-brand-black border border-brand-border text-white p-3 rounded focus:outline-none focus:border-brand-green font-mono uppercase">
+                <div class="spotlight-card">
+                    <label class="block text-xs text-[#ef4463] mb-2 uppercase font-medium">Select Protocol Type</label>
+                    <select id="protocol-select" onchange="updateProtocolDisplay()" class="w-full bg-black border border-white/10 text-white p-3 rounded-lg focus:outline-none focus:border-[#ef4463] uppercase text-sm">
                         <option value="demand">On-Demand (Standard)</option>
                         <option value="daily">Daily Therapeutic (Functional)</option>
                         <option value="pulmonary">Off-Label / PAH Ref</option>
                     </select>
                 </div>
 
-                <div class="p-4 glass-panel rounded-lg">
-                    <h4 class="text-sm font-bold text-white mb-2 font-mono">THE "WASHOUT" PERIOD</h4>
-                    <p class="text-xs text-brand-muted mb-4">
+                <div class="spotlight-card">
+                    <h4 class="text-sm font-medium text-white mb-2">THE "WASHOUT" PERIOD</h4>
+                    <p class="text-xs text-gray-400 mb-4">
                         Tachyphylaxis (tolerance) to PDE5i is debated but observed in clinical practice. Functional dosing often utilizes "Holidays" to reset NO sensitivity.
                     </p>
                     
-                    <div class="flex items-center justify-between text-xs font-mono text-brand-muted mb-1">
+                    <div class="flex items-center justify-between text-xs text-gray-400 mb-1">
                         <span>ON CYCLE</span>
                         <span>OFF CYCLE</span>
                     </div>
-                    <div class="h-2 bg-brand-black rounded-full overflow-hidden flex">
-                        <div class="h-full bg-brand-green w-3/4"></div>
-                        <div class="h-full bg-brand-border w-1/4"></div>
+                    <div class="h-2 bg-black rounded-full overflow-hidden flex">
+                        <div class="h-full bg-gradient-to-r from-[#ef4463] to-[#f59e0b] w-3/4"></div>
+                        <div class="h-full bg-white/10 w-1/4"></div>
                     </div>
-                    <div class="flex justify-between text-[10px] text-brand-muted mt-1 font-mono">
+                    <div class="flex justify-between text-[10px] text-gray-500 mt-1">
                         <span>6-8 WEEKS</span>
                         <span>1-2 WEEKS</span>
                     </div>
@@ -327,7 +371,7 @@
 
             <!-- Protocol Content Display -->
             <div class="lg:col-span-8">
-                <div id="protocol-content" class="h-full bg-gradient-to-br from-brand-surface to-brand-black border border-brand-border rounded-lg p-8 relative">
+                <div id="protocol-content" class="h-full spotlight-card relative">
                     <!-- Dynamic content injected here via JS -->
                 </div>
             </div>
@@ -335,38 +379,51 @@
 
     </main>
 
-    <!-- ========================================
-         STANDARDIZED FOOTER
-         ======================================== -->
-    <footer class="mt-12 pt-8 border-t border-brand-border/30">
-        <div class="max-w-7xl mx-auto px-4">
-            <div class="bg-brand-charcoal/50 border border-brand-border rounded-lg p-6 mb-6">
+    <!-- Footer -->
+    <footer class="mt-12 pt-8 border-t border-white/[0.08]">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="content-section mb-6">
                 <div class="flex items-start gap-3">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-brand-muted flex-shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-500 flex-shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
                     </svg>
                     <div>
-                        <p class="text-xs text-brand-text leading-relaxed">
-                            <span class="text-white font-bold">LEGAL DISCLAIMER:</span> This platform is a <span class="text-white font-semibold">clinical reference tool</span> designed to summarize available research literature and pharmacological data for educational purposes. It is <span class="text-red-400 font-bold">NOT</span> a dosing guide, prescriptive engine, or substitute for professional medical training.
+                        <p class="text-xs text-gray-400 leading-relaxed">
+                            <span class="text-white font-semibold">LEGAL DISCLAIMER:</span> This platform is a <span class="text-white font-medium">clinical reference tool</span> designed to summarize available research literature and pharmacological data for educational purposes. It is <span class="text-red-400 font-semibold">NOT</span> a dosing guide, prescriptive engine, or substitute for professional medical training.
                         </p>
-                        <p class="text-[10px] text-brand-muted mt-3 tracking-wide uppercase">
+                        <p class="text-[10px] text-gray-500 mt-3 tracking-wide uppercase">
                             Secure Clinical Environment | HIPAA Compliant | Authorized Personnel Only
                         </p>
                     </div>
                 </div>
             </div>
             
-            <div class="flex flex-col md:flex-row justify-between items-center text-[10px] text-brand-muted font-mono uppercase pb-8">
-                <div>Multifactor Solutions &copy; 2024</div>
-                <div class="mt-2 md:mt-0 flex items-center">
-                    <span class="w-2 h-2 rounded-full bg-brand-blue mr-2"></span>
-                    For Clinical Educational Use Only.
+            <div class="flex flex-col md:flex-row justify-between items-center text-sm text-gray-500 pb-8">
+                <div>© 2025 Multifactor Solutions</div>
+                <div class="mt-2 md:mt-0 flex items-center gap-6">
+                    <a href="#" class="hover:text-white transition-colors">Privacy</a>
+                    <a href="#" class="hover:text-white transition-colors">Terms</a>
                 </div>
             </div>
         </div>
     </footer>
 
+    <!-- Gradient Orbs -->
+    <div style="position: fixed; width: 600px; height: 600px; background: radial-gradient(circle, #ef4463 0%, transparent 70%); top: -200px; right: -200px; opacity: 0.1; filter: blur(100px); pointer-events: none; z-index: 0;"></div>
+    <div style="position: fixed; width: 400px; height: 400px; background: radial-gradient(circle, #f59e0b 0%, transparent 70%); bottom: -150px; left: -150px; opacity: 0.08; filter: blur(100px); pointer-events: none; z-index: 0;"></div>
+
     <script>
+        // Spotlight effect mouse tracking
+        document.querySelectorAll('.spotlight-card').forEach(card => {
+            card.addEventListener('mousemove', (e) => {
+                const rect = card.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+                card.style.setProperty('--mouse-x', `${x}px`);
+                card.style.setProperty('--mouse-y', `${y}px`);
+            });
+        });
+
         const protocolData = {
             demand: {
                 title: "On-Demand (ED)",
@@ -407,14 +464,14 @@
             fasted: {
                 label: 'Plasma Concentration (Fasted)',
                 data: [0, 85, 250, 450, 300, 180, 100, 60, 40, 20, 10, 5],
-                color: '#10b981',
+                color: '#ef4463',
                 lagText: "In a fasted state, Tmax is reached within 30-120 minutes (median 60).",
                 cmaxText: "Optimal Cmax reached. 100% relative bioavailability."
             },
             fed: {
                 label: 'Plasma Concentration (High Fat Meal)',
                 data: [0, 10, 50, 150, 250, 320, 280, 200, 120, 80, 40, 20],
-                color: '#3b82f6',
+                color: '#f59e0b',
                 lagText: "High fat meals delay absorption by approximately 60 minutes. Tmax shifts to ~2 hours.",
                 cmaxText: "Cmax reduced by ~29%. Area Under Curve (AUC) reduced by ~11%."
             }
@@ -425,7 +482,7 @@
         function initChart() {
             const ctx = document.getElementById('pkChart').getContext('2d');
             
-            Chart.defaults.color = '#a1a1aa';
+            Chart.defaults.color = '#94a3b8';
             Chart.defaults.font.family = 'Inter';
 
             pkChart = new Chart(ctx, {
@@ -440,7 +497,7 @@
                         borderWidth: 2,
                         fill: true,
                         tension: 0.4,
-                        pointBackgroundColor: '#050505',
+                        pointBackgroundColor: '#000000',
                         pointBorderColor: chartConfig.fasted.color,
                         pointRadius: 4
                     }]
@@ -452,27 +509,27 @@
                         legend: {
                             display: true,
                             labels: {
-                                font: { family: 'Rajdhani', size: 12 }
+                                font: { family: 'Inter', size: 12 }
                             }
                         },
                         tooltip: {
-                            backgroundColor: '#18181b',
-                            titleColor: '#e4e4e7',
-                            titleFont: { family: 'Rajdhani' },
+                            backgroundColor: '#0a0a0a',
+                            titleColor: '#ffffff',
+                            titleFont: { family: 'Inter' },
                             bodyFont: { family: 'Inter' },
-                            borderColor: '#27272a',
+                            borderColor: '#1a1a1a',
                             borderWidth: 1,
                             padding: 10
                         }
                     },
                     scales: {
                         y: {
-                            grid: { color: '#27272a' },
-                            title: { display: true, text: 'Concentration (ng/mL)', font: { family: 'Rajdhani' } }
+                            grid: { color: '#1a1a1a' },
+                            title: { display: true, text: 'Concentration (ng/mL)', font: { family: 'Inter' } }
                         },
                         x: {
-                            grid: { color: '#27272a' },
-                            title: { display: true, text: 'Time (Hours)', font: { family: 'Rajdhani' } }
+                            grid: { color: '#1a1a1a' },
+                            title: { display: true, text: 'Time (Hours)', font: { family: 'Inter' } }
                         }
                     },
                     interaction: {
@@ -487,12 +544,12 @@
             const config = chartConfig[state];
             
             document.getElementById('btn-fasted').className = state === 'fasted' 
-                ? "px-4 py-2 text-xs font-mono font-bold bg-brand-green text-black rounded transition-colors"
-                : "px-4 py-2 text-xs font-mono font-bold glass-panel text-brand-muted rounded hover:text-white transition-colors";
+                ? "btn-state btn-active"
+                : "btn-state btn-inactive";
             
             document.getElementById('btn-fed').className = state === 'fed' 
-                ? "px-4 py-2 text-xs font-mono font-bold bg-brand-blue text-black rounded transition-colors"
-                : "px-4 py-2 text-xs font-mono font-bold glass-panel text-brand-muted rounded hover:text-white transition-colors";
+                ? "btn-state btn-active"
+                : "btn-state btn-inactive";
 
             document.getElementById('readout-lag').textContent = config.lagText;
             document.getElementById('readout-cmax').textContent = config.cmaxText;
@@ -511,29 +568,29 @@
             const data = protocolData[select.value];
             const container = document.getElementById('protocol-content');
 
-            let accentColor = select.value === 'daily' ? 'text-brand-green' : (select.value === 'pulmonary' ? 'text-brand-blue' : 'text-white');
-            let accentBorder = select.value === 'daily' ? 'border-brand-green' : (select.value === 'pulmonary' ? 'border-brand-blue' : 'border-white');
+            let accentColor = select.value === 'daily' ? 'text-[#f59e0b]' : (select.value === 'pulmonary' ? 'text-[#ef4463]' : 'text-white');
+            let accentBorder = select.value === 'daily' ? 'border-[#f59e0b]' : (select.value === 'pulmonary' ? 'border-[#ef4463]' : 'border-white');
 
             container.innerHTML = `
                 <div class="flex flex-col h-full justify-between">
                     <div>
-                        <div class="flex justify-between items-start mb-6 border-b border-brand-border pb-4">
+                        <div class="flex justify-between items-start mb-6 border-b border-white/10 pb-4">
                             <div>
-                                <h3 class="text-3xl font-mono ${accentColor} mb-1">${data.title}</h3>
-                                <p class="text-sm font-mono text-brand-muted">TARGET: ${data.timing}</p>
+                                <h3 class="text-2xl font-semibold ${accentColor} mb-1">${data.title}</h3>
+                                <p class="text-sm text-gray-400">TARGET: ${data.timing}</p>
                             </div>
                             <div class="text-right">
-                                <span class="block text-xs font-mono text-brand-muted">RECOMMENDED DOSE</span>
-                                <span class="text-2xl font-mono text-white">${data.dose}</span>
+                                <span class="block text-xs text-gray-400">RECOMMENDED DOSE</span>
+                                <span class="text-xl font-semibold text-white">${data.dose}</span>
                             </div>
                         </div>
                         
                         <div class="space-y-4">
-                            <h4 class="text-sm font-bold text-brand-muted font-mono">CLINICAL NOTES</h4>
+                            <h4 class="text-sm font-medium text-gray-400 uppercase">CLINICAL NOTES</h4>
                             <ul class="space-y-3">
                                 ${data.notes.map(note => `
                                     <li class="flex gap-3 text-sm text-gray-300">
-                                        <span class="mt-1.5 w-1 h-1 bg-brand-muted rounded-full"></span>
+                                        <span class="mt-1.5 w-1 h-1 bg-gray-500 rounded-full"></span>
                                         ${note}
                                     </li>
                                 `).join('')}
@@ -541,8 +598,8 @@
                         </div>
                     </div>
 
-                    <div class="mt-8 bg-black/30 p-4 rounded border-l-2 ${accentBorder}">
-                        <h4 class="text-xs font-bold text-brand-muted font-mono mb-1 uppercase">Cycling Considerations</h4>
+                    <div class="mt-8 bg-black/30 p-4 rounded-lg border-l-2 ${accentBorder}">
+                        <h4 class="text-xs font-medium text-gray-400 mb-1 uppercase">Cycling Considerations</h4>
                         <p class="text-sm text-white italic">"${data.cycleAdvice}"</p>
                     </div>
                 </div>
@@ -558,8 +615,8 @@
 
             const detailBox = document.getElementById('target-detail');
             detailBox.innerHTML = `
-                <strong class="block font-mono text-white text-lg mb-2">${targets[index].title}</strong>
-                <p class="text-brand-muted leading-relaxed">${targets[index].desc}</p>
+                <strong class="block text-white text-base mb-2">${targets[index].title}</strong>
+                <p class="text-gray-400 leading-relaxed">${targets[index].desc}</p>
             `;
         }
 
