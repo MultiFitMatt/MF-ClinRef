@@ -1,0 +1,28 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // Public protocols (for preview)
+    match /protocols/{protocolId} {
+      allow read: if true;
+      allow write: if false;
+    }
+    
+    // Constants - only readable by authenticated users
+    match /constants/{docId} {
+      allow read: if request.auth != null;
+      allow write: if false;
+    }
+    
+    // User data - users can only access their own data
+    match /users/{userId} {
+      allow read, write: if request.auth != null && request.auth.uid == userId;
+    }
+    
+    // Subscriptions
+    match /subscriptions/{userId} {
+      allow read: if request.auth != null && request.auth.uid == userId;
+      allow write: if false; // Only backend can write
+    }
+  }
+}
+

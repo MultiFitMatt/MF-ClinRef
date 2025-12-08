@@ -1,0 +1,29 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    
+    // Protocol configurations - read only for authenticated users
+    // Free protocols (like TRT preview) are marked with isFree: true
+    match /protocols/{protocolId} {
+      allow read: if resource.data.isFree == true || request.auth != null;
+      allow write: if false; // Admin only via console
+    }
+    
+    // PK Constants - backend only, no client access
+    match /constants/{doc} {
+      allow read, write: if false;
+    }
+    
+    // User profiles
+    match /users/{userId} {
+      allow read, write: if request.auth != null && request.auth.uid == userId;
+    }
+    
+    // User subscriptions
+    match /subscriptions/{userId} {
+      allow read: if request.auth != null && request.auth.uid == userId;
+      allow write: if false; // Managed by backend/Stripe
+    }
+  }
+}
+

@@ -1,0 +1,541 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Multifactor Clinical Reference | TRT Protocol Simulator</title>
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Scripts -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    
+    <!-- Firebase -->
+    <script src="https://www.gstatic.com/firebasejs/10.7.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.0/firebase-auth-compat.js"></script>
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #000000;
+            color: #e5e5e5;
+        }
+
+        .gradient-hero {
+            background: linear-gradient(135deg, #10b981 0%, #06b6d4 50%, #3b82f6 100%);
+            background-size: 200% 200%;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: gradient-shift 8s ease infinite;
+        }
+
+        @keyframes gradient-shift {
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+        }
+
+        .spotlight-card {
+            background: #0a0a0a;
+            border: 1px solid #1a1a1a;
+            border-radius: 12px;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .spotlight-card::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: radial-gradient(600px circle at var(--mouse-x) var(--mouse-y), rgba(16, 185, 129, 0.15), transparent 40%);
+            opacity: 0;
+            transition: opacity 0.3s;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .spotlight-card:hover::before { opacity: 1; }
+        .spotlight-card > * { position: relative; z-index: 2; }
+
+        .control-card {
+            background: #0a0a0a;
+            border: 1px solid #1a1a1a;
+            border-radius: 12px;
+            padding: 24px;
+        }
+
+        .proto-tab {
+            transition: all 0.2s;
+            border-bottom: 2px solid transparent;
+            color: #6b7280;
+            padding: 12px 20px;
+            font-size: 12px;
+            font-weight: 600;
+            text-transform: uppercase;
+            cursor: pointer;
+        }
+
+        .proto-tab:hover { color: #d1d5db; }
+
+        .proto-tab.active {
+            color: #10b981;
+            border-color: #10b981;
+            background: rgba(16, 185, 129, 0.1);
+        }
+
+        .proto-tab.locked {
+            color: #4b5563;
+            cursor: not-allowed;
+        }
+
+        .proto-tab.locked::after {
+            content: '🔒';
+            margin-left: 4px;
+            font-size: 10px;
+        }
+
+        input[type=range] {
+            -webkit-appearance: none;
+            background: transparent;
+            width: 100%;
+        }
+
+        input[type=range]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            height: 20px;
+            width: 20px;
+            border-radius: 50%;
+            background: #10b981;
+            cursor: pointer;
+            border: 2px solid #000;
+            box-shadow: 0 0 10px rgba(16, 185, 129, 0.5);
+            margin-top: -8px;
+        }
+
+        input[type=range]::-webkit-slider-runnable-track {
+            width: 100%;
+            height: 4px;
+            background: #1a1a1a;
+            border-radius: 2px;
+        }
+
+        .chart-wrapper {
+            position: relative;
+            width: 100%;
+            height: 400px;
+            background: #000000;
+        }
+
+        .legend-btn {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 6px 12px;
+            background: rgba(0, 0, 0, 0.8);
+            border: 1px solid #1a1a1a;
+            border-radius: 6px;
+            font-size: 10px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            cursor: pointer;
+            transition: all 0.2s;
+            opacity: 0.5;
+        }
+
+        .legend-btn.active {
+            opacity: 1;
+            background: rgba(16, 185, 129, 0.1);
+        }
+
+        .legend-btn.locked {
+            opacity: 0.3;
+            cursor: not-allowed;
+        }
+
+        ::-webkit-scrollbar { width: 10px; }
+        ::-webkit-scrollbar-track { background: #000000; }
+        ::-webkit-scrollbar-thumb { background: linear-gradient(180deg, #10b981 0%, #06b6d4 100%); border-radius: 5px; }
+
+        ::selection { background: rgba(16, 185, 129, 0.3); color: white; }
+
+        .fade-in { animation: fadeIn 0.4s ease-out; }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .loading-spinner {
+            border: 2px solid #1a1a1a;
+            border-top: 2px solid #10b981;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .cta-button {
+            background: linear-gradient(135deg, #10b981 0%, #06b6d4 100%);
+            transition: all 0.3s ease;
+        }
+
+        .cta-button:hover {
+            box-shadow: 0 0 30px rgba(16, 185, 129, 0.4);
+            transform: translateY(-2px);
+        }
+
+        .premium-badge {
+            background: linear-gradient(135deg, #f59e0b 0%, #ef4444 100%);
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-size: 10px;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+    </style>
+</head>
+<body class="font-sans antialiased min-h-screen flex flex-col">
+
+    <!-- Navigation -->
+    <nav class="fixed top-0 left-0 right-0 z-50 bg-black/80 backdrop-blur-xl border-b border-white/[0.08]">
+        <div class="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
+            <div class="flex items-center gap-4">
+                <span class="font-semibold text-white">MULTIFACTOR</span>
+                <span class="font-semibold italic text-green-400">Clinical</span>
+            </div>
+            <div class="flex items-center gap-6">
+                <div id="auth-status" class="text-sm text-gray-400">
+                    <!-- Dynamic auth content -->
+                </div>
+                <a href="#pricing" class="text-sm text-gray-400 hover:text-white transition-colors">Pricing</a>
+                <button id="login-btn" class="cta-button text-white text-sm font-medium px-4 py-2 rounded-lg">
+                    Sign In
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <main class="flex-grow max-w-7xl mx-auto px-6 pt-24 pb-12 w-full space-y-12">
+
+        <!-- Hero Section -->
+        <header class="pt-12 pb-8 max-w-4xl mx-auto text-center">
+            <div class="inline-block px-3 py-1 rounded-full border border-green-500/30 bg-green-500/10 text-green-400 text-xs font-medium uppercase tracking-wider mb-6">
+                Free Preview
+            </div>
+            <h1 class="text-4xl md:text-6xl font-semibold tracking-tight leading-[1.1] mb-4">
+                <span class="text-white">TRT Protocol </span>
+                <span class="gradient-hero">Simulator</span>
+            </h1>
+            <p class="text-lg text-gray-400 leading-relaxed max-w-2xl mx-auto mb-8">
+                Visualize testosterone pharmacokinetics in real-time. Adjust dose and frequency to see steady-state levels.
+                <span class="text-green-400 font-medium">Try the Cypionate simulator free.</span>
+            </p>
+        </header>
+
+        <!-- PROTOCOL SIMULATION SECTION -->
+        <section class="space-y-6 fade-in">
+            <div class="border-b border-white/[0.08] pb-4 mb-6">
+                <h2 class="text-xl font-semibold text-white flex items-center gap-2">
+                    <span class="w-1 h-6 bg-green-500 rounded"></span>
+                    Protocol Simulation
+                    <span class="premium-badge ml-2">Free Preview</span>
+                </h2>
+                <p class="text-sm text-gray-500 mt-1">Testosterone Cypionate • More protocols with account</p>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-4 gap-6">
+                
+                <!-- LEFT PANEL: Controls -->
+                <div class="lg:col-span-1">
+                    <div class="spotlight-card p-6">
+                        
+                        <!-- Protocol Tabs -->
+                        <div class="grid grid-cols-3 gap-1 mb-6 bg-black rounded-lg p-1">
+                            <button id="tab-cyp" class="proto-tab active rounded-md" data-protocol="cyp">Cyp</button>
+                            <button id="tab-prop" class="proto-tab locked rounded-md" data-protocol="prop" title="Sign in to unlock">Prop</button>
+                            <button id="tab-pellet" class="proto-tab locked rounded-md" data-protocol="pellet" title="Sign in to unlock">Pellet</button>
+                        </div>
+
+                        <div id="input-container" class="space-y-6">
+                            <!-- Concentration -->
+                            <div>
+                                <label class="block text-xs text-gray-400 uppercase tracking-wider mb-2">Concentration</label>
+                                <select id="sim-conc" class="w-full bg-black border border-gray-800 text-white text-sm p-2.5 rounded-lg focus:border-green-500 outline-none">
+                                    <option value="200">200 mg/mL</option>
+                                    <option value="100">100 mg/mL</option>
+                                    <option value="250">250 mg/mL</option>
+                                </select>
+                            </div>
+
+                            <!-- Dose Slider -->
+                            <div>
+                                <div class="flex justify-between text-xs mb-2">
+                                    <span class="text-gray-400 uppercase tracking-wider">Dose</span>
+                                    <span class="text-green-400 font-semibold" id="sim-dose-val">50 mg</span>
+                                </div>
+                                <input type="range" id="sim-dose" min="20" max="300" step="10" value="50" class="w-full">
+                            </div>
+
+                            <!-- Frequency Slider -->
+                            <div id="freq-container">
+                                <div class="flex justify-between text-xs mb-2">
+                                    <span class="text-gray-400 uppercase tracking-wider">Frequency</span>
+                                    <span class="text-green-400 font-semibold" id="sim-freq-val">Every 3.5 Days</span>
+                                </div>
+                                <input type="range" id="sim-freq" min="1" max="14" step="0.5" value="3.5" class="w-full">
+                            </div>
+
+                            <!-- Weight Slider -->
+                            <div>
+                                <div class="flex justify-between text-xs mb-2">
+                                    <span class="text-gray-400 uppercase tracking-wider">Patient Weight</span>
+                                    <span class="text-green-400 font-semibold" id="sim-weight-val">200 lbs</span>
+                                </div>
+                                <input type="range" id="sim-weight" min="140" max="400" step="5" value="200" class="w-full">
+                            </div>
+
+                            <!-- Rx Output -->
+                            <div class="mt-8 pt-6 border-t border-white/[0.08]">
+                                <label class="block text-xs text-gray-400 uppercase tracking-wider mb-3">Rx Instruction</label>
+                                <div class="bg-black border border-green-500/30 p-4 rounded-lg">
+                                    <div class="flex justify-between items-baseline mb-2">
+                                        <span class="text-xs text-gray-500 uppercase">Volume</span>
+                                        <span class="text-xl font-semibold text-white" id="rx-vol">--</span>
+                                    </div>
+                                    <div class="flex justify-between items-baseline">
+                                        <span class="text-xs text-gray-500 uppercase">Weekly</span>
+                                        <span class="text-sm font-semibold text-green-400" id="rx-weekly">--</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- RIGHT PANEL: Chart & Stats -->
+                <div class="lg:col-span-3 space-y-4">
+                    
+                    <!-- Chart -->
+                    <div class="spotlight-card p-4 relative">
+                        <!-- Legend -->
+                        <div class="absolute top-6 left-6 z-10 flex flex-wrap gap-2">
+                            <button id="legend-cyp" class="legend-btn active" style="color: #10b981;">
+                                <span class="w-2 h-2 rounded-full bg-green-500"></span>
+                                Cypionate
+                            </button>
+                            <button id="legend-prop" class="legend-btn locked" style="color: #06b6d4;" title="Sign in to unlock">
+                                <span class="w-2 h-2 rounded-full bg-cyan-500"></span>
+                                Propionate 🔒
+                            </button>
+                            <button id="legend-pellet" class="legend-btn locked" style="color: #3b82f6;" title="Sign in to unlock">
+                                <span class="w-2 h-2 rounded-full bg-blue-500"></span>
+                                Pellets 🔒
+                            </button>
+                        </div>
+
+                        <!-- Loading Indicator -->
+                        <div id="chart-loading" class="absolute inset-0 flex items-center justify-center bg-black/50 z-20 hidden">
+                            <div class="loading-spinner"></div>
+                        </div>
+
+                        <div class="chart-wrapper">
+                            <canvas id="pkChart"></canvas>
+                        </div>
+                    </div>
+
+                    <!-- Stats -->
+                    <div class="grid grid-cols-3 gap-4">
+                        <div class="control-card p-4">
+                            <span class="block text-xs text-gray-500 uppercase tracking-wider mb-1">Peak</span>
+                            <span class="block text-2xl font-semibold text-green-400" id="stat-peak">--</span>
+                        </div>
+                        <div class="control-card p-4">
+                            <span class="block text-xs text-gray-500 uppercase tracking-wider mb-1">Trough</span>
+                            <span class="block text-2xl font-semibold text-cyan-400" id="stat-trough">--</span>
+                        </div>
+                        <div class="control-card p-4">
+                            <span class="block text-xs text-gray-500 uppercase tracking-wider mb-1">Variance</span>
+                            <span class="block text-2xl font-semibold text-white" id="stat-variance">--</span>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- UPSELL SECTION -->
+        <section id="pricing" class="space-y-6 fade-in">
+            <div class="border-b border-white/[0.08] pb-4">
+                <h2 class="text-xl font-semibold text-white flex items-center gap-2">
+                    <span class="w-1 h-6 bg-yellow-500 rounded"></span>
+                    Unlock Full Access
+                </h2>
+                <p class="text-sm text-gray-400 mt-1">Get access to all protocols and advanced features</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <!-- Free Tier -->
+                <div class="spotlight-card p-6">
+                    <h3 class="text-lg font-semibold text-white mb-2">Free Preview</h3>
+                    <p class="text-3xl font-bold text-white mb-4">$0</p>
+                    <ul class="space-y-2 text-sm text-gray-400 mb-6">
+                        <li class="flex items-center gap-2">
+                            <span class="text-green-400">✓</span> Testosterone Cypionate
+                        </li>
+                        <li class="flex items-center gap-2">
+                            <span class="text-gray-600">✗</span> Propionate & Pellets
+                        </li>
+                        <li class="flex items-center gap-2">
+                            <span class="text-gray-600">✗</span> Other Peptide Protocols
+                        </li>
+                        <li class="flex items-center gap-2">
+                            <span class="text-gray-600">✗</span> Comparison Charts
+                        </li>
+                    </ul>
+                    <button class="w-full py-2 rounded-lg border border-gray-700 text-gray-400 text-sm">
+                        Current Plan
+                    </button>
+                </div>
+
+                <!-- Pro Tier -->
+                <div class="spotlight-card p-6 border-green-500/30 relative">
+                    <div class="absolute -top-3 left-1/2 -translate-x-1/2 px-3 py-1 bg-green-500 text-black text-xs font-bold rounded-full">
+                        RECOMMENDED
+                    </div>
+                    <h3 class="text-lg font-semibold text-white mb-2">Professional</h3>
+                    <p class="text-3xl font-bold text-white mb-4">$29<span class="text-sm text-gray-400">/mo</span></p>
+                    <ul class="space-y-2 text-sm text-gray-400 mb-6">
+                        <li class="flex items-center gap-2">
+                            <span class="text-green-400">✓</span> All TRT Protocols
+                        </li>
+                        <li class="flex items-center gap-2">
+                            <span class="text-green-400">✓</span> PT-141, HCG, NAD+
+                        </li>
+                        <li class="flex items-center gap-2">
+                            <span class="text-green-400">✓</span> BPC-157, TB-500
+                        </li>
+                        <li class="flex items-center gap-2">
+                            <span class="text-green-400">✓</span> Comparison Charts
+                        </li>
+                    </ul>
+                    <button id="signup-pro-btn" class="w-full py-2 rounded-lg cta-button text-white text-sm font-medium">
+                        Get Started
+                    </button>
+                </div>
+
+                <!-- Clinic Tier -->
+                <div class="spotlight-card p-6">
+                    <h3 class="text-lg font-semibold text-white mb-2">Clinic License</h3>
+                    <p class="text-3xl font-bold text-white mb-4">$199<span class="text-sm text-gray-400">/mo</span></p>
+                    <ul class="space-y-2 text-sm text-gray-400 mb-6">
+                        <li class="flex items-center gap-2">
+                            <span class="text-green-400">✓</span> Everything in Pro
+                        </li>
+                        <li class="flex items-center gap-2">
+                            <span class="text-green-400">✓</span> White-label Options
+                        </li>
+                        <li class="flex items-center gap-2">
+                            <span class="text-green-400">✓</span> Unlimited Team Seats
+                        </li>
+                        <li class="flex items-center gap-2">
+                            <span class="text-green-400">✓</span> API Access
+                        </li>
+                    </ul>
+                    <button class="w-full py-2 rounded-lg border border-gray-700 text-white text-sm hover:bg-gray-900 transition-colors">
+                        Contact Sales
+                    </button>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="border-t border-white/[0.08] bg-black py-8 mt-20">
+        <div class="max-w-7xl mx-auto px-6 text-center">
+            <div class="flex items-center justify-center gap-2 text-sm text-gray-500 mb-2">
+                <span class="font-semibold text-white">MULTIFACTOR</span>
+                <span class="font-semibold italic text-green-400">Solutions</span>
+            </div>
+            <p class="text-xs text-gray-600">© 2025 | For Clinical Educational Use Only</p>
+        </div>
+    </footer>
+
+    <!-- Gradient Orbs -->
+    <div style="position: fixed; width: 600px; height: 600px; background: radial-gradient(circle, #10b981 0%, transparent 70%); top: -200px; right: -200px; opacity: 0.1; filter: blur(100px); pointer-events: none; z-index: 0;"></div>
+    <div style="position: fixed; width: 400px; height: 400px; background: radial-gradient(circle, #06b6d4 0%, transparent 70%); bottom: -150px; left: -150px; opacity: 0.08; filter: blur(100px); pointer-events: none; z-index: 0;"></div>
+
+    <!-- Login Modal -->
+    <div id="login-modal" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 hidden flex items-center justify-center">
+        <div class="spotlight-card p-8 max-w-md w-full mx-4">
+            <div class="flex justify-between items-center mb-6">
+                <h3 class="text-xl font-semibold text-white">Sign In</h3>
+                <button id="close-modal" class="text-gray-400 hover:text-white">✕</button>
+            </div>
+            
+            <div id="auth-form" class="space-y-4">
+                <div>
+                    <label class="block text-xs text-gray-400 uppercase tracking-wider mb-2">Email</label>
+                    <input type="email" id="auth-email" class="w-full bg-black border border-gray-800 text-white text-sm p-3 rounded-lg focus:border-green-500 outline-none" placeholder="you@clinic.com">
+                </div>
+                <div>
+                    <label class="block text-xs text-gray-400 uppercase tracking-wider mb-2">Password</label>
+                    <input type="password" id="auth-password" class="w-full bg-black border border-gray-800 text-white text-sm p-3 rounded-lg focus:border-green-500 outline-none" placeholder="••••••••">
+                </div>
+                <div id="auth-error" class="text-red-400 text-sm hidden"></div>
+                <button id="auth-submit" class="w-full py-3 rounded-lg cta-button text-white font-medium">
+                    Sign In
+                </button>
+                <button id="google-signin" class="w-full py-3 rounded-lg border border-gray-700 text-white text-sm hover:bg-gray-900 transition-colors flex items-center justify-center gap-2">
+                    <svg class="w-5 h-5" viewBox="0 0 24 24"><path fill="currentColor" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/><path fill="currentColor" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/><path fill="currentColor" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/><path fill="currentColor" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/></svg>
+                    Sign in with Google
+                </button>
+                <p class="text-center text-sm text-gray-500">
+                    Don't have an account? 
+                    <button id="toggle-signup" class="text-green-400 hover:underline">Sign up</button>
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <script src="/js/firebase-config.js"></script>
+    <script src="/js/app.js"></script>
+
+    <!-- Spotlight Effect -->
+    <script>
+        document.querySelectorAll('.spotlight-card').forEach(card => {
+            card.addEventListener('mousemove', (e) => {
+                const rect = card.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+                card.style.setProperty('--mouse-x', `${x}px`);
+                card.style.setProperty('--mouse-y', `${y}px`);
+            });
+        });
+    </script>
+
+</body>
+</html>
+
