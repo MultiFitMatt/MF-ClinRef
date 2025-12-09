@@ -38,7 +38,7 @@
         }
 
         .gradient-hero {
-            background: linear-gradient(135deg, #10b981 0%, #06b6d4 50%, #3b82f6 100%);
+            background: linear-gradient(135deg, #26e5a4 0%, #3b82f6 50%, #3b82f6 100%);
             background-size: 200% 200%;
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
@@ -64,7 +64,7 @@
             content: '';
             position: absolute;
             top: 0; left: 0; right: 0; bottom: 0;
-            background: radial-gradient(600px circle at var(--mouse-x) var(--mouse-y), rgba(16, 185, 129, 0.15), transparent 40%);
+            background: radial-gradient(600px circle at var(--mouse-x) var(--mouse-y), rgba(38, 229, 164, 0.15), transparent 40%);
             opacity: 0;
             transition: opacity 0.3s;
             pointer-events: none;
@@ -95,9 +95,9 @@
         .proto-tab:hover { color: #d1d5db; }
 
         .proto-tab.active {
-            color: #10b981;
-            border-color: #10b981;
-            background: rgba(16, 185, 129, 0.1);
+            color: #26e5a4;
+            border-color: #26e5a4;
+            background: rgba(38, 229, 164, 0.1);
         }
 
         input[type=range] {
@@ -111,10 +111,10 @@
             height: 20px;
             width: 20px;
             border-radius: 50%;
-            background: #10b981;
+            background: #26e5a4;
             cursor: pointer;
             border: 2px solid #000;
-            box-shadow: 0 0 10px rgba(16, 185, 129, 0.5);
+            box-shadow: 0 0 10px rgba(38, 229, 164, 0.5);
             margin-top: -8px;
         }
 
@@ -151,17 +151,17 @@
 
         .legend-btn.active {
             opacity: 1;
-            background: rgba(16, 185, 129, 0.1);
+            background: rgba(38, 229, 164, 0.1);
         }
 
         .legend-btn:hover { opacity: 1; }
 
         ::-webkit-scrollbar { width: 10px; }
         ::-webkit-scrollbar-track { background: #000000; }
-        ::-webkit-scrollbar-thumb { background: linear-gradient(180deg, #10b981 0%, #06b6d4 100%); border-radius: 5px; }
+        ::-webkit-scrollbar-thumb { background: linear-gradient(180deg, #26e5a4 0%, #3b82f6 100%); border-radius: 5px; }
 
         ::selection {
-            background: rgba(16, 185, 129, 0.3);
+            background: rgba(38, 229, 164, 0.3);
             color: white;
         }
 
@@ -355,20 +355,20 @@
                     <!-- Chart -->
                     <div class="spotlight-card p-4 relative">
                         <div class="absolute top-6 left-6 z-10 flex flex-wrap gap-2">
-                            <button onclick="toggleSeries('cyp')" id="legend-cyp" class="legend-btn active" style="color: #10b981;">
-                                <span class="w-2 h-2 rounded-full bg-green-500"></span>
+                            <button onclick="toggleSeries('cyp')" id="legend-cyp" class="legend-btn active" style="color: #26e5a4;">
+                                <span class="w-2 h-2 rounded-full bg-[#26e5a4]"></span>
                                 Cypionate
                             </button>
-                            <button onclick="toggleSeries('prop')" id="legend-prop" class="legend-btn" style="color: #06b6d4;">
-                                <span class="w-2 h-2 rounded-full bg-cyan-500"></span>
+                            <button onclick="toggleSeries('prop')" id="legend-prop" class="legend-btn" style="color: #3b82f6;">
+                                <span class="w-2 h-2 rounded-full bg-[#3b82f6]"></span>
                                 Propionate
                             </button>
-                            <button onclick="toggleSeries('pellet')" id="legend-pellet" class="legend-btn" style="color: #3b82f6;">
-                                <span class="w-2 h-2 rounded-full bg-blue-500"></span>
+                            <button onclick="toggleSeries('pellet')" id="legend-pellet" class="legend-btn" style="color: #fbbf24;">
+                                <span class="w-2 h-2 rounded-full bg-[#fbbf24]"></span>
                                 Pellets
                             </button>
-                            <button onclick="toggleSeries('oral')" id="legend-oral" class="legend-btn" style="color: #f59e0b;">
-                                <span class="w-2 h-2 rounded-full bg-yellow-500"></span>
+                            <button onclick="toggleSeries('oral')" id="legend-oral" class="legend-btn" style="color: #ef4444;">
+                                <span class="w-2 h-2 rounded-full bg-[#ef4444]"></span>
                                 Jatenzo
                             </button>
                         </div>
@@ -457,8 +457,8 @@
     </footer>
 
     <!-- Gradient Orbs -->
-    <div style="position: fixed; width: 600px; height: 600px; background: radial-gradient(circle, #10b981 0%, transparent 70%); top: -200px; right: -200px; opacity: 0.1; filter: blur(100px); pointer-events: none; z-index: 0;"></div>
-    <div style="position: fixed; width: 400px; height: 400px; background: radial-gradient(circle, #06b6d4 0%, transparent 70%); bottom: -150px; left: -150px; opacity: 0.08; filter: blur(100px); pointer-events: none; z-index: 0;"></div>
+    <div style="position: fixed; width: 600px; height: 600px; background: radial-gradient(circle, #26e5a4 0%, transparent 70%); top: -200px; right: -200px; opacity: 0.1; filter: blur(100px); pointer-events: none; z-index: 0;"></div>
+    <div style="position: fixed; width: 400px; height: 400px; background: radial-gradient(circle, #3b82f6 0%, transparent 70%); bottom: -150px; left: -150px; opacity: 0.08; filter: blur(100px); pointer-events: none; z-index: 0;"></div>
 
     <script>
         // Firebase config
@@ -515,55 +515,114 @@
         function initChart() {
             const ctx = document.getElementById('pkChart').getContext('2d');
             
+            // Gradient fills - Teal for Cyp, Blue for Prop
             const gradCyp = ctx.createLinearGradient(0, 0, 0, 400);
-            gradCyp.addColorStop(0, 'rgba(16, 185, 129, 0.3)');
-            gradCyp.addColorStop(1, 'rgba(16, 185, 129, 0.0)');
+            gradCyp.addColorStop(0, 'rgba(38, 229, 164, 0.3)');  // Primary Teal
+            gradCyp.addColorStop(1, 'rgba(38, 229, 164, 0.0)');
 
             const gradProp = ctx.createLinearGradient(0, 0, 0, 400);
-            gradProp.addColorStop(0, 'rgba(6, 182, 212, 0.2)');
-            gradProp.addColorStop(1, 'rgba(6, 182, 212, 0.0)');
+            gradProp.addColorStop(0, 'rgba(59, 130, 246, 0.2)');  // Tertiary Blue
+            gradProp.addColorStop(1, 'rgba(59, 130, 246, 0.0)');
 
             pkChart = new Chart(ctx, {
                 type: 'line',
                 data: {
                     datasets: [
-                        { label: 'Cypionate', data: [], borderColor: '#10b981', backgroundColor: gradCyp, borderWidth: 3, tension: 0.4, fill: true, pointRadius: 0 },
-                        { label: 'Propionate', data: [], borderColor: '#06b6d4', backgroundColor: gradProp, borderWidth: 2, tension: 0.3, fill: true, pointRadius: 0, hidden: true },
-                        { label: 'Pellets', data: [], borderColor: '#3b82f6', borderWidth: 2, borderDash: [5, 5], tension: 0.4, fill: false, pointRadius: 0, hidden: true },
-                        { label: 'Jatenzo', data: [], borderColor: '#f59e0b', borderWidth: 1, borderDash: [2, 2], tension: 0.1, fill: false, pointRadius: 0, hidden: true }
+                        { 
+                            label: 'Cypionate', 
+                            data: [], 
+                            borderColor: '#26e5a4',  // Primary Teal
+                            backgroundColor: gradCyp, 
+                            borderWidth: 2.5, 
+                            tension: 0.4, 
+                            fill: true, 
+                            pointRadius: 0,
+                            order: 1
+                        },
+                        { 
+                            label: 'Propionate', 
+                            data: [], 
+                            borderColor: '#3b82f6',  // Tertiary Blue
+                            backgroundColor: gradProp, 
+                            borderWidth: 2, 
+                            tension: 0.35, 
+                            fill: true, 
+                            pointRadius: 0, 
+                            hidden: true,
+                            order: 2
+                        },
+                        { 
+                            label: 'Pellets', 
+                            data: [], 
+                            borderColor: '#fbbf24',  // Amber
+                            borderWidth: 2, 
+                            borderDash: [6, 4], 
+                            tension: 0.4, 
+                            fill: false, 
+                            pointRadius: 0, 
+                            hidden: true,
+                            order: 3
+                        },
+                        { 
+                            label: 'Jatenzo', 
+                            data: [], 
+                            borderColor: '#ef4444',  // Red
+                            borderWidth: 1.5, 
+                            borderDash: [3, 3], 
+                            tension: 0.2, 
+                            fill: false, 
+                            pointRadius: 0, 
+                            hidden: true,
+                            order: 4
+                        }
                     ]
                 },
                 options: {
                     responsive: true,
                     maintainAspectRatio: false,
-                    animation: { duration: 300 },
+                    animation: { duration: 150 },
                     interaction: { mode: 'index', intersect: false },
                     plugins: {
                         legend: { display: false },
                         tooltip: {
-                            backgroundColor: 'rgba(0,0,0,0.9)',
+                            backgroundColor: 'rgba(10, 10, 10, 0.95)',
                             titleColor: '#fff',
-                            bodyColor: '#fff',
-                            borderColor: '#1a1a1a',
+                            titleFont: { weight: '600' },
+                            bodyColor: '#e5e5e5',
+                            borderColor: '#333',
                             borderWidth: 1,
                             padding: 12,
+                            cornerRadius: 8,
+                            displayColors: true,
                             callbacks: {
-                                label: (ctx) => ctx.dataset.label + ': ' + Math.round(ctx.raw.y) + ' ng/dL'
+                                title: items => 'Day ' + items[0].raw.x.toFixed(1),
+                                label: (c) => ' ' + c.dataset.label + ': ' + Math.round(c.raw.y) + ' ng/dL'
                             }
                         }
                     },
                     scales: {
                         x: {
                             type: 'linear',
-                            grid: { color: '#1a1a1a' },
-                            ticks: { color: '#6b7280', callback: (val) => 'Day ' + val },
+                            grid: { color: '#1f1f1f', lineWidth: 1 },
+                            ticks: { 
+                                color: '#6b7280', 
+                                font: { size: 11 },
+                                callback: (val) => 'Day ' + val,
+                                maxTicksLimit: 8
+                            },
+                            min: 0,
                             max: 14
                         },
                         y: {
-                            grid: { color: '#1a1a1a' },
+                            grid: { color: '#1f1f1f', lineWidth: 1 },
                             suggestedMin: 0,
                             suggestedMax: 1500,
-                            ticks: { color: '#6b7280', stepSize: 500 }
+                            ticks: { 
+                                color: '#6b7280',
+                                font: { size: 11 },
+                                stepSize: 500,
+                                callback: val => val.toLocaleString()
+                            }
                         }
                     }
                 }
@@ -663,11 +722,12 @@
             // Generate PK curves
             const dataCyp = [], dataProp = [], dataPellet = [], dataOral = [];
             let minActive = 10000, maxActive = 0;
-            const steps = 150, duration = 14;
+            const steps = 200, duration = 14;  // More points = smoother curves
 
             for (let i = 0; i <= steps; i++) {
                 const day = (i / steps) * duration;
                 
+                // Always calculate with stored protocol values
                 const valCyp = getSerumLevel(day, activeProtocol === 'cyp' ? dose : 50, 8, activeProtocol === 'cyp' ? freq : 3.5, weight);
                 dataCyp.push({ x: day, y: valCyp });
 
@@ -677,7 +737,8 @@
                 const valPellet = getPelletLevel(day, activeProtocol === 'pellet' ? dose : 1200, weight);
                 dataPellet.push({ x: day, y: valPellet });
 
-                const oralVal = 300 + (Math.abs(Math.sin((day * Math.PI) / 0.25)) * 400);
+                // Jatenzo: BID dosing creates sine-wave pattern
+                const oralVal = 300 + (Math.abs(Math.sin((day * Math.PI) / 0.5)) * 400);
                 dataOral.push({ x: day, y: oralVal });
 
                 let currentVal = activeProtocol === 'cyp' ? valCyp : activeProtocol === 'prop' ? valProp : valPellet;

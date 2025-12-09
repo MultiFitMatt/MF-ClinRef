@@ -8,7 +8,7 @@
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
     
     <!-- Scripts -->
     <script src="https://cdn.tailwindcss.com"></script>
@@ -32,15 +32,15 @@
             color: #ffffff;
         }
         
-        /* Scrollbar */
-        ::-webkit-scrollbar { width: 10px; }
-        ::-webkit-scrollbar-track { background: #000000; }
-        ::-webkit-scrollbar-thumb { background: linear-gradient(180deg, #10b981 0%, #06b6d4 100%); border-radius: 5px; }
-        ::-webkit-scrollbar-thumb:hover { background: linear-gradient(180deg, #34d399 0%, #22d3ee 100%); }
+        /* Scrollbar - Minimal */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: #262626; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #333; }
 
         /* Selection */
         ::selection {
-            background: rgba(16, 185, 129, 0.3);
+            background: rgba(255, 255, 255, 0.15);
             color: white;
         }
 
@@ -52,43 +52,20 @@
             padding: 24px;
         }
 
-        /* Spotlight card effect */
+        /* Glass card - clean, professional */
         .spotlight-card {
-            background: #0a0a0a;
-            border: 1px solid #1a1a1a;
+            background: rgba(10, 10, 12, 0.6);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.06);
             border-radius: 12px;
             padding: 24px;
-            position: relative;
-            overflow: hidden;
-            transition: all 0.3s ease;
-        }
-        
-        .spotlight-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: radial-gradient(600px circle at var(--mouse-x) var(--mouse-y), rgba(16, 185, 129, 0.15), transparent 40%);
-            opacity: 0;
-            transition: opacity 0.3s;
-            pointer-events: none;
-            z-index: 1;
-        }
-        
-        .spotlight-card:hover::before {
-            opacity: 1;
+            transition: all 0.2s ease;
         }
         
         .spotlight-card:hover {
-            border-color: rgba(16, 185, 129, 0.5);
-            box-shadow: 0 0 20px rgba(16, 185, 129, 0.1);
-        }
-        
-        .spotlight-card > * {
-            position: relative;
-            z-index: 2;
+            border-color: rgba(255, 255, 255, 0.12);
+            transform: translateY(-2px);
         }
 
         .chart-wrapper {
@@ -97,33 +74,36 @@
             height: 450px;
         }
 
-        /* Tab States */
+        /* Tab States - Modern */
         .proto-tab {
-            transition: all 0.2s;
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
             border-bottom: 2px solid transparent;
+            color: #525252;
         }
         .proto-tab:hover {
-            color: #d4d4d4;
+            color: #a3a3a3;
+            background: rgba(255, 255, 255, 0.02);
         }
         .proto-tab.active {
-            background-color: rgba(16, 185, 129, 0.1);
-            border-color: #10b981;
-            color: #10b981;
+            background: linear-gradient(180deg, rgba(59, 130, 246, 0.08) 0%, rgba(139, 92, 246, 0.04) 100%);
+            border-color: #8b5cf6;
+            color: #fff;
         }
 
-        /* Legend Toggles */
+        /* Legend Toggles - Clean */
         .toggle-btn {
-            opacity: 0.4;
-            filter: grayscale(100%);
-            transition: all 0.2s;
+            opacity: 0.5;
+            transition: all 0.15s;
+        }
+        .toggle-btn:hover {
+            opacity: 0.8;
         }
         .toggle-btn.active {
             opacity: 1;
-            filter: grayscale(0%);
-            background: rgba(255,255,255,0.05);
+            background: rgba(255, 255, 255, 0.04);
         }
 
-        /* Sliders */
+        /* Sliders - Clean, minimal */
         input[type=range] {
             -webkit-appearance: none;
             background: transparent;
@@ -131,19 +111,22 @@
         }
         input[type=range]::-webkit-slider-thumb {
             -webkit-appearance: none;
-            height: 20px;
-            width: 20px;
+            height: 16px;
+            width: 16px;
             border-radius: 50%;
-            background: #10b981;
+            background: #ffffff;
             cursor: pointer;
-            border: 2px solid #000;
-            box-shadow: 0 0 10px rgba(16, 185, 129, 0.5);
-            margin-top: -8px;
+            border: none;
+            margin-top: -6px;
+            transition: transform 0.15s;
+        }
+        input[type=range]::-webkit-slider-thumb:hover {
+            transform: scale(1.1);
         }
         input[type=range]::-webkit-slider-runnable-track {
             width: 100%;
             height: 4px;
-            background: #262626;
+            background: #1a1a1a;
             border-radius: 2px;
         }
 
@@ -155,6 +138,53 @@
             from { opacity: 0; transform: translateY(10px); }
             to { opacity: 1; transform: translateY(0); }
         }
+
+        /* Gradient text animation */
+        @keyframes gradient {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+        .animate-gradient {
+            animation: gradient 4s ease infinite;
+        }
+
+        /* Stat numbers - monospace for data */
+        .stat-value {
+            font-family: 'JetBrains Mono', 'SF Mono', monospace;
+            font-variant-numeric: tabular-nums;
+            letter-spacing: -0.02em;
+        }
+
+        /* Subtle shine on cards */
+        .card-shine {
+            position: relative;
+            overflow: hidden;
+        }
+        .card-shine::after {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(
+                to bottom right,
+                rgba(255, 255, 255, 0) 0%,
+                rgba(255, 255, 255, 0) 40%,
+                rgba(255, 255, 255, 0.02) 50%,
+                rgba(255, 255, 255, 0) 60%,
+                rgba(255, 255, 255, 0) 100%
+            );
+            transform: rotate(-45deg);
+            pointer-events: none;
+        }
+
+        /* Purple accent border on focus */
+        .purple-focus:focus {
+            border-color: rgba(139, 92, 246, 0.5);
+            outline: none;
+        }
     </style>
 </head>
 <body class="font-sans antialiased min-h-screen flex flex-col">
@@ -163,7 +193,7 @@
     <nav class="fixed top-0 left-0 right-0 z-50 bg-black/80 backdrop-blur-xl border-b border-white/[0.08]">
         <div class="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
             <div class="flex items-center gap-12">
-                <a href="index.html" class="text-sm font-semibold text-white hover:text-[#10b981] transition-colors">
+                <a href="index.html" class="text-sm font-semibold text-white hover:text-[#3b82f6] transition-colors">
                     ← Multifactor Solutions
                 </a>
             </div>
@@ -179,11 +209,13 @@
         
         <!-- Hero Section -->
         <header class="pt-8 pb-4">
-            <div class="inline-block px-3 py-1 rounded-full border border-[#10b981]/30 bg-[#10b981]/10 text-[#10b981] text-xs font-medium uppercase tracking-wider mb-6">
-                Hormone Optimization
+            <div class="inline-flex items-center gap-2.5 px-3.5 py-1.5 rounded-full border border-white/[0.08] text-gray-500 text-[11px] font-medium uppercase tracking-widest mb-8">
+                <span class="w-2 h-2 rounded-full bg-gradient-to-br from-[#3b82f6] to-[#8b5cf6] shadow-[0_0_8px_rgba(139,92,246,0.4)]"></span>
+                MF-ClinRef · PK Modeling
             </div>
-            <h1 class="text-4xl md:text-5xl font-semibold text-white tracking-tight leading-[1.1] mb-4">
-                Testosterone <span class="text-gray-500 text-2xl font-normal">/ TRT Protocols</span>
+            <h1 class="text-4xl md:text-6xl font-bold tracking-tight leading-[1.05] mb-4">
+                <span class="text-white">Testosterone</span>
+                <span class="bg-gradient-to-r from-[#3b82f6] via-[#8b5cf6] to-[#3b82f6] bg-clip-text text-transparent bg-[length:200%_auto] animate-gradient">Optimization</span>
             </h1>
             <p class="text-lg text-gray-400 leading-relaxed max-w-3xl">
                 Integrated pharmacokinetic modeling engine. Customize dose, frequency, and formulation to visualize steady-state testosterone levels across multiple ester protocols.
@@ -191,29 +223,38 @@
         </header>
 
         <!-- Quick Reference Stats -->
-        <section class="grid grid-cols-1 md:grid-cols-3 gap-6">
-            <div class="spotlight-card">
-                <div class="text-xs text-gray-500 uppercase tracking-wider mb-2">Cypionate T½</div>
-                <div class="text-3xl font-semibold text-white">8 <span class="text-lg text-gray-600">days</span></div>
+        <section class="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <div class="spotlight-card card-shine group">
+                <div class="text-[10px] text-gray-500 uppercase tracking-widest mb-3 flex items-center gap-2">
+                    <span class="w-1 h-1 rounded-full bg-[#26e5a4]"></span>
+                    Cypionate T½
+                </div>
+                <div class="stat-value text-4xl font-semibold text-white">8<span class="text-base text-gray-600 ml-1 font-normal">days</span></div>
             </div>
-            <div class="spotlight-card">
-                <div class="text-xs text-gray-500 uppercase tracking-wider mb-2">Propionate T½</div>
-                <div class="text-3xl font-semibold text-white">2 <span class="text-lg text-gray-600">days</span></div>
+            <div class="spotlight-card card-shine group">
+                <div class="text-[10px] text-gray-500 uppercase tracking-widest mb-3 flex items-center gap-2">
+                    <span class="w-1 h-1 rounded-full bg-[#3b82f6]"></span>
+                    Propionate T½
+                </div>
+                <div class="stat-value text-4xl font-semibold text-white">2<span class="text-base text-gray-600 ml-1 font-normal">days</span></div>
             </div>
-            <div class="spotlight-card">
-                <div class="text-xs text-gray-500 uppercase tracking-wider mb-2">Pellet Absorption</div>
-                <div class="text-3xl font-semibold text-white">14+ <span class="text-lg text-gray-600">days</span></div>
+            <div class="spotlight-card card-shine group">
+                <div class="text-[10px] text-gray-500 uppercase tracking-widest mb-3 flex items-center gap-2">
+                    <span class="w-1 h-1 rounded-full bg-[#8b5cf6]"></span>
+                    Pellet Release
+                </div>
+                <div class="stat-value text-4xl font-semibold text-white">14+<span class="text-base text-gray-600 ml-1 font-normal">days</span></div>
             </div>
         </section>
 
         <!-- PROTOCOL SIMULATOR -->
         <section class="relative z-10">
-            <div class="mb-6">
-                <div class="flex items-center mb-2">
-                    <div class="w-1 h-6 bg-[#10b981] rounded mr-3"></div>
-                    <h2 class="text-lg font-semibold text-white">Protocol Simulation & Dosing</h2>
+            <div class="mb-6 border-b border-white/[0.06] pb-4">
+                <div class="flex items-center gap-3 mb-1.5">
+                    <div class="w-1 h-5 rounded-full bg-gradient-to-b from-[#3b82f6] to-[#8b5cf6]"></div>
+                    <h2 class="text-lg font-semibold text-white tracking-tight">Protocol Simulation</h2>
                 </div>
-                <p class="text-sm text-gray-500 ml-4">Multi-Protocol Live Model</p>
+                <p class="text-xs text-gray-600 ml-4 tracking-wide uppercase">Multi-Protocol Live Model · 14-Day View</p>
             </div>
 
             <div class="grid grid-cols-1 lg:grid-cols-4 gap-6">
@@ -232,13 +273,13 @@
                         <div class="p-5 space-y-5 fade-in" id="input-container">
                             <div class="flex justify-between items-center border-b border-white/10 pb-3">
                                 <span class="text-sm font-medium text-white" id="config-title">Cypionate Settings</span>
-                                <span class="text-[10px] text-[#10b981]">● EDITING</span>
+                                <span class="text-[10px] text-[#8b5cf6] flex items-center gap-1.5"><span class="w-1.5 h-1.5 rounded-full bg-[#8b5cf6] animate-pulse"></span>EDITING</span>
                             </div>
                             
                             <!-- Concentration -->
                             <div>
                                 <label class="block text-xs text-gray-500 uppercase tracking-wider mb-2" id="lbl-conc">Vial Concentration</label>
-                                <select id="sim-conc" class="w-full bg-black border border-white/10 text-white text-sm p-2.5 rounded-lg focus:border-[#10b981] outline-none" onchange="updateSimulation()">
+                                <select id="sim-conc" class="w-full bg-black border border-white/10 text-white text-sm p-2.5 rounded-lg focus:border-[#3b82f6] outline-none" onchange="updateSimulation()">
                                 </select>
                             </div>
 
@@ -246,7 +287,7 @@
                             <div>
                                 <div class="flex justify-between text-xs mb-2">
                                     <span class="text-gray-500 uppercase tracking-wider" id="lbl-dose">Dose Per Injection</span>
-                                    <span class="text-[#10b981] font-semibold" id="sim-dose-val">50 mg</span>
+                                    <span class="font-semibold bg-gradient-to-r from-[#3b82f6] to-[#8b5cf6] bg-clip-text text-transparent" id="sim-dose-val">50 mg</span>
                                 </div>
                                 <input type="range" id="sim-dose" min="20" max="300" step="10" value="50">
                             </div>
@@ -255,7 +296,7 @@
                             <div id="freq-container">
                                 <div class="flex justify-between text-xs mb-2">
                                     <span class="text-gray-500 uppercase tracking-wider">Frequency</span>
-                                    <span class="text-[#10b981] font-semibold" id="sim-freq-val">Every 3.5 Days</span>
+                                    <span class="font-semibold bg-gradient-to-r from-[#3b82f6] to-[#8b5cf6] bg-clip-text text-transparent" id="sim-freq-val">Every 3.5 Days</span>
                                 </div>
                                 <input type="range" id="sim-freq" min="1" max="14" step="0.5" value="3.5">
                             </div>
@@ -264,7 +305,7 @@
                             <div>
                                 <div class="flex justify-between text-xs mb-2">
                                     <span class="text-gray-500 uppercase tracking-wider">Patient Weight</span>
-                                    <span class="text-[#06b6d4] font-semibold" id="sim-weight-val">200 lbs</span>
+                                    <span class="font-semibold bg-gradient-to-r from-[#3b82f6] to-[#8b5cf6] bg-clip-text text-transparent" id="sim-weight-val">200 lbs</span>
                                 </div>
                                 <input type="range" id="sim-weight" min="140" max="400" step="5" value="200">
                             </div>
@@ -272,14 +313,14 @@
                             <!-- Rx Output -->
                             <div class="pt-4 border-t border-white/10">
                                 <label class="block text-xs text-gray-500 uppercase tracking-wider mb-3">Rx Instruction</label>
-                                <div class="bg-black border border-[#10b981]/30 p-4 rounded-lg">
+                                <div class="relative bg-black/60 p-4 rounded-lg overflow-hidden" style="border: 1px solid transparent; background-clip: padding-box; background-image: linear-gradient(#000, #000), linear-gradient(135deg, rgba(59, 130, 246, 0.3), rgba(139, 92, 246, 0.3)); background-origin: border-box;">
                                     <div class="flex justify-between items-baseline mb-2">
                                         <span class="text-xs text-gray-500 uppercase" id="out-lbl-1">Volume</span>
                                         <span class="text-xl font-semibold text-white" id="rx-vol">0.25 mL</span>
                                     </div>
                                     <div class="flex justify-between items-baseline">
                                         <span class="text-xs text-gray-500 uppercase" id="out-lbl-2">Weekly</span>
-                                        <span class="text-sm font-semibold text-[#10b981]" id="rx-weekly">100 mg/wk</span>
+                                        <span class="text-sm font-semibold bg-gradient-to-r from-[#26e5a4] to-[#3b82f6] bg-clip-text text-transparent" id="rx-weekly">100 mg/wk</span>
                                     </div>
                                 </div>
                             </div>
@@ -294,16 +335,16 @@
                     <div class="spotlight-card p-4 relative">
                         <!-- Interactive Legend -->
                         <div class="absolute top-6 left-6 z-10 flex flex-wrap gap-2">
-                            <button onclick="toggleSeries(0)" id="legend-cyp" class="toggle-btn active flex items-center gap-2 bg-black/80 border border-white/10 px-3 py-1.5 rounded text-[#10b981]">
-                                <span class="w-2 h-2 rounded-full bg-[#10b981]"></span>
+                            <button onclick="toggleSeries(0)" id="legend-cyp" class="toggle-btn active flex items-center gap-2 bg-black/80 border border-white/10 px-3 py-1.5 rounded text-[#26e5a4]">
+                                <span class="w-2 h-2 rounded-full bg-[#26e5a4]"></span>
                                 <span class="text-[10px] uppercase tracking-wider">Cypionate</span>
                             </button>
-                            <button onclick="toggleSeries(1)" id="legend-prop" class="toggle-btn active flex items-center gap-2 bg-black/80 border border-white/10 px-3 py-1.5 rounded text-[#06b6d4]">
-                                <span class="w-2 h-2 rounded-full bg-[#06b6d4]"></span>
+                            <button onclick="toggleSeries(1)" id="legend-prop" class="toggle-btn active flex items-center gap-2 bg-black/80 border border-white/10 px-3 py-1.5 rounded text-[#3b82f6]">
+                                <span class="w-2 h-2 rounded-full bg-[#3b82f6]"></span>
                                 <span class="text-[10px] uppercase tracking-wider">Propionate</span>
                             </button>
-                            <button onclick="toggleSeries(2)" id="legend-pellet" class="toggle-btn active flex items-center gap-2 bg-black/80 border border-white/10 px-3 py-1.5 rounded text-[#f59e0b]">
-                                <span class="w-2 h-2 rounded-full bg-[#f59e0b]"></span>
+                            <button onclick="toggleSeries(2)" id="legend-pellet" class="toggle-btn active flex items-center gap-2 bg-black/80 border border-white/10 px-3 py-1.5 rounded text-[#fbbf24]">
+                                <span class="w-2 h-2 rounded-full bg-[#fbbf24]"></span>
                                 <span class="text-[10px] uppercase tracking-wider">Pellets</span>
                             </button>
                             <button onclick="toggleSeries(3)" id="legend-oral" class="toggle-btn flex items-center gap-2 bg-black/80 border border-white/10 px-3 py-1.5 rounded text-[#ef4444]">
@@ -318,18 +359,18 @@
                     </div>
 
                     <!-- Stats Bar -->
-                    <div class="grid grid-cols-3 gap-4">
-                        <div class="spotlight-card p-4">
-                            <span class="block text-xs text-gray-500 uppercase tracking-wider mb-1">Active Peak</span>
-                            <span class="block text-xl font-semibold text-[#10b981]" id="stat-peak">--</span>
+                    <div class="grid grid-cols-3 gap-3">
+                        <div class="spotlight-card p-4 border-l-2 border-l-[#3b82f6]">
+                            <span class="block text-[10px] text-gray-600 uppercase tracking-widest mb-2">Peak</span>
+                            <span class="stat-value block text-2xl font-semibold text-white" id="stat-peak">--</span>
                         </div>
-                        <div class="spotlight-card p-4">
-                            <span class="block text-xs text-gray-500 uppercase tracking-wider mb-1">Active Trough</span>
-                            <span class="block text-xl font-semibold text-[#06b6d4]" id="stat-trough">--</span>
+                        <div class="spotlight-card p-4 border-l-2 border-l-[#8b5cf6]">
+                            <span class="block text-[10px] text-gray-600 uppercase tracking-widest mb-2">Trough</span>
+                            <span class="stat-value block text-2xl font-semibold text-white" id="stat-trough">--</span>
                         </div>
-                        <div class="spotlight-card p-4">
-                            <span class="block text-xs text-gray-500 uppercase tracking-wider mb-1">Variance</span>
-                            <span class="block text-xl font-semibold text-white" id="stat-variance">--</span>
+                        <div class="spotlight-card p-4 border-l-2 border-l-[#26e5a4]">
+                            <span class="block text-[10px] text-gray-600 uppercase tracking-widest mb-2">Variance</span>
+                            <span class="stat-value block text-2xl font-semibold" id="stat-variance">--</span>
                         </div>
                     </div>
                 </div>
@@ -428,8 +469,8 @@
     </footer>
 
     <!-- Gradient Orbs -->
-    <div style="position: fixed; width: 600px; height: 600px; background: radial-gradient(circle, #10b981 0%, transparent 70%); top: -200px; right: -200px; opacity: 0.1; filter: blur(100px); pointer-events: none; z-index: 0;"></div>
-    <div style="position: fixed; width: 400px; height: 400px; background: radial-gradient(circle, #06b6d4 0%, transparent 70%); bottom: -150px; left: -150px; opacity: 0.08; filter: blur(100px); pointer-events: none; z-index: 0;"></div>
+    <!-- Subtle ambient gradient - blue + purple -->
+    <div style="position: fixed; width: 100%; height: 100%; background: radial-gradient(ellipse at top right, rgba(59, 130, 246, 0.04) 0%, transparent 40%), radial-gradient(ellipse at bottom left, rgba(139, 92, 246, 0.03) 0%, transparent 40%); pointer-events: none; z-index: 0;"></div>
 
     <script>
         // Spotlight effect
@@ -489,12 +530,14 @@
 
         function generateData() {
             const dataCyp = [], dataProp = [], dataPellet = [], dataOral = [];
-            const steps = 150, duration = 14;
+            const steps = 200; // More points = smoother curves
+            const duration = 14;
             let minActive = 10000, maxActive = 0;
 
             for (let i = 0; i <= steps; i++) {
                 const day = (i / steps) * duration;
                 
+                // Always calculate ALL protocols with their stored values
                 const valCyp = getSerumLevel(day, protocols.cyp.dose, 8, protocols.cyp.freq, globalWeight);
                 dataCyp.push({ x: day, y: valCyp });
 
@@ -504,9 +547,11 @@
                 const valPellet = getPelletLevel(day, protocols.pellet.dose, globalWeight);
                 dataPellet.push({ x: day, y: valPellet });
 
-                const oralVal = 300 + (Math.abs(Math.sin((day * Math.PI) / 0.25)) * 400); 
+                // Jatenzo: BID dosing creates sine-wave pattern
+                const oralVal = 300 + (Math.abs(Math.sin((day * Math.PI) / 0.5)) * 400); 
                 dataOral.push({ x: day, y: oralVal });
 
+                // Stats for ACTIVE protocol only
                 let currentVal = 0;
                 if(activeProtocol === 'cyp') currentVal = valCyp;
                 else if(activeProtocol === 'prop') currentVal = valProp;
@@ -616,10 +661,20 @@
             pkChart.data.datasets[3].data = data.oral;
             pkChart.update();
 
-            document.getElementById('stat-peak').innerText = Math.round(data.stats.max) + " ng/dL";
-            document.getElementById('stat-trough').innerText = Math.round(data.stats.min) + " ng/dL";
+            document.getElementById('stat-peak').innerText = Math.round(data.stats.max);
+            document.getElementById('stat-trough').innerText = Math.round(data.stats.min);
             const variance = ((data.stats.max - data.stats.min) / data.stats.max) * 100;
-            document.getElementById('stat-variance').innerText = isNaN(variance) ? "0%" : Math.round(variance) + "%";
+            const vEl = document.getElementById('stat-variance');
+            vEl.innerText = isNaN(variance) ? "0%" : Math.round(variance) + "%";
+            
+            // Color code variance (teal = stable, yellow = moderate, red = high)
+            if (variance < 20) {
+                vEl.className = 'stat-value block text-2xl font-semibold text-[#26e5a4]';  // Teal
+            } else if (variance < 35) {
+                vEl.className = 'stat-value block text-2xl font-semibold text-[#fbbf24]';  // Yellow
+            } else {
+                vEl.className = 'stat-value block text-2xl font-semibold text-[#ef4444]';  // Red
+            }
         }
 
         function toggleSeries(index) {
@@ -631,55 +686,109 @@
         }
 
         function initChart() {
-            const gradCyp = ctx.createLinearGradient(0,0,0,400); 
-            gradCyp.addColorStop(0, 'rgba(16,185,129,0.4)'); 
-            gradCyp.addColorStop(1, 'rgba(16,185,129,0.0)');
+            // Gradient fills for area under curves
+            const gradCyp = ctx.createLinearGradient(0, 0, 0, 400); 
+            gradCyp.addColorStop(0, 'rgba(38, 229, 164, 0.3)');  // Teal for Cyp
+            gradCyp.addColorStop(1, 'rgba(38, 229, 164, 0.0)');
             
-            const gradProp = ctx.createLinearGradient(0,0,0,400); 
-            gradProp.addColorStop(0, 'rgba(6,182,212,0.2)'); 
-            gradProp.addColorStop(1, 'rgba(6,182,212,0.0)');
+            const gradProp = ctx.createLinearGradient(0, 0, 0, 400); 
+            gradProp.addColorStop(0, 'rgba(59, 130, 246, 0.2)');  // Blue for Prop
+            gradProp.addColorStop(1, 'rgba(59, 130, 246, 0.0)');
 
             pkChart = new Chart(ctx, {
                 type: 'line',
                 data: {
                     datasets: [
-                        { label: 'Cypionate', borderColor: '#10b981', backgroundColor: gradCyp, borderWidth: 3, tension: 0.4, fill: true, pointRadius: 0 },
-                        { label: 'Propionate', borderColor: '#06b6d4', backgroundColor: gradProp, borderWidth: 2, tension: 0.3, fill: true, pointRadius: 0 },
-                        { label: 'Pellets', borderColor: '#f59e0b', borderWidth: 2, borderDash: [5, 5], tension: 0.4, fill: false, pointRadius: 0 },
-                        { label: 'Jatenzo', borderColor: '#ef4444', borderWidth: 1, borderDash: [2, 2], tension: 0.1, fill: false, pointRadius: 0, hidden: true }
+                        { 
+                            label: 'Cypionate', 
+                            borderColor: '#26e5a4',  // Primary Teal
+                            backgroundColor: gradCyp, 
+                            borderWidth: 2.5, 
+                            tension: 0.4, 
+                            fill: true, 
+                            pointRadius: 0,
+                            order: 1
+                        },
+                        { 
+                            label: 'Propionate', 
+                            borderColor: '#3b82f6',  // Tertiary Blue
+                            backgroundColor: gradProp, 
+                            borderWidth: 2, 
+                            tension: 0.35, 
+                            fill: true, 
+                            pointRadius: 0,
+                            order: 2
+                        },
+                        { 
+                            label: 'Pellets', 
+                            borderColor: '#fbbf24',  // Amber
+                            borderWidth: 2, 
+                            borderDash: [6, 4], 
+                            tension: 0.4, 
+                            fill: false, 
+                            pointRadius: 0,
+                            order: 3
+                        },
+                        { 
+                            label: 'Jatenzo', 
+                            borderColor: '#ef4444',  // Red
+                            borderWidth: 1.5, 
+                            borderDash: [3, 3], 
+                            tension: 0.2, 
+                            fill: false, 
+                            pointRadius: 0, 
+                            hidden: true,
+                            order: 4
+                        }
                     ]
                 },
                 options: {
                     responsive: true, 
                     maintainAspectRatio: false, 
-                    animation: { duration: 0 }, 
+                    animation: { duration: 150 },  // Smooth updates
                     interaction: { mode: 'index', intersect: false },
                     plugins: { 
                         legend: { display: false }, 
                         tooltip: { 
-                            backgroundColor: 'rgba(0,0,0,0.9)', 
-                            titleColor: '#fff', 
+                            backgroundColor: 'rgba(10, 10, 10, 0.95)', 
+                            titleColor: '#fff',
+                            titleFont: { weight: '600' },
                             bodyColor: '#e5e5e5',
-                            borderColor: '#1a1a1a', 
+                            bodyFont: { family: 'Inter' },
+                            borderColor: '#333', 
                             borderWidth: 1, 
-                            padding: 12, 
+                            padding: 12,
+                            cornerRadius: 8,
+                            displayColors: true,
                             callbacks: { 
-                                label: function(c) { return c.dataset.label + ': ' + Math.round(c.raw.y) + ' ng/dL'; } 
+                                title: function(items) { return 'Day ' + items[0].raw.x.toFixed(1); },
+                                label: function(c) { return ' ' + c.dataset.label + ': ' + Math.round(c.raw.y) + ' ng/dL'; } 
                             } 
                         } 
                     },
                     scales: { 
                         x: { 
                             type: 'linear', 
-                            grid: { color: '#1a1a1a' }, 
-                            ticks: { color: '#6b7280', callback: function(val) { return 'Day ' + val; } }, 
+                            grid: { color: '#1f1f1f', lineWidth: 1 }, 
+                            ticks: { 
+                                color: '#6b7280', 
+                                font: { size: 11 },
+                                callback: function(val) { return 'Day ' + val; },
+                                maxTicksLimit: 8
+                            }, 
+                            min: 0,
                             max: 14 
                         }, 
                         y: { 
-                            grid: { color: '#1a1a1a' }, 
+                            grid: { color: '#1f1f1f', lineWidth: 1 }, 
                             suggestedMin: 0, 
                             suggestedMax: 1500, 
-                            ticks: { color: '#404040', stepSize: 500 } 
+                            ticks: { 
+                                color: '#6b7280',
+                                font: { size: 11 },
+                                stepSize: 500,
+                                callback: function(val) { return val.toLocaleString(); }
+                            } 
                         } 
                     }
                 }
