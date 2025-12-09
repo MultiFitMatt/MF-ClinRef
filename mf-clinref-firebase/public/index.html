@@ -1,68 +1,39 @@
 <!DOCTYPE html>
-<html lang="en" class="dark">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>TRT Simulator | Multifactor Clinical Reference</title>
     
-    <!-- SEO -->
-    <meta name="description" content="Free testosterone pharmacokinetics simulator. Visualize TRT protocols with our clinical-grade modeling engine.">
-    
-    <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     
-    <!-- Scripts -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    
-    <!-- Firebase -->
-    <script src="https://www.gstatic.com/firebasejs/10.7.0/firebase-app-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/10.7.0/firebase-auth-compat.js"></script>
 
     <script>
         tailwind.config = {
-            theme: {
-                extend: {
-                    fontFamily: {
-                        sans: ['Inter', 'sans-serif'],
-                    }
-                }
-            }
+            theme: { extend: { fontFamily: { sans: ['Inter', 'sans-serif'] } } }
         }
     </script>
 
     <style>
-        body {
-            font-family: 'Inter', sans-serif;
-            background-color: #000000;
-            color: #e5e5e5;
-        }
-
-        .gradient-hero {
-            background: linear-gradient(135deg, #10b981 0%, #06b6d4 50%, #3b82f6 100%);
-            background-size: 200% 200%;
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            animation: gradient-shift 8s ease infinite;
-        }
-
-        @keyframes gradient-shift {
-            0%, 100% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-        }
+        body { background-color: #000000; color: #ffffff; }
+        ::-webkit-scrollbar { width: 10px; }
+        ::-webkit-scrollbar-track { background: #000000; }
+        ::-webkit-scrollbar-thumb { background: linear-gradient(180deg, #10b981 0%, #06b6d4 100%); border-radius: 5px; }
+        ::selection { background: rgba(16, 185, 129, 0.3); color: white; }
 
         .spotlight-card {
             background: #0a0a0a;
             border: 1px solid #1a1a1a;
             border-radius: 12px;
+            padding: 24px;
             position: relative;
             overflow: hidden;
             transition: all 0.3s ease;
         }
-
         .spotlight-card::before {
             content: '';
             position: absolute;
@@ -73,85 +44,28 @@
             pointer-events: none;
             z-index: 1;
         }
-
         .spotlight-card:hover::before { opacity: 1; }
+        .spotlight-card:hover { border-color: rgba(16, 185, 129, 0.5); box-shadow: 0 0 20px rgba(16, 185, 129, 0.1); }
         .spotlight-card > * { position: relative; z-index: 2; }
 
-        .control-card {
-            background: #0a0a0a;
-            border: 1px solid #1a1a1a;
-            border-radius: 12px;
-            padding: 24px;
-        }
+        .chart-wrapper { position: relative; width: 100%; height: 350px; }
 
-        input[type=range] {
-            -webkit-appearance: none;
-            background: transparent;
-            width: 100%;
-        }
-
+        input[type=range] { -webkit-appearance: none; background: transparent; width: 100%; }
         input[type=range]::-webkit-slider-thumb {
             -webkit-appearance: none;
-            height: 20px;
-            width: 20px;
-            border-radius: 50%;
-            background: #10b981;
-            cursor: pointer;
+            height: 20px; width: 20px; border-radius: 50%;
+            background: #10b981; cursor: pointer;
             border: 2px solid #000;
             box-shadow: 0 0 10px rgba(16, 185, 129, 0.5);
             margin-top: -8px;
         }
-
         input[type=range]::-webkit-slider-runnable-track {
-            width: 100%;
-            height: 4px;
-            background: #1a1a1a;
-            border-radius: 2px;
+            width: 100%; height: 4px;
+            background: #262626; border-radius: 2px;
         }
 
-        .chart-wrapper {
-            position: relative;
-            width: 100%;
-            height: 350px;
-            background: #000000;
-        }
-
-        ::-webkit-scrollbar { width: 10px; }
-        ::-webkit-scrollbar-track { background: #000000; }
-        ::-webkit-scrollbar-thumb { background: linear-gradient(180deg, #10b981 0%, #06b6d4 100%); border-radius: 5px; }
-
-        ::selection {
-            background: rgba(16, 185, 129, 0.3);
-            color: white;
-        }
-
-        .fade-in {
-            animation: fadeIn 0.4s ease-out;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        .upgrade-banner {
-            background: linear-gradient(135deg, rgba(16, 185, 129, 0.1) 0%, rgba(6, 182, 212, 0.1) 100%);
-            border: 1px solid rgba(16, 185, 129, 0.3);
-        }
-
-        .btn-cta {
-            background: linear-gradient(135deg, #10b981 0%, #06b6d4 100%);
-            transition: all 0.3s ease;
-        }
-
-        .btn-cta:hover {
-            box-shadow: 0 0 30px rgba(16, 185, 129, 0.4);
-            transform: translateY(-2px);
-        }
-
-        .locked-overlay {
-            background: linear-gradient(to bottom, transparent 0%, rgba(0,0,0,0.95) 100%);
-        }
+        .fade-in { animation: fadeIn 0.5s ease-in-out; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
     </style>
 </head>
 <body class="font-sans antialiased min-h-screen flex flex-col">
@@ -159,31 +73,27 @@
     <!-- Navigation -->
     <nav class="fixed top-0 left-0 right-0 z-50 bg-black/80 backdrop-blur-xl border-b border-white/[0.08]">
         <div class="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
-            <div class="flex items-center gap-2">
-                <span class="font-semibold text-white">MULTIFACTOR</span>
-                <span class="font-semibold italic text-green-400">Solutions</span>
-            </div>
+            <a href="#" class="text-sm font-semibold text-white">Multifactor Solutions</a>
             <div class="flex items-center gap-4">
                 <a href="login.html" class="text-sm text-gray-400 hover:text-white transition-colors">Sign In</a>
-                <a href="login.html?signup=true" class="btn-cta px-4 py-2 rounded-lg text-sm font-semibold text-white">
+                <a href="login.html" class="px-4 py-2 bg-gradient-to-r from-[#10b981] to-[#06b6d4] text-white text-sm font-medium rounded-lg hover:shadow-[0_0_20px_rgba(16,185,129,0.3)] transition-all">
                     Get Full Access
                 </a>
             </div>
         </div>
     </nav>
 
-    <main class="flex-grow max-w-7xl mx-auto px-6 pt-24 pb-12 w-full space-y-8">
-
-        <!-- Hero Section -->
-        <header class="pt-12 pb-8 max-w-4xl mx-auto text-center">
-            <div class="inline-block px-3 py-1 rounded-full border border-green-500/30 bg-green-500/10 text-green-400 text-xs font-medium uppercase tracking-wider mb-6">
+    <main class="flex-grow pt-24 pb-20 px-6 max-w-7xl mx-auto w-full space-y-10 relative">
+        
+        <!-- Hero -->
+        <header class="pt-8 pb-4 text-center max-w-3xl mx-auto">
+            <div class="inline-block px-3 py-1 rounded-full border border-[#10b981]/30 bg-[#10b981]/10 text-[#10b981] text-xs font-medium uppercase tracking-wider mb-6">
                 Free Preview
             </div>
-            <h1 class="text-4xl md:text-5xl font-semibold tracking-tight leading-[1.1] mb-4">
-                <span class="text-white">TRT </span>
-                <span class="gradient-hero">Pharmacokinetics Simulator</span>
+            <h1 class="text-4xl md:text-5xl font-semibold text-white tracking-tight leading-[1.1] mb-4">
+                TRT Pharmacokinetics <span class="text-transparent bg-clip-text bg-gradient-to-r from-[#10b981] to-[#06b6d4]">Simulator</span>
             </h1>
-            <p class="text-lg text-gray-400 leading-relaxed max-w-2xl mx-auto">
+            <p class="text-lg text-gray-400 leading-relaxed">
                 Visualize testosterone cypionate serum levels. Adjust dose and frequency to see steady-state projections.
             </p>
         </header>
@@ -194,192 +104,118 @@
                 
                 <!-- Controls -->
                 <div class="lg:col-span-1">
-                    <div class="spotlight-card p-6">
-                        <div class="flex items-center justify-between mb-6">
-                            <h3 class="text-sm font-semibold text-white uppercase tracking-wider">Protocol Settings</h3>
-                            <span class="text-[10px] bg-green-500/20 text-green-400 px-2 py-1 rounded uppercase">Preview</span>
+                    <div class="spotlight-card p-0 overflow-hidden">
+                        <div class="bg-black border-b border-white/10 px-5 py-3 flex justify-between items-center">
+                            <span class="text-sm font-medium text-white">Protocol Settings</span>
+                            <span class="text-[10px] bg-[#10b981]/20 text-[#10b981] px-2 py-0.5 rounded border border-[#10b981]/30">PREVIEW</span>
                         </div>
-
-                        <!-- Dose Slider -->
-                        <div class="mb-6">
-                            <div class="flex justify-between text-xs mb-2">
-                                <span class="text-gray-400 uppercase tracking-wider">Dose (Cypionate)</span>
-                                <span class="text-green-400 font-semibold" id="dose-val">50 mg</span>
+                        <div class="p-5 space-y-5">
+                            <div>
+                                <div class="flex justify-between text-xs mb-2">
+                                    <span class="text-gray-500 uppercase tracking-wider">Dose (Cypionate)</span>
+                                    <span class="text-[#10b981] font-semibold" id="dose-val">50 mg</span>
+                                </div>
+                                <input type="range" id="dose-slider" min="20" max="150" step="10" value="50">
+                                <p class="text-[10px] text-gray-600 mt-1">Preview limited to 150mg max</p>
                             </div>
-                            <input type="range" id="dose-slider" min="20" max="150" step="10" value="50" class="w-full">
-                            <p class="text-[10px] text-gray-600 mt-1">Preview limited to 150mg max</p>
-                        </div>
-
-                        <!-- Frequency Slider -->
-                        <div class="mb-6">
-                            <div class="flex justify-between text-xs mb-2">
-                                <span class="text-gray-400 uppercase tracking-wider">Frequency</span>
-                                <span class="text-green-400 font-semibold" id="freq-val">Every 3.5 Days</span>
+                            <div>
+                                <div class="flex justify-between text-xs mb-2">
+                                    <span class="text-gray-500 uppercase tracking-wider">Frequency</span>
+                                    <span class="text-[#10b981] font-semibold" id="freq-val">Every 3.5 Days</span>
+                                </div>
+                                <input type="range" id="freq-slider" min="2" max="7" step="0.5" value="3.5">
                             </div>
-                            <input type="range" id="freq-slider" min="2" max="7" step="0.5" value="3.5" class="w-full">
-                        </div>
-
-                        <!-- Weight Slider -->
-                        <div class="mb-6">
-                            <div class="flex justify-between text-xs mb-2">
-                                <span class="text-gray-400 uppercase tracking-wider">Patient Weight</span>
-                                <span class="text-green-400 font-semibold" id="weight-val">200 lbs</span>
+                            <div>
+                                <div class="flex justify-between text-xs mb-2">
+                                    <span class="text-gray-500 uppercase tracking-wider">Patient Weight</span>
+                                    <span class="text-[#06b6d4] font-semibold" id="weight-val">200 lbs</span>
+                                </div>
+                                <input type="range" id="weight-slider" min="150" max="250" step="5" value="200">
+                                <p class="text-[10px] text-gray-600 mt-1">Preview limited to 150-250 lbs</p>
                             </div>
-                            <input type="range" id="weight-slider" min="150" max="250" step="5" value="200" class="w-full">
-                            <p class="text-[10px] text-gray-600 mt-1">Preview limited to 150-250 lbs</p>
-                        </div>
-
-                        <!-- Stats -->
-                        <div class="pt-6 border-t border-white/[0.08] space-y-3">
-                            <div class="flex justify-between items-center">
-                                <span class="text-xs text-gray-500 uppercase">Peak</span>
-                                <span class="text-lg font-semibold text-green-400" id="stat-peak">--</span>
-                            </div>
-                            <div class="flex justify-between items-center">
-                                <span class="text-xs text-gray-500 uppercase">Trough</span>
-                                <span class="text-lg font-semibold text-cyan-400" id="stat-trough">--</span>
-                            </div>
-                            <div class="flex justify-between items-center">
-                                <span class="text-xs text-gray-500 uppercase">Variance</span>
-                                <span class="text-lg font-semibold text-white" id="stat-variance">--</span>
+                            <div class="pt-4 border-t border-white/10">
+                                <p class="text-[10px] text-gray-500 uppercase tracking-wider mb-3">Full Version Includes:</p>
+                                <ul class="text-xs text-gray-600 space-y-2">
+                                    <li class="flex items-center gap-2"><span class="w-1.5 h-1.5 rounded-full bg-gray-700"></span>Propionate & Pellet Protocols</li>
+                                    <li class="flex items-center gap-2"><span class="w-1.5 h-1.5 rounded-full bg-gray-700"></span>Full Dose Range (20-300mg)</li>
+                                    <li class="flex items-center gap-2"><span class="w-1.5 h-1.5 rounded-full bg-gray-700"></span>Multi-Protocol Overlay</li>
+                                    <li class="flex items-center gap-2"><span class="w-1.5 h-1.5 rounded-full bg-gray-700"></span>Jatenzo (Oral) Simulation</li>
+                                </ul>
                             </div>
                         </div>
                     </div>
                 </div>
 
                 <!-- Chart -->
-                <div class="lg:col-span-2">
+                <div class="lg:col-span-2 space-y-4">
                     <div class="spotlight-card p-4 relative">
-                        <div class="absolute top-4 left-4 z-10">
-                            <span class="text-[10px] text-gray-500 uppercase tracking-wider">7-Day Preview</span>
+                        <div class="absolute top-6 left-6 z-10">
+                            <div class="flex items-center gap-2 bg-black/80 border border-white/10 px-3 py-1.5 rounded text-[#10b981]">
+                                <span class="w-2 h-2 rounded-full bg-[#10b981]"></span>
+                                <span class="text-[10px] uppercase tracking-wider">Cypionate</span>
+                            </div>
                         </div>
-                        <div class="chart-wrapper">
-                            <canvas id="pkChart"></canvas>
+                        <div class="chart-wrapper"><canvas id="pkChart"></canvas></div>
+                    </div>
+                    <div class="grid grid-cols-3 gap-4">
+                        <div class="spotlight-card p-4">
+                            <span class="block text-xs text-gray-500 uppercase tracking-wider mb-1">Peak</span>
+                            <span class="block text-lg font-semibold text-[#10b981]" id="stat-peak">--</span>
+                        </div>
+                        <div class="spotlight-card p-4">
+                            <span class="block text-xs text-gray-500 uppercase tracking-wider mb-1">Trough</span>
+                            <span class="block text-lg font-semibold text-[#06b6d4]" id="stat-trough">--</span>
+                        </div>
+                        <div class="spotlight-card p-4">
+                            <span class="block text-xs text-gray-500 uppercase tracking-wider mb-1">Variance</span>
+                            <span class="block text-lg font-semibold text-white" id="stat-variance">--</span>
                         </div>
                     </div>
                 </div>
             </div>
         </section>
 
-        <!-- Upgrade Banner -->
-        <section class="upgrade-banner rounded-xl p-8 text-center relative overflow-hidden">
-            <div class="relative z-10">
-                <h2 class="text-2xl font-semibold text-white mb-2">Unlock the Full Clinical Suite</h2>
-                <p class="text-gray-400 mb-6 max-w-2xl mx-auto">
-                    Access 20+ protocols including Propionate, Pellets, Peptides (BPC-157, TB-500), Sexual Health (PT-141, Tadalafil), and more. Full 14-day modeling, all dose ranges, comparison overlays.
+        <!-- CTA -->
+        <section class="py-8">
+            <div class="spotlight-card text-center max-w-2xl mx-auto">
+                <h2 class="text-2xl font-semibold text-white mb-4">Unlock the Full Clinical Suite</h2>
+                <p class="text-gray-400 text-sm mb-6">
+                    Access 20+ protocols including Propionate, Pellets, Peptides (BPC-157, TB-500), Sexual Health (PT-141, Tadalafil), and more.
                 </p>
-                <div class="flex flex-wrap justify-center gap-4">
-                    <a href="login.html?signup=true" class="btn-cta px-8 py-3 rounded-lg font-semibold text-white">
+                <div class="flex justify-center gap-4">
+                    <a href="login.html" class="px-6 py-3 bg-gradient-to-r from-[#10b981] to-[#06b6d4] text-white font-medium rounded-lg hover:shadow-[0_0_30px_rgba(16,185,129,0.4)] transition-all">
                         Start Free Trial →
                     </a>
-                    <a href="#features" class="px-8 py-3 rounded-lg font-semibold text-gray-400 hover:text-white border border-white/10 hover:border-white/30 transition-all">
+                    <a href="#" class="px-6 py-3 border border-white/10 text-gray-400 hover:text-white font-medium rounded-lg transition-colors">
                         See All Features
                     </a>
                 </div>
             </div>
         </section>
 
-        <!-- Locked Protocols Preview -->
-        <section id="features" class="pt-8">
-            <div class="text-center mb-8">
-                <h2 class="text-xl font-semibold text-white mb-2">Full Protocol Library</h2>
-                <p class="text-sm text-gray-500">Available with subscription</p>
+        <!-- Quick Stats -->
+        <section class="grid grid-cols-3 gap-4 max-w-2xl mx-auto">
+            <div class="spotlight-card p-4 text-center">
+                <span class="block text-xs text-gray-500 uppercase tracking-wider mb-1">Cypionate T½</span>
+                <span class="block text-2xl font-semibold text-white">8 <span class="text-sm text-gray-600">days</span></span>
             </div>
-
-            <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
-                <!-- Locked Cards -->
-                <div class="control-card p-4 relative opacity-60">
-                    <div class="absolute inset-0 flex items-center justify-center bg-black/50 rounded-xl">
-                        <svg class="w-6 h-6 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path>
-                        </svg>
-                    </div>
-                    <span class="text-xs text-cyan-400 uppercase">Injectable</span>
-                    <h4 class="text-white font-medium mt-1">T. Propionate</h4>
-                </div>
-
-                <div class="control-card p-4 relative opacity-60">
-                    <div class="absolute inset-0 flex items-center justify-center bg-black/50 rounded-xl">
-                        <svg class="w-6 h-6 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path>
-                        </svg>
-                    </div>
-                    <span class="text-xs text-blue-400 uppercase">Implant</span>
-                    <h4 class="text-white font-medium mt-1">T. Pellets</h4>
-                </div>
-
-                <div class="control-card p-4 relative opacity-60">
-                    <div class="absolute inset-0 flex items-center justify-center bg-black/50 rounded-xl">
-                        <svg class="w-6 h-6 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path>
-                        </svg>
-                    </div>
-                    <span class="text-xs text-rose-400 uppercase">Sexual Health</span>
-                    <h4 class="text-white font-medium mt-1">PT-141</h4>
-                </div>
-
-                <div class="control-card p-4 relative opacity-60">
-                    <div class="absolute inset-0 flex items-center justify-center bg-black/50 rounded-xl">
-                        <svg class="w-6 h-6 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path>
-                        </svg>
-                    </div>
-                    <span class="text-xs text-purple-400 uppercase">Peptide</span>
-                    <h4 class="text-white font-medium mt-1">BPC-157</h4>
-                </div>
-
-                <div class="control-card p-4 relative opacity-60">
-                    <div class="absolute inset-0 flex items-center justify-center bg-black/50 rounded-xl">
-                        <svg class="w-6 h-6 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path>
-                        </svg>
-                    </div>
-                    <span class="text-xs text-orange-400 uppercase">GH Secretagogue</span>
-                    <h4 class="text-white font-medium mt-1">Sermorelin</h4>
-                </div>
-
-                <div class="control-card p-4 relative opacity-60">
-                    <div class="absolute inset-0 flex items-center justify-center bg-black/50 rounded-xl">
-                        <svg class="w-6 h-6 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path>
-                        </svg>
-                    </div>
-                    <span class="text-xs text-yellow-400 uppercase">Oral</span>
-                    <h4 class="text-white font-medium mt-1">Jatenzo</h4>
-                </div>
-
-                <div class="control-card p-4 relative opacity-60">
-                    <div class="absolute inset-0 flex items-center justify-center bg-black/50 rounded-xl">
-                        <svg class="w-6 h-6 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path>
-                        </svg>
-                    </div>
-                    <span class="text-xs text-green-400 uppercase">Fertility</span>
-                    <h4 class="text-white font-medium mt-1">HCG</h4>
-                </div>
-
-                <div class="control-card p-4 relative opacity-60">
-                    <div class="absolute inset-0 flex items-center justify-center bg-black/50 rounded-xl">
-                        <svg class="w-6 h-6 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path>
-                        </svg>
-                    </div>
-                    <span class="text-xs text-emerald-400 uppercase">Longevity</span>
-                    <h4 class="text-white font-medium mt-1">NAD+</h4>
-                </div>
+            <div class="spotlight-card p-4 text-center">
+                <span class="block text-xs text-gray-500 uppercase tracking-wider mb-1">Propionate T½</span>
+                <span class="block text-2xl font-semibold text-white">2 <span class="text-sm text-gray-600">days</span></span>
+            </div>
+            <div class="spotlight-card p-4 text-center">
+                <span class="block text-xs text-gray-500 uppercase tracking-wider mb-1">Pellet Absorp</span>
+                <span class="block text-2xl font-semibold text-white">14+ <span class="text-sm text-gray-600">days</span></span>
             </div>
         </section>
 
     </main>
 
     <!-- Footer -->
-    <footer class="border-t border-white/[0.08] bg-black py-8 mt-12">
-        <div class="max-w-7xl mx-auto px-6 text-center">
-            <div class="flex items-center justify-center gap-2 text-sm text-gray-500 mb-2">
-                <span class="font-semibold text-white">MULTIFACTOR</span>
-                <span class="font-semibold italic text-green-400">Solutions</span>
-            </div>
-            <p class="text-xs text-gray-600">© 2025 | For Clinical Educational Use Only</p>
+    <footer class="mt-12 pt-8 border-t border-white/[0.08]">
+        <div class="max-w-7xl mx-auto px-6 pb-8 text-center">
+            <p class="text-sm text-gray-500">© 2025 Multifactor Solutions</p>
+            <p class="text-[10px] text-gray-700 mt-2">FOR PROFESSIONAL REFERENCE ONLY. NOT MEDICAL ADVICE.</p>
         </div>
     </footer>
 
@@ -388,168 +224,6 @@
     <div style="position: fixed; width: 400px; height: 400px; background: radial-gradient(circle, #06b6d4 0%, transparent 70%); bottom: -150px; left: -150px; opacity: 0.08; filter: blur(100px); pointer-events: none; z-index: 0;"></div>
 
     <script>
-        // Firebase config
-        const firebaseConfig = {
-            apiKey: "AIzaSyCIDRog7147XBoC1ApiZvaRUoJGVzgZNYM",
-            authDomain: "mf-clinref.firebaseapp.com",
-            projectId: "mf-clinref",
-            storageBucket: "mf-clinref.firebasestorage.app",
-            messagingSenderId: "751101096414",
-            appId: "1:751101096414:web:4f8cd6134ac66fb4076d4f"
-        };
-
-        // Initialize Firebase
-        firebase.initializeApp(firebaseConfig);
-
-        // API Base URL
-        const API_BASE = window.location.hostname === 'localhost' 
-            ? 'http://localhost:5001/mf-clinref/us-central1/api'
-            : '/api';
-
-        // Chart instance
-        let pkChart;
-
-        // Initialize chart
-        function initChart() {
-            const ctx = document.getElementById('pkChart').getContext('2d');
-            
-            const gradient = ctx.createLinearGradient(0, 0, 0, 350);
-            gradient.addColorStop(0, 'rgba(16, 185, 129, 0.4)');
-            gradient.addColorStop(1, 'rgba(16, 185, 129, 0.0)');
-
-            pkChart = new Chart(ctx, {
-                type: 'line',
-                data: {
-                    datasets: [{
-                        label: 'T. Cypionate',
-                        data: [],
-                        borderColor: '#10b981',
-                        backgroundColor: gradient,
-                        borderWidth: 3,
-                        tension: 0.4,
-                        fill: true,
-                        pointRadius: 0
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    animation: { duration: 300 },
-                    interaction: { mode: 'index', intersect: false },
-                    plugins: {
-                        legend: { display: false },
-                        tooltip: {
-                            backgroundColor: 'rgba(0,0,0,0.9)',
-                            titleColor: '#fff',
-                            bodyColor: '#fff',
-                            borderColor: '#1a1a1a',
-                            borderWidth: 1,
-                            padding: 12,
-                            callbacks: {
-                                label: function(context) {
-                                    return 'Serum T: ' + Math.round(context.raw.y) + ' ng/dL';
-                                }
-                            }
-                        }
-                    },
-                    scales: {
-                        x: {
-                            type: 'linear',
-                            grid: { color: '#1a1a1a' },
-                            ticks: {
-                                color: '#6b7280',
-                                callback: function(val) { return 'Day ' + val; }
-                            },
-                            max: 7
-                        },
-                        y: {
-                            grid: { color: '#1a1a1a' },
-                            suggestedMin: 0,
-                            suggestedMax: 1200,
-                            ticks: {
-                                color: '#6b7280',
-                                stepSize: 300
-                            }
-                        }
-                    }
-                }
-            });
-        }
-
-        // Fetch data from backend
-        async function fetchPKData() {
-            const dose = parseFloat(document.getElementById('dose-slider').value);
-            const freq = parseFloat(document.getElementById('freq-slider').value);
-            const weight = parseFloat(document.getElementById('weight-slider').value);
-
-            // Update display values
-            document.getElementById('dose-val').textContent = dose + ' mg';
-            document.getElementById('weight-val').textContent = weight + ' lbs';
-            
-            let freqText = freq === 7 ? 'Weekly' : 
-                          freq === 3.5 ? 'Every 3.5 Days' : 
-                          freq === 2 ? 'Every Other Day' : 
-                          'Every ' + freq + ' Days';
-            document.getElementById('freq-val').textContent = freqText;
-
-            try {
-                const response = await fetch(API_BASE + '/calculate-preview', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ dose, freq, weight })
-                });
-
-                const data = await response.json();
-
-                // Update chart
-                pkChart.data.datasets[0].data = data.curves.cyp;
-                pkChart.update();
-
-                // Update stats
-                document.getElementById('stat-peak').textContent = data.stats.peak + ' ng/dL';
-                document.getElementById('stat-trough').textContent = data.stats.trough + ' ng/dL';
-                
-                const varianceEl = document.getElementById('stat-variance');
-                varianceEl.textContent = data.stats.variance + '%';
-                
-                if (data.stats.variance < 20) {
-                    varianceEl.className = 'text-lg font-semibold text-green-400';
-                } else if (data.stats.variance < 40) {
-                    varianceEl.className = 'text-lg font-semibold text-yellow-400';
-                } else {
-                    varianceEl.className = 'text-lg font-semibold text-rose-400';
-                }
-
-            } catch (error) {
-                console.error('API Error:', error);
-                // Fallback to show error state
-                document.getElementById('stat-peak').textContent = 'Error';
-                document.getElementById('stat-trough').textContent = 'Error';
-                document.getElementById('stat-variance').textContent = '--';
-            }
-        }
-
-        // Debounce helper
-        function debounce(func, wait) {
-            let timeout;
-            return function executedFunction(...args) {
-                const later = () => {
-                    clearTimeout(timeout);
-                    func(...args);
-                };
-                clearTimeout(timeout);
-                timeout = setTimeout(later, wait);
-            };
-        }
-
-        // Event listeners
-        const debouncedFetch = debounce(fetchPKData, 150);
-
-        document.getElementById('dose-slider').addEventListener('input', debouncedFetch);
-        document.getElementById('freq-slider').addEventListener('input', debouncedFetch);
-        document.getElementById('weight-slider').addEventListener('input', debouncedFetch);
-
-        // Spotlight effect
         document.querySelectorAll('.spotlight-card').forEach(card => {
             card.addEventListener('mousemove', (e) => {
                 const rect = card.getBoundingClientRect();
@@ -558,13 +232,63 @@
             });
         });
 
-        // Initialize
-        window.addEventListener('DOMContentLoaded', () => {
-            initChart();
-            fetchPKData();
-        });
-    </script>
+        const ctx = document.getElementById('pkChart').getContext('2d');
+        let pkChart;
 
+        function calculatePreviewPK(dose, freq, weight) {
+            const HL = 8, k = Math.log(2) / HL, ka = 1.2, weightFactor = 180 / weight, SCALAR = 7.1;
+            const data = []; let minLevel = Infinity, maxLevel = 0;
+            for (let i = 0; i <= 100; i++) {
+                const day = (i / 100) * 7; let level = 0;
+                for (let tDose = -40; tDose <= day; tDose += freq) {
+                    const t = day - tDose;
+                    if (t >= 0) level += (dose * weightFactor) * SCALAR * (Math.exp(-k * t) - Math.exp(-ka * t));
+                }
+                data.push({ x: day, y: level });
+                if (level < minLevel) minLevel = level;
+                if (level > maxLevel) maxLevel = level;
+            }
+            return { curve: data, stats: { peak: Math.round(maxLevel), trough: Math.round(minLevel), variance: Math.round(((maxLevel - minLevel) / maxLevel) * 100) } };
+        }
+
+        function updateSimulation() {
+            const dose = parseFloat(document.getElementById('dose-slider').value);
+            const freq = parseFloat(document.getElementById('freq-slider').value);
+            const weight = parseFloat(document.getElementById('weight-slider').value);
+            
+            document.getElementById('dose-val').textContent = dose + ' mg';
+            document.getElementById('weight-val').textContent = weight + ' lbs';
+            document.getElementById('freq-val').textContent = freq === 7 ? 'Weekly' : freq === 3.5 ? 'Every 3.5 Days' : freq === 2 ? 'Every Other Day' : 'Every ' + freq + ' Days';
+
+            const data = calculatePreviewPK(dose, freq, weight);
+            pkChart.data.datasets[0].data = data.curve;
+            pkChart.update();
+
+            document.getElementById('stat-peak').textContent = data.stats.peak + ' ng/dL';
+            document.getElementById('stat-trough').textContent = data.stats.trough + ' ng/dL';
+            const vEl = document.getElementById('stat-variance');
+            vEl.textContent = data.stats.variance + '%';
+            vEl.className = 'block text-lg font-semibold ' + (data.stats.variance < 20 ? 'text-[#10b981]' : data.stats.variance < 40 ? 'text-[#f59e0b]' : 'text-[#ef4444]');
+        }
+
+        function initChart() {
+            const grad = ctx.createLinearGradient(0,0,0,300); 
+            grad.addColorStop(0, 'rgba(16,185,129,0.4)'); 
+            grad.addColorStop(1, 'rgba(16,185,129,0.0)');
+            
+            pkChart = new Chart(ctx, {
+                type: 'line',
+                data: { datasets: [{ label: 'Cypionate', borderColor: '#10b981', backgroundColor: grad, borderWidth: 3, tension: 0.4, fill: true, pointRadius: 0 }] },
+                options: {
+                    responsive: true, maintainAspectRatio: false, animation: { duration: 0 },
+                    plugins: { legend: { display: false }, tooltip: { backgroundColor: 'rgba(0,0,0,0.9)', titleColor: '#fff', bodyColor: '#e5e5e5', borderColor: '#1a1a1a', borderWidth: 1, padding: 10, callbacks: { label: c => 'Serum T: ' + Math.round(c.raw.y) + ' ng/dL' } } },
+                    scales: { x: { type: 'linear', grid: { color: '#1a1a1a' }, ticks: { color: '#6b7280', callback: val => 'Day ' + val }, max: 7 }, y: { grid: { color: '#1a1a1a' }, suggestedMin: 0, suggestedMax: 1200, ticks: { color: '#404040', stepSize: 400 } } }
+                }
+            });
+        }
+
+        window.addEventListener('load', () => { initChart(); updateSimulation(); });
+        ['dose-slider', 'weight-slider', 'freq-slider'].forEach(id => document.getElementById(id).addEventListener('input', updateSimulation));
+    </script>
 </body>
 </html>
-

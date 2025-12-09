@@ -475,9 +475,7 @@
         const auth = firebase.auth();
 
         // API Base
-        const API_BASE = window.location.hostname === 'localhost' 
-            ? 'http://localhost:5001/mf-clinref/us-central1/api'
-            : '/api';
+        const API_BASE = 'https://us-central1-mf-clinref.cloudfunctions.net/clinref';
 
         // State
         let currentUser = null;
@@ -622,8 +620,29 @@
             pkChart.update();
         }
 
-        // Fetch PK data from backend
-        async function fetchPKData() {
+        // PK Engine (client-side for authenticated users)
+        function getSerumLevel(timeDays, dose, halfLife, interval, weight) {
+            const k = Math.log(2) / halfLife;
+            const ka = 1.2;
+            const weightFactor = 180 / weight;
+            const SCALAR = 7.1;
+            let totalLevel = 0;
+            for (let tDose = -40; tDose <= timeDays; tDose += interval) {
+                const t = timeDays - tDose;
+                if (t >= 0) totalLevel += (dose * weightFactor) * SCALAR * (Math.exp(-k * t) - Math.exp(-ka * t));
+            }
+            return totalLevel;
+        }
+
+        function getPelletLevel(day, totalDose, weight) {
+            const weightFactor = 180 / weight;
+            const k_el = Math.log(2) / 70;
+            const k_abs = Math.log(2) / 4;
+            const t = day + 1;
+            return Math.max(0, (totalDose * weightFactor) * 0.85 * (Math.exp(-k_el * t) - Math.exp(-k_abs * t)));
+        }
+
+        function fetchPKData() {
             const dose = parseFloat(document.getElementById('dose-slider').value);
             const freq = parseFloat(document.getElementById('freq-slider').value);
             const weight = parseFloat(document.getElementById('weight-slider').value);
@@ -641,45 +660,55 @@
                           'Every ' + freq + ' Days';
             document.getElementById('freq-val').textContent = freqText;
 
-            try {
-                const response = await fetch(API_BASE + '/calculate', {
-                    method: 'POST',
-                    headers: { 
-                        'Content-Type': 'application/json',
-                        'Authorization': 'Bearer ' + authToken
-                    },
-                    body: JSON.stringify({ protocol: activeProtocol, dose, freq, conc, weight })
-                });
+            // Generate PK curves
+            const dataCyp = [], dataProp = [], dataPellet = [], dataOral = [];
+            let minActive = 10000, maxActive = 0;
+            const steps = 150, duration = 14;
 
-                if (!response.ok) {
-                    throw new Error('API error');
-                }
-
-                const data = await response.json();
-
-                // Update chart
-                pkChart.data.datasets[0].data = data.curves.cyp || [];
-                pkChart.data.datasets[1].data = data.curves.prop || [];
-                pkChart.data.datasets[2].data = data.curves.pellet || [];
-                pkChart.data.datasets[3].data = data.curves.oral || [];
-                pkChart.update();
-
-                // Update stats
-                document.getElementById('stat-peak').textContent = data.stats.peak + ' ng/dL';
-                document.getElementById('stat-trough').textContent = data.stats.trough + ' ng/dL';
+            for (let i = 0; i <= steps; i++) {
+                const day = (i / steps) * duration;
                 
-                const varianceEl = document.getElementById('stat-variance');
-                varianceEl.textContent = data.stats.variance + '%';
-                varianceEl.className = 'block text-2xl font-semibold ' + 
-                    (data.stats.variance < 20 ? 'text-green-400' : 
-                     data.stats.variance < 40 ? 'text-yellow-400' : 'text-rose-400');
+                const valCyp = getSerumLevel(day, activeProtocol === 'cyp' ? dose : 50, 8, activeProtocol === 'cyp' ? freq : 3.5, weight);
+                dataCyp.push({ x: day, y: valCyp });
 
-                // Update Rx
-                document.getElementById('rx-vol').textContent = data.rx.volume + ' mL';
-                document.getElementById('rx-weekly').textContent = data.rx.weekly + ' mg/wk';
+                const valProp = getSerumLevel(day, activeProtocol === 'prop' ? dose : 50, 2, activeProtocol === 'prop' ? freq : 2, weight);
+                dataProp.push({ x: day, y: valProp });
 
-            } catch (error) {
-                console.error('API Error:', error);
+                const valPellet = getPelletLevel(day, activeProtocol === 'pellet' ? dose : 1200, weight);
+                dataPellet.push({ x: day, y: valPellet });
+
+                const oralVal = 300 + (Math.abs(Math.sin((day * Math.PI) / 0.25)) * 400);
+                dataOral.push({ x: day, y: oralVal });
+
+                let currentVal = activeProtocol === 'cyp' ? valCyp : activeProtocol === 'prop' ? valProp : valPellet;
+                if (currentVal < minActive) minActive = currentVal;
+                if (currentVal > maxActive) maxActive = currentVal;
+            }
+
+            // Update chart
+            pkChart.data.datasets[0].data = dataCyp;
+            pkChart.data.datasets[1].data = dataProp;
+            pkChart.data.datasets[2].data = dataPellet;
+            pkChart.data.datasets[3].data = dataOral;
+            pkChart.update();
+
+            // Update stats
+            document.getElementById('stat-peak').textContent = Math.round(maxActive) + ' ng/dL';
+            document.getElementById('stat-trough').textContent = Math.round(minActive) + ' ng/dL';
+            
+            const variance = Math.round(((maxActive - minActive) / maxActive) * 100);
+            const varianceEl = document.getElementById('stat-variance');
+            varianceEl.textContent = variance + '%';
+            varianceEl.className = 'block text-2xl font-semibold ' + 
+                (variance < 20 ? 'text-green-400' : variance < 40 ? 'text-yellow-400' : 'text-rose-400');
+
+            // Update Rx
+            if (activeProtocol === 'pellet') {
+                document.getElementById('rx-vol').textContent = Math.round(dose / conc) + ' pellets';
+                document.getElementById('rx-weekly').textContent = '4-6 months';
+            } else {
+                document.getElementById('rx-vol').textContent = (dose / conc).toFixed(2) + ' mL';
+                document.getElementById('rx-weekly').textContent = Math.round(dose * (7/freq)) + ' mg/wk';
             }
         }
 

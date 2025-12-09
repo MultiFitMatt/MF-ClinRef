@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" class="dark">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -28,36 +28,41 @@
 
     <style>
         body {
-            font-family: 'Inter', sans-serif;
             background-color: #000000;
-            color: #e5e5e5;
+            color: #ffffff;
+        }
+        
+        /* Scrollbar */
+        ::-webkit-scrollbar { width: 10px; }
+        ::-webkit-scrollbar-track { background: #000000; }
+        ::-webkit-scrollbar-thumb { background: linear-gradient(180deg, #10b981 0%, #06b6d4 100%); border-radius: 5px; }
+        ::-webkit-scrollbar-thumb:hover { background: linear-gradient(180deg, #34d399 0%, #22d3ee 100%); }
+
+        /* Selection */
+        ::selection {
+            background: rgba(16, 185, 129, 0.3);
+            color: white;
         }
 
-        /* Gradient Hero Animation */
-        .gradient-hero {
-            background: linear-gradient(135deg, #10b981 0%, #06b6d4 50%, #3b82f6 100%);
-            background-size: 200% 200%;
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            animation: gradient-shift 8s ease infinite;
+        /* Content sections */
+        .content-section {
+            background: #0a0a0a;
+            border: 1px solid #1a1a1a;
+            border-radius: 12px;
+            padding: 24px;
         }
 
-        @keyframes gradient-shift {
-            0%, 100% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-        }
-
-        /* Spotlight Card Effect */
+        /* Spotlight card effect */
         .spotlight-card {
             background: #0a0a0a;
             border: 1px solid #1a1a1a;
             border-radius: 12px;
+            padding: 24px;
             position: relative;
             overflow: hidden;
             transition: all 0.3s ease;
         }
-
+        
         .spotlight-card::before {
             content: '';
             position: absolute;
@@ -71,44 +76,51 @@
             pointer-events: none;
             z-index: 1;
         }
-
+        
         .spotlight-card:hover::before {
             opacity: 1;
         }
-
+        
+        .spotlight-card:hover {
+            border-color: rgba(16, 185, 129, 0.5);
+            box-shadow: 0 0 20px rgba(16, 185, 129, 0.1);
+        }
+        
         .spotlight-card > * {
             position: relative;
             z-index: 2;
         }
 
-        /* Modern Card Styling */
-        .control-card {
-            background: #0a0a0a;
-            border: 1px solid #1a1a1a;
-            border-radius: 12px;
-            padding: 24px;
+        .chart-wrapper {
+            position: relative;
+            width: 100%;
+            height: 450px;
         }
 
-        /* Protocol Tabs */
+        /* Tab States */
         .proto-tab {
             transition: all 0.2s;
             border-bottom: 2px solid transparent;
-            color: #6b7280;
-            padding: 12px 20px;
-            font-size: 12px;
-            font-weight: 600;
-            text-transform: uppercase;
-            cursor: pointer;
         }
-
         .proto-tab:hover {
-            color: #d1d5db;
+            color: #d4d4d4;
+        }
+        .proto-tab.active {
+            background-color: rgba(16, 185, 129, 0.1);
+            border-color: #10b981;
+            color: #10b981;
         }
 
-        .proto-tab.active {
-            color: #10b981;
-            border-color: #10b981;
-            background: rgba(16, 185, 129, 0.1);
+        /* Legend Toggles */
+        .toggle-btn {
+            opacity: 0.4;
+            filter: grayscale(100%);
+            transition: all 0.2s;
+        }
+        .toggle-btn.active {
+            opacity: 1;
+            filter: grayscale(0%);
+            background: rgba(255,255,255,0.05);
         }
 
         /* Sliders */
@@ -117,7 +129,6 @@
             background: transparent;
             width: 100%;
         }
-
         input[type=range]::-webkit-slider-thumb {
             -webkit-appearance: none;
             height: 20px;
@@ -129,87 +140,20 @@
             box-shadow: 0 0 10px rgba(16, 185, 129, 0.5);
             margin-top: -8px;
         }
-
         input[type=range]::-webkit-slider-runnable-track {
             width: 100%;
             height: 4px;
-            background: #1a1a1a;
+            background: #262626;
             border-radius: 2px;
         }
 
-        /* Chart Container */
-        .chart-wrapper {
-            position: relative;
-            width: 100%;
-            height: 500px;
-            background: #000000;
-        }
-
-        /* Legend Toggles */
-        .legend-btn {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            padding: 6px 12px;
-            background: rgba(0, 0, 0, 0.8);
-            border: 1px solid #1a1a1a;
-            border-radius: 6px;
-            font-size: 10px;
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
-            cursor: pointer;
-            transition: all 0.2s;
-            opacity: 0.5;
-        }
-
-        .legend-btn.active {
-            opacity: 1;
-            background: rgba(16, 185, 129, 0.1);
-        }
-
-        .legend-btn:hover {
-            opacity: 1;
-        }
-
-        /* Scrollbar */
-        ::-webkit-scrollbar {
-            width: 10px;
-        }
-
-        ::-webkit-scrollbar-track {
-            background: #000000;
-        }
-
-        ::-webkit-scrollbar-thumb {
-            background: linear-gradient(180deg, #10b981 0%, #06b6d4 100%);
-            border-radius: 5px;
-        }
-
-        ::-webkit-scrollbar-thumb:hover {
-            background: linear-gradient(180deg, #34d399 0%, #22d3ee 100%);
-        }
-
-        /* Selection */
-        ::selection {
-            background: rgba(16, 185, 129, 0.3);
-            color: white;
-        }
-
-        /* Fade In Animation */
         .fade-in {
-            animation: fadeIn 0.4s ease-out;
+            animation: fadeIn 0.5s ease-in-out;
         }
 
         @keyframes fadeIn {
-            from {
-                opacity: 0;
-                transform: translateY(10px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
         }
     </style>
 </head>
@@ -219,106 +163,123 @@
     <nav class="fixed top-0 left-0 right-0 z-50 bg-black/80 backdrop-blur-xl border-b border-white/[0.08]">
         <div class="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
             <div class="flex items-center gap-12">
-                <a href="index.html" class="text-sm font-semibold text-white hover:text-green-400 transition-colors">
+                <a href="index.html" class="text-sm font-semibold text-white hover:text-[#10b981] transition-colors">
                     ← Multifactor Solutions
                 </a>
             </div>
             <div class="flex items-center gap-8 text-sm text-gray-400">
                 <a href="index.html#protocols" class="hover:text-white transition-colors">All Protocols</a>
-                <a href="#alternatives" class="hover:text-white transition-colors">Alternatives</a>
+                <a href="#alternatives" class="hover:text-white transition-colors">Jatenzo</a>
                 <a href="#safety" class="hover:text-white transition-colors">Safety</a>
             </div>
         </div>
     </nav>
 
-    <main class="flex-grow max-w-7xl mx-auto px-6 pt-24 pb-12 w-full space-y-12">
-
+    <main class="flex-grow pt-24 pb-20 px-6 max-w-7xl mx-auto w-full space-y-12 relative">
+        
         <!-- Hero Section -->
-        <header class="pt-32 pb-12 max-w-4xl mx-auto px-6">
-            <div class="inline-block px-3 py-1 rounded-full border border-green-500/30 bg-green-500/10 text-green-400 text-xs font-medium uppercase tracking-wider mb-6">
+        <header class="pt-8 pb-4">
+            <div class="inline-block px-3 py-1 rounded-full border border-[#10b981]/30 bg-[#10b981]/10 text-[#10b981] text-xs font-medium uppercase tracking-wider mb-6">
                 Hormone Optimization
             </div>
-            <h1 class="text-4xl md:text-6xl font-semibold tracking-tight leading-[1.1] mb-4">
-                <span class="text-white">Therapeutic </span>
-                <span class="gradient-hero">Androgen Optimization</span>
+            <h1 class="text-4xl md:text-5xl font-semibold text-white tracking-tight leading-[1.1] mb-4">
+                Testosterone <span class="text-gray-500 text-2xl font-normal">/ TRT Protocols</span>
             </h1>
-            <p class="text-lg text-gray-400 leading-relaxed max-w-2xl">
-                Integrated pharmacokinetic modeling engine. Customize dose, frequency, and formulation to visualize steady-state testosterone levels across protocols.
+            <p class="text-lg text-gray-400 leading-relaxed max-w-3xl">
+                Integrated pharmacokinetic modeling engine. Customize dose, frequency, and formulation to visualize steady-state testosterone levels across multiple ester protocols.
             </p>
         </header>
 
-        <!-- PROTOCOL SIMULATION SECTION -->
-        <section class="space-y-6 fade-in">
-            <div class="border-b border-white/[0.08] pb-4 mb-6">
-                <h2 class="text-xl font-semibold text-white flex items-center gap-2">
-                    <span class="w-1 h-6 bg-green-500 rounded"></span>
-                    Protocol Simulation & Dosing
-                </h2>
-                <p class="text-sm text-gray-500 mt-1">Multi-Protocol Live Model</p>
+        <!-- Quick Reference Stats -->
+        <section class="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div class="spotlight-card">
+                <div class="text-xs text-gray-500 uppercase tracking-wider mb-2">Cypionate T½</div>
+                <div class="text-3xl font-semibold text-white">8 <span class="text-lg text-gray-600">days</span></div>
+            </div>
+            <div class="spotlight-card">
+                <div class="text-xs text-gray-500 uppercase tracking-wider mb-2">Propionate T½</div>
+                <div class="text-3xl font-semibold text-white">2 <span class="text-lg text-gray-600">days</span></div>
+            </div>
+            <div class="spotlight-card">
+                <div class="text-xs text-gray-500 uppercase tracking-wider mb-2">Pellet Absorption</div>
+                <div class="text-3xl font-semibold text-white">14+ <span class="text-lg text-gray-600">days</span></div>
+            </div>
+        </section>
+
+        <!-- PROTOCOL SIMULATOR -->
+        <section class="relative z-10">
+            <div class="mb-6">
+                <div class="flex items-center mb-2">
+                    <div class="w-1 h-6 bg-[#10b981] rounded mr-3"></div>
+                    <h2 class="text-lg font-semibold text-white">Protocol Simulation & Dosing</h2>
+                </div>
+                <p class="text-sm text-gray-500 ml-4">Multi-Protocol Live Model</p>
             </div>
 
             <div class="grid grid-cols-1 lg:grid-cols-4 gap-6">
                 
-                <!-- LEFT PANEL: Controls -->
+                <!-- LEFT: CONTROLS -->
                 <div class="lg:col-span-1">
-                    <div class="spotlight-card p-6">
+                    <div class="spotlight-card p-0 overflow-hidden">
                         
                         <!-- Protocol Tabs -->
-                        <div class="grid grid-cols-3 gap-1 mb-6 bg-black rounded-lg p-1">
-                            <button onclick="switchProtocol('cyp')" id="tab-cyp" class="proto-tab active rounded-md">Cyp</button>
-                            <button onclick="switchProtocol('prop')" id="tab-prop" class="proto-tab rounded-md">Prop</button>
-                            <button onclick="switchProtocol('pellet')" id="tab-pellet" class="proto-tab rounded-md">Pellet</button>
+                        <div class="grid grid-cols-3 bg-black border-b border-white/10">
+                            <button onclick="switchProtocol('cyp')" id="tab-cyp" class="proto-tab active py-3 text-xs font-medium uppercase tracking-wider text-gray-400">Cyp</button>
+                            <button onclick="switchProtocol('prop')" id="tab-prop" class="proto-tab py-3 text-xs font-medium uppercase tracking-wider text-gray-400">Prop</button>
+                            <button onclick="switchProtocol('pellet')" id="tab-pellet" class="proto-tab py-3 text-xs font-medium uppercase tracking-wider text-gray-400">Pellet</button>
                         </div>
 
-                        <div id="input-container" class="space-y-6">
+                        <div class="p-5 space-y-5 fade-in" id="input-container">
+                            <div class="flex justify-between items-center border-b border-white/10 pb-3">
+                                <span class="text-sm font-medium text-white" id="config-title">Cypionate Settings</span>
+                                <span class="text-[10px] text-[#10b981]">● EDITING</span>
+                            </div>
+                            
                             <!-- Concentration -->
                             <div>
-                                <label class="block text-xs text-gray-400 uppercase tracking-wider mb-2" id="lbl-conc">Concentration</label>
-                                <select id="sim-conc" class="w-full bg-black border border-gray-800 text-white text-sm p-2.5 rounded-lg focus:border-green-500 outline-none" onchange="updateSimulation()">
-                                    <option value="200">200 mg/mL</option>
-                                    <option value="100">100 mg/mL</option>
-                                    <option value="250">250 mg/mL</option>
+                                <label class="block text-xs text-gray-500 uppercase tracking-wider mb-2" id="lbl-conc">Vial Concentration</label>
+                                <select id="sim-conc" class="w-full bg-black border border-white/10 text-white text-sm p-2.5 rounded-lg focus:border-[#10b981] outline-none" onchange="updateSimulation()">
                                 </select>
                             </div>
 
-                            <!-- Dose Slider -->
+                            <!-- Dose -->
                             <div>
                                 <div class="flex justify-between text-xs mb-2">
-                                    <span class="text-gray-400 uppercase tracking-wider" id="lbl-dose">Dose</span>
-                                    <span class="text-green-400 font-semibold" id="sim-dose-val">50 mg</span>
+                                    <span class="text-gray-500 uppercase tracking-wider" id="lbl-dose">Dose Per Injection</span>
+                                    <span class="text-[#10b981] font-semibold" id="sim-dose-val">50 mg</span>
                                 </div>
-                                <input type="range" id="sim-dose" min="20" max="300" step="10" value="50" class="w-full">
+                                <input type="range" id="sim-dose" min="20" max="300" step="10" value="50">
                             </div>
 
-                            <!-- Frequency Slider -->
+                            <!-- Frequency -->
                             <div id="freq-container">
                                 <div class="flex justify-between text-xs mb-2">
-                                    <span class="text-gray-400 uppercase tracking-wider">Frequency</span>
-                                    <span class="text-green-400 font-semibold" id="sim-freq-val">Every 3.5 Days</span>
+                                    <span class="text-gray-500 uppercase tracking-wider">Frequency</span>
+                                    <span class="text-[#10b981] font-semibold" id="sim-freq-val">Every 3.5 Days</span>
                                 </div>
-                                <input type="range" id="sim-freq" min="1" max="14" step="0.5" value="3.5" class="w-full">
+                                <input type="range" id="sim-freq" min="1" max="14" step="0.5" value="3.5">
                             </div>
 
-                            <!-- Weight Slider -->
+                            <!-- Weight -->
                             <div>
                                 <div class="flex justify-between text-xs mb-2">
-                                    <span class="text-gray-400 uppercase tracking-wider">Patient Weight</span>
-                                    <span class="text-green-400 font-semibold" id="sim-weight-val">200 lbs</span>
+                                    <span class="text-gray-500 uppercase tracking-wider">Patient Weight</span>
+                                    <span class="text-[#06b6d4] font-semibold" id="sim-weight-val">200 lbs</span>
                                 </div>
-                                <input type="range" id="sim-weight" min="140" max="400" step="5" value="200" class="w-full">
+                                <input type="range" id="sim-weight" min="140" max="400" step="5" value="200">
                             </div>
 
                             <!-- Rx Output -->
-                            <div class="mt-8 pt-6 border-t border-white/[0.08]">
-                                <label class="block text-xs text-gray-400 uppercase tracking-wider mb-3">Rx Instruction</label>
-                                <div class="bg-black border border-green-500/30 p-4 rounded-lg">
+                            <div class="pt-4 border-t border-white/10">
+                                <label class="block text-xs text-gray-500 uppercase tracking-wider mb-3">Rx Instruction</label>
+                                <div class="bg-black border border-[#10b981]/30 p-4 rounded-lg">
                                     <div class="flex justify-between items-baseline mb-2">
                                         <span class="text-xs text-gray-500 uppercase" id="out-lbl-1">Volume</span>
                                         <span class="text-xl font-semibold text-white" id="rx-vol">0.25 mL</span>
                                     </div>
                                     <div class="flex justify-between items-baseline">
                                         <span class="text-xs text-gray-500 uppercase" id="out-lbl-2">Weekly</span>
-                                        <span class="text-sm font-semibold text-green-400" id="rx-weekly">100 mg/wk</span>
+                                        <span class="text-sm font-semibold text-[#10b981]" id="rx-weekly">100 mg/wk</span>
                                     </div>
                                 </div>
                             </div>
@@ -326,28 +287,28 @@
                     </div>
                 </div>
 
-                <!-- RIGHT PANEL: Chart & Stats -->
+                <!-- RIGHT: CHART & STATS -->
                 <div class="lg:col-span-3 space-y-4">
                     
-                    <!-- Chart -->
+                    <!-- Graph Container -->
                     <div class="spotlight-card p-4 relative">
-                        <!-- Legend -->
+                        <!-- Interactive Legend -->
                         <div class="absolute top-6 left-6 z-10 flex flex-wrap gap-2">
-                            <button onclick="toggleSeries(0)" id="legend-cyp" class="legend-btn active" style="color: #10b981;">
-                                <span class="w-2 h-2 rounded-full bg-green-500"></span>
-                                Cypionate
+                            <button onclick="toggleSeries(0)" id="legend-cyp" class="toggle-btn active flex items-center gap-2 bg-black/80 border border-white/10 px-3 py-1.5 rounded text-[#10b981]">
+                                <span class="w-2 h-2 rounded-full bg-[#10b981]"></span>
+                                <span class="text-[10px] uppercase tracking-wider">Cypionate</span>
                             </button>
-                            <button onclick="toggleSeries(1)" id="legend-prop" class="legend-btn active" style="color: #06b6d4;">
-                                <span class="w-2 h-2 rounded-full bg-cyan-500"></span>
-                                Propionate
+                            <button onclick="toggleSeries(1)" id="legend-prop" class="toggle-btn active flex items-center gap-2 bg-black/80 border border-white/10 px-3 py-1.5 rounded text-[#06b6d4]">
+                                <span class="w-2 h-2 rounded-full bg-[#06b6d4]"></span>
+                                <span class="text-[10px] uppercase tracking-wider">Propionate</span>
                             </button>
-                            <button onclick="toggleSeries(2)" id="legend-pellet" class="legend-btn active" style="color: #3b82f6;">
-                                <span class="w-2 h-2 rounded-full bg-blue-500"></span>
-                                Pellets
+                            <button onclick="toggleSeries(2)" id="legend-pellet" class="toggle-btn active flex items-center gap-2 bg-black/80 border border-white/10 px-3 py-1.5 rounded text-[#f59e0b]">
+                                <span class="w-2 h-2 rounded-full bg-[#f59e0b]"></span>
+                                <span class="text-[10px] uppercase tracking-wider">Pellets</span>
                             </button>
-                            <button onclick="toggleSeries(3)" id="legend-oral" class="legend-btn" style="color: #f59e0b;">
-                                <span class="w-2 h-2 rounded-full bg-yellow-500"></span>
-                                Jatenzo
+                            <button onclick="toggleSeries(3)" id="legend-oral" class="toggle-btn flex items-center gap-2 bg-black/80 border border-white/10 px-3 py-1.5 rounded text-[#ef4444]">
+                                <span class="w-2 h-2 rounded-full bg-[#ef4444]"></span>
+                                <span class="text-[10px] uppercase tracking-wider">Jatenzo</span>
                             </button>
                         </div>
 
@@ -356,87 +317,91 @@
                         </div>
                     </div>
 
-                    <!-- Stats -->
+                    <!-- Stats Bar -->
                     <div class="grid grid-cols-3 gap-4">
-                        <div class="control-card p-4">
-                            <span class="block text-xs text-gray-500 uppercase tracking-wider mb-1">Peak</span>
-                            <span class="block text-2xl font-semibold text-green-400" id="stat-peak">--</span>
+                        <div class="spotlight-card p-4">
+                            <span class="block text-xs text-gray-500 uppercase tracking-wider mb-1">Active Peak</span>
+                            <span class="block text-xl font-semibold text-[#10b981]" id="stat-peak">--</span>
                         </div>
-                        <div class="control-card p-4">
-                            <span class="block text-xs text-gray-500 uppercase tracking-wider mb-1">Trough</span>
-                            <span class="block text-2xl font-semibold text-cyan-400" id="stat-trough">--</span>
+                        <div class="spotlight-card p-4">
+                            <span class="block text-xs text-gray-500 uppercase tracking-wider mb-1">Active Trough</span>
+                            <span class="block text-xl font-semibold text-[#06b6d4]" id="stat-trough">--</span>
                         </div>
-                        <div class="control-card p-4">
+                        <div class="spotlight-card p-4">
                             <span class="block text-xs text-gray-500 uppercase tracking-wider mb-1">Variance</span>
-                            <span class="block text-2xl font-semibold text-white" id="stat-variance">--</span>
+                            <span class="block text-xl font-semibold text-white" id="stat-variance">--</span>
                         </div>
                     </div>
                 </div>
-
             </div>
         </section>
 
         <!-- JATENZO SECTION -->
-        <section id="alternatives" class="space-y-6 fade-in">
-            <div class="border-b border-white/[0.08] pb-4">
-                <h2 class="text-xl font-semibold text-white flex items-center gap-2">
-                    <span class="w-1 h-6 bg-yellow-500 rounded"></span>
-                    Jatenzo (Oral Testosterone)
-                </h2>
-                <p class="text-sm text-gray-400 mt-1">For patients unsuitable for injection protocols</p>
+        <section id="alternatives" class="relative z-10">
+            <div class="mb-6">
+                <div class="flex items-center mb-2">
+                    <div class="w-1 h-6 bg-[#ef4444] rounded mr-3"></div>
+                    <h2 class="text-lg font-semibold text-white">Jatenzo (Oral Testosterone)</h2>
+                </div>
+                <p class="text-sm text-gray-500 ml-4">For patients unsuitable for injection protocols</p>
             </div>
 
             <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
-                <div class="spotlight-card p-6 border-yellow-500/20">
-                    <h3 class="text-2xl font-semibold text-white mb-4">T-Undecanoate <span class="text-yellow-500 text-sm ml-2">Oral</span></h3>
+                <div class="spotlight-card hover:border-[#ef4444]/50">
+                    <div class="flex justify-between items-start mb-4">
+                        <h3 class="text-base font-semibold text-white">T-Undecanoate</h3>
+                        <span class="px-2 py-1 bg-[#ef4444]/20 text-[#ef4444] text-xs font-medium rounded">ORAL</span>
+                    </div>
                     <div class="space-y-3">
-                        <div class="flex justify-between items-center bg-black/40 p-3 rounded-lg border border-yellow-500/20">
-                            <span class="text-xs text-yellow-400 uppercase tracking-wider">Start Dose</span>
-                            <span class="text-xl font-semibold text-white">237 mg <span class="text-sm text-gray-500">BID</span></span>
+                        <div class="flex justify-between items-center bg-black/40 p-3 rounded-lg border border-white/10">
+                            <span class="text-xs text-gray-400 uppercase tracking-wider">Start Dose</span>
+                            <span class="font-semibold text-white">237 mg <span class="text-sm text-gray-500">BID</span></span>
                         </div>
-                        <div class="flex justify-between items-center bg-black/40 p-3 rounded-lg border border-yellow-500/20">
-                            <span class="text-xs text-yellow-400 uppercase tracking-wider">Max Dose</span>
-                            <span class="text-xl font-semibold text-white">396 mg <span class="text-sm text-gray-500">BID</span></span>
+                        <div class="flex justify-between items-center bg-black/40 p-3 rounded-lg border border-white/10">
+                            <span class="text-xs text-gray-400 uppercase tracking-wider">Max Dose</span>
+                            <span class="font-semibold text-white">396 mg <span class="text-sm text-gray-500">BID</span></span>
                         </div>
                     </div>
                 </div>
-                <div class="control-card p-6">
-                    <h4 class="text-white font-semibold text-lg mb-3">Clinical Pearls</h4>
-                    <p class="text-sm text-gray-400 leading-relaxed">Must be taken with food (>30g fat) for lymphatic absorption. Bypasses liver, but causes significant daily peak/trough fluctuation.</p>
+                <div class="spotlight-card">
+                    <h4 class="text-white font-semibold mb-3">Clinical Pearls</h4>
+                    <p class="text-sm text-gray-400 leading-relaxed">
+                        Must be taken with food (>30g fat) for lymphatic absorption. Bypasses first-pass liver metabolism, but causes significant daily peak/trough fluctuation. Not suitable for patients requiring stable levels.
+                    </p>
                 </div>
             </div>
         </section>
 
         <!-- SAFETY SECTION -->
-        <section id="safety" class="space-y-6 fade-in">
-            <div class="border-b border-white/[0.08] pb-4">
-                <h2 class="text-xl font-semibold text-white flex items-center gap-2">
-                    <span class="w-1 h-6 bg-red-500 rounded"></span>
-                    Safety & Monitoring
-                </h2>
+        <section id="safety" class="relative z-10">
+            <div class="mb-6">
+                <div class="flex items-center">
+                    <div class="w-1 h-6 bg-white rounded mr-3"></div>
+                    <h2 class="text-lg font-semibold text-white">Safety & Monitoring</h2>
+                </div>
             </div>
-
+            
             <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-                <div class="control-card p-5 hover:border-red-500/30 transition-colors">
-                    <div class="flex justify-between items-start mb-2">
-                        <h4 class="text-white font-semibold text-lg">Hematocrit</h4>
+                <div class="spotlight-card hover:border-red-500/30">
+                    <div class="flex justify-between items-start mb-3">
+                        <h4 class="text-white font-semibold">Hematocrit</h4>
                         <span class="text-[10px] bg-red-500/20 text-red-400 px-2 py-1 rounded border border-red-500/30 uppercase">Critical</span>
                     </div>
-                    <p class="text-xs text-gray-400">Action if > 54%. Therapeutic phlebotomy indicated.</p>
+                    <p class="text-xs text-gray-400 leading-relaxed">Action if > 54%. Therapeutic phlebotomy indicated.</p>
                 </div>
-                <div class="control-card p-5 hover:border-yellow-500/30 transition-colors">
-                    <div class="flex justify-between items-start mb-2">
-                        <h4 class="text-white font-semibold text-lg">Lipids (HDL)</h4>
+                <div class="spotlight-card hover:border-yellow-500/30">
+                    <div class="flex justify-between items-start mb-3">
+                        <h4 class="text-white font-semibold">Lipids (HDL)</h4>
                         <span class="text-[10px] bg-yellow-500/20 text-yellow-400 px-2 py-1 rounded border border-yellow-500/30 uppercase">Watch</span>
                     </div>
-                    <p class="text-xs text-gray-400">Supplements: High Dose Omega-3 (4g/day).</p>
+                    <p class="text-xs text-gray-400 leading-relaxed">Supplements: High Dose Omega-3 (4g/day).</p>
                 </div>
-                <div class="control-card p-5 hover:border-blue-500/30 transition-colors">
-                    <div class="flex justify-between items-start mb-2">
-                        <h4 class="text-white font-semibold text-lg">PSA</h4>
+                <div class="spotlight-card hover:border-blue-500/30">
+                    <div class="flex justify-between items-start mb-3">
+                        <h4 class="text-white font-semibold">PSA</h4>
                         <span class="text-[10px] bg-blue-500/20 text-blue-400 px-2 py-1 rounded border border-blue-500/30 uppercase">Screen</span>
                     </div>
-                    <p class="text-xs text-gray-400">Baseline required >40yo. Monitor velocity of rise.</p>
+                    <p class="text-xs text-gray-400 leading-relaxed">Baseline required >40yo. Monitor velocity of rise.</p>
                 </div>
             </div>
         </section>
@@ -444,13 +409,21 @@
     </main>
 
     <!-- Footer -->
-    <footer class="border-t border-white/[0.08] bg-black py-8 mt-20">
-        <div class="max-w-7xl mx-auto px-6 text-center">
-            <div class="flex items-center justify-center gap-2 text-sm text-gray-500 mb-2">
-                <span class="font-semibold text-white">MULTIFACTOR</span>
-                <span class="font-semibold italic text-green-400">Solutions</span>
+    <footer class="mt-12 pt-8 border-t border-white/[0.08]">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="content-section mb-6">
+                <p class="text-xs text-gray-400 leading-relaxed">
+                    <span class="text-white font-semibold">LEGAL DISCLAIMER:</span> This platform is a clinical reference tool designed to summarize available research literature and pharmacological data for educational purposes. It is NOT a dosing guide, prescriptive engine, or substitute for professional medical training.
+                </p>
             </div>
-            <p class="text-xs text-gray-600">© 2025 | For Clinical Educational Use Only</p>
+            
+            <div class="flex flex-col md:flex-row justify-between items-center text-sm text-gray-500 pb-8">
+                <div>© 2025 Multifactor Solutions</div>
+                <div class="mt-2 md:mt-0 flex items-center gap-6">
+                    <a href="#" class="hover:text-white transition-colors">Privacy</a>
+                    <a href="#" class="hover:text-white transition-colors">Terms</a>
+                </div>
+            </div>
         </div>
     </footer>
 
@@ -459,332 +432,7 @@
     <div style="position: fixed; width: 400px; height: 400px; background: radial-gradient(circle, #06b6d4 0%, transparent 70%); bottom: -150px; left: -150px; opacity: 0.08; filter: blur(100px); pointer-events: none; z-index: 0;"></div>
 
     <script>
-        // ═══════════════════════════════════════════════════════════════
-        // PHARMACOKINETIC SIMULATION ENGINE - DO NOT MODIFY
-        // ═══════════════════════════════════════════════════════════════
-
-        // Mathematical Constants (Half-lives in days)
-        const HL_CYP = 8;
-        const HL_PROP = 2;
-        const HL_ORAL = 0.25;
-        const HL_PELLET = 60;
-
-        // Protocol Defaults
-        const protocols = {
-            cyp: { dose: 50, freq: 3.5, conc: 200 },
-            prop: { dose: 50, freq: 2, conc: 100 },
-            pellet: { dose: 1200, freq: 120, conc: 200 }
-        };
-
-        let activeProtocol = 'cyp';
-        let globalWeight = 200;
-
-        const ctx = document.getElementById('pkChart').getContext('2d');
-        let pkChart;
-
-        // Steady State Superposition with Bateman Function
-        function getSerumLevel(timeDays, dose, halfLife, interval, weight) {
-            const k = Math.log(2) / halfLife;
-            const ka = 1.2;
-
-            const refWeight = 180;
-            const weightFactor = refWeight / weight;
-
-            let totalLevel = 0;
-
-            for (let tDose = -40; tDose <= timeDays; tDose += interval) {
-                const t = timeDays - tDose;
-                if (t >= 0) {
-                    let contribution = (dose * weightFactor) * 11 * (Math.exp(-k * t) - Math.exp(-ka * t));
-                    totalLevel += contribution;
-                }
-            }
-            return totalLevel;
-        }
-
-        // Pellet release model
-        function getPelletLevel(timeDays, totalDose, weight) {
-            const refWeight = 180;
-            const weightFactor = refWeight / weight;
-            const dailyRelease = totalDose / 120;
-            const baseLevel = dailyRelease * weightFactor * 8;
-            const fluctuation = Math.sin(timeDays * 0.1) * 30;
-            return baseLevel + fluctuation;
-        }
-
-        function generateData() {
-            const p = protocols[activeProtocol];
-            const dataCyp = [];
-            const dataProp = [];
-            const dataPellet = [];
-            const dataOral = [];
-
-            const steps = 150;
-            const duration = 14;
-
-            let minCyp = 10000, maxCyp = 0;
-
-            for (let i = 0; i <= steps; i++) {
-                const day = (i / steps) * duration;
-
-                // Cypionate curve based on active protocol settings
-                const valCyp = getSerumLevel(day, p.dose, HL_CYP, p.freq, globalWeight);
-                dataCyp.push({ x: day, y: valCyp });
-
-                if (valCyp < minCyp) minCyp = valCyp;
-                if (valCyp > maxCyp) maxCyp = valCyp;
-
-                // Propionate (fixed reference curve)
-                dataProp.push({ x: day, y: getSerumLevel(day, 50, HL_PROP, 2, 180) });
-
-                // Pellets (steady release)
-                const pelletVal = getPelletLevel(day, protocols.pellet.dose, globalWeight);
-                dataPellet.push({ x: day, y: pelletVal });
-
-                // Oral Jatenzo (high fluctuation BID)
-                const oralVal = 400 + (Math.abs(Math.sin((day * Math.PI) / 0.25)) * 500);
-                dataOral.push({ x: day, y: oralVal });
-            }
-
-            return {
-                cyp: dataCyp,
-                prop: dataProp,
-                pellet: dataPellet,
-                oral: dataOral,
-                stats: { min: minCyp, max: maxCyp }
-            };
-        }
-
-        function initChart() {
-            const gradCyp = ctx.createLinearGradient(0, 0, 0, 400);
-            gradCyp.addColorStop(0, 'rgba(16,185,129,0.3)');
-            gradCyp.addColorStop(1, 'rgba(16,185,129,0.0)');
-
-            const gradProp = ctx.createLinearGradient(0, 0, 0, 400);
-            gradProp.addColorStop(0, 'rgba(6,182,212,0.2)');
-            gradProp.addColorStop(1, 'rgba(6,182,212,0.0)');
-
-            const initData = generateData();
-
-            pkChart = new Chart(ctx, {
-                type: 'line',
-                data: {
-                    datasets: [
-                        {
-                            label: 'Cypionate',
-                            data: initData.cyp,
-                            borderColor: '#10b981',
-                            backgroundColor: gradCyp,
-                            borderWidth: 3,
-                            tension: 0.4,
-                            fill: true,
-                            pointRadius: 0
-                        },
-                        {
-                            label: 'Propionate',
-                            data: initData.prop,
-                            borderColor: '#06b6d4',
-                            backgroundColor: gradProp,
-                            borderWidth: 2,
-                            tension: 0.3,
-                            fill: true,
-                            pointRadius: 0
-                        },
-                        {
-                            label: 'Pellets',
-                            data: initData.pellet,
-                            borderColor: '#3b82f6',
-                            borderWidth: 2,
-                            borderDash: [5, 5],
-                            tension: 0.4,
-                            fill: false,
-                            pointRadius: 0
-                        },
-                        {
-                            label: 'Jatenzo',
-                            data: initData.oral,
-                            borderColor: '#f59e0b',
-                            borderWidth: 1,
-                            borderDash: [2, 2],
-                            tension: 0.1,
-                            fill: false,
-                            pointRadius: 0,
-                            hidden: true
-                        }
-                    ]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    animation: { duration: 0 },
-                    interaction: { mode: 'index', intersect: false },
-                    plugins: {
-                        legend: { display: false },
-                        tooltip: {
-                            backgroundColor: 'rgba(0,0,0,0.9)',
-                            titleColor: '#fff',
-                            bodyColor: '#fff',
-                            borderColor: '#1a1a1a',
-                            borderWidth: 1,
-                            padding: 12,
-                            callbacks: {
-                                label: function(context) {
-                                    return context.dataset.label + ': ' + Math.round(context.raw.y) + ' ng/dL';
-                                }
-                            }
-                        }
-                    },
-                    scales: {
-                        x: {
-                            type: 'linear',
-                            grid: { color: '#1a1a1a' },
-                            ticks: {
-                                color: '#6b7280',
-                                callback: function(val) { return 'Day ' + val; }
-                            },
-                            max: 14
-                        },
-                        y: {
-                            grid: { color: '#1a1a1a' },
-                            suggestedMin: 0,
-                            suggestedMax: 1500,
-                            ticks: {
-                                color: '#6b7280',
-                                stepSize: 500
-                            }
-                        }
-                    }
-                }
-            });
-
-            updateStats(initData.stats);
-        }
-
-        function toggleSeries(index) {
-            const meta = pkChart.getDatasetMeta(index);
-            meta.hidden = meta.hidden === null ? !pkChart.data.datasets[index].hidden : null;
-
-            const btns = ['legend-cyp', 'legend-prop', 'legend-pellet', 'legend-oral'];
-            const btn = document.getElementById(btns[index]);
-
-            if (meta.hidden) {
-                btn.classList.remove('active');
-            } else {
-                btn.classList.add('active');
-            }
-
-            pkChart.update();
-        }
-
-        function switchProtocol(proto) {
-            activeProtocol = proto;
-            const p = protocols[proto];
-
-            // Update tab styling
-            ['cyp', 'prop', 'pellet'].forEach(t => {
-                document.getElementById('tab-' + t).classList.remove('active');
-            });
-            document.getElementById('tab-' + proto).classList.add('active');
-
-            // Update sliders to protocol defaults
-            document.getElementById('sim-dose').value = p.dose;
-            document.getElementById('sim-freq').value = p.freq;
-            document.getElementById('sim-conc').value = p.conc;
-
-            // Handle pellet-specific UI
-            if (proto === 'pellet') {
-                document.getElementById('freq-container').style.display = 'none';
-                document.getElementById('lbl-dose').textContent = 'Total Implant (mg)';
-                document.getElementById('sim-dose').max = 2400;
-                document.getElementById('sim-dose').min = 600;
-                document.getElementById('sim-dose').step = 100;
-            } else {
-                document.getElementById('freq-container').style.display = 'block';
-                document.getElementById('lbl-dose').textContent = 'Dose';
-                document.getElementById('sim-dose').max = 300;
-                document.getElementById('sim-dose').min = 20;
-                document.getElementById('sim-dose').step = 10;
-            }
-
-            updateSimulation();
-        }
-
-        function updateSimulation() {
-            const dose = parseFloat(document.getElementById('sim-dose').value);
-            const freq = parseFloat(document.getElementById('sim-freq').value);
-            const conc = parseFloat(document.getElementById('sim-conc').value);
-            const weight = parseFloat(document.getElementById('sim-weight').value);
-
-            protocols[activeProtocol].dose = dose;
-            protocols[activeProtocol].freq = freq;
-            protocols[activeProtocol].conc = conc;
-            globalWeight = weight;
-
-            // Update display values
-            document.getElementById('sim-dose-val').innerText = dose + ' mg';
-            document.getElementById('sim-weight-val').innerText = weight + ' lbs';
-
-            let freqText = '';
-            if (freq === 1) freqText = 'Daily';
-            else if (freq === 2) freqText = 'Every Other Day';
-            else if (freq === 3.5) freqText = 'Every 3.5 Days';
-            else if (freq === 7) freqText = 'Weekly';
-            else if (freq === 14) freqText = 'Every 2 Weeks';
-            else freqText = 'Every ' + freq + ' Days';
-
-            document.getElementById('sim-freq-val').innerText = freqText;
-
-            // Calculate Rx output
-            const volPerDose = dose / conc;
-            const weeklyDose = (dose / freq) * 7;
-
-            document.getElementById('rx-vol').innerText = volPerDose.toFixed(2) + ' mL';
-            document.getElementById('rx-weekly').innerText = Math.round(weeklyDose) + ' mg/wk';
-
-            // Regenerate chart data
-            const newData = generateData();
-            pkChart.data.datasets[0].data = newData.cyp;
-            pkChart.data.datasets[1].data = newData.prop;
-            pkChart.data.datasets[2].data = newData.pellet;
-            pkChart.data.datasets[3].data = newData.oral;
-            pkChart.update();
-
-            updateStats(newData.stats);
-        }
-
-        function updateStats(stats) {
-            document.getElementById('stat-peak').innerText = Math.round(stats.max) + ' ng/dL';
-            document.getElementById('stat-trough').innerText = Math.round(stats.min) + ' ng/dL';
-
-            const variance = ((stats.max - stats.min) / stats.max) * 100;
-            const varianceEl = document.getElementById('stat-variance');
-
-            if (isNaN(variance)) {
-                varianceEl.innerText = '--';
-            } else {
-                varianceEl.innerText = Math.round(variance) + '%';
-
-                if (variance < 20) varianceEl.className = 'block text-2xl font-semibold text-green-400';
-                else if (variance < 40) varianceEl.className = 'block text-2xl font-semibold text-yellow-400';
-                else varianceEl.className = 'block text-2xl font-semibold text-rose-400';
-            }
-        }
-
-        // Event listeners
-        document.getElementById('sim-dose').addEventListener('input', updateSimulation);
-        document.getElementById('sim-freq').addEventListener('input', updateSimulation);
-        document.getElementById('sim-weight').addEventListener('input', updateSimulation);
-        document.getElementById('sim-conc').addEventListener('change', updateSimulation);
-
-        // Initialize on load
-        window.addEventListener('load', () => {
-            initChart();
-            updateSimulation();
-        });
-    </script>
-
-    <!-- Spotlight Effect Script -->
-    <script>
+        // Spotlight effect
         document.querySelectorAll('.spotlight-card').forEach(card => {
             card.addEventListener('mousemove', (e) => {
                 const rect = card.getBoundingClientRect();
@@ -794,7 +442,259 @@
                 card.style.setProperty('--mouse-y', `${y}px`);
             });
         });
-    </script>
 
+        // --- CHART CONFIG ---
+        const ctx = document.getElementById('pkChart').getContext('2d');
+        let pkChart;
+
+        // --- GLOBAL STATE ---
+        const protocols = {
+            cyp: { dose: 50, freq: 3.5, conc: 200 },
+            prop: { dose: 50, freq: 2, conc: 100 },
+            pellet: { dose: 1200, freq: 120, conc: 200 }
+        };
+        
+        let activeProtocol = 'cyp';
+        let globalWeight = 200;
+
+        // --- PK ENGINE ---
+        function getSerumLevel(timeDays, dose, halfLife, interval, weight) {
+            const k = Math.log(2) / halfLife;
+            const ka = 1.2; 
+            const refWeight = 180;
+            const weightFactor = refWeight / weight;
+            const SCALAR = 7.1;
+            let totalLevel = 0;
+
+            for (let tDose = -40; tDose <= timeDays; tDose += interval) {
+                const t = timeDays - tDose;
+                if (t >= 0) {
+                    let contribution = (dose * weightFactor) * SCALAR * (Math.exp(-k * t) - Math.exp(-ka * t));
+                    totalLevel += contribution;
+                }
+            }
+            return totalLevel;
+        }
+        
+        function getPelletLevel(day, totalDose, weight) {
+             const refWeight = 180;
+             const weightFactor = refWeight / weight;
+             const k_el = Math.log(2) / 70;
+             const k_abs = Math.log(2) / 4; 
+             const SCALAR = 0.85; 
+             const t = day + 1;
+             const level = (totalDose * weightFactor) * SCALAR * (Math.exp(-k_el * t) - Math.exp(-k_abs * t));
+             return Math.max(0, level);
+        }
+
+        function generateData() {
+            const dataCyp = [], dataProp = [], dataPellet = [], dataOral = [];
+            const steps = 150, duration = 14;
+            let minActive = 10000, maxActive = 0;
+
+            for (let i = 0; i <= steps; i++) {
+                const day = (i / steps) * duration;
+                
+                const valCyp = getSerumLevel(day, protocols.cyp.dose, 8, protocols.cyp.freq, globalWeight);
+                dataCyp.push({ x: day, y: valCyp });
+
+                const valProp = getSerumLevel(day, protocols.prop.dose, 2, protocols.prop.freq, globalWeight);
+                dataProp.push({ x: day, y: valProp });
+
+                const valPellet = getPelletLevel(day, protocols.pellet.dose, globalWeight);
+                dataPellet.push({ x: day, y: valPellet });
+
+                const oralVal = 300 + (Math.abs(Math.sin((day * Math.PI) / 0.25)) * 400); 
+                dataOral.push({ x: day, y: oralVal });
+
+                let currentVal = 0;
+                if(activeProtocol === 'cyp') currentVal = valCyp;
+                else if(activeProtocol === 'prop') currentVal = valProp;
+                else if(activeProtocol === 'pellet') currentVal = valPellet;
+                
+                if (currentVal < minActive) minActive = currentVal;
+                if (currentVal > maxActive) maxActive = currentVal;
+            }
+            
+            return { cyp: dataCyp, prop: dataProp, pellet: dataPellet, oral: dataOral, stats: { min: minActive, max: maxActive } };
+        }
+
+        // --- UI LOGIC ---
+        function switchProtocol(type) {
+            activeProtocol = type;
+            
+            ['cyp', 'prop', 'pellet'].forEach(t => {
+                const el = document.getElementById(`tab-${t}`);
+                el.classList.remove('active');
+                if(t === type) el.classList.add('active');
+            });
+
+            renderInputs();
+            updateSimulation();
+        }
+
+        function renderInputs() {
+            const data = protocols[activeProtocol];
+            const doseSlider = document.getElementById('sim-dose');
+            const concSelect = document.getElementById('sim-conc');
+            const freqSlider = document.getElementById('sim-freq');
+            const freqContainer = document.getElementById('freq-container');
+
+            doseSlider.value = data.dose;
+            freqSlider.value = data.freq;
+
+            if(activeProtocol === 'cyp') {
+                document.getElementById('config-title').innerText = "Cypionate Settings";
+                document.getElementById('lbl-dose').innerText = "Dose Per Injection";
+                document.getElementById('lbl-conc').innerText = "Vial Concentration";
+                freqContainer.style.display = 'block';
+                doseSlider.max = 300; doseSlider.step = 10;
+                concSelect.innerHTML = `<option value="100">100 mg/mL</option><option value="200" selected>200 mg/mL</option><option value="250">250 mg/mL</option>`;
+            } 
+            else if(activeProtocol === 'prop') {
+                document.getElementById('config-title').innerText = "Propionate Settings";
+                document.getElementById('lbl-dose').innerText = "Dose Per Injection";
+                document.getElementById('lbl-conc').innerText = "Vial Concentration";
+                freqContainer.style.display = 'block';
+                doseSlider.max = 150; doseSlider.step = 5;
+                concSelect.innerHTML = `<option value="100" selected>100 mg/mL</option><option value="200">200 mg/mL</option>`;
+            }
+            else if(activeProtocol === 'pellet') {
+                document.getElementById('config-title').innerText = "Pellet Settings";
+                document.getElementById('lbl-dose').innerText = "Total Implanted Load";
+                document.getElementById('lbl-conc').innerText = "Pellet Size";
+                freqContainer.style.display = 'none'; 
+                doseSlider.max = 2400; doseSlider.step = 100;
+                concSelect.innerHTML = `<option value="100">100 mg Pellets</option><option value="200" selected>200 mg Pellets</option>`;
+            }
+            
+            concSelect.value = data.conc;
+        }
+
+        function updateSimulation() {
+            const dose = parseFloat(document.getElementById('sim-dose').value);
+            const freq = parseFloat(document.getElementById('sim-freq').value);
+            const conc = parseFloat(document.getElementById('sim-conc').value);
+            globalWeight = parseFloat(document.getElementById('sim-weight').value);
+
+            protocols[activeProtocol].dose = dose;
+            protocols[activeProtocol].freq = freq;
+            protocols[activeProtocol].conc = conc;
+
+            document.getElementById('sim-weight-val').innerText = globalWeight + " lbs";
+            document.getElementById('sim-dose-val').innerText = dose + " mg";
+
+            let freqText = "";
+            if(freq === 1) freqText = "Daily";
+            else if(freq === 2) freqText = "Every Other Day";
+            else if(freq === 3.5) freqText = "Every 3.5 Days";
+            else if(freq === 7) freqText = "Weekly";
+            else freqText = "Every " + freq + " Days";
+            document.getElementById('sim-freq-val').innerText = freqText;
+
+            const rxVol = document.getElementById('rx-vol');
+            const rxWeekly = document.getElementById('rx-weekly');
+            const lbl1 = document.getElementById('out-lbl-1');
+            const lbl2 = document.getElementById('out-lbl-2');
+
+            if(activeProtocol === 'pellet') {
+                lbl1.innerText = "Pellet Count";
+                rxVol.innerText = Math.round(dose / conc) + " Pellets";
+                lbl2.innerText = "Duration";
+                rxWeekly.innerText = (conc === 100 ? "3 Months" : "4-6 Months");
+            } else {
+                lbl1.innerText = "Inject Volume";
+                rxVol.innerText = (dose / conc).toFixed(2) + " mL";
+                lbl2.innerText = "Weekly Load";
+                rxWeekly.innerText = Math.round(dose * (7/freq)) + " mg/wk";
+            }
+
+            const data = generateData();
+            pkChart.data.datasets[0].data = data.cyp;
+            pkChart.data.datasets[1].data = data.prop;
+            pkChart.data.datasets[2].data = data.pellet;
+            pkChart.data.datasets[3].data = data.oral;
+            pkChart.update();
+
+            document.getElementById('stat-peak').innerText = Math.round(data.stats.max) + " ng/dL";
+            document.getElementById('stat-trough').innerText = Math.round(data.stats.min) + " ng/dL";
+            const variance = ((data.stats.max - data.stats.min) / data.stats.max) * 100;
+            document.getElementById('stat-variance').innerText = isNaN(variance) ? "0%" : Math.round(variance) + "%";
+        }
+
+        function toggleSeries(index) {
+            const meta = pkChart.getDatasetMeta(index);
+            meta.hidden = meta.hidden === null ? !pkChart.data.datasets[index].hidden : null;
+            const btns = ['legend-cyp', 'legend-prop', 'legend-pellet', 'legend-oral'];
+            document.getElementById(btns[index]).classList.toggle('active');
+            pkChart.update();
+        }
+
+        function initChart() {
+            const gradCyp = ctx.createLinearGradient(0,0,0,400); 
+            gradCyp.addColorStop(0, 'rgba(16,185,129,0.4)'); 
+            gradCyp.addColorStop(1, 'rgba(16,185,129,0.0)');
+            
+            const gradProp = ctx.createLinearGradient(0,0,0,400); 
+            gradProp.addColorStop(0, 'rgba(6,182,212,0.2)'); 
+            gradProp.addColorStop(1, 'rgba(6,182,212,0.0)');
+
+            pkChart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    datasets: [
+                        { label: 'Cypionate', borderColor: '#10b981', backgroundColor: gradCyp, borderWidth: 3, tension: 0.4, fill: true, pointRadius: 0 },
+                        { label: 'Propionate', borderColor: '#06b6d4', backgroundColor: gradProp, borderWidth: 2, tension: 0.3, fill: true, pointRadius: 0 },
+                        { label: 'Pellets', borderColor: '#f59e0b', borderWidth: 2, borderDash: [5, 5], tension: 0.4, fill: false, pointRadius: 0 },
+                        { label: 'Jatenzo', borderColor: '#ef4444', borderWidth: 1, borderDash: [2, 2], tension: 0.1, fill: false, pointRadius: 0, hidden: true }
+                    ]
+                },
+                options: {
+                    responsive: true, 
+                    maintainAspectRatio: false, 
+                    animation: { duration: 0 }, 
+                    interaction: { mode: 'index', intersect: false },
+                    plugins: { 
+                        legend: { display: false }, 
+                        tooltip: { 
+                            backgroundColor: 'rgba(0,0,0,0.9)', 
+                            titleColor: '#fff', 
+                            bodyColor: '#e5e5e5',
+                            borderColor: '#1a1a1a', 
+                            borderWidth: 1, 
+                            padding: 12, 
+                            callbacks: { 
+                                label: function(c) { return c.dataset.label + ': ' + Math.round(c.raw.y) + ' ng/dL'; } 
+                            } 
+                        } 
+                    },
+                    scales: { 
+                        x: { 
+                            type: 'linear', 
+                            grid: { color: '#1a1a1a' }, 
+                            ticks: { color: '#6b7280', callback: function(val) { return 'Day ' + val; } }, 
+                            max: 14 
+                        }, 
+                        y: { 
+                            grid: { color: '#1a1a1a' }, 
+                            suggestedMin: 0, 
+                            suggestedMax: 1500, 
+                            ticks: { color: '#404040', stepSize: 500 } 
+                        } 
+                    }
+                }
+            });
+        }
+
+        window.addEventListener('load', () => {
+            initChart();
+            renderInputs(); 
+            updateSimulation();
+        });
+
+        ['sim-dose', 'sim-weight', 'sim-freq'].forEach(id => {
+            document.getElementById(id).addEventListener('input', updateSimulation);
+        });
+    </script>
 </body>
 </html>
