@@ -4,11 +4,19 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Testosterone | Clinical Reference</title>
+    <meta name="description" content="Testosterone pharmacokinetic modeling for TRT protocols. Visualize Cypionate, Propionate, and Pellet steady-state levels with interactive dose/frequency adjustments.">
     
-    <!-- Fonts -->
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%23000'/%3E%3Ccircle cx='16' cy='16' r='6' fill='url(%23g)'/%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop offset='0%25' stop-color='%233b82f6'/%3E%3Cstop offset='100%25' stop-color='%238b5cf6'/%3E%3C/linearGradient%3E%3C/defs%3E%3C/svg%3E">
+    
+    <!-- Preconnect for faster resource loading -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+    <link rel="preconnect" href="https://cdn.tailwindcss.com" crossorigin>
+    
+    <!-- Fonts - Optimized: only used weights + font-display swap -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
     
     <!-- Scripts -->
     <script src="https://cdn.tailwindcss.com"></script>
@@ -473,17 +481,6 @@
     <div style="position: fixed; width: 100%; height: 100%; background: radial-gradient(ellipse at top right, rgba(59, 130, 246, 0.04) 0%, transparent 40%), radial-gradient(ellipse at bottom left, rgba(139, 92, 246, 0.03) 0%, transparent 40%); pointer-events: none; z-index: 0;"></div>
 
     <script>
-        // Spotlight effect
-        document.querySelectorAll('.spotlight-card').forEach(card => {
-            card.addEventListener('mousemove', (e) => {
-                const rect = card.getBoundingClientRect();
-                const x = e.clientX - rect.left;
-                const y = e.clientY - rect.top;
-                card.style.setProperty('--mouse-x', `${x}px`);
-                card.style.setProperty('--mouse-y', `${y}px`);
-            });
-        });
-
         // --- CHART CONFIG ---
         const ctx = document.getElementById('pkChart').getContext('2d');
         let pkChart;
@@ -686,36 +683,27 @@
         }
 
         function initChart() {
-            // Gradient fills for area under curves
-            const gradCyp = ctx.createLinearGradient(0, 0, 0, 400); 
-            gradCyp.addColorStop(0, 'rgba(38, 229, 164, 0.3)');  // Teal for Cyp
-            gradCyp.addColorStop(1, 'rgba(38, 229, 164, 0.0)');
-            
-            const gradProp = ctx.createLinearGradient(0, 0, 0, 400); 
-            gradProp.addColorStop(0, 'rgba(59, 130, 246, 0.2)');  // Blue for Prop
-            gradProp.addColorStop(1, 'rgba(59, 130, 246, 0.0)');
-
             pkChart = new Chart(ctx, {
                 type: 'line',
                 data: {
                     datasets: [
                         { 
                             label: 'Cypionate', 
-                            borderColor: '#26e5a4',  // Primary Teal
-                            backgroundColor: gradCyp, 
-                            borderWidth: 2.5, 
+                            borderColor: '#26e5a4',
+                            backgroundColor: 'transparent',
+                            borderWidth: 2,
                             tension: 0.4, 
-                            fill: true, 
+                            fill: false,
                             pointRadius: 0,
                             order: 1
                         },
                         { 
                             label: 'Propionate', 
-                            borderColor: '#3b82f6',  // Tertiary Blue
-                            backgroundColor: gradProp, 
+                            borderColor: '#3b82f6',
+                            backgroundColor: 'transparent',
                             borderWidth: 2, 
                             tension: 0.35, 
-                            fill: true, 
+                            fill: false,
                             pointRadius: 0,
                             order: 2
                         },
@@ -769,24 +757,32 @@
                     scales: { 
                         x: { 
                             type: 'linear', 
-                            grid: { color: '#1f1f1f', lineWidth: 1 }, 
+                            grid: { display: false },  // No vertical lines
+                            border: { display: false },
                             ticks: { 
-                                color: '#6b7280', 
-                                font: { size: 11 },
+                                color: '#525252', 
+                                font: { size: 10, family: 'Inter' },
                                 callback: function(val) { return 'Day ' + val; },
-                                maxTicksLimit: 8
+                                maxTicksLimit: 8,
+                                padding: 8
                             }, 
                             min: 0,
                             max: 14 
                         }, 
                         y: { 
-                            grid: { color: '#1f1f1f', lineWidth: 1 }, 
+                            grid: { 
+                                color: 'rgba(255, 255, 255, 0.04)',  // Subtle horizontal lines
+                                lineWidth: 1,
+                                drawTicks: false
+                            },
+                            border: { display: false },
                             suggestedMin: 0, 
                             suggestedMax: 1500, 
                             ticks: { 
-                                color: '#6b7280',
-                                font: { size: 11 },
+                                color: '#525252',
+                                font: { size: 10, family: 'Inter' },
                                 stepSize: 500,
+                                padding: 12,
                                 callback: function(val) { return val.toLocaleString(); }
                             } 
                         } 
@@ -801,8 +797,26 @@
             updateSimulation();
         });
 
+        // Debounced slider updates for smooth 60fps performance
+        let debounceTimer;
         ['sim-dose', 'sim-weight', 'sim-freq'].forEach(id => {
-            document.getElementById(id).addEventListener('input', updateSimulation);
+            document.getElementById(id).addEventListener('input', () => {
+                // Update display values immediately for responsive feel
+                const dose = document.getElementById('sim-dose').value;
+                const weight = document.getElementById('sim-weight').value;
+                const freq = parseFloat(document.getElementById('sim-freq').value);
+                
+                document.getElementById('sim-dose-val').innerText = dose + " mg";
+                document.getElementById('sim-weight-val').innerText = weight + " lbs";
+                
+                let freqText = freq === 1 ? "Daily" : freq === 2 ? "Every Other Day" : 
+                               freq === 3.5 ? "Every 3.5 Days" : freq === 7 ? "Weekly" : "Every " + freq + " Days";
+                document.getElementById('sim-freq-val').innerText = freqText;
+                
+                // Debounce heavy chart updates
+                clearTimeout(debounceTimer);
+                debounceTimer = setTimeout(updateSimulation, 16);
+            });
         });
     </script>
 </body>
